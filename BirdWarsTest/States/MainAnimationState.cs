@@ -8,11 +8,11 @@ namespace BirdWarsTest.States
 {
 	class MainAnimationState : GameState
 	{
-		public MainAnimationState( ref Microsoft.Xna.Framework.Content.ContentManager content )
+		public MainAnimationState()
 		{
 		}
 
-		public override void Init()
+		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 
 		}

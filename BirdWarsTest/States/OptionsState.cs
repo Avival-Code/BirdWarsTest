@@ -7,11 +7,11 @@ namespace BirdWarsTest.States
 {
 	class OptionsState : GameState
 	{
-		public OptionsState(ref Microsoft.Xna.Framework.Content.ContentManager content)
+		public OptionsState()
 		{
 		}
 
-		public override void Init()
+		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 
 		}

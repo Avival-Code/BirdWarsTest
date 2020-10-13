@@ -7,11 +7,11 @@ namespace BirdWarsTest.States
 {
 	class UserRegistryState : GameState
 	{
-		public UserRegistryState( ref Microsoft.Xna.Framework.Content.ContentManager content )
+		public UserRegistryState()
 		{
 		}
 
-		public override void Init()
+		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 
 		}

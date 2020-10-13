@@ -7,11 +7,11 @@ namespace BirdWarsTest.States
 {
 	class WaitingRoomState : GameState
 	{
-		public WaitingRoomState( ref Microsoft.Xna.Framework.Content.ContentManager content )
+		public WaitingRoomState()
 		{
 		}
 
-		public override void Init()
+		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 
 		}

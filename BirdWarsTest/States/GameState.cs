@@ -7,7 +7,7 @@ namespace BirdWarsTest.States
 {
 	abstract class GameState
 	{
-		public abstract void Init();
+		public abstract void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent );
 
 		public abstract void Pause();
 		public abstract void Resume();
@@ -22,5 +22,6 @@ namespace BirdWarsTest.States
 			stateHandler.ChangeState( state );
 		}
 
+		protected Microsoft.Xna.Framework.Content.ContentManager content;
 	}
 }

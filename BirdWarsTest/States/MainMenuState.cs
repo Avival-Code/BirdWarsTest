@@ -7,13 +7,13 @@ namespace BirdWarsTest.States
 {
 	class MainMenuState : GameState
 	{
-		public MainMenuState( ref Microsoft.Xna.Framework.Content.ContentManager content )
+		public MainMenuState()
 		{
 		}
 
-		public override void Init()
+		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
-
+			content = newContent;
 		}
 
 		public override void Pause()
