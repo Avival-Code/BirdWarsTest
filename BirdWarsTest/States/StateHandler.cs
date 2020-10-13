@@ -11,7 +11,7 @@ namespace BirdWarsTest.States
 		public StateHandler()
 		{
 			currentState = StateTypes.MainMenuState;
-			gameStates = new GameState[ 7 ];
+			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new MainAnimationState();
 			gameStates[ 1 ] = new MainMenuState();
 			gameStates[ 2 ] = new WaitingRoomState();
@@ -24,9 +24,7 @@ namespace BirdWarsTest.States
 		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content )
 		{
 			foreach( GameState state in gameStates )
-			{
 				state.Init( content );
-			}
 		}
 
 		public void ChangeState( StateTypes state )
