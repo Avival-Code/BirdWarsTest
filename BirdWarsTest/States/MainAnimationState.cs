@@ -12,7 +12,7 @@ namespace BirdWarsTest.States
 		{
 		}
 
-		public override void Init( ref Microsoft.Xna.Framework.Content.ContentManager newContent)
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 
 		}
