@@ -1,0 +1,43 @@
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BirdWarsTest.States
+{
+	class PauseState : GameState
+	{
+		public PauseState()
+		{
+		}
+
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent )
+		{
+
+		}
+
+		public override void Pause()
+		{
+		}
+
+		public override void Resume()
+		{
+		}
+
+		public override void Enter()
+		{
+		}
+
+		public override void HandleInput()
+		{
+		}
+
+		public override void UpdateLogic()
+		{
+		}
+
+		public override void Render( ref SpriteBatch sprites )
+		{
+		}
+	}
+}
