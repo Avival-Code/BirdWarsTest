@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace BirdWarsTest.States
 		public abstract void Enter();
 
 		public abstract void HandleInput();
-		public abstract void UpdateLogic();
+		public abstract void UpdateLogic( KeyboardState state );
 		public abstract void Render( ref SpriteBatch sprites );
 
 		public void ChangeState( StateHandler stateHandler, StateTypes state )

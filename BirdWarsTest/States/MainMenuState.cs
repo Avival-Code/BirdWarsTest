@@ -35,7 +35,7 @@ namespace BirdWarsTest.States
 		{
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic( KeyboardState state )
 		{
 			HandleInput();
 		}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -32,7 +33,7 @@ namespace BirdWarsTest.States
 		{
 		}
 
-		public override void UpdateLogic()
+		public override void UpdateLogic( KeyboardState state )
 		{
 		}
 
