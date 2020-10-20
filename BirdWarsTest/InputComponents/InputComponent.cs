@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BirdWarsTest.GameObjects;
+﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
