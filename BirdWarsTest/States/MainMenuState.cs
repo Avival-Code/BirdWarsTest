@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using BirdWarsTest.GameObjects;
+using BirdWarsTest.InputComponents;
+using BirdWarsTest.GraphicComponents;
 
 namespace BirdWarsTest.States
 {
@@ -17,6 +20,8 @@ namespace BirdWarsTest.States
 		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent)
 		{
 			content = newContent;
+			test = new GameObject( Identifiers.Player, 100.0f, 100.0f, new PlayerInputComponent(), 
+						           new TestGraphicsComponent( content ) );
 		}
 
 		public override void Pause()
@@ -38,10 +43,14 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( KeyboardState state )
 		{
 			HandleInput();
+			test.Update( state );
 		}
 
 		public override void Render( ref SpriteBatch batch )
 		{
+			test.Render( ref batch );
 		}
+
+		private GameObject test;
 	}
 }

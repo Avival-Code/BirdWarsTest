@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,7 +13,7 @@ namespace BirdWarsTest.GraphicComponents
 			texture = texture_In;
 		}
 
-		abstract public void Render( ref SpriteBatch batch );
+		abstract public void Render( ref SpriteBatch batch, Vector2 position );
 
 		protected Texture2D texture;
 	}
