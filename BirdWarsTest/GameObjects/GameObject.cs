@@ -1,9 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using BirdWarsTest.InputComponents;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GraphicComponents;
 
@@ -37,7 +34,7 @@ namespace BirdWarsTest.GameObjects
 
 		private Identifiers identifier;
 		private Vector2 position;
-		private InputComponent input;
-		private GraphicsComponent graphics;
+		private InputComponent input = null;
+		private GraphicsComponent graphics = null;
 	}
 }
