@@ -3,9 +3,9 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
 {
-	class MainAnimationState : GameState
+	class OpeningAnimationState : GameState
 	{
-		public MainAnimationState() {}
+		public OpeningAnimationState() {}
 
 		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent) {}
 

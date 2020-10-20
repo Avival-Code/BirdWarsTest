@@ -8,7 +8,7 @@ namespace BirdWarsTest.States
 		{
 			currentState = StateTypes.MainMenuState;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new MainAnimationState();
+			gameStates[ 0 ] = new OpeningAnimationState();
 			gameStates[ 1 ] = new MainMenuState();
 			gameStates[ 2 ] = new WaitingRoomState();
 			gameStates[ 3 ] = new PlayState();
