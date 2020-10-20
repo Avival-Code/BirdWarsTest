@@ -9,14 +9,14 @@ namespace BirdWarsTest.InputComponents
 {
 	abstract class Command
 	{
-		abstract public void execute( GameObject gameObject );
+		abstract public void Execute( GameObject gameObject );
 
 		protected const float regularMoveSpeed = 5.0f;
 	}
 
 	class MoveUpCommand : Command
 	{
-		public override void execute( GameObject gameObject )
+		public override void Execute( GameObject gameObject )
 		{
 			gameObject.Move( new Vector2( 0.0f, -regularMoveSpeed ) );
 		}
@@ -24,7 +24,7 @@ namespace BirdWarsTest.InputComponents
 
 	class MoveDownCommand : Command
 	{
-		public override void execute(GameObject gameObject)
+		public override void Execute(GameObject gameObject)
 		{
 			gameObject.Move( new Vector2( 0.0f, regularMoveSpeed ) );
 		}
@@ -32,7 +32,7 @@ namespace BirdWarsTest.InputComponents
 
 	class MoveLeftCommand : Command
 	{
-		public override void execute(GameObject gameObject)
+		public override void Execute(GameObject gameObject)
 		{
 			gameObject.Move( new Vector2( -regularMoveSpeed, 0.0f ) );
 		}
@@ -40,7 +40,7 @@ namespace BirdWarsTest.InputComponents
 
 	class MoveRightCommand : Command
 	{
-		public override void execute(GameObject gameObject)
+		public override void Execute(GameObject gameObject)
 		{
 			gameObject.Move( new Vector2( regularMoveSpeed, 0.0f ) );
 		}

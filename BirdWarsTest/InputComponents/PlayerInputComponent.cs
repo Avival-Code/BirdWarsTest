@@ -18,10 +18,10 @@ namespace BirdWarsTest.InputComponents
 
 		public override void HandleInput( KeyboardState state, GameObject gameObject )
 		{
-			if ( state.IsKeyDown( Keys.Up ) ) moveUpButton.execute( gameObject );
-			else if ( state.IsKeyDown( Keys.Down ) ) moveDownButton.execute( gameObject );
-			else if ( state.IsKeyDown( Keys.Left ) ) moveLeftButton.execute( gameObject );
-			else if ( state.IsKeyDown( Keys.Right ) ) moveRightButton.execute( gameObject );
+			if ( state.IsKeyDown( Keys.Up ) ) moveUpButton.Execute( gameObject );
+			else if ( state.IsKeyDown( Keys.Down ) ) moveDownButton.Execute( gameObject );
+			else if ( state.IsKeyDown( Keys.Left ) ) moveLeftButton.Execute( gameObject );
+			else if ( state.IsKeyDown( Keys.Right ) ) moveRightButton.Execute( gameObject );
 		}
 	}
 }
