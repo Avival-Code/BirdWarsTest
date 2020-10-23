@@ -33,8 +33,8 @@ namespace BirdWarsTest.States
 			return ref gameStates[ ( int )currentState ];
 		}
 
-		private const int maxStates = 7;
-		private StateTypes currentState;
 		private GameState[] gameStates;
+		private StateTypes currentState;
+		private const int maxStates = 7;
 	}
 }

@@ -32,9 +32,9 @@ namespace BirdWarsTest.GameObjects
 			position += offset;
 		}
 
+		private GraphicsComponent graphics = null;
+		private InputComponent input = null;
 		private Identifiers identifier;
 		private Vector2 position;
-		private InputComponent input = null;
-		private GraphicsComponent graphics = null;
 	}
 }

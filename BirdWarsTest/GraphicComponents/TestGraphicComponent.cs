@@ -7,7 +7,7 @@ namespace BirdWarsTest.GraphicComponents
 	{
 		public TestGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
-			base(content.Load<Texture2D>( "ball" ) ) {}
+			base( content.Load< Texture2D >( "ball" ) ) {}
 
 		public override void Render( ref SpriteBatch batch, Vector2 position )
 		{
