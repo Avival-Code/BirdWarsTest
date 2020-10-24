@@ -6,7 +6,8 @@ namespace BirdWarsTest.States
 {
 	abstract class GameState
 	{
-		public abstract void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 windowSize );
+		public abstract void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, 
+								   Vector2 windowSize );
 
 		public abstract void Pause();
 		public abstract void Resume();
