@@ -19,6 +19,7 @@ namespace BirdWarsTest.GameObjects
 
 		public void Update( KeyboardState state )
 		{
+			if( input != null )
 			input.HandleInput( state, this );
 		}
 

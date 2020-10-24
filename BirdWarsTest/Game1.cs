@@ -7,10 +7,6 @@ namespace BirdWarsTest
 {
 	public class Game1 : Game
 	{
-		private GraphicsDeviceManager _graphics;
-		private SpriteBatch _spriteBatch;
-		private StateHandler stateHandler;
-
 		public Game1()
 		{
 			_graphics = new GraphicsDeviceManager( this );
@@ -54,5 +50,9 @@ namespace BirdWarsTest
 
 			base.Draw( gameTime );
 		}
+
+		private GraphicsDeviceManager _graphics;
+		private SpriteBatch _spriteBatch;
+		private StateHandler stateHandler;
 	}
 }

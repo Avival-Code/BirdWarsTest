@@ -6,15 +6,16 @@ namespace BirdWarsTest.States
 	{
 		public StateHandler()
 		{
-			currentState = StateTypes.MainMenuState;
+			currentState = StateTypes.LoginState;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new OpeningAnimationState();
-			gameStates[ 1 ] = new MainMenuState();
-			gameStates[ 2 ] = new WaitingRoomState();
-			gameStates[ 3 ] = new PlayState();
-			gameStates[ 4 ] = new OptionsState();
-			gameStates[ 5 ] = new UserRegistryState();
-			gameStates[ 6 ] = new StatisticsState();
+			gameStates[ 0 ] = new LoginState();
+			gameStates[ 1 ] = new OpeningAnimationState();
+			gameStates[ 2 ] = new MainMenuState();
+			gameStates[ 3 ] = new WaitingRoomState();
+			gameStates[ 4 ] = new PlayState();
+			gameStates[ 5 ] = new OptionsState();
+			gameStates[ 6 ] = new UserRegistryState();
+			gameStates[ 7 ] = new StatisticsState();
 		}
 
 		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content )
@@ -35,6 +36,6 @@ namespace BirdWarsTest.States
 
 		private GameState[] gameStates;
 		private StateTypes currentState;
-		private const int maxStates = 7;
+		private const int maxStates = 8;
 	}
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using BirdWarsTest.GameObjects;
+using BirdWarsTest.GraphicComponents;
 
 namespace BirdWarsTest.States
 {
@@ -7,7 +9,12 @@ namespace BirdWarsTest.States
 	{
 		public LoginState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent ) {}
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent ) 
+		{
+			content = newContent;
+			test = new GameObject( Identifiers.Player, 0.0f, 0.0f, null,
+								   new LoginLogoGraphicsComponent( content ) );
+		}
 
 		public override void Pause() {}
 
@@ -17,8 +24,17 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput() {}
 
-		public override void UpdateLogic( KeyboardState state ) {}
+		public override void UpdateLogic( KeyboardState state ) 
+		{
+			HandleInput();
+			test.Update( state );
+		}
 
-		public override void Render( ref SpriteBatch sprites ) {}
+		public override void Render( ref SpriteBatch sprites ) 
+		{
+			test.Render( ref sprites );
+		}
+
+		private GameObject test;
 	}
 }

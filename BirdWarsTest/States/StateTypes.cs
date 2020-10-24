@@ -2,6 +2,7 @@
 {
 	enum StateTypes
 	{
+		LoginState,
 		OpeningAnimationState,
 		MainMenuState,
 		WaitingRoomState,
