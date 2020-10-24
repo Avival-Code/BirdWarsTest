@@ -8,6 +8,15 @@ namespace BirdWarsTest.GameObjects
 {
 	class GameObject
 	{
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In,
+						   Identifiers id_In, Vector2 position_in )
+		{
+			graphics = graphics_In;
+			input = input_In;
+			identifier = id_In;
+			position = position_in;
+		}
+
 		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, 
 						   Identifiers id_In, float screenWidth, float screenHeight )
 		{
@@ -18,15 +27,6 @@ namespace BirdWarsTest.GameObjects
 				position = new Vector2( CenterXWidth( screenWidth, graphics.getTextureSize().X ),
 										( screenHeight - screenHeight + 30 ) );
 			else { position = new Vector2( 0.0f, 0.0f ); }
-		}
-
-		public GameObject( GraphicsComponent graphics_In, InputComponent input_In,
-						   Identifiers id_In, Vector2 position_in )
-		{
-			graphics = graphics_In;
-			input = input_In;
-			identifier = id_In;
-			position = position_in;
 		}
 
 		public void Update( KeyboardState state )

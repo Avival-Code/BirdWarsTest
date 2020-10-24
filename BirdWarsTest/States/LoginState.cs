@@ -13,8 +13,11 @@ namespace BirdWarsTest.States
 		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 windowSize ) 
 		{
 			content = newContent;
-			test = new GameObject( new LoginLogoGraphicsComponent(content), null, 
+			logo = new GameObject( new LoginLogoGraphicsComponent(content), null, 
 								   Identifiers.Player, windowSize.X, windowSize.Y );
+			background = new GameObject( new SolidRectGraphicsComponent( content ), null,
+										 Identifiers.Player, new Vector2( 0.0f, 0.0f ) );
+
 		}
 
 		public override void Pause() {}
@@ -28,14 +31,15 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( KeyboardState state ) 
 		{
 			HandleInput();
-			test.Update( state );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 
 		{
-			test.Render( ref sprites );
+			background.Render( ref sprites );
+			logo.Render( ref sprites );
 		}
 
-		private GameObject test;
+		private GameObject logo;
+		private GameObject background;
 	}
 }

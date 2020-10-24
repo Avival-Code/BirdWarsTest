@@ -14,7 +14,7 @@ namespace BirdWarsTest.GraphicComponents
 		{
 			batch.Draw( texture, position, Color.White );
 			//batch.Draw( texture, position, null, Color.White, 0f, position,
-			//			new Vector2( 0.35f, 0.35f ), SpriteEffects.None, 0f );
+			//			new Vector2( 0.75f, 0.75f ), SpriteEffects.None, 0f );
 		}
 	}
 }
