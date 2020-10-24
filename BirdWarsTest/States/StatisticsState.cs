@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
@@ -7,7 +8,7 @@ namespace BirdWarsTest.States
 	{
 		public StatisticsState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent) {}
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize ) { }
 
 		public override void Pause() {}
 

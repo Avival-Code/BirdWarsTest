@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
@@ -9,7 +10,7 @@ namespace BirdWarsTest.States
 	{
 		public LoginState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent ) 
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize ) 
 		{
 			content = newContent;
 			test = new GameObject( Identifiers.Player, 0.0f, 0.0f, null,

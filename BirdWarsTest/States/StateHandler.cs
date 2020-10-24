@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
 {
@@ -18,10 +19,10 @@ namespace BirdWarsTest.States
 			gameStates[ 7 ] = new StatisticsState();
 		}
 
-		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content )
+		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, Vector2 screenSize )
 		{
 			foreach( GameState state in gameStates )
-				state.Init( content );
+				state.Init( content, screenSize );
 		}
 
 		public void ChangeState( StateTypes state )

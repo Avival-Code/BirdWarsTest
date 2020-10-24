@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
 {
 	abstract class GameState
 	{
-		public abstract void Init( Microsoft.Xna.Framework.Content.ContentManager newContent );
+		public abstract void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize );
 
 		public abstract void Pause();
 		public abstract void Resume();
