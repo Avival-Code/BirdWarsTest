@@ -11,7 +11,7 @@ namespace BirdWarsTest.States
 	{
 		public MainMenuState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize )
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 windowSize )
 		{
 			content = newContent;
 		}

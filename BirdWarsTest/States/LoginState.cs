@@ -10,11 +10,11 @@ namespace BirdWarsTest.States
 	{
 		public LoginState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize ) 
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 windowSize ) 
 		{
 			content = newContent;
-			test = new GameObject( Identifiers.Player, 0.0f, 0.0f, null,
-								   new LoginLogoGraphicsComponent( content ) );
+			test = new GameObject( new LoginLogoGraphicsComponent(content), null, 
+								   Identifiers.Player, windowSize.X, windowSize.Y );
 		}
 
 		public override void Pause() {}

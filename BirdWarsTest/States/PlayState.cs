@@ -8,7 +8,8 @@ namespace BirdWarsTest.States
 	{
 		public PlayState() {}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, Vector2 screenSize ) { }
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, 
+								   Vector2 windowSize ) {}
 
 		public override void Pause() {}
 

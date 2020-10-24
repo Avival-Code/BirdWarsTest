@@ -19,10 +19,10 @@ namespace BirdWarsTest.States
 			gameStates[ 7 ] = new StatisticsState();
 		}
 
-		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, Vector2 screenSize )
+		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, Vector2 windowSize )
 		{
 			foreach( GameState state in gameStates )
-				state.Init( content, screenSize );
+				state.Init( content, windowSize );
 		}
 
 		public void ChangeState( StateTypes state )

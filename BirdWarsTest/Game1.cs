@@ -18,14 +18,13 @@ namespace BirdWarsTest
 		protected override void Initialize()
 		{
 			base.Initialize();
-			screenSize = new Vector2( GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width,
-									  GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height );
 		}
 
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
-			stateHandler.InitializeStates( Content, screenSize );
+			stateHandler.InitializeStates( Content, new Vector2( Window.ClientBounds.Width, 
+															     Window.ClientBounds.Height ) );
 		}
 
 		protected override void Update( GameTime gameTime )
@@ -56,6 +55,5 @@ namespace BirdWarsTest
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 		private StateHandler stateHandler;
-		private Vector2 screenSize;
 	}
 }
