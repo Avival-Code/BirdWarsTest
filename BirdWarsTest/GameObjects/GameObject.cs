@@ -32,12 +32,12 @@ namespace BirdWarsTest.GameObjects
 		public void Update( KeyboardState state )
 		{
 			if( input != null )
-			input.HandleInput( state, this );
+			input.HandleInput( this, state );
 		}
 
 		public void Render( ref SpriteBatch batch )
 		{
-			graphics.Render( ref batch, position );
+			graphics.Render( this, ref batch );
 		}
 
 		public void Move( Vector2 offset )
@@ -53,6 +53,6 @@ namespace BirdWarsTest.GameObjects
 		private GraphicsComponent graphics = null;
 		private InputComponent input = null;
 		private Identifiers identifier;
-		private Vector2 position;
+		public Vector2 position;
 	}
 }

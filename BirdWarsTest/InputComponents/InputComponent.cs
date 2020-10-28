@@ -5,7 +5,7 @@ namespace BirdWarsTest.InputComponents
 {
 	abstract class InputComponent
 	{
-		abstract public void HandleInput( KeyboardState state, GameObject gameObject );
+		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
 
 		protected Command moveUpButton = null;
 		protected Command moveDownButton = null;

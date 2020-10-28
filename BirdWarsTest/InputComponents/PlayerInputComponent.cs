@@ -13,13 +13,13 @@ namespace BirdWarsTest.InputComponents
 			moveRightButton = new MoveRightCommand();
 		}
 
-		public override void HandleInput( KeyboardState state, GameObject gameObject )
+		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
-			DiagonalInput( state, gameObject );
-			NormalInput( state, gameObject );
+			DiagonalInput( gameObject, state );
+			NormalInput( gameObject, state );
 		}
 
-		public void NormalInput( KeyboardState state, GameObject gameObject )
+		public void NormalInput( GameObject gameObject, KeyboardState state )
 		{
 			if( state.IsKeyDown( Keys.Up ) ) moveUpButton.Execute( gameObject );
 			else if( state.IsKeyDown( Keys.Down ) ) moveDownButton.Execute( gameObject );
@@ -27,7 +27,7 @@ namespace BirdWarsTest.InputComponents
 			else if( state.IsKeyDown( Keys.Right ) ) moveRightButton.Execute( gameObject );
 		}
 
-		public void DiagonalInput( KeyboardState state, GameObject gameObject )
+		public void DiagonalInput( GameObject gameObject, KeyboardState state )
 		{
 			if( state.IsKeyDown( Keys.Up ) && state.IsKeyDown( Keys.Right ) )
 			{

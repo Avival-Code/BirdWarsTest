@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BirdWarsTest.GameObjects;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BirdWarsTest.GraphicComponents
@@ -9,9 +10,9 @@ namespace BirdWarsTest.GraphicComponents
 			:
 			base( content.Load< Texture2D >( "BirdWarsLogo_V1" ) ) {}
 
-		public override void Render( ref SpriteBatch batch, Vector2 position )
+		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
-			batch.Draw( texture, position, Color.White );
+			batch.Draw( texture, gameObject.position, Color.White );
 		}
 	}
 }

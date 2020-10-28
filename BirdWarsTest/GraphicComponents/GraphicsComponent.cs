@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using BirdWarsTest.GameObjects;
 
 namespace BirdWarsTest.GraphicComponents
 {
@@ -10,7 +11,7 @@ namespace BirdWarsTest.GraphicComponents
 			texture = texture_In;
 		}
 
-		abstract public void Render( ref SpriteBatch batch, Vector2 position );
+		abstract public void Render( GameObject gameObject, ref SpriteBatch batch  );
 
 		public Vector2 getTextureSize()
 		{
