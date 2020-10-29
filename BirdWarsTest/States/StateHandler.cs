@@ -9,20 +9,20 @@ namespace BirdWarsTest.States
 		{
 			currentState = StateTypes.LoginState;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new LoginState();
-			gameStates[ 1 ] = new OpeningAnimationState();
-			gameStates[ 2 ] = new MainMenuState();
-			gameStates[ 3 ] = new WaitingRoomState();
-			gameStates[ 4 ] = new PlayState();
-			gameStates[ 5 ] = new OptionsState();
-			gameStates[ 6 ] = new UserRegistryState();
-			gameStates[ 7 ] = new StatisticsState();
+			gameStates[ 0 ] = new LoginState( loginWidth, loginHeight );
+			gameStates[ 1 ] = new OpeningAnimationState( stateWidth, stateHeight );
+			gameStates[ 2 ] = new MainMenuState( stateWidth, stateHeight );
+			gameStates[ 3 ] = new WaitingRoomState( stateWidth, stateHeight );
+			gameStates[ 4 ] = new PlayState( stateWidth, stateHeight );
+			gameStates[ 5 ] = new OptionsState( stateWidth, stateHeight );
+			gameStates[ 6 ] = new UserRegistryState( stateWidth, stateHeight );
+			gameStates[ 7 ] = new StatisticsState( stateWidth, stateHeight );
 		}
 
-		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, Vector2 windowSize )
+		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, 
+									  ref GraphicsDeviceManager graphics )
 		{
-			foreach( GameState state in gameStates )
-				state.Init( content, windowSize );
+			gameStates[0].Enter( content, ref graphics );
 		}
 
 		public void ChangeState( StateTypes state )
@@ -38,5 +38,9 @@ namespace BirdWarsTest.States
 		private GameState[] gameStates;
 		private StateTypes currentState;
 		private const int maxStates = 8;
+		private const int loginWidth = 388;
+		private const int loginHeight = 450;
+		private const int stateWidth = 800;
+		private const int stateHeight = 600;
 	}
 }

@@ -9,10 +9,14 @@ namespace BirdWarsTest.States
 {
 	class MainMenuState : GameState
 	{
-		public MainMenuState() {}
+		public MainMenuState( int width_in, int height_in )
+		{
+			stateWidth = width_in;
+			stateHeight = height_in;
+		}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, 
-								   Vector2 windowSize )
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent,
+								   ref GraphicsDeviceManager newGraphics )
 		{
 			content = newContent;
 		}
@@ -20,8 +24,6 @@ namespace BirdWarsTest.States
 		public override void Pause() {}
 
 		public override void Resume() {}
-
-		public override void Enter() {}
 
 		public override void HandleInput() {}
 

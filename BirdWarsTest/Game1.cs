@@ -23,8 +23,7 @@ namespace BirdWarsTest
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
-			stateHandler.InitializeStates( Content, new Vector2( Window.ClientBounds.Width, 
-															     Window.ClientBounds.Height ) );
+			stateHandler.InitializeStates( Content, ref _graphics );
 		}
 
 		protected override void Update( GameTime gameTime )
@@ -33,10 +32,9 @@ namespace BirdWarsTest
 				 Keyboard.GetState().IsKeyDown( Keys.Escape ) )
 				Exit();
 
-			KeyboardState currentKeyboardState = Keyboard.GetState();
-			stateHandler.GetCurrentState().UpdateLogic( currentKeyboardState );
+			stateHandler.GetCurrentState().UpdateLogic( Keyboard.GetState() );
 
-			base.Update(gameTime);
+			base.Update( gameTime );
 		}
 
 		protected override void Draw( GameTime gameTime )

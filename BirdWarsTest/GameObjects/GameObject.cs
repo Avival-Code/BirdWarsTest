@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using BirdWarsTest.InputComponents;
 using Microsoft.Xna.Framework.Input;
+using BirdWarsTest.InputComponents;
 using BirdWarsTest.GraphicComponents;
 
 namespace BirdWarsTest.GameObjects
@@ -38,11 +38,6 @@ namespace BirdWarsTest.GameObjects
 		public void Render( ref SpriteBatch batch )
 		{
 			graphics.Render( this, ref batch );
-		}
-
-		public void Move( Vector2 offset )
-		{
-			position += offset;
 		}
 
 		public float CenterXWidth( float screenWidth, float textureWidth )

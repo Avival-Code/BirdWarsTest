@@ -14,7 +14,7 @@ namespace BirdWarsTest.InputComponents
 	{
 		public override void Execute( GameObject gameObject )
 		{
-			gameObject.Move( new Vector2( 0.0f, -regularMoveSpeed ) );
+			gameObject.position += new Vector2( 0.0f, -regularMoveSpeed );
 		}
 	}
 
@@ -22,7 +22,7 @@ namespace BirdWarsTest.InputComponents
 	{
 		public override void Execute(GameObject gameObject)
 		{
-			gameObject.Move( new Vector2( 0.0f, regularMoveSpeed ) );
+			gameObject.position += new Vector2( 0.0f, regularMoveSpeed );
 		}
 	}
 
@@ -30,7 +30,7 @@ namespace BirdWarsTest.InputComponents
 	{
 		public override void Execute(GameObject gameObject)
 		{
-			gameObject.Move( new Vector2( -regularMoveSpeed, 0.0f ) );
+			gameObject.position += new Vector2( -regularMoveSpeed, 0.0f );
 		}
 	}
 
@@ -38,7 +38,7 @@ namespace BirdWarsTest.InputComponents
 	{
 		public override void Execute(GameObject gameObject)
 		{
-			gameObject.Move( new Vector2( regularMoveSpeed, 0.0f ) );
+			gameObject.position += new Vector2( regularMoveSpeed, 0.0f );
 		}
 	}
 }

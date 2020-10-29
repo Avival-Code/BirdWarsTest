@@ -6,16 +6,18 @@ namespace BirdWarsTest.States
 {
 	class StatisticsState : GameState
 	{
-		public StatisticsState() {}
+		public StatisticsState( int width_in, int height_in )
+		{
+			stateWidth = width_in;
+			stateHeight = height_in;
+		}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, 
-								   Vector2 windowSize ) {}
+		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent,
+								   ref GraphicsDeviceManager newGraphics ) {}
 
 		public override void Pause() {}
 
 		public override void Resume() {}
-
-		public override void Enter() {}
 
 		public override void HandleInput() {}
 
