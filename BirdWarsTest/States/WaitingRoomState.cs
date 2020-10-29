@@ -6,14 +6,14 @@ namespace BirdWarsTest.States
 {
 	class WaitingRoomState : GameState
 	{
-		public WaitingRoomState( int width_in, int height_in )
-		{
-			stateWidth = width_in;
-			stateHeight = height_in;
-		}
+		public WaitingRoomState( Microsoft.Xna.Framework.Content.ContentManager newContent,
+								 ref GraphicsDeviceManager newGraphics, int width_in, 
+								 int height_in )
+			:
+			base( newContent, ref newGraphics, width_in, height_in )
+		{}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent,
-								   ref GraphicsDeviceManager newGraphics ) {}
+		public override void Init() {}
 
 		public override void Pause() {}
 

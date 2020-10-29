@@ -5,24 +5,24 @@ namespace BirdWarsTest.States
 {
 	class StateHandler
 	{
-		public StateHandler()
+		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
+							 ref GraphicsDeviceManager graphics )
 		{
 			currentState = StateTypes.LoginState;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new LoginState( loginWidth, loginHeight );
-			gameStates[ 1 ] = new OpeningAnimationState( stateWidth, stateHeight );
-			gameStates[ 2 ] = new MainMenuState( stateWidth, stateHeight );
-			gameStates[ 3 ] = new WaitingRoomState( stateWidth, stateHeight );
-			gameStates[ 4 ] = new PlayState( stateWidth, stateHeight );
-			gameStates[ 5 ] = new OptionsState( stateWidth, stateHeight );
-			gameStates[ 6 ] = new UserRegistryState( stateWidth, stateHeight );
-			gameStates[ 7 ] = new StatisticsState( stateWidth, stateHeight );
+			gameStates[ 0 ] = new LoginState( content, ref graphics, loginWidth, loginHeight );
+			gameStates[ 1 ] = new OpeningAnimationState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 2 ] = new MainMenuState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 3 ] = new WaitingRoomState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 4 ] = new PlayState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 5 ] = new OptionsState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 6 ] = new UserRegistryState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 7 ] = new StatisticsState( content, ref graphics, stateWidth, stateHeight );
 		}
 
-		public void InitializeStates( Microsoft.Xna.Framework.Content.ContentManager content, 
-									  ref GraphicsDeviceManager graphics )
+		public void InitializeStates()
 		{
-			gameStates[0].Enter( content, ref graphics );
+			gameStates[ 0 ].Enter();
 		}
 
 		public void ChangeState( StateTypes state )

@@ -6,18 +6,26 @@ namespace BirdWarsTest.States
 {
 	abstract class GameState
 	{
-		public abstract void Init( Microsoft.Xna.Framework.Content.ContentManager newContent, 
-								   ref GraphicsDeviceManager newGraphics );
+		protected GameState( Microsoft.Xna.Framework.Content.ContentManager newContent,
+						     ref GraphicsDeviceManager newGraphics, int stateWidth_in,
+							 int stateHeight_in )
+		{
+			content = newContent;
+			graphics = newGraphics;
+			stateWidth = stateWidth_in;
+			stateHeight = stateHeight_in;
+		}
+
+		public abstract void Init();
 
 		public abstract void Pause();
 		public abstract void Resume();
-		public void Enter( Microsoft.Xna.Framework.Content.ContentManager newContent,
-								   ref GraphicsDeviceManager newGraphics )
+		public void Enter()
 		{
-			newGraphics.PreferredBackBufferWidth = stateWidth;
-			newGraphics.PreferredBackBufferHeight = stateHeight;
-			newGraphics.ApplyChanges();
-			Init( newContent, ref newGraphics );
+			graphics.PreferredBackBufferWidth = stateWidth;
+			graphics.PreferredBackBufferHeight = stateHeight;
+			graphics.ApplyChanges();
+			Init();
 		}
 
 		public abstract void HandleInput();

@@ -25,7 +25,7 @@ namespace BirdWarsTest.GameObjects
 			identifier = id_In;
 			if( graphics != null )
 				position = new Vector2( CenterXWidth( screenWidth, graphics.getTextureSize().X ),
-										( screenHeight - screenHeight + 30 ) );
+										screenHeight );
 			else { position = new Vector2( 0.0f, 0.0f ); }
 		}
 

@@ -8,22 +8,21 @@ namespace BirdWarsTest.States
 {
 	class LoginState : GameState
 	{
-		public LoginState( int width_in, int height_in ) 
-		{
-			stateWidth = width_in;
-			stateHeight = height_in;
-		}
+		public LoginState( Microsoft.Xna.Framework.Content.ContentManager newContent,
+						   ref GraphicsDeviceManager newGraphics, int width_in, 
+						   int height_in ) 
+			:
+			base( newContent, ref newGraphics, width_in, height_in )
+		{}
 
-		public override void Init( Microsoft.Xna.Framework.Content.ContentManager newContent,
-								   ref GraphicsDeviceManager newGraphics )
+		public override void Init()
 		{
-			content = newContent;
-			graphics = newGraphics;
-			logo = new GameObject( new LoginLogoGraphicsComponent( content ), null, 
-								   Identifiers.Player, stateWidth, stateHeight );
-
 			background = new GameObject( new SolidRectGraphicsComponent( content ), null,
 										 Identifiers.Player, new Vector2( 0.0f, 0.0f ) );
+			logo = new GameObject( new LoginLogoGraphicsComponent( content ), null, 
+								   Identifiers.Player, stateWidth, 15 );
+			board = new GameObject( new LoginBoxGraphicsComponent( content ), null, 
+								    Identifiers.Player, stateWidth, 195 );
 		}
 
 		public override void Pause() {}
@@ -41,9 +40,11 @@ namespace BirdWarsTest.States
 		{
 			background.Render( ref sprites );
 			logo.Render( ref sprites );
+			board.Render( ref sprites );
 		}
 
 		private GameObject logo;
 		private GameObject background;
+		private GameObject board;
 	}
 }
