@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
 {
-	class PlayerInputComponent: InputComponent
+	class PlayerInputComponent : InputComponent
 	{
 		public PlayerInputComponent()
 		{

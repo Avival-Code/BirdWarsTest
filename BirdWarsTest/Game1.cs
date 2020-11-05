@@ -12,7 +12,7 @@ namespace BirdWarsTest
 			_graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
-			stateHandler = new StateHandler();
+			stateHandler = new StateHandler( Content, ref _graphics );
 		}
 
 		protected override void Initialize()
@@ -23,7 +23,7 @@ namespace BirdWarsTest
 		protected override void LoadContent()
 		{
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
-			stateHandler.InitializeStates( Content, ref _graphics );
+			stateHandler.InitializeStates();
 		}
 
 		protected override void Update( GameTime gameTime )

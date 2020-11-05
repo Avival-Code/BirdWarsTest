@@ -6,7 +6,7 @@ namespace BirdWarsTest.GraphicComponents
 {
 	class LoginBoxGraphicsComponent : GraphicsComponent
 	{
-		public LoginBoxGraphicsComponent(Microsoft.Xna.Framework.Content.ContentManager content)
+		public LoginBoxGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
 			base( content.Load< Texture2D >( "Board_V1" ) )
 		{ }
