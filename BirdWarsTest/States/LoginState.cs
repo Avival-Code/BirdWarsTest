@@ -34,6 +34,10 @@ namespace BirdWarsTest.States
 			passwordButton = new GameObject( new ButtonGraphicsComponent( content, "Lost Password?" ), null,
 										  Identifiers.Player, stateWidth, 
 										  board.position.Y + 190 );
+			usernameText = new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
+										   Identifiers.Player, stateWidth, board.position.Y + 30 );
+			passwordText = new GameObject( new TextGraphicsComponent( content, "Password" ), null,
+										   Identifiers.Player, stateWidth, board.position.Y + 90 );
 		}
 
 		public override void Pause() {}
@@ -55,6 +59,8 @@ namespace BirdWarsTest.States
 			loginButton.Render( ref sprites );
 			registerButton.Render( ref sprites );
 			passwordButton.Render( ref sprites );
+			usernameText.Render( ref sprites );
+			passwordText.Render( ref sprites );
 		}
 
 		private GameObject logo;
@@ -63,5 +69,7 @@ namespace BirdWarsTest.States
 		private GameObject loginButton;
 		private GameObject registerButton;
 		private GameObject passwordButton;
+		private GameObject usernameText;
+		private GameObject passwordText;
 	}
 }
