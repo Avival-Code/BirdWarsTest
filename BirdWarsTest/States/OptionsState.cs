@@ -13,13 +13,13 @@ namespace BirdWarsTest.States
 			base( newContent, ref newGraphics, width_in, height_in )
 		{}
 
-		public override void Init() {}
+		public override void Init( StateHandler handler ) {}
 
 		public override void Pause() {}
 
 		public override void Resume() {}
 
-		public override void HandleInput() {}
+		public override void HandleInput( KeyboardState state ) {}
 
 		public override void UpdateLogic( KeyboardState state ) {}
 

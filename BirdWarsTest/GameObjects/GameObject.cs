@@ -31,13 +31,12 @@ namespace BirdWarsTest.GameObjects
 
 		public void Update( KeyboardState state )
 		{
-			if( input != null )
-			input.HandleInput( this, state );
+			input?.HandleInput( this, state );
 		}
 
 		public void Render( ref SpriteBatch batch )
 		{
-			graphics.Render( this, ref batch );
+			graphics?.Render( this, ref batch );
 		}
 
 		public float CenterXWidth( float screenWidth, float textureWidth )
@@ -45,7 +44,13 @@ namespace BirdWarsTest.GameObjects
 			return ( screenWidth / 2 ) - ( textureWidth / 2 );
 		}
 
-		private GraphicsComponent graphics = null;
+		public Rectangle getRectangle()
+		{
+			return new Rectangle( ( int )position.X, ( int )position.Y, 
+								( int )graphics.getTextureSize().X, ( int )graphics.getTextureSize().Y );
+		}
+
+		public GraphicsComponent graphics = null;
 		private InputComponent input = null;
 		private Identifiers identifier;
 		public Vector2 position;

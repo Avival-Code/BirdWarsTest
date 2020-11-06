@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
+using BirdWarsTest.InputComponents;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
@@ -13,63 +15,57 @@ namespace BirdWarsTest.States
 						   int height_in ) 
 			:
 			base( newContent, ref newGraphics, width_in, height_in )
-		{}
-
-		public override void Init()
 		{
-			background = new GameObject( new SolidRectGraphicsComponent( content ), null,
-										 Identifiers.Player, new Vector2( 0.0f, 0.0f ) );
-			logo = new GameObject( new LoginLogoGraphicsComponent( content ), null, 
-								   Identifiers.Player, stateWidth, 15 );
-			board = new GameObject( new LoginBoxGraphicsComponent( content ), null, 
-								    Identifiers.Player, stateWidth, 195 );
-			loginButton = new GameObject( new ButtonGraphicsComponent( content, "Login" ), null,
-										  Identifiers.Player, new Vector2( 
-										  ( board.position.X + 40 ), 
-										  ( board.position.Y + 155 ) ) );
-			registerButton = new GameObject( new ButtonGraphicsComponent( content, "Register" ), null,
+			gameObjects = new List< GameObject >();
+		}
+
+		public override void Init( StateHandler handler )
+		{
+			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
+										 Identifiers.Player, new Vector2( 0.0f, 0.0f ) ) );
+			gameObjects.Add( new GameObject( new LoginLogoGraphicsComponent( content ), null, 
+								   Identifiers.Player, stateWidth, 15 ) );
+			gameObjects.Add( new GameObject( new LoginBoxGraphicsComponent( content ), null, 
+								    Identifiers.Player, stateWidth, 195 ) );
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Login" ), 
+											 new LoginButtonInputComponent(), Identifiers.Player, new Vector2( 
+										  ( gameObjects[ 2 ].position.X + 40 ), 
+										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Register" ), 
+											 new RegisterButtonInputComponent( handler ),
 										  Identifiers.Player, new Vector2(
-										  ( board.position.X + 160 ),
-										  ( board.position.Y + 155 ) ) );
-			passwordButton = new GameObject( new ButtonGraphicsComponent( content, "Lost Password?" ), null,
-										  Identifiers.Player, stateWidth, 
-										  board.position.Y + 190 );
-			usernameText = new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
-										   Identifiers.Player, stateWidth, board.position.Y + 30 );
-			passwordText = new GameObject( new TextGraphicsComponent( content, "Password" ), null,
-										   Identifiers.Player, stateWidth, board.position.Y + 90 );
+										  ( gameObjects[ 2 ].position.X + 160 ),
+										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Lost Password?" ), null,
+										  Identifiers.Player, stateWidth,
+										  gameObjects[ 2 ].position.Y + 190 ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
+										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Password" ), null,
+										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 90 ) );
 		}
 
 		public override void Pause() {}
 
 		public override void Resume() {}
 
-		public override void HandleInput() {}
+		public override void HandleInput( KeyboardState state ) 
+		{
+			gameObjects[ 3 ].Update( state );
+			gameObjects[ 4 ].Update( state );
+		}
 
 		public override void UpdateLogic( KeyboardState state ) 
 		{
-			HandleInput();
+			HandleInput( state );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 
 		{
-			background.Render( ref sprites );
-			logo.Render( ref sprites );
-			board.Render( ref sprites );
-			loginButton.Render( ref sprites );
-			registerButton.Render( ref sprites );
-			passwordButton.Render( ref sprites );
-			usernameText.Render( ref sprites );
-			passwordText.Render( ref sprites );
+			foreach( var objects in gameObjects )
+				objects.Render( ref sprites );
 		}
 
-		private GameObject logo;
-		private GameObject background;
-		private GameObject board;
-		private GameObject loginButton;
-		private GameObject registerButton;
-		private GameObject passwordButton;
-		private GameObject usernameText;
-		private GameObject passwordText;
+		private List<GameObject> gameObjects;
 	}
 }

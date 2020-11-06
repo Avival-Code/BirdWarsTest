@@ -22,12 +22,13 @@ namespace BirdWarsTest.States
 
 		public void InitializeStates()
 		{
-			gameStates[ 0 ].Enter();
+			gameStates[ 0 ].Enter( this );
 		}
 
 		public void ChangeState( StateTypes state )
 		{
 			currentState = state;
+			gameStates[ ( int )state ].Enter( this );
 		}
 
 		public ref GameState GetCurrentState()

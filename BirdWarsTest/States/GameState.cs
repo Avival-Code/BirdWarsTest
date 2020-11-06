@@ -16,19 +16,19 @@ namespace BirdWarsTest.States
 			stateHeight = stateHeight_in;
 		}
 
-		public abstract void Init();
+		public abstract void Init( StateHandler handler );
 
 		public abstract void Pause();
 		public abstract void Resume();
-		public void Enter()
+		public void Enter( StateHandler handler )
 		{
 			graphics.PreferredBackBufferWidth = stateWidth;
 			graphics.PreferredBackBufferHeight = stateHeight;
 			graphics.ApplyChanges();
-			Init();
+			Init( handler );
 		}
 
-		public abstract void HandleInput();
+		public abstract void HandleInput( KeyboardState state );
 		public abstract void UpdateLogic( KeyboardState state );
 		public abstract void Render( ref SpriteBatch sprites );
 
