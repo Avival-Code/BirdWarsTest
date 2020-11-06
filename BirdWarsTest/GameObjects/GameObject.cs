@@ -24,7 +24,7 @@ namespace BirdWarsTest.GameObjects
 			input = input_In;
 			identifier = id_In;
 			if( graphics != null )
-				position = new Vector2( CenterXWidth( screenWidth, graphics.getTextureSize().X ),
+				position = new Vector2( CenterXWidth( screenWidth, graphics.GetTextureSize().X ),
 										screenHeight );
 			else { position = new Vector2( 0.0f, 0.0f ); }
 		}
@@ -44,14 +44,14 @@ namespace BirdWarsTest.GameObjects
 			return ( screenWidth / 2 ) - ( textureWidth / 2 );
 		}
 
-		public Rectangle getRectangle()
+		public Rectangle GetRectangle()
 		{
 			return new Rectangle( ( int )position.X, ( int )position.Y, 
-								( int )graphics.getTextureSize().X, ( int )graphics.getTextureSize().Y );
+								( int )graphics.GetTextureSize().X, ( int )graphics.GetTextureSize().Y );
 		}
 
 		public GraphicsComponent graphics = null;
-		private InputComponent input = null;
+		public InputComponent input = null;
 		private Identifiers identifier;
 		public Vector2 position;
 	}

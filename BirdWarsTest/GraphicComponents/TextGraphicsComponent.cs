@@ -19,7 +19,7 @@ namespace BirdWarsTest.GraphicComponents
 			batch.DrawString( font, text, gameObject.position, Color.Black );
 		}
 
-		public override Vector2 getTextureSize()
+		public override Vector2 GetTextureSize()
 		{
 			return font.MeasureString( text );
 		}

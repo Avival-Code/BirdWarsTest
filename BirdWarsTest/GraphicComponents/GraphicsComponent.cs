@@ -13,7 +13,7 @@ namespace BirdWarsTest.GraphicComponents
 
 		abstract public void Render( GameObject gameObject, ref SpriteBatch batch  );
 
-		virtual public Vector2 getTextureSize()
+		virtual public Vector2 GetTextureSize()
 		{
 			return new Vector2( texture.Width, texture.Height );
 		}

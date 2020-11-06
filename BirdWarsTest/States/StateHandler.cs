@@ -6,11 +6,11 @@ namespace BirdWarsTest.States
 	class StateHandler
 	{
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
-							 ref GraphicsDeviceManager graphics )
+							 GameWindow gameWindow, ref GraphicsDeviceManager graphics )
 		{
 			currentState = StateTypes.LoginState;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new LoginState( content, ref graphics, loginWidth, loginHeight );
+			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, loginWidth, loginHeight );
 			gameStates[ 1 ] = new OpeningAnimationState( content, ref graphics, stateWidth, stateHeight );
 			gameStates[ 2 ] = new MainMenuState( content, ref graphics, stateWidth, stateHeight );
 			gameStates[ 3 ] = new WaitingRoomState( content, ref graphics, stateWidth, stateHeight );

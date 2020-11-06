@@ -7,6 +7,11 @@ namespace BirdWarsTest.InputComponents
 	{
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
 
+		public virtual string GetText()
+		{
+			return "";
+		}
+
 		protected Command moveUpButton = null;
 		protected Command moveDownButton = null;
 		protected Command moveLeftButton = null;

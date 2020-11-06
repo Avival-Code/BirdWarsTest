@@ -12,7 +12,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			handler = handlerIn;
 			isHovering = false;
-			click += toRegisterScreen;
+			click += ToRegisterScreen;
 		}
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
@@ -22,7 +22,7 @@ namespace BirdWarsTest.InputComponents
 			var mouseRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
 
 			isHovering = false;
-			if (mouseRectangle.Intersects( gameObject.getRectangle() ) )
+			if (mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
 				isHovering = true;
 				if (currentMouseState.LeftButton == ButtonState.Released &&
@@ -33,7 +33,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void toRegisterScreen( Object sender, System.EventArgs e )
+		private void ToRegisterScreen( Object sender, System.EventArgs e )
 		{
 			handler.ChangeState( StateTypes.UserRegistryState );
 		}

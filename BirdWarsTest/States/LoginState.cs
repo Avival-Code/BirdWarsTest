@@ -11,12 +11,13 @@ namespace BirdWarsTest.States
 	class LoginState : GameState
 	{
 		public LoginState( Microsoft.Xna.Framework.Content.ContentManager newContent,
-						   ref GraphicsDeviceManager newGraphics, int width_in, 
-						   int height_in ) 
+						   GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics, 
+						   int width_in, int height_in ) 
 			:
 			base( newContent, ref newGraphics, width_in, height_in )
 		{
 			gameObjects = new List< GameObject >();
+			gameWindow = gameWindowIn;
 		}
 
 		public override void Init( StateHandler handler )
@@ -41,8 +42,15 @@ namespace BirdWarsTest.States
 										  gameObjects[ 2 ].position.Y + 190 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
 										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.Player, stateWidth,
+										  ( gameObjects[ 6 ].position.Y + 20 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Password" ), null,
 										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 90 ) );
+			gameObjects.Add( new GameObject( new PasswordAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),  Identifiers.Player, 
+											 stateWidth, ( gameObjects[ 8 ].position.Y + 20 ) ) );
 		}
 
 		public override void Pause() {}
@@ -51,8 +59,8 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) 
 		{
-			gameObjects[ 3 ].Update( state );
-			gameObjects[ 4 ].Update( state );
+			foreach( var objects in gameObjects )
+				objects.Update( state );
 		}
 
 		public override void UpdateLogic( KeyboardState state ) 
@@ -67,5 +75,6 @@ namespace BirdWarsTest.States
 		}
 
 		private List<GameObject> gameObjects;
+		private GameWindow gameWindow;
 	}
 }

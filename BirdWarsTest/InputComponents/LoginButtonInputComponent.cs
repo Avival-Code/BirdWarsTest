@@ -21,7 +21,7 @@ namespace BirdWarsTest.InputComponents
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
 			isHovering = false;
-			if( mouseRectangle.Intersects( gameObject.getRectangle() ) )
+			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
 				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released && 

@@ -12,7 +12,7 @@ namespace BirdWarsTest
 			_graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
 			IsMouseVisible = true;
-			stateHandler = new StateHandler( Content, ref _graphics );
+			stateHandler = new StateHandler( Content, Window, ref _graphics );
 		}
 
 		protected override void Initialize()
