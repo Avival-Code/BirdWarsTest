@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	class ButtonGraphicsComponent : GraphicsComponent
+	class Button2GraphicsComponent : GraphicsComponent
 	{
-		public ButtonGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
+		public Button2GraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
 										string buttonText )
 			:
-			base( content.Load< Texture2D >( "Button" ) ) 
+			base( content.Load< Texture2D >( "Button2" ) )
 		{
 			font = content.Load< SpriteFont >( "Fonts/MainFont" );
 			text = buttonText;
@@ -19,10 +19,10 @@ namespace BirdWarsTest.GraphicComponents
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
 			batch.Draw( texture, gameObject.position, Color.White );
-			if( !string.IsNullOrEmpty( text ) )
+			if ( !string.IsNullOrEmpty( text ) )
 			{
-				Vector2 temp = new Vector2( ( gameObject.position.X + ( texture.Width / 2 ) ) - ( font.MeasureString( text ).X / 2 ),
-											( gameObject.position.Y + ( texture.Height / 2 ) ) - ( font.MeasureString( text ).Y / 2 ) );
+				Vector2 temp = new Vector2( ( gameObject.position.X + (texture.Width / 2 ) ) - ( font.MeasureString( text ).X / 2 ),
+											( gameObject.position.Y + (texture.Height / 2 ) ) - ( font.MeasureString( text ).Y / 2 ) );
 				batch.DrawString( font, text, temp, textColor );
 			}
 		}

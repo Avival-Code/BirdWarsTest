@@ -28,16 +28,16 @@ namespace BirdWarsTest.States
 								   Identifiers.Player, stateWidth, 15 ) );
 			gameObjects.Add( new GameObject( new LoginBoxGraphicsComponent( content ), null, 
 								    Identifiers.Player, stateWidth, 195 ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Login" ), 
+			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Login" ), 
 											 new LoginButtonInputComponent(), Identifiers.Player, new Vector2( 
 										  ( gameObjects[ 2 ].position.X + 40 ), 
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Register" ), 
+			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ), 
 											 new RegisterButtonInputComponent( handler ),
 										  Identifiers.Player, new Vector2(
 										  ( gameObjects[ 2 ].position.X + 160 ),
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Lost Password?" ), null,
+			gameObjects.Add( new GameObject( new Button2GraphicsComponent( content, "Lost Password?" ), null,
 										  Identifiers.Player, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
