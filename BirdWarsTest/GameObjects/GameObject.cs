@@ -52,7 +52,7 @@ namespace BirdWarsTest.GameObjects
 
 		public GraphicsComponent graphics = null;
 		public InputComponent input = null;
-		private Identifiers identifier;
+		public Identifiers identifier;
 		public Vector2 position;
 	}
 }

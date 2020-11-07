@@ -23,33 +23,33 @@ namespace BirdWarsTest.States
 		public override void Init( StateHandler handler )
 		{
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
-										 Identifiers.Player, new Vector2( 0.0f, 0.0f ) ) );
+										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new LoginLogoGraphicsComponent( content ), null, 
-								   Identifiers.Player, stateWidth, 15 ) );
+								   Identifiers.LoginLogo, stateWidth, 15 ) );
 			gameObjects.Add( new GameObject( new LoginBoxGraphicsComponent( content ), null, 
-								    Identifiers.Player, stateWidth, 195 ) );
+								    Identifiers.LoginBox1, stateWidth, 195 ) );
 			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Login" ), 
-											 new LoginButtonInputComponent(), Identifiers.Player, new Vector2( 
+											 new LoginButtonInputComponent(), Identifiers.Button1, new Vector2( 
 										  ( gameObjects[ 2 ].position.X + 40 ), 
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
 			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ), 
 											 new RegisterButtonInputComponent( handler ),
-										  Identifiers.Player, new Vector2(
+										  Identifiers.Button1, new Vector2(
 										  ( gameObjects[ 2 ].position.X + 160 ),
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
 			gameObjects.Add( new GameObject( new Button2GraphicsComponent( content, "Lost Password?" ), null,
-										  Identifiers.Player, stateWidth,
+										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
-										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
+										   Identifiers.TextArea, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
 											 new TextAreaInputComponent( gameWindow ),
-										  Identifiers.Player, stateWidth,
+										  Identifiers.TextArea, stateWidth,
 										  ( gameObjects[ 6 ].position.Y + 20 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Password" ), null,
-										   Identifiers.Player, stateWidth, gameObjects[ 2 ].position.Y + 90 ) );
+										   Identifiers.TextGraphics, stateWidth, gameObjects[ 2 ].position.Y + 90 ) );
 			gameObjects.Add( new GameObject( new PasswordAreaGraphicsComponent( content ),
-											 new TextAreaInputComponent( gameWindow ),  Identifiers.Player, 
+											 new TextAreaInputComponent( gameWindow ),  Identifiers.PasswordArea, 
 											 stateWidth, ( gameObjects[ 8 ].position.Y + 20 ) ) );
 		}
 
@@ -59,13 +59,12 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) 
 		{
-			foreach( var objects in gameObjects )
-				objects.Update( state );
 		}
 
 		public override void UpdateLogic( KeyboardState state ) 
 		{
-			HandleInput( state );
+			foreach( var objects in gameObjects )
+				objects.Update( state );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 
