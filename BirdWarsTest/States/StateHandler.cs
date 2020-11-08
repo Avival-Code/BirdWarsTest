@@ -12,12 +12,13 @@ namespace BirdWarsTest.States
 			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, loginWidth, loginHeight );
 			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, registerWidth, registerHeight );
-			gameStates[ 2 ] = new OpeningAnimationState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 3 ] = new MainMenuState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 4 ] = new WaitingRoomState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 5 ] = new PlayState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 6 ] = new OptionsState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 7 ] = new StatisticsState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 2 ] = new PasswordRecoveryState( content, gameWindow, ref graphics, passwordWidth, passwordHeight );
+			gameStates[ 3 ] = new OpeningAnimationState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 4 ] = new MainMenuState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 5 ] = new WaitingRoomState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 6 ] = new PlayState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 7 ] = new OptionsState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 8 ] = new StatisticsState( content, ref graphics, stateWidth, stateHeight );
 		}
 
 		public void InitializeStates()
@@ -38,12 +39,13 @@ namespace BirdWarsTest.States
 
 		private GameState[] gameStates;
 		private StateTypes currentState;
-		private GameWindow gameWindow;
-		private const int maxStates = 8;
+		private const int maxStates = 9;
 		private const int loginWidth = 388;
 		private const int loginHeight = 450;
 		private const int registerWidth = 428;
 		private const int registerHeight = 500;
+		private const int passwordWidth = 450;
+		private const int passwordHeight = 450;
 		private const int stateWidth = 800;
 		private const int stateHeight = 600;
 	}

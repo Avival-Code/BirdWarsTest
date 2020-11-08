@@ -38,7 +38,8 @@ namespace BirdWarsTest.States
 										  Identifiers.Button1, new Vector2(
 										  ( gameObjects[ 2 ].position.X + 160 ),
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
-			gameObjects.Add( new GameObject( new Button2GraphicsComponent( content, "Lost Password?" ), null,
+			gameObjects.Add( new GameObject( new Button2GraphicsComponent( content, "Lost Password?" ),
+										     new ChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
 										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
