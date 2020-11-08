@@ -1,19 +1,73 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using BirdWarsTest.GameObjects;
+using BirdWarsTest.GraphicComponents;
+using BirdWarsTest.InputComponents;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
 	class UserRegistryState : GameState
 	{
 		public UserRegistryState( Microsoft.Xna.Framework.Content.ContentManager newContent,
-								  ref GraphicsDeviceManager newGraphics, int width_in, 
-								  int height_in )
+								  GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics, 
+								  int width_in, int height_in )
 			:
 			base( newContent, ref newGraphics, width_in,height_in )
-		{}
-
-		public override void Init( StateHandler handler ) {}
+		{
+			gameWindow = gameWindowIn;
+			gameObjects = new List< GameObject >();
+		}
+		
+		public override void Init( StateHandler handler ) 
+		{
+			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
+										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
+			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null,
+										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
+			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ),
+											 null, Identifiers.Button1, new Vector2( 144.0f, 425.0f ) ) );
+			gameObjects.Add( new GameObject( new Button1GraphicsComponent(content, "Cancel"),
+											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
+										  Identifiers.Button1, new Vector2( 259.0f, 425.0f ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Name" ), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 1 ].position.Y + 50 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 4 ].position.Y + 20 ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Last Name"), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 5 ].position.Y + 35 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 6 ].position.Y + 20 ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent(content, "Username"), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 7 ].position.Y + 35 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 8 ].position.Y + 20 ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent(content, "Password"), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 9 ].position.Y + 35 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 10 ].position.Y + 20 ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Confirm Password" ), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 11 ].position.Y + 35 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 12 ].position.Y + 20 ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email" ), null,
+										   Identifiers.TextArea, stateWidth, gameObjects[ 13 ].position.Y + 35 ) );
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+											 new TextAreaInputComponent( gameWindow ),
+										  Identifiers.TextArea, stateWidth,
+										  ( gameObjects[ 14 ].position.Y + 20 ) ) );
+		}
 
 		public override void Pause() {}
 
@@ -21,8 +75,19 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) {}
 
-		public override void UpdateLogic( KeyboardState state ) {}
+		public override void UpdateLogic( KeyboardState state ) 
+		{
+			foreach( var objects in gameObjects )
+				objects.Update( state );
+		}
 
-		public override void Render( ref SpriteBatch batch ) {}
+		public override void Render( ref SpriteBatch batch ) 
+		{
+			foreach( var objects in gameObjects )
+				objects.Render( ref batch );
+		}
+
+		private GameWindow gameWindow;
+		private List< GameObject > gameObjects;
 	}
 }

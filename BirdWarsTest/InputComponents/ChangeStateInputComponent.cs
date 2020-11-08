@@ -6,42 +6,45 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class RegisterButtonInputComponent : InputComponent
+	class ChangeStateInputComponent : InputComponent
 	{
-		public RegisterButtonInputComponent( StateHandler handlerIn )
+		public ChangeStateInputComponent( StateHandler handlerIn, StateTypes state )
 		{
 			handler = handlerIn;
 			isHovering = false;
-			click += ToRegisterScreen;
+			click += ToOtherScreen;
+			stateChange = state;
 		}
+
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
 			previousMouseState = currentMouseState;
 			currentMouseState = Mouse.GetState();
 
-			var mouseRectangle = new Rectangle(currentMouseState.X, currentMouseState.Y, 1, 1);
+			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
 			isHovering = false;
-			if (mouseRectangle.Intersects( gameObject.GetRectangle() ) )
+			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
 				isHovering = true;
-				if (currentMouseState.LeftButton == ButtonState.Released &&
-					previousMouseState.LeftButton == ButtonState.Pressed)
+				if( currentMouseState.LeftButton == ButtonState.Released &&
+					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
 					click?.Invoke(this, new EventArgs());
 				}
 			}
 		}
 
-		private void ToRegisterScreen( Object sender, System.EventArgs e )
+		private void ToOtherScreen( Object sender, System.EventArgs e )
 		{
-			handler.ChangeState( StateTypes.UserRegistryState );
+			handler.ChangeState( stateChange );
 		}
 
 		private StateHandler handler;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 		public event EventHandler click;
+		private StateTypes stateChange;
 		public bool clicked;
 		private bool isHovering;
 	}

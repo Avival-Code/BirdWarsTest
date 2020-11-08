@@ -9,7 +9,7 @@ namespace BirdWarsTest.GraphicComponents
 		public LoginBoxGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
 			base( content.Load< Texture2D >( "Board_V1" ) )
-		{ }
+		{}
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{

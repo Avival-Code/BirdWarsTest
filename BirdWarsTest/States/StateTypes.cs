@@ -3,12 +3,12 @@
 	enum StateTypes
 	{
 		LoginState,
+		UserRegistryState,
 		OpeningAnimationState,
 		MainMenuState,
 		WaitingRoomState,
 		PlayState,
 		OptionsState,
-		UserRegistryState,
 		StatisticsState
 	}
 }

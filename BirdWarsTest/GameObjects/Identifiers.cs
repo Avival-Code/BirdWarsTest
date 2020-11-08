@@ -4,6 +4,7 @@
 	{
 		LoginLogo,
 		LoginBox1,
+		RegisterBox,
 		Background,
 		TextGraphics,
 		TextArea,
