@@ -22,6 +22,7 @@ namespace BirdWarsTest.States
 		
 		public override void Init( StateHandler handler ) 
 		{
+			gameObjects.Clear();
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null,
