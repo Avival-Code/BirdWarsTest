@@ -22,6 +22,7 @@ namespace BirdWarsTest
 		protected override void Initialize()
 		{
 			Window.Title = "Bird Wars";
+			networkManager.Connect();
 			base.Initialize();
 		}
 
@@ -36,6 +37,8 @@ namespace BirdWarsTest
 			if ( GamePad.GetState( PlayerIndex.One ).Buttons.Back == ButtonState.Pressed || 
 				 Keyboard.GetState().IsKeyDown( Keys.Escape ) )
 				Exit();
+
+			ProcessNetworkMessages();
 
 			stateHandler.GetCurrentState().UpdateLogic( Keyboard.GetState() );
 
@@ -58,24 +61,24 @@ namespace BirdWarsTest
 		public void ProcessNetworkMessages()
 		{
 			NetIncomingMessage incomingMessage;
-			while ((incomingMessage = networkManager.ReadMessage()) != null)
+			while ( ( incomingMessage = networkManager.ReadMessage() ) != null )
 			{
-				switch (incomingMessage.MessageType)
+				switch ( incomingMessage.MessageType )
 				{
 					case NetIncomingMessageType.VerboseDebugMessage:
 					case NetIncomingMessageType.DebugMessage:
 					case NetIncomingMessageType.WarningMessage:
 					case NetIncomingMessageType.ErrorMessage:
-						Console.WriteLine(incomingMessage.ReadString());
+						Console.WriteLine( incomingMessage.ReadString() );
 						break;
 					case NetIncomingMessageType.StatusChanged:
-						switch ((NetConnectionStatus)incomingMessage.ReadByte())
+						switch ( ( NetConnectionStatus )incomingMessage.ReadByte() )
 						{
 							case NetConnectionStatus.Connected:
-								Console.WriteLine("{ 0 } Connected", incomingMessage.SenderEndPoint);
+								Console.WriteLine( "{0} Connected", incomingMessage.SenderEndPoint );
 								break;
 							case NetConnectionStatus.Disconnected:
-								Console.WriteLine("{ 0 } Disconnected", incomingMessage.SenderEndPoint);
+								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
 								break;
 							case NetConnectionStatus.RespondedAwaitingApproval:
 								incomingMessage.SenderConnection.Approve();
