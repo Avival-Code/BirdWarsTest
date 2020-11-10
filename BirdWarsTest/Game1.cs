@@ -21,7 +21,7 @@ namespace BirdWarsTest
 
 		protected override void Initialize()
 		{
-			Window.Title = "Bird Wars";
+			//Window.Title = "Bird Wars";
 			networkManager.Connect();
 			base.Initialize();
 		}
@@ -30,6 +30,12 @@ namespace BirdWarsTest
 		{
 			_spriteBatch = new SpriteBatch( GraphicsDevice );
 			stateHandler.InitializeStates();
+		}
+
+		protected override void UnloadContent()
+		{
+			networkManager.Disconnect();
+			base.UnloadContent();
 		}
 
 		protected override void Update( GameTime gameTime )
