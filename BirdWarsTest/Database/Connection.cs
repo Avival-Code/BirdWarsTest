@@ -11,7 +11,7 @@ namespace BirdWarsTest.Database
 			user = "user=root;";
 			database = "database=BirdWars;";
 			port = "port=3306;";
-			password = "password=Pollito12Con23Papas45;";
+			password = "password=Pollito12Con23Papas4512345;";
 		}
 
 		public Connection( string server_In, string user_In, string database_In, string port_In, 
@@ -31,9 +31,11 @@ namespace BirdWarsTest.Database
 				string connectionString = server + user + database + port + password;
 				connection = new MySqlConnection( connectionString );
 				connection.Open();
+				Console.WriteLine( "Connection Successfull!" );
 			}
 			catch( Exception exception)
 			{
+				Console.WriteLine( "Connection Failed!" );
 				Console.WriteLine( exception.ToString() );
 			}
 		}
@@ -43,6 +45,7 @@ namespace BirdWarsTest.Database
 			try
 			{
 				connection.Close();
+				Console.WriteLine( "Connection closed!" );
 			}
 			catch( Exception exception )
 			{
