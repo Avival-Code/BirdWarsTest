@@ -36,7 +36,7 @@ namespace BirdWarsTest.Database
 			catch( Exception exception)
 			{
 				Console.WriteLine( "Connection Failed!" );
-				Console.WriteLine( exception.ToString() );
+				Console.WriteLine( exception.Message );
 			}
 		}
 
@@ -49,7 +49,7 @@ namespace BirdWarsTest.Database
 			}
 			catch( Exception exception )
 			{
-				Console.WriteLine( exception.ToString() );
+				Console.WriteLine( exception.Message );
 			}
 		}
 

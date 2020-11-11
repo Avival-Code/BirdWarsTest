@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -8,7 +9,26 @@ namespace BirdWarsTest.Database
 	{
 		public bool Create( User user )
 		{
-			throw new NotImplementedException();
+			bool wasCreated = false;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				MySqlCommand command = new MySqlCommand();
+				command.Connection = connection.connection;
+				command.CommandText = " INSERT INTO Usuarios( name, lastNames, email, password ) VALUES ('"
+									+ user.names + "', '" + user.lastName + "', '" + user.email + "', '"
+									+ user.password + "' );";
+				command.ExecuteNonQuery();
+				wasCreated = true;
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			return wasCreated;
 		}
 
 		public bool Delete( int userId )
@@ -26,7 +46,7 @@ namespace BirdWarsTest.Database
 			throw new NotImplementedException();
 		}
 
-		public bool Update( int userId, string name, string lastName, string email, string password )
+		public bool Update( int userId, string names, string lastName, string email, string password )
 		{
 			throw new NotImplementedException();
 		}

@@ -6,14 +6,14 @@
 						string email_In, string password_In )
 		{
 			userId = userId_In;
-			name = name_In;
+			names = name_In;
 			lastName = lastName_In;
 			email = email_In;
 			password = password_In;
 		}
 
 		public int userId;
-		public string name;
+		public string names;
 		public string lastName;
 		public string email;
 		public string password;
