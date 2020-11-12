@@ -11,7 +11,7 @@ namespace BirdWarsTest.Network
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
-				Port = Convert.ToInt32("14242"),
+				Port = Convert.ToInt32( "14242" ),
 				//SimulatedMinimumLatency = 0.2f,
 				//SimulatedLoss = 0.1f
 			};

@@ -9,8 +9,8 @@ namespace BirdWarsTest.Database
 	{
 		public bool Create( Inventory inventory );
 		public List< Inventory > ReadAll();
-		public Inventory Read( int inventoryId );
-		public bool Update( int inventoryId, int userId, int totalItems, List< Identifiers > itemCodes );
-		public bool Delete( int inventoryId );
+		public Inventory Read( int userId );
+		public bool Update( Inventory inventory );
+		public bool Delete( int userId );
 	}
 }

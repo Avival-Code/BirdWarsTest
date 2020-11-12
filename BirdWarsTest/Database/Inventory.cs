@@ -6,7 +6,7 @@ namespace BirdWarsTest.Database
 	class Inventory
 	{
 		public Inventory( int inventoryId_In, int userId_In, int totalItems_In,
-					      List< Identifiers > itemCodes_In )
+					      List< int > itemCodes_In )
 		{
 			inventoryId = inventoryId_In;
 			userId = userId_In;
@@ -17,6 +17,6 @@ namespace BirdWarsTest.Database
 		public int inventoryId;
 		public int userId;
 		public int totalItems;
-		public List< Identifiers > itemCodes;
+		public List< int > itemCodes;
 	}
 }

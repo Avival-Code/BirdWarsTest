@@ -15,40 +15,154 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				MySqlCommand command = new MySqlCommand();
-				command.Connection = connection.connection;
-				command.CommandText = " INSERT INTO Usuarios( name, lastNames, email, password ) VALUES ('"
-									+ user.names + "', '" + user.lastName + "', '" + user.email + "', '"
-									+ user.password + "' );";
+				string mySqlCommandText = "INSERT INTO Users( name, lastNames, email, password ) " +
+										  "VALUES ( @name, @lastNames, @email, @password );";
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlParameter[] parameters = new MySqlParameter[ 4 ];
+				parameters[ 0 ] = new MySqlParameter( "@name", user.names );
+				parameters[ 1 ] = new MySqlParameter( "@lastNames", user.lastName );
+				parameters[ 2 ] = new MySqlParameter( "@email", user.email );
+				parameters[ 3 ] = new MySqlParameter( "@password", user.password );
+				foreach( var parameter in parameters )
+				{
+					command.Parameters.Add( parameter );
+				}
+
 				command.ExecuteNonQuery();
 				wasCreated = true;
+				Console.WriteLine( "User created succesfully!" );
 			}
 			catch( Exception exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
 
+			connection.StopConnection();
 			return wasCreated;
 		}
 
 		public bool Delete( int userId )
 		{
-			throw new NotImplementedException();
+			bool wasDeleted = false;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string mySqlCommandText = "DELETE FROM Users WHERE userId = @userId";
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlParameter parameter = new MySqlParameter( "@userId", userId );
+				command.Parameters.Add( parameter );
+
+				command.ExecuteNonQuery();
+				wasDeleted = true;
+				Console.WriteLine( "User deleted succesfully!" );
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return wasDeleted;
 		}
 
-		public Inventory Read( int userId )
+		public User Read( int userId )
 		{
-			throw new NotImplementedException();
+			User temp = null;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string MySqlCommandText = "SELECT * FROM Users WHERE userId = @userId";
+				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
+				MySqlParameter parameter = new MySqlParameter( "@userId", userId );
+				command.Parameters.Add( parameter );
+				MySqlDataReader reader = command.ExecuteReader();
+
+				if( reader.HasRows )
+				{
+					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
+									 reader.GetString( 3 ), reader.GetString( 4 ) );
+				}
+				else
+				{
+					Console.WriteLine( "No users found." );
+				}
+				reader.Close();
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return temp;
 		}
 
-		public List<Inventory> ReadAll()
+		public List< User > ReadAll()
 		{
-			throw new NotImplementedException();
+			List< User > users = new List< User >();
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string mySqlCommandText = "SELECT * FROM Users";
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlDataReader reader = command.ExecuteReader();
+
+				while( reader.HasRows )
+				{
+					users.Add( new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
+						                 reader.GetString( 3 ), reader.GetString( 4 ) ) );
+					reader.NextResult();
+				}
+				reader.Close();
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return users;
 		}
 
 		public bool Update( int userId, string names, string lastName, string email, string password )
 		{
-			throw new NotImplementedException();
+			bool wasUpdated = false;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string mySqlCommandText = "UPDATE Users SET name = @names, lastNames = @lastNames, email = " +
+										  "@email, password = @password WHERE userId = @userId";
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlParameter [] parameters = new MySqlParameter[ 5 ];
+				parameters[ 0 ] = new MySqlParameter( "@names", names );
+				parameters[ 1 ] = new MySqlParameter( "@lastNames", lastName );
+				parameters[ 2 ] = new MySqlParameter( "@email", email );
+				parameters[ 3 ] = new MySqlParameter( "@password", password );
+				parameters[ 4 ] = new MySqlParameter( "@userId", userId );
+				foreach( var parameter in parameters )
+				{
+					command.Parameters.Add( parameter );
+				}
+
+				command.ExecuteNonQuery();
+				wasUpdated = true;
+				Console.WriteLine( "User Updated Successfully!" );
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return wasUpdated;
 		}
 	}
 }

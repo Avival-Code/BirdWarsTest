@@ -7,10 +7,10 @@ namespace BirdWarsTest.Database
 	interface IAccountDAO
 	{
 		public bool Create( Account account );
-		public List<Inventory> ReadAll();
-		public Inventory Read( int accountId );
-		public bool Update( int accountId, int userId, int matchesWon, int matchesLost, int matchesSurvived,
+		public List< Account > ReadAll();
+		public Account Read( int userId );
+		public bool Update( int userId, int matchesWon, int matchesLost, int matchesSurvived,
 							int money );
-		public bool Delete( int accountId );
+		public bool Delete( int userId );
 	}
 }
