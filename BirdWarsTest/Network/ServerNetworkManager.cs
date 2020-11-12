@@ -1,7 +1,6 @@
 ﻿using BirdWarsTest.Network.Messages;
 using Lidgren.Network;
 using System;
-using System.Reflection;
 
 namespace BirdWarsTest.Network
 {
