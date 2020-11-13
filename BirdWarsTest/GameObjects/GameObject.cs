@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.GraphicComponents;
+using BirdWarsTest.States;
 
 namespace BirdWarsTest.GameObjects
 {
@@ -32,6 +33,11 @@ namespace BirdWarsTest.GameObjects
 		public void Update( KeyboardState state )
 		{
 			input?.HandleInput( this, state );
+		}
+
+		public void Update( KeyboardState state, LoginState loginState )
+		{
+			input?.HandleInput( this, state, loginState );
 		}
 
 		public void Render( ref SpriteBatch batch )

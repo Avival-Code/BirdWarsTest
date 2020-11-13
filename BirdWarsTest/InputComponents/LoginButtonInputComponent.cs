@@ -1,19 +1,36 @@
 ﻿using BirdWarsTest.GameObjects;
+using BirdWarsTest.InputComponents.EventArguments;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System;
+using BirdWarsTest.States;
 
 namespace BirdWarsTest.InputComponents
 {
 	class LoginButtonInputComponent : InputComponent
 	{
-		public LoginButtonInputComponent()
+		public LoginButtonInputComponent( StateHandler handlerIn )
 		{
+			loginEvents = new LoginEventArgs();
+			changeState = StateTypes.MainMenuState;
+			handler = handlerIn;
 			isHovering = false;
 			click += Login;
 		}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state )
+		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
+
+		private void Login( object sender, LoginEventArgs loginEvents )
+		{
+			if( handler.networkManager.Login( loginEvents.email, loginEvents.password ) )
+			{
+				handler.ChangeState( changeState );
+			}
+			loginEvents.email = "";
+			loginEvents.password = "";
+		}
+
+		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState )
 		{
 			previousMouseState = currentMouseState;
 			currentMouseState = Mouse.GetState();
@@ -24,22 +41,22 @@ namespace BirdWarsTest.InputComponents
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
 				isHovering = true;
-				if( currentMouseState.LeftButton == ButtonState.Released && 
-					previousMouseState.LeftButton == ButtonState.Pressed )
+				if (currentMouseState.LeftButton == ButtonState.Released &&
+					previousMouseState.LeftButton == ButtonState.Pressed)
 				{
-					click?.Invoke( this, new EventArgs() );
+					loginEvents.email = loginState.gameObjects[ 7 ].input.GetText();
+					loginEvents.password = loginState.gameObjects[ 9 ].input.GetText();
+					click?.Invoke( this, loginEvents );
 				}
 			}
 		}
 
-		private void Login( object sender, System.EventArgs e )
-		{
-			Console.WriteLine( "Clicked" );
-		}
-
+		private StateHandler handler;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public event EventHandler click;
+		public event EventHandler< LoginEventArgs > click;
+		private LoginEventArgs loginEvents;
+		private StateTypes changeState;
 		public bool clicked;
 		private bool isHovering;
 	}

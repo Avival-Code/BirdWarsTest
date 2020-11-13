@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BirdWarsTest.Network;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
@@ -6,9 +7,10 @@ namespace BirdWarsTest.States
 	class StateHandler
 	{
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
-							 GameWindow gameWindow, ref GraphicsDeviceManager graphics )
+							 GameWindow gameWindow, ref GraphicsDeviceManager graphics, INetworkManager networkManagerIn )
 		{
 			currentState = StateTypes.LoginState;
+			networkManager = networkManagerIn;
 			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, loginWidth, loginHeight );
 			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, registerWidth, registerHeight );
@@ -38,6 +40,7 @@ namespace BirdWarsTest.States
 		}
 
 		private GameState[] gameStates;
+		public INetworkManager networkManager;
 		private StateTypes currentState;
 		private const int maxStates = 9;
 		private const int loginWidth = 388;

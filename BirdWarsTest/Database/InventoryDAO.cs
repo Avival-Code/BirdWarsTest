@@ -81,7 +81,7 @@ namespace BirdWarsTest.Database
 				command.Parameters.Add( parameter );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				if( reader.HasRows )
+				if( reader.HasRows && reader.Read() )
 				{
 					int inventoryId = reader.GetInt32( 0 );
 					InventoryItemsDAO items = new InventoryItemsDAO();
@@ -115,7 +115,7 @@ namespace BirdWarsTest.Database
 				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				while( reader.HasRows )
+				while( reader.HasRows && reader.Read() )
 				{
 					int inventoryId = reader.GetInt32( 0 );
 					InventoryItemsDAO items = new InventoryItemsDAO();

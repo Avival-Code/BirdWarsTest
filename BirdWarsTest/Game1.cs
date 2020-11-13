@@ -15,15 +15,13 @@ namespace BirdWarsTest
 		{
 			_graphics = new GraphicsDeviceManager( this );
 			Content.RootDirectory = "Content";
-			stateHandler = new StateHandler( Content, Window, ref _graphics );
-			networkManager = networkManagerIn;
+			stateHandler = new StateHandler( Content, Window, ref _graphics, networkManagerIn );
 			IsMouseVisible = true;
 		}
 
 		protected override void Initialize()
 		{
 			//Window.Title = "Bird Wars";
-			networkManager.Connect();
 			base.Initialize();
 		}
 
@@ -35,7 +33,6 @@ namespace BirdWarsTest
 
 		protected override void UnloadContent()
 		{
-			networkManager.Disconnect();
 			base.UnloadContent();
 		}
 
@@ -44,8 +41,6 @@ namespace BirdWarsTest
 			if ( GamePad.GetState( PlayerIndex.One ).Buttons.Back == ButtonState.Pressed || 
 				 Keyboard.GetState().IsKeyDown( Keys.Escape ) )
 				Exit();
-
-			ProcessNetworkMessages();
 
 			stateHandler.GetCurrentState().UpdateLogic( Keyboard.GetState() );
 
@@ -65,7 +60,7 @@ namespace BirdWarsTest
 			base.Draw( gameTime );
 		}
 
-		public void ProcessNetworkMessages()
+		public void ProcessNetworkMessages( INetworkManager networkManager )
 		{
 			NetIncomingMessage incomingMessage;
 			while ( ( incomingMessage = networkManager.ReadMessage() ) != null )
@@ -100,6 +95,5 @@ namespace BirdWarsTest
 		private GraphicsDeviceManager _graphics;
 		private SpriteBatch _spriteBatch;
 		private StateHandler stateHandler;
-		private INetworkManager networkManager;
 	}
 }

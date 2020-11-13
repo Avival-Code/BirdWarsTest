@@ -1,4 +1,5 @@
 ﻿using BirdWarsTest.GameObjects;
+using BirdWarsTest.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -19,6 +20,11 @@ namespace BirdWarsTest.InputComponents
 			MouseState mouseState = Mouse.GetState();
 			var clicked = mouseState.LeftButton == ButtonState.Pressed;
 			CheckClick( mouseState.Position, clicked, gameObject );
+		}
+
+		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState ) 
+		{
+			HandleInput( gameObject, state );
 		}
 
 		private void CheckClick( Point mouseClick, bool clicked, GameObject gameObject )
@@ -53,7 +59,7 @@ namespace BirdWarsTest.InputComponents
 				AddCharacter( character );
 		}
 
-		public void AddCharacter(char newChar)
+		public void AddCharacter( char newChar )
 		{
 			text += newChar;
 		}

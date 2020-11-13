@@ -80,7 +80,7 @@ namespace BirdWarsTest.Database
 				command.Parameters.Add( parameter );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				while ( reader.HasRows )
+				while ( reader.HasRows && reader.Read() )
 				{
 					itemCodes.Add( reader.GetInt32( 1 ) );
 					reader.NextResult();

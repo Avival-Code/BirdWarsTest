@@ -7,7 +7,12 @@ namespace BirdWarsTest.Network
 {
 	public class ClientNetworkManager : INetworkManager
 	{
-		public void Connect()
+		public bool Login( string username, string password )
+		{
+			bool loggedIn = false;
+			return loggedIn;
+		}
+		public void Connect( string username, string password )
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
@@ -72,6 +77,11 @@ namespace BirdWarsTest.Network
 				}
 				isDisposed = true;
 			}
+		}
+
+		public void Connect()
+		{
+			throw new NotImplementedException();
 		}
 
 		private NetClient netClient;

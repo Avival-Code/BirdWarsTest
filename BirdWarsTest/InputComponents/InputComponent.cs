@@ -1,4 +1,5 @@
 ﻿using BirdWarsTest.GameObjects;
+using BirdWarsTest.States;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
@@ -6,6 +7,8 @@ namespace BirdWarsTest.InputComponents
 	abstract class InputComponent
 	{
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
+
+		abstract public void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState );
 
 		public virtual string GetText()
 		{

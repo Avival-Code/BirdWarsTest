@@ -67,7 +67,7 @@ namespace BirdWarsTest.Database
 			return wasDeleted;
 		}
 
-		public User Read( int userId )
+		public User Read( string email, string password )
 		{
 			User temp = null;
 			Connection connection = new Connection();
@@ -75,13 +75,16 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string MySqlCommandText = "SELECT * FROM Users WHERE userId = @userId";
+				string MySqlCommandText = "SELECT * FROM Users WHERE email = @email AND password = @password";
 				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
-				MySqlParameter parameter = new MySqlParameter( "@userId", userId );
-				command.Parameters.Add( parameter );
+				MySqlParameter [] parameters = new MySqlParameter[ 2 ];
+				parameters[ 0 ] = new MySqlParameter( "@email", email );
+				parameters[ 1 ] = new MySqlParameter( "@password", password );
+				command.Parameters.Add( parameters[ 0 ] );
+				command.Parameters.Add( parameters[ 1 ] );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				if( reader.HasRows )
+				if( reader.HasRows  && reader.Read() )
 				{
 					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
 									 reader.GetString( 3 ), reader.GetString( 4 ) );
@@ -113,7 +116,7 @@ namespace BirdWarsTest.Database
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				while( reader.HasRows )
+				while( reader.HasRows && reader.Read() )
 				{
 					users.Add( new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
 						                 reader.GetString( 3 ), reader.GetString( 4 ) ) );

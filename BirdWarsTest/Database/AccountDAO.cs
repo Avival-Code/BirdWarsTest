@@ -82,7 +82,7 @@ namespace BirdWarsTest.Database
 				command.Parameters.Add( parameter );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				if( reader.HasRows )
+				if( reader.HasRows && reader.Read() )
 				{
 					temp = new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ),
 									    reader.GetInt32( 3 ), reader.GetInt32( 4 ), reader.GetInt32( 5 ) );
@@ -114,7 +114,7 @@ namespace BirdWarsTest.Database
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				while( reader.HasRows )
+				while( reader.HasRows && reader.Read() )
 				{
 					accounts.Add( new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ),
 										       reader.GetInt32( 3 ), reader.GetInt32( 4 ), reader.GetInt32( 5 ) ) );

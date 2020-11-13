@@ -1,4 +1,5 @@
 ﻿using BirdWarsTest.GameObjects;
+using BirdWarsTest.States;
 using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
@@ -17,6 +18,11 @@ namespace BirdWarsTest.InputComponents
 		{
 			DiagonalInput( gameObject, state );
 			NormalInput( gameObject, state );
+		}
+
+		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState ) 
+		{
+			HandleInput( gameObject, state );
 		}
 
 		public void NormalInput( GameObject gameObject, KeyboardState state )

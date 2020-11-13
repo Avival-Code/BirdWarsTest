@@ -1,4 +1,5 @@
-﻿using BirdWarsTest.Network.Messages;
+﻿using BirdWarsTest.Database;
+using BirdWarsTest.Network.Messages;
 using Lidgren.Network;
 using System;
 
@@ -6,6 +7,24 @@ namespace BirdWarsTest.Network
 {
 	public class ServerNetworkManager : INetworkManager
 	{
+		public bool Login( string email, string password )
+		{
+			bool LoggedIn = false;
+			User tempUser = users.Read( email, password );
+			if( tempUser != null )
+			{
+				Connect();
+				LoggedIn = true;
+				Console.WriteLine( "Welcome " + tempUser.names + "!" );
+			}
+			else
+			{
+				Console.WriteLine( "Invalid Credentials" );
+			}
+
+			return LoggedIn;
+		}
+
 		public void Connect()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
@@ -72,6 +91,7 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private UserDAO users = new UserDAO();
 		private NetServer netServer;
 		private bool isDisposed;
 	}

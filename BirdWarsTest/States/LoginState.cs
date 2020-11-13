@@ -30,7 +30,7 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new LoginBoxGraphicsComponent( content ), null, 
 								    Identifiers.LoginBox1, stateWidth, 195 ) );
 			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Login" ), 
-											 new LoginButtonInputComponent(), Identifiers.Button1, new Vector2( 
+											 new LoginButtonInputComponent( handler ), Identifiers.Button1, new Vector2( 
 										  ( gameObjects[ 2 ].position.X + 40 ), 
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
 			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ), 
@@ -65,8 +65,8 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( KeyboardState state ) 
 		{
-			foreach( var objects in gameObjects )
-				objects.Update( state );
+			foreach( var objects in gameObjects  )
+				objects.Update( state, this );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 
@@ -75,7 +75,7 @@ namespace BirdWarsTest.States
 				objects.Render( ref sprites );
 		}
 
-		private List<GameObject> gameObjects;
+		public List<GameObject> gameObjects;
 		private GameWindow gameWindow;
 	}
 }

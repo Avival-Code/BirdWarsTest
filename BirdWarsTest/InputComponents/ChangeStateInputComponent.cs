@@ -35,6 +35,11 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState )
+		{
+			HandleInput( gameObject, state );
+		}
+
 		private void ToOtherScreen( Object sender, System.EventArgs e )
 		{
 			handler.ChangeState( stateChange );
