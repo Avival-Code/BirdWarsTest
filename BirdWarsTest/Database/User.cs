@@ -1,6 +1,6 @@
 ﻿namespace BirdWarsTest.Database
 {
-	class User
+	public class User
 	{
 		public User( int userId_In, string name_In, string lastName_In,
 						string email_In, string password_In )

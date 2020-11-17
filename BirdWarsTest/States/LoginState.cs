@@ -5,6 +5,8 @@ using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using System.Collections.Generic;
+using BirdWarsTest.Network;
+using System;
 
 namespace BirdWarsTest.States
 {
@@ -12,11 +14,13 @@ namespace BirdWarsTest.States
 	{
 		public LoginState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 						   GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics, 
+						   ref INetworkManager networkManagerIn,
 						   int width_in, int height_in ) 
 			:
-			base( newContent, ref newGraphics, width_in, height_in )
+			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
 			gameObjects = new List< GameObject >();
+			support = new NetworkSupport();
 			gameWindow = gameWindowIn;
 		}
 
@@ -63,8 +67,10 @@ namespace BirdWarsTest.States
 		{
 		}
 
-		public override void UpdateLogic( KeyboardState state ) 
+		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
+			support.ProcessMessages( networkManager, handler );
+
 			foreach( var objects in gameObjects  )
 				objects.Update( state, this );
 		}
@@ -77,5 +83,6 @@ namespace BirdWarsTest.States
 
 		public List<GameObject> gameObjects;
 		private GameWindow gameWindow;
+		private NetworkSupport support;
 	}
 }

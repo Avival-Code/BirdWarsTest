@@ -22,10 +22,7 @@ namespace BirdWarsTest.InputComponents
 
 		private void Login( object sender, LoginEventArgs loginEvents )
 		{
-			if( handler.networkManager.Login( loginEvents.email, loginEvents.password ) )
-			{
-				handler.ChangeState( changeState );
-			}
+			handler.networkManager.Login( loginEvents.email, loginEvents.password );
 			loginEvents.email = "";
 			loginEvents.password = "";
 		}

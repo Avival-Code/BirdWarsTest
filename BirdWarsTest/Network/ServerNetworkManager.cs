@@ -7,22 +7,24 @@ namespace BirdWarsTest.Network
 {
 	public class ServerNetworkManager : INetworkManager
 	{
-		public bool Login( string email, string password )
+		public ServerNetworkManager()
 		{
-			bool LoggedIn = false;
+			isLoggedIn = false;
+			Connect();
+		}
+
+		public void Login( string email, string password )
+		{
 			User tempUser = users.Read( email, password );
 			if( tempUser != null )
 			{
-				Connect();
-				LoggedIn = true;
+				isLoggedIn = true;
 				Console.WriteLine( "Welcome " + tempUser.names + "!" );
 			}
 			else
 			{
 				Console.WriteLine( "Invalid Credentials" );
 			}
-
-			return LoggedIn;
 		}
 
 		public void Connect()
@@ -91,8 +93,24 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		private UserDAO users = new UserDAO();
+		public User GetUser( string email, string password )
+		{
+			return users.Read( email, password );
+		}
+
+		public NetConnectionStatus GetConnectionState()
+		{
+			return NetConnectionStatus.None;
+		}
+
+		public bool IsHost()
+		{
+			return true;
+		}
+
+		public UserDAO users = new UserDAO();
 		private NetServer netServer;
+		private bool isLoggedIn;
 		private bool isDisposed;
 	}
 }

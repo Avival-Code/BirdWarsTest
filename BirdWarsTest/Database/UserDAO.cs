@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BirdWarsTest.Database
 {
-	class UserDAO : IUserDAO
+	public class UserDAO : IUserDAO
 	{
 		public bool Create( User user )
 		{

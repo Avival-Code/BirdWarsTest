@@ -1,6 +1,5 @@
 ﻿using BirdWarsTest.Network;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.States
 {
@@ -12,15 +11,15 @@ namespace BirdWarsTest.States
 			currentState = StateTypes.LoginState;
 			networkManager = networkManagerIn;
 			gameStates = new GameState[ maxStates ];
-			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, loginWidth, loginHeight );
-			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, registerWidth, registerHeight );
-			gameStates[ 2 ] = new PasswordRecoveryState( content, gameWindow, ref graphics, passwordWidth, passwordHeight );
-			gameStates[ 3 ] = new OpeningAnimationState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 4 ] = new MainMenuState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 5 ] = new WaitingRoomState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 6 ] = new PlayState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 7 ] = new OptionsState( content, ref graphics, stateWidth, stateHeight );
-			gameStates[ 8 ] = new StatisticsState( content, ref graphics, stateWidth, stateHeight );
+			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, ref networkManager, loginWidth, loginHeight );
+			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
+			gameStates[ 2 ] = new PasswordRecoveryState( content, gameWindow, ref graphics, ref networkManagerIn, passwordWidth, passwordHeight );
+			gameStates[ 3 ] = new OpeningAnimationState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 4 ] = new MainMenuState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 5 ] = new WaitingRoomState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 6 ] = new PlayState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 7 ] = new OptionsState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 8 ] = new StatisticsState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
 		}
 
 		public void InitializeStates()

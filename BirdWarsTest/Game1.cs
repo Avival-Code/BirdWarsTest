@@ -42,7 +42,7 @@ namespace BirdWarsTest
 				 Keyboard.GetState().IsKeyDown( Keys.Escape ) )
 				Exit();
 
-			stateHandler.GetCurrentState().UpdateLogic( Keyboard.GetState() );
+			stateHandler.GetCurrentState().UpdateLogic( stateHandler, Keyboard.GetState() );
 
 			base.Update( gameTime );
 		}
@@ -58,38 +58,6 @@ namespace BirdWarsTest
 			_spriteBatch.End();
 
 			base.Draw( gameTime );
-		}
-
-		public void ProcessNetworkMessages( INetworkManager networkManager )
-		{
-			NetIncomingMessage incomingMessage;
-			while ( ( incomingMessage = networkManager.ReadMessage() ) != null )
-			{
-				switch ( incomingMessage.MessageType )
-				{
-					case NetIncomingMessageType.VerboseDebugMessage:
-					case NetIncomingMessageType.DebugMessage:
-					case NetIncomingMessageType.WarningMessage:
-					case NetIncomingMessageType.ErrorMessage:
-						Console.WriteLine( incomingMessage.ReadString() );
-						break;
-					case NetIncomingMessageType.StatusChanged:
-						switch ( ( NetConnectionStatus )incomingMessage.ReadByte() )
-						{
-							case NetConnectionStatus.Connected:
-								Console.WriteLine( "{0} Connected", incomingMessage.SenderEndPoint );
-								break;
-							case NetConnectionStatus.Disconnected:
-								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
-								break;
-							case NetConnectionStatus.RespondedAwaitingApproval:
-								incomingMessage.SenderConnection.Approve();
-								break;
-						}
-						break;
-				}
-				networkManager.Recycle( incomingMessage );
-			}
 		}
 
 		private GraphicsDeviceManager _graphics;

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
+using BirdWarsTest.Network;
 using System.Collections.Generic;
 
 namespace BirdWarsTest.States
@@ -11,10 +12,10 @@ namespace BirdWarsTest.States
 	class UserRegistryState : GameState
 	{
 		public UserRegistryState( Microsoft.Xna.Framework.Content.ContentManager newContent,
-								  GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics, 
-								  int width_in, int height_in )
+								  GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics,
+								  ref INetworkManager networkManagerIn, int width_in, int height_in )
 			:
-			base( newContent, ref newGraphics, width_in,height_in )
+			base( newContent, ref newGraphics, ref networkManagerIn, width_in,height_in )
 		{
 			gameWindow = gameWindowIn;
 			gameObjects = new List< GameObject >();
@@ -76,7 +77,7 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) {}
 
-		public override void UpdateLogic( KeyboardState state ) 
+		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			foreach( var objects in gameObjects )
 				objects.Update( state );

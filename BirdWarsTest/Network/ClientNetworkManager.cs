@@ -1,4 +1,5 @@
-﻿using BirdWarsTest.Network.Messages;
+﻿using BirdWarsTest.Database;
+using BirdWarsTest.Network.Messages;
 using Lidgren.Network;
 using System;
 using System.Net;
@@ -7,12 +8,7 @@ namespace BirdWarsTest.Network
 {
 	public class ClientNetworkManager : INetworkManager
 	{
-		public bool Login( string username, string password )
-		{
-			bool loggedIn = false;
-			return loggedIn;
-		}
-		public void Connect( string username, string password )
+		public ClientNetworkManager()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
@@ -26,11 +22,26 @@ namespace BirdWarsTest.Network
 			config.EnableMessageType( NetIncomingMessageType.Error );
 			config.EnableMessageType( NetIncomingMessageType.DebugMessage );
 			config.EnableMessageType( NetIncomingMessageType.ConnectionApproval );
+			config.EnableMessageType( NetIncomingMessageType.StatusChanged );
 
 			netClient = new NetClient( config );
-			netClient.Start();
+		}
 
-			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ) );
+		public void Login( string email, string password )
+		{
+			Connect( email, password );
+		}
+
+		public void Connect() {}
+
+		public void Connect( string email, string password )
+		{
+			netClient.Start();
+			NetOutgoingMessage approval = CreateMessage();
+			approval.Write( email );
+			approval.Write( password );
+
+			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ), approval );
 		}
 
 		public NetOutgoingMessage CreateMessage()
@@ -79,9 +90,16 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		public void Connect()
+		public User GetUser(string email, string password) { return null; }
+
+		public NetConnectionStatus GetConnectionState()
 		{
-			throw new NotImplementedException();
+			return netClient.ConnectionStatus;
+		}
+
+		public bool IsHost()
+		{
+			return false;
 		}
 
 		private NetClient netClient;
