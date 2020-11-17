@@ -27,7 +27,6 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state )
 		{
 			HandleInput( state );
-			Console.WriteLine( networkManager.GetConnectionState() );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) {}

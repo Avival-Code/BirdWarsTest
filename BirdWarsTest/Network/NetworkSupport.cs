@@ -30,16 +30,23 @@ namespace BirdWarsTest.Network
 							case NetConnectionStatus.Connected:
 								if( !networkManager.IsHost() )
 								{
-									if( incomingMessage.SenderConnection.RemoteHailMessage != null )
-									Console.WriteLine( "The remote hail message is not null" );
+									var message = incomingMessage.SenderConnection.RemoteHailMessage;
+									if( message != null )
+									{
+										Console.WriteLine( message.ReadString() );
+										handler.ChangeState( StateTypes.MainMenuState );
+									}
 								}
-								Console.WriteLine("{0} Connected", incomingMessage.SenderEndPoint);
+								else 
+								{
+									Console.WriteLine( "{0} Connected", incomingMessage.SenderEndPoint );
+								}
 								break;
 							case NetConnectionStatus.Disconnected:
+								Console.WriteLine( incomingMessage.ReadString() );
 								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
 								break;
 							case NetConnectionStatus.RespondedAwaitingApproval:
-								incomingMessage.SenderConnection.Approve();
 								break;
 						}
 						break;
@@ -52,18 +59,18 @@ namespace BirdWarsTest.Network
 		{
 			if( networkManager.IsHost() )
 			{
-				User tempUser = networkManager.GetUser( incomingMessage.ReadString(),
-												        incomingMessage.ReadString() );
+				User tempUser = networkManager.GetUser( incomingMessage.ReadString(), 
+														incomingMessage.ReadString() );
 				if( tempUser != null )
 				{
 					NetOutgoingMessage outgoingMessage = networkManager.CreateMessage();
-					outgoingMessage.Write( "Testing" );
+					outgoingMessage.Write( "Login credentials approved!" );
 
 					incomingMessage.SenderConnection.Approve( outgoingMessage );
 				}
 				else
 				{
-					incomingMessage.SenderConnection.Deny("Invalid Credencials");
+					incomingMessage.SenderConnection.Deny( "Invalid Credentials" );
 				}
 			}
 		}
