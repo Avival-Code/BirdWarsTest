@@ -24,7 +24,7 @@ namespace BirdWarsTest.States
 
 		public void InitializeStates()
 		{
-			gameStates[ 0 ].Enter( this );
+			gameStates[ ( int )currentState ].Enter( this );
 		}
 
 		public void ChangeState( StateTypes state )

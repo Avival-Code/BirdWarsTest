@@ -12,6 +12,9 @@
 		PasswordArea,
 		Button1,
 		Button2,
+		Decoration,
+		MenuOption,
+		Selector,
 		Player
 	}
 }

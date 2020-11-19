@@ -28,9 +28,9 @@ namespace BirdWarsTest.States
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null,
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button1", "Register" ),
 											 null, Identifiers.Button1, new Vector2( 144.0f, 425.0f ) ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent(content, "Cancel"),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent(content, "Button1", "Cancel"),
 											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
 										  Identifiers.Button1, new Vector2( 259.0f, 425.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Name" ), null,

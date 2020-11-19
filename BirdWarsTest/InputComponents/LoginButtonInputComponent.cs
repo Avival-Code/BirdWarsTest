@@ -1,5 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using BirdWarsTest.InputComponents.EventArguments;
+using BirdWarsTest.Network;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System;
@@ -25,6 +26,13 @@ namespace BirdWarsTest.InputComponents
 			handler.networkManager.Login( loginEvents.email, loginEvents.password );
 			loginEvents.email = "";
 			loginEvents.password = "";
+			if( handler.networkManager.IsHost() )
+			{
+				if( ( ( ServerNetworkManager )handler.networkManager ).isLoggedIn )
+				{
+					handler.ChangeState( StateTypes.MainMenuState );
+				}
+			}
 		}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState )

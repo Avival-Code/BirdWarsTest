@@ -37,7 +37,7 @@ namespace BirdWarsTest.States
 											 new TextAreaInputComponent( gameWindow ),
 										     Identifiers.TextArea, stateWidth,
 										     gameObjects[ 3 ].position.Y + 20 ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Send Code" ),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button1", "Send Code" ),
 											 null, Identifiers.Button1, stateWidth, 
 										     gameObjects[ 4 ].position.Y + 40.0f ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Code" ),
@@ -54,11 +54,11 @@ namespace BirdWarsTest.States
 											 new TextAreaInputComponent( gameWindow ),
 											 Identifiers.TextArea, stateWidth,
 											 gameObjects[ 8 ].position.Y + 20 ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Reset" ),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button1", "Reset" ),
 											 null, Identifiers.Button1, 
 											 new Vector2( gameObjects[ 9 ].position.X,
 														  gameObjects[ 9 ].position.Y + 50.0f ) ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Cancel" ),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button1", "Cancel" ),
 											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
 										     Identifiers.Button1, 
 											 new Vector2( gameObjects[ 10 ].position.X + 130.0f,

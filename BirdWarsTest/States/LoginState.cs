@@ -33,16 +33,16 @@ namespace BirdWarsTest.States
 								   Identifiers.LoginLogo, stateWidth, 15 ) );
 			gameObjects.Add( new GameObject( new LoginBoxGraphicsComponent( content ), null, 
 								    Identifiers.LoginBox1, stateWidth, 195 ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Login" ), 
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button", "Login" ), 
 											 new LoginButtonInputComponent( handler ), Identifiers.Button1, new Vector2( 
 										  ( gameObjects[ 2 ].position.X + 40 ), 
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
-			gameObjects.Add( new GameObject( new Button1GraphicsComponent( content, "Register" ), 
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button", "Register" ), 
 											 new ChangeStateInputComponent( handler, StateTypes.UserRegistryState ),
 										  Identifiers.Button1, new Vector2(
 										  ( gameObjects[ 2 ].position.X + 160 ),
 										  ( gameObjects[ 2 ].position.Y + 155 ) ) ) );
-			gameObjects.Add( new GameObject( new Button2GraphicsComponent( content, "Lost Password?" ),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Lost Password?" ),
 										     new ChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
 										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
@@ -81,7 +81,7 @@ namespace BirdWarsTest.States
 				objects.Render( ref sprites );
 		}
 
-		public List<GameObject> gameObjects;
+		public List< GameObject > gameObjects;
 		private GameWindow gameWindow;
 		private NetworkSupport support;
 	}

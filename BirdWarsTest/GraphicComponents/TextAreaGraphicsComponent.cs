@@ -13,7 +13,7 @@ namespace BirdWarsTest.GraphicComponents
 			:
 			base( content.Load< Texture2D >( "TextArea1" ) )
 		{
-			font = content.Load< SpriteFont >( "Fonts/MainFont" );
+			font = content.Load< SpriteFont >( "Fonts/MainFont_S10" );
 			textColor = Color.Black;
 		}
 

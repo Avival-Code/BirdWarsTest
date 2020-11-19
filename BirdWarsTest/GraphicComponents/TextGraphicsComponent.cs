@@ -11,7 +11,7 @@ namespace BirdWarsTest.GraphicComponents
 			:
 			base( content.Load< Texture2D >( "button1" ) )
 		{
-			font = content.Load< SpriteFont >( "Fonts/MainFont" );
+			font = content.Load< SpriteFont >( "Fonts/MainFont_S10" );
 			text = textIn;
 		}
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )

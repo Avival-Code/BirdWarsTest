@@ -110,7 +110,7 @@ namespace BirdWarsTest.Network
 
 		public UserDAO users = new UserDAO();
 		private NetServer netServer;
-		private bool isLoggedIn;
+		public bool isLoggedIn;
 		private bool isDisposed;
 	}
 }
