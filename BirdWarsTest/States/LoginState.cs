@@ -46,13 +46,13 @@ namespace BirdWarsTest.States
 										     new ChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
 										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username" ), null, 
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username", "Fonts/MainFont_S10" ), null, 
 										   Identifiers.TextArea, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
-			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content ),
+			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 										  Identifiers.TextArea, stateWidth,
 										  ( gameObjects[ 6 ].position.Y + 20 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Password" ), null,
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Password", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextGraphics, stateWidth, gameObjects[ 2 ].position.Y + 90 ) );
 			gameObjects.Add( new GameObject( new PasswordAreaGraphicsComponent( content ),
 											 new TextAreaInputComponent( gameWindow ),  Identifiers.PasswordArea, 

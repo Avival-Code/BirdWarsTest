@@ -121,6 +121,18 @@
 /processorParam:TextureFormat=Color
 /build:Decorations/MainMenuBar800x110.png
 
+#begin Decorations/UsernameBorder200x50.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Decorations/UsernameBorder200x50.png
+
 #begin Fonts/MainFont_S10.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -189,4 +201,40 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:TextArea1.png
+
+#begin TextAreas/ChatBoard530x480.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TextAreas/ChatBoard530x480.png
+
+#begin TextAreas/ChatTextArea530x35.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TextAreas/ChatTextArea530x35.png
+
+#begin TextAreas/ChatTextArea530x75.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TextAreas/ChatTextArea530x75.png
 

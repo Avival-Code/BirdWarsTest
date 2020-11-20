@@ -39,13 +39,7 @@ namespace BirdWarsTest.States
 											 new Vector2( 0.0f, gameObjects[ 5 ].position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Logout" ), null, Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 6 ].position.Y + 60.0f ) ) );
-			List< GameObject > temp = new List< GameObject >();
-			temp.Add( gameObjects[ 3 ] );
-			temp.Add( gameObjects[ 4 ] );
-			temp.Add( gameObjects[ 5 ] );
-			temp.Add( gameObjects[ 6 ] );
-			temp.Add( gameObjects[ 7 ] );
-			gameObjects.Add( new GameObject( null, new SelectorInputComponent( temp ), Identifiers.Selector, 
+			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector, 
 										     new Vector2( 0.0f, 0.0f ) ) );
 		}
 
@@ -65,6 +59,19 @@ namespace BirdWarsTest.States
 		{
 			foreach (var objects in gameObjects)
 				objects.Render( ref sprites );
+		}
+
+		private List< GameObject > GetMenuOptions()
+		{
+			List< GameObject > menuOptions = new List< GameObject >();
+			foreach( var objects in gameObjects )
+			{
+				if( objects.identifier == Identifiers.MenuOption )
+				{
+					menuOptions.Add( objects );
+				}
+			}
+			return menuOptions;
 		}
 
 		private List< GameObject > gameObjects;

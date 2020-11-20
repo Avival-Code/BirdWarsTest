@@ -7,11 +7,11 @@ namespace BirdWarsTest.GraphicComponents
 	class TextGraphicsComponent : GraphicsComponent
 	{
 		public TextGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
-										string textIn )
+										string textIn, string fontName )
 			:
 			base( content.Load< Texture2D >( "button1" ) )
 		{
-			font = content.Load< SpriteFont >( "Fonts/MainFont_S10" );
+			font = content.Load< SpriteFont >( fontName );
 			text = textIn;
 		}
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )

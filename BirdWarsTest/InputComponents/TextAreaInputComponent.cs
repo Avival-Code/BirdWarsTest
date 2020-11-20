@@ -102,9 +102,9 @@ namespace BirdWarsTest.InputComponents
 		}
 
 		private GameWindow gameWindow;
+		public string text;
 		private bool hasFocus;
 		private bool timerIsOn;
-		public string text;
 		private int timer;
 	}
 }

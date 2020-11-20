@@ -9,15 +9,16 @@ namespace BirdWarsTest.GraphicComponents
 {
 	class TextAreaGraphicsComponent : GraphicsComponent
 	{
-		public TextAreaGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
+		public TextAreaGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
+										  string textureName )
 			:
-			base( content.Load< Texture2D >( "TextArea1" ) )
+			base( content.Load< Texture2D >( textureName ) )
 		{
 			font = content.Load< SpriteFont >( "Fonts/MainFont_S10" );
 			textColor = Color.Black;
 		}
 
-		public override void Render(GameObject gameObject, ref SpriteBatch batch)
+		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
 			batch.Draw( texture, gameObject.position, Color.White );
 			string text = gameObject.input.GetText();
