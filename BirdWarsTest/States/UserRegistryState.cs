@@ -28,11 +28,11 @@ namespace BirdWarsTest.States
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null,
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button1", "Register" ),
-											 null, Identifiers.Button1, new Vector2( 144.0f, 425.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent(content, "Button1", "Cancel"),
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Register" ),
+											 null, Identifiers.Button1, new Vector2( 70.0f, 425.0f ) ) );
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
 											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
-										  Identifiers.Button1, new Vector2( 259.0f, 425.0f ) ) );
+										  Identifiers.Button1, new Vector2( 220.0f, 425.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Name", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextArea, stateWidth, gameObjects[ 1 ].position.Y + 50 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
@@ -51,19 +51,19 @@ namespace BirdWarsTest.States
 											 new TextAreaInputComponent( gameWindow ),
 										  Identifiers.TextArea, stateWidth,
 										  ( gameObjects[ 8 ].position.Y + 20 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent(content, "Password", "Fonts/MainFont_S10" ), null,
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextArea, stateWidth, gameObjects[ 9 ].position.Y + 35 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 										  Identifiers.TextArea, stateWidth,
 										  ( gameObjects[ 10 ].position.Y + 20 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Confirm Password", "Fonts/MainFont_S10" ), null,
+			gameObjects.Add( new GameObject( new TextGraphicsComponent(content, "Password", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextArea, stateWidth, gameObjects[ 11 ].position.Y + 35 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 										  Identifiers.TextArea, stateWidth,
 										  ( gameObjects[ 12 ].position.Y + 20 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ), null,
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Confirm Password", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextArea, stateWidth, gameObjects[ 13 ].position.Y + 35 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),

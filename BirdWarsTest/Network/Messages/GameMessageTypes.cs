@@ -6,5 +6,6 @@ namespace BirdWarsTest.Network.Messages
 {
 	public enum GameMessageTypes
 	{
+		registerUserMessage
 	}
 }

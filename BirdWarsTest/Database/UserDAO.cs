@@ -15,14 +15,15 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string mySqlCommandText = "INSERT INTO Users( name, lastNames, email, password ) " +
-										  "VALUES ( @name, @lastNames, @email, @password );";
+				string mySqlCommandText = "INSERT INTO Users( name, lastNames, username, email, password ) " +
+										  "VALUES ( @name, @lastNames, @username, @email, @password );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
-				MySqlParameter[] parameters = new MySqlParameter[ 4 ];
+				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
 				parameters[ 0 ] = new MySqlParameter( "@name", user.names );
 				parameters[ 1 ] = new MySqlParameter( "@lastNames", user.lastName );
-				parameters[ 2 ] = new MySqlParameter( "@email", user.email );
-				parameters[ 3 ] = new MySqlParameter( "@password", user.password );
+				parameters[ 2 ] = new MySqlParameter( "@username", user.username );
+				parameters[ 3 ] = new MySqlParameter( "@email", user.email );
+				parameters[ 4 ] = new MySqlParameter( "@password", user.password );
 				foreach( var parameter in parameters )
 				{
 					command.Parameters.Add( parameter );
@@ -86,8 +87,8 @@ namespace BirdWarsTest.Database
 
 				if( reader.HasRows  && reader.Read() )
 				{
-					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
-									 reader.GetString( 3 ), reader.GetString( 4 ) );
+					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
+									 reader.GetString( 4 ), reader.GetString( 5 ) );
 				}
 				else
 				{
@@ -118,8 +119,8 @@ namespace BirdWarsTest.Database
 
 				while( reader.HasRows && reader.Read() )
 				{
-					users.Add( new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ),
-						                 reader.GetString( 3 ), reader.GetString( 4 ) ) );
+					users.Add( new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
+						                 reader.GetString( 4 ), reader.GetString( 5 ) ) );
 					reader.NextResult();
 				}
 				reader.Close();
@@ -133,7 +134,8 @@ namespace BirdWarsTest.Database
 			return users;
 		}
 
-		public bool Update( int userId, string names, string lastName, string email, string password )
+		public bool Update( int userId, string names, string lastName, string username, 
+							string email, string password )
 		{
 			bool wasUpdated = false;
 			Connection connection = new Connection();
@@ -141,15 +143,16 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string mySqlCommandText = "UPDATE Users SET name = @names, lastNames = @lastNames, email = " +
-										  "@email, password = @password WHERE userId = @userId";
+				string mySqlCommandText = "UPDATE Users SET name = @names, lastNames = @lastNames, username = @username, " +
+										  "email = @email, password = @password WHERE userId = @userId";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
-				MySqlParameter [] parameters = new MySqlParameter[ 5 ];
+				MySqlParameter [] parameters = new MySqlParameter[ 6 ];
 				parameters[ 0 ] = new MySqlParameter( "@names", names );
 				parameters[ 1 ] = new MySqlParameter( "@lastNames", lastName );
-				parameters[ 2 ] = new MySqlParameter( "@email", email );
-				parameters[ 3 ] = new MySqlParameter( "@password", password );
-				parameters[ 4 ] = new MySqlParameter( "@userId", userId );
+				parameters[ 2 ] = new MySqlParameter( "@username", username );
+				parameters[ 3 ] = new MySqlParameter( "@email", email );
+				parameters[ 4 ] = new MySqlParameter( "@password", password );
+				parameters[ 5 ] = new MySqlParameter( "@userId", userId );
 				foreach( var parameter in parameters )
 				{
 					command.Parameters.Add( parameter );
