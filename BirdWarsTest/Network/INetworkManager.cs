@@ -9,6 +9,9 @@ namespace BirdWarsTest.Network
 	{
 		void Login( string email, string password );
 
+		void RegisterUser( string nameIn, string lastNameIn, string usernameIn,
+						   string emailIn, string passwordIn );
+
 		bool IsHost();
 
 		void Connect();
@@ -23,8 +26,10 @@ namespace BirdWarsTest.Network
 
 		void ProcessMessages( StateHandler handler );
 
-		User GetUser( string email, string password );
-
 		NetConnectionStatus GetConnectionState();
+
+		void CreateRound();
+
+		void JoinRound();
 	}
 }

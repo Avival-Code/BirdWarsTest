@@ -29,7 +29,8 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null,
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Register" ),
-											 null, Identifiers.Button1, new Vector2( 70.0f, 425.0f ) ) );
+											 new RegisterButtonInputComponent( handler ), Identifiers.Button1, 
+											 new Vector2( 70.0f, 425.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
 											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
 										  Identifiers.Button1, new Vector2( 220.0f, 425.0f ) ) );
@@ -79,8 +80,10 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
+			networkManager.ProcessMessages( handler );
+
 			foreach( var objects in gameObjects )
-				objects.Update( state );
+				objects.Update( state, this );
 		}
 
 		public override void Render( ref SpriteBatch batch ) 
@@ -90,6 +93,6 @@ namespace BirdWarsTest.States
 		}
 
 		private GameWindow gameWindow;
-		private List< GameObject > gameObjects;
+		public List< GameObject > gameObjects;
 	}
 }

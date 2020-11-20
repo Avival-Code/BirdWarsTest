@@ -24,7 +24,7 @@ namespace BirdWarsTest.InputComponents
 			AdvanceTimer();
 		}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState ) 
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
 		{
 			HandleInput( gameObject, state );
 		}

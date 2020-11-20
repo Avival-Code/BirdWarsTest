@@ -6,6 +6,12 @@ namespace BirdWarsTest.Network.Messages
 {
 	public enum GameMessageTypes
 	{
-		registerUserMessage
+		LoginRequestMessage,
+		LoginResultMessage,
+		registerUserMessage,
+		RoundCreatedMessage,
+		JoinRoundRequestMessage,
+		JoinRoundRequestResultMessage,
+		RoundStateChangedMessage
 	}
 }

@@ -21,16 +21,24 @@ namespace BirdWarsTest.InputComponents
 
 			( ( MenuOptionGraphicsComponent )selections[ currentSelection ].graphics ).ToggleSelect();
 		}
-		public override void HandleInput( GameObject gameObject, KeyboardState state )
+		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
+
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			ChangeSelection( state );
+			InvokeSelectionInput( state, gameState );
 			UpdateTimer();
 		}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState )
-		{}
+		private void InvokeSelectionInput( KeyboardState state, GameState gameState )
+		{
+			if( state.IsKeyDown( Keys.Enter ) )
+			{
+				HandleEnterKeyInput( state, gameState );
+			}
+		}
 
-		public void ChangeSelection( KeyboardState state )
+		private void ChangeSelection( KeyboardState state )
 		{
 			if( state.IsKeyDown( Keys.Up ) )
 			{
@@ -61,6 +69,15 @@ namespace BirdWarsTest.InputComponents
 				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].graphics ).ToggleSelect();
 				currentSelection += 1;
 				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].graphics ).ToggleSelect();
+			}
+		}
+
+		private void HandleEnterKeyInput( KeyboardState state, GameState gameState )
+		{
+			if( !changedSelection )
+			{
+				changedSelection = !changedSelection;
+				selections[ currentSelection ].Update( state, gameState );
 			}
 		}
 

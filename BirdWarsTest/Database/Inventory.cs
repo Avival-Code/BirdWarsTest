@@ -3,7 +3,7 @@ using BirdWarsTest.GameObjects;
 
 namespace BirdWarsTest.Database
 {
-	class Inventory
+	public class Inventory
 	{
 		public Inventory( int inventoryId_In, int userId_In, int totalItems_In,
 					      List< int > itemCodes_In )

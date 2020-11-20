@@ -13,7 +13,6 @@ namespace BirdWarsTest.InputComponents
 		public LoginButtonInputComponent( StateHandler handlerIn )
 		{
 			loginEvents = new LoginEventArgs();
-			changeState = StateTypes.MainMenuState;
 			handler = handlerIn;
 			isHovering = false;
 			click += Login;
@@ -28,14 +27,14 @@ namespace BirdWarsTest.InputComponents
 			loginEvents.password = "";
 			if( handler.networkManager.IsHost() )
 			{
-				if( ( ( ServerNetworkManager )handler.networkManager ).isLoggedIn )
+				if( ( ( ServerNetworkManager )handler.networkManager ).userSession.isLoggedIn )
 				{
 					handler.ChangeState( StateTypes.MainMenuState );
 				}
 			}
 		}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState )
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			previousMouseState = currentMouseState;
 			currentMouseState = Mouse.GetState();
@@ -49,8 +48,8 @@ namespace BirdWarsTest.InputComponents
 				if (currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed)
 				{
-					loginEvents.email = loginState.gameObjects[ 7 ].input.GetText();
-					loginEvents.password = loginState.gameObjects[ 9 ].input.GetText();
+					loginEvents.email = ( ( LoginState ) gameState ).gameObjects[ 7 ].input.GetText();
+					loginEvents.password = ( ( LoginState ) gameState ).gameObjects[ 9 ].input.GetText();
 					click?.Invoke( this, loginEvents );
 				}
 			}
@@ -61,7 +60,6 @@ namespace BirdWarsTest.InputComponents
 		private MouseState previousMouseState;
 		public event EventHandler< LoginEventArgs > click;
 		private LoginEventArgs loginEvents;
-		private StateTypes changeState;
 		public bool clicked;
 		private bool isHovering;
 	}

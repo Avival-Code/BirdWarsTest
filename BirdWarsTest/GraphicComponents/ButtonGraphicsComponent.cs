@@ -32,9 +32,15 @@ namespace BirdWarsTest.GraphicComponents
 			buttonColor = newColor;
 		}
 
+		public string Text
+		{
+			get{ return text; }
+			set{ text = value; }
+		}
+
 		private SpriteFont font;
+		private string text;
 		public Color buttonColor;
 		public Color textColor;
-		public string text;
 	}
 }

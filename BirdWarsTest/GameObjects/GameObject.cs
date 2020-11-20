@@ -35,9 +35,9 @@ namespace BirdWarsTest.GameObjects
 			input?.HandleInput( this, state );
 		}
 
-		public void Update( KeyboardState state, LoginState loginState )
+		public void Update( KeyboardState state, GameState gameState )
 		{
-			input?.HandleInput( this, state, loginState );
+			input?.HandleInput( this, state, gameState );
 		}
 
 		public void Render( ref SpriteBatch batch )

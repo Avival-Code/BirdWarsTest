@@ -11,6 +11,17 @@ namespace BirdWarsTest.Network
 	{
 		public ClientNetworkManager()
 		{
+			userSession = new LoginSession();
+			Connect();
+		}
+
+		public void Login( string email, string password )
+		{
+			SendMessage( new LoginRequestMessage( email, password ) );
+		}
+
+		public void Connect()
+		{
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
 				//SimulatedMinimumLatency = 0.2f;
@@ -25,25 +36,13 @@ namespace BirdWarsTest.Network
 			config.EnableMessageType( NetIncomingMessageType.ConnectionApproval );
 			config.EnableMessageType( NetIncomingMessageType.StatusChanged );
 
-			netClient = new NetClient( config );
-		}
-
-		public void Login( string email, string password )
-		{
-			Connect( email, password );
-		}
-
-		public void Connect() {}
-
-		public void Connect( string email, string password )
-		{
+			netClient = new NetClient(config);
 			netClient.Start();
-			NetOutgoingMessage approval = CreateMessage();
-			approval.Write( email );
-			approval.Write( password );
 
-			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ), approval );
+			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ) );
 		}
+
+		public void Connect( string email, string password ) { }
 
 		public NetOutgoingMessage CreateMessage()
 		{
@@ -91,7 +90,7 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		public User GetUser(string email, string password) { return null; }
+		public User GetUser( string email, string password ) { return null; }
 
 		public NetConnectionStatus GetConnectionState()
 		{
@@ -106,13 +105,10 @@ namespace BirdWarsTest.Network
 		public void ProcessMessages( StateHandler handler )
 		{
 			NetIncomingMessage incomingMessage;
-			while ( ( incomingMessage = ReadMessage() ) != null)
+			while( ( incomingMessage = ReadMessage() ) != null )
 			{
-				switch (incomingMessage.MessageType)
+				switch( incomingMessage.MessageType )
 				{
-					case NetIncomingMessageType.ConnectionApproval:
-						break;
-
 					case NetIncomingMessageType.VerboseDebugMessage:
 					case NetIncomingMessageType.DebugMessage:
 					case NetIncomingMessageType.WarningMessage:
@@ -131,10 +127,25 @@ namespace BirdWarsTest.Network
 								}
 								break;
 							case NetConnectionStatus.Disconnected:
-								Console.WriteLine(incomingMessage.ReadString());
+								Console.WriteLine( incomingMessage.ReadString() );
 								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
 								break;
 							case NetConnectionStatus.RespondedAwaitingApproval:
+								break;
+						}
+						break;
+					case NetIncomingMessageType.Data:
+						var gameMessageType = ( GameMessageTypes )incomingMessage.ReadByte();
+						switch( gameMessageType )
+						{
+							case GameMessageTypes.LoginResultMessage:
+								HandleLoginMessage( incomingMessage, handler );
+								break;
+							case GameMessageTypes.JoinRoundRequestResultMessage:
+								HandleJoinRoundRequestResultMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.RoundStateChangedMessage:
+								HandleRoundStateChangedMessage( handler, incomingMessage );
 								break;
 						}
 						break;
@@ -143,7 +154,44 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
+		{
+			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
+		}
+
+		private void HandleLoginMessage( NetIncomingMessage incomingMessage, StateHandler handler )
+		{
+			var loginResult = incomingMessage.ReadBoolean();
+			if( loginResult )
+			{
+				handler.ChangeState( StateTypes.MainMenuState );
+			}
+			Console.WriteLine( incomingMessage.ReadString() );
+		}
+
+		private void HandleJoinRoundRequestResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			if( incomingMessage.ReadBoolean() )
+			{
+				handler.ChangeState( StateTypes.WaitingRoomState );
+				( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundStateChangeMessage( incomingMessage );
+			}
+		}
+
+		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundStateChangeMessage( incomingMessage );
+		}
+
+		public void CreateRound() {}
+
+		public void JoinRound()
+		{
+			SendMessage( new JoinRoundRequestMessage( userSession.currentUser.username ) );
+		}
+
 		private NetClient netClient;
+		private LoginSession userSession;
 		private bool isDisposed;
 	}
 }

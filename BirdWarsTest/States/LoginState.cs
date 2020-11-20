@@ -20,7 +20,6 @@ namespace BirdWarsTest.States
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
 			gameObjects = new List< GameObject >();
-			support = new NetworkSupport();
 			gameWindow = gameWindowIn;
 		}
 
@@ -46,7 +45,7 @@ namespace BirdWarsTest.States
 										     new ChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
 										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].position.Y + 190 ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Username", "Fonts/MainFont_S10" ), null, 
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ), null, 
 										   Identifiers.TextArea, stateWidth, gameObjects[ 2 ].position.Y + 30 ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
@@ -83,6 +82,5 @@ namespace BirdWarsTest.States
 
 		public List< GameObject > gameObjects;
 		private GameWindow gameWindow;
-		private NetworkSupport support;
 	}
 }

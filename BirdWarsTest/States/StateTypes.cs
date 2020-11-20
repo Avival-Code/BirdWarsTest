@@ -1,6 +1,6 @@
 ﻿namespace BirdWarsTest.States
 {
-	enum StateTypes
+	public enum StateTypes
 	{
 		LoginState,
 		UserRegistryState,

@@ -8,7 +8,7 @@ namespace BirdWarsTest.InputComponents
 	{
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
 
-		abstract public void HandleInput( GameObject gameObject, KeyboardState state, LoginState loginState );
+		abstract public void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState );
 
 		public virtual string GetText()
 		{

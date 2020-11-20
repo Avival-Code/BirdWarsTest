@@ -5,7 +5,7 @@ using BirdWarsTest.Network;
 
 namespace BirdWarsTest.States
 {
-	abstract class GameState
+	public abstract class GameState
 	{
 		protected GameState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 						     ref GraphicsDeviceManager newGraphics, ref INetworkManager networkManagerIn,
