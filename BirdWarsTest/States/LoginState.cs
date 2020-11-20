@@ -69,7 +69,7 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
-			support.ProcessMessages( networkManager, handler );
+			networkManager.ProcessMessages( handler );
 
 			foreach( var objects in gameObjects  )
 				objects.Update( state, this );

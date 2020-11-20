@@ -1,5 +1,6 @@
 ﻿using BirdWarsTest.Database;
 using BirdWarsTest.Network.Messages;
+using BirdWarsTest.States;
 using Lidgren.Network;
 using System;
 using System.Net;
@@ -100,6 +101,46 @@ namespace BirdWarsTest.Network
 		public bool IsHost()
 		{
 			return false;
+		}
+
+		public void ProcessMessages( StateHandler handler )
+		{
+			NetIncomingMessage incomingMessage;
+			while ( ( incomingMessage = ReadMessage() ) != null)
+			{
+				switch (incomingMessage.MessageType)
+				{
+					case NetIncomingMessageType.ConnectionApproval:
+						break;
+
+					case NetIncomingMessageType.VerboseDebugMessage:
+					case NetIncomingMessageType.DebugMessage:
+					case NetIncomingMessageType.WarningMessage:
+					case NetIncomingMessageType.ErrorMessage:
+						Console.WriteLine( incomingMessage.ReadString() );
+						break;
+					case NetIncomingMessageType.StatusChanged:
+						switch ( ( NetConnectionStatus )incomingMessage.ReadByte() )
+						{
+							case NetConnectionStatus.Connected:
+								var message = incomingMessage.SenderConnection.RemoteHailMessage;
+								if( message != null )
+								{
+									Console.WriteLine( message.ReadString() );
+									handler.ChangeState( StateTypes.MainMenuState );
+								}
+								break;
+							case NetConnectionStatus.Disconnected:
+								Console.WriteLine(incomingMessage.ReadString());
+								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
+								break;
+							case NetConnectionStatus.RespondedAwaitingApproval:
+								break;
+						}
+						break;
+				}
+				Recycle( incomingMessage );
+			}
 		}
 
 		private NetClient netClient;

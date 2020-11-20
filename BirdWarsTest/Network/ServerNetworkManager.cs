@@ -1,5 +1,6 @@
 ﻿using BirdWarsTest.Database;
 using BirdWarsTest.Network.Messages;
+using BirdWarsTest.States;
 using Lidgren.Network;
 using System;
 
@@ -106,6 +107,57 @@ namespace BirdWarsTest.Network
 		public bool IsHost()
 		{
 			return true;
+		}
+
+		public void ProcessMessages( StateHandler handler )
+		{
+			NetIncomingMessage incomingMessage;
+			while ( ( incomingMessage = ReadMessage() ) != null )
+			{
+				switch( incomingMessage.MessageType )
+				{
+					case NetIncomingMessageType.ConnectionApproval:
+						CheckLogin( incomingMessage );
+						break;
+
+					case NetIncomingMessageType.VerboseDebugMessage:
+					case NetIncomingMessageType.DebugMessage:
+					case NetIncomingMessageType.WarningMessage:
+					case NetIncomingMessageType.ErrorMessage:
+						Console.WriteLine( incomingMessage.ReadString() );
+						break;
+					case NetIncomingMessageType.StatusChanged:
+						switch ( ( NetConnectionStatus )incomingMessage.ReadByte() )
+						{
+							case NetConnectionStatus.Connected:
+								Console.WriteLine("{0} Connected", incomingMessage.SenderEndPoint);
+								break;
+							case NetConnectionStatus.Disconnected:
+								Console.WriteLine( "{0} Disconnected", incomingMessage.SenderEndPoint );
+								break;
+							case NetConnectionStatus.RespondedAwaitingApproval:
+								break;
+						}
+						break;
+				}
+				Recycle( incomingMessage );
+			}
+		}
+
+		private void CheckLogin( NetIncomingMessage incomingMessage )
+		{
+			if( users.Read( incomingMessage.ReadString(), 
+							incomingMessage.ReadString() ) != null )
+			{
+				NetOutgoingMessage outgoingMessage = CreateMessage();
+				outgoingMessage.Write( "Login credentials approved!" );
+
+				incomingMessage.SenderConnection.Approve( outgoingMessage );
+			}
+			else
+			{
+				incomingMessage.SenderConnection.Deny( "Invalid Credentials" );
+			}
 		}
 
 		public UserDAO users = new UserDAO();

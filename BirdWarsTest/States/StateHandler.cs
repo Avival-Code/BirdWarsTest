@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 
 namespace BirdWarsTest.States
 {
-	class StateHandler
+	public class StateHandler
 	{
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
 							 GameWindow gameWindow, ref GraphicsDeviceManager graphics, INetworkManager networkManagerIn )

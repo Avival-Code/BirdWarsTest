@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using BirdWarsTest.Database;
+using BirdWarsTest.States;
 using System;
 
 namespace BirdWarsTest.Network
@@ -19,6 +20,8 @@ namespace BirdWarsTest.Network
 		void Recycle( NetIncomingMessage im );
 
 		NetOutgoingMessage CreateMessage();
+
+		void ProcessMessages( StateHandler handler );
 
 		User GetUser( string email, string password );
 
