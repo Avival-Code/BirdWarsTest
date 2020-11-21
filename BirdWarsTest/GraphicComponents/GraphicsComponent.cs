@@ -4,7 +4,7 @@ using BirdWarsTest.GameObjects;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	abstract class GraphicsComponent
+	public abstract class GraphicsComponent
 	{
 		public GraphicsComponent( Texture2D texture_In )
 		{

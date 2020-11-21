@@ -32,37 +32,37 @@ namespace BirdWarsTest.States
 							                 null, Identifiers.TextGraphics, stateWidth, 50.0f ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth, 
-											 gameObjects[ 2 ].position.Y + 50.0f ) );
+											 gameObjects[ 2 ].Position.Y + 50.0f ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 										     Identifiers.TextArea, stateWidth,
-										     gameObjects[ 3 ].position.Y + 20 ) );
+										     gameObjects[ 3 ].Position.Y + 20 ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Send Code" ),
 											 null, Identifiers.Button1, stateWidth, 
-										     gameObjects[ 4 ].position.Y + 40.0f ) );
+										     gameObjects[ 4 ].Position.Y + 40.0f ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Code", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth,
-											 gameObjects[ 5 ].position.Y + 60.0f ) );
+											 gameObjects[ 5 ].Position.Y + 60.0f ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 											 Identifiers.TextArea, stateWidth,
-											 gameObjects[ 6 ].position.Y + 20 ) );
+											 gameObjects[ 6 ].Position.Y + 20 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "New Password", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth,
-											 gameObjects[ 7 ].position.Y + 35.0f ) );
+											 gameObjects[ 7 ].Position.Y + 35.0f ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 											 Identifiers.TextArea, stateWidth,
-											 gameObjects[ 8 ].position.Y + 20 ) );
+											 gameObjects[ 8 ].Position.Y + 20 ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Reset" ),
 											 null, Identifiers.Button1, 
-											 new Vector2( gameObjects[ 9 ].position.X - 30,
-														  gameObjects[ 9 ].position.Y + 50.0f ) ) );
+											 new Vector2( gameObjects[ 9 ].Position.X - 30,
+														  gameObjects[ 9 ].Position.Y + 50.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
 											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
 										     Identifiers.Button1, 
-											 new Vector2( gameObjects[ 10 ].position.X + 160.0f,
-												          gameObjects[ 9 ].position.Y + 50.0f ) ) );
+											 new Vector2( gameObjects[ 10 ].Position.X + 160.0f,
+												          gameObjects[ 9 ].Position.Y + 50.0f ) ) );
 		}
 
 		public override void Pause() {}

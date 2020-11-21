@@ -7,7 +7,7 @@ using BirdWarsTest.States;
 
 namespace BirdWarsTest.GameObjects
 {
-	class GameObject
+	public class GameObject
 	{
 		public GameObject( GraphicsComponent graphics_In, InputComponent input_In,
 						   Identifiers id_In, Vector2 position_in )
@@ -56,9 +56,15 @@ namespace BirdWarsTest.GameObjects
 								( int )graphics.GetTextureSize().X, ( int )graphics.GetTextureSize().Y );
 		}
 
+		public Vector2 Position 
+		{ 
+			get{ return position; } 
+			set { position = value; }
+		}
+
 		public GraphicsComponent graphics = null;
 		public InputComponent input = null;
 		public Identifiers identifier;
-		public Vector2 position;
+		private Vector2 position;
 	}
 }

@@ -34,12 +34,12 @@ namespace BirdWarsTest.GraphicComponents
 
 		private void RenderSelected( GameObject gameObject, SpriteBatch batch )
 		{
-			batch.Draw( texture, gameObject.position, Color.White );
+			batch.Draw( texture, gameObject.Position, Color.White );
 			if( !string.IsNullOrEmpty( text ) )
 			{
-				Vector2 temp = new Vector2( ( gameObject.position.X + ( texture.Width - 20.0f ) ) - 
+				Vector2 temp = new Vector2( ( gameObject.Position.X + ( texture.Width - 20.0f ) ) - 
 											( increasedFont.MeasureString( text ).X ),
-											( gameObject.position.Y + ( texture.Height / 2 ) ) - 
+											( gameObject.Position.Y + ( texture.Height / 2 ) ) - 
 											( increasedFont.MeasureString( text ).Y / 2 ) );
 				batch.DrawString( increasedFont, text, temp, textColor );
 			}
@@ -47,7 +47,7 @@ namespace BirdWarsTest.GraphicComponents
 
 		private void RenderNotSelected( GameObject gameObject, SpriteBatch batch )
 		{
-			Vector2 newGameObjectPosition = new Vector2( gameObject.position.X - 50.0f, gameObject.position.Y );
+			Vector2 newGameObjectPosition = new Vector2( gameObject.Position.X - 50.0f, gameObject.Position.Y );
 			batch.Draw( texture, newGameObjectPosition, Color.White );
 			if( !string.IsNullOrEmpty( text ) )
 			{

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
 {
-	abstract class InputComponent
+	public abstract class InputComponent
 	{
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
 

@@ -16,7 +16,7 @@ namespace BirdWarsTest.GraphicComponents
 		}
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
-			batch.DrawString( font, text, gameObject.position, Color.Black );
+			batch.DrawString( font, text, gameObject.Position, Color.Black );
 		}
 
 		public override Vector2 GetTextureSize()

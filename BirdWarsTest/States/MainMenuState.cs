@@ -31,16 +31,16 @@ namespace BirdWarsTest.States
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 20.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Find Game" ), 
 										     new FindGameInputComponent(), Identifiers.MenuOption,
-											 new Vector2( 0.0f, gameObjects[ 2 ].position.Y + 270.0f ) ) );
+											 new Vector2( 0.0f, gameObjects[ 2 ].Position.Y + 270.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Create Game" ), 
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,
-											 new Vector2( 0.0f, gameObjects[ 3 ].position.Y + 60.0f ) ) );
+											 new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Statistics" ), null, Identifiers.MenuOption,
-											 new Vector2( 0.0f, gameObjects[ 4 ].position.Y + 60.0f ) ) );
+											 new Vector2( 0.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Settings" ), null, Identifiers.MenuOption,
-											 new Vector2( 0.0f, gameObjects[ 5 ].position.Y + 60.0f ) ) );
+											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(content, "Logout"), null, Identifiers.MenuOption,
-											 new Vector2( 0.0f, gameObjects[ 6 ].position.Y + 60.0f ) ) );
+											 new Vector2( 0.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,
 											 new Vector2( 0.0f, 0.0f ) ) );
 		}

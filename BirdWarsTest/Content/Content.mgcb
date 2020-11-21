@@ -214,6 +214,18 @@
 /processorParam:TextureFormat=Color
 /build:TextAreas/ChatBoard530x480.png
 
+#begin TextAreas/ChatMessage500x68.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:TextAreas/ChatMessage500x68.png
+
 #begin TextAreas/ChatTextArea530x35.png
 /importer:TextureImporter
 /processor:TextureProcessor

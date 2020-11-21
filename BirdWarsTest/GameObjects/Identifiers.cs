@@ -1,6 +1,6 @@
 ﻿namespace BirdWarsTest.GameObjects
 {
-	enum Identifiers
+	public enum Identifiers
 	{
 		LoginLogo,
 		LoginBox1,
@@ -15,6 +15,7 @@
 		Decoration,
 		MenuOption,
 		Selector,
+		ChatMessage,
 		Player
 	}
 }

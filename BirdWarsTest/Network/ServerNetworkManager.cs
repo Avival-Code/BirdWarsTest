@@ -203,7 +203,7 @@ namespace BirdWarsTest.Network
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundStateChangeMessage( incomingMessage );
+			( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
 
 			RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( gameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
@@ -222,7 +222,7 @@ namespace BirdWarsTest.Network
 			if( incomingMessage.ReadBoolean() )
 			{
 				handler.ChangeState( StateTypes.WaitingRoomState );
-				( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundCreatedMessage( incomingMessage );
+				( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundCreatedMessage( incomingMessage );
 			}
 		}
 
@@ -248,6 +248,29 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			string username = incomingMessage.ReadString();
+			string message = incomingMessage.ReadString();
+			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
+					username, message, userSession.currentUser.username
+				);
+
+			ChatMessage newMessage = new ChatMessage( username, message );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )newMessage.messageType );
+			newMessage.Encode( outgoingMessage );
+
+			foreach( var connection in gameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, 
+										   NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
@@ -265,6 +288,11 @@ namespace BirdWarsTest.Network
 		}
 
 		public void JoinRound() {}
+
+		public void SendChatMessage( string message )
+		{
+			throw new NotImplementedException();
+		}
 
 		private GameDatabase gameDatabase;
 		private NetServer netServer;

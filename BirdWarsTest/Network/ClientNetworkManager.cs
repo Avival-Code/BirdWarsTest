@@ -147,6 +147,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.RoundStateChangedMessage:
 								HandleRoundStateChangedMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.ChatMessage:
+								HandleChatMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -177,20 +180,31 @@ namespace BirdWarsTest.Network
 			if( incomingMessage.ReadBoolean() )
 			{
 				handler.ChangeState( StateTypes.WaitingRoomState );
-				( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundStateChangeMessage( incomingMessage );
+				( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
 			}
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( WaitingRoomState )handler.GetCurrentState() ).usernameManager.HandleRoundStateChangeMessage( incomingMessage );
+			( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
+		}
+
+		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.
+				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), userSession.currentUser.username );
 		}
 
 		public void CreateRound() {}
-
+		
 		public void JoinRound()
 		{
 			SendMessage( new JoinRoundRequestMessage( userSession.currentUser.username ) );
+		}
+
+		public void SendChatMessage( string message )
+		{
+			SendMessage( new ChatMessage( userSession.currentUser.username, message ) );
 		}
 
 		private NetClient netClient;

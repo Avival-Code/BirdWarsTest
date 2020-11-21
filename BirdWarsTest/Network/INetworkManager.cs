@@ -31,5 +31,7 @@ namespace BirdWarsTest.Network
 		void CreateRound();
 
 		void JoinRound();
+
+		void SendChatMessage( string message );
 	}
 }
