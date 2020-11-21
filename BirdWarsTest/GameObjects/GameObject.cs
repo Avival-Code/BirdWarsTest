@@ -59,7 +59,7 @@ namespace BirdWarsTest.GameObjects
 		public Vector2 Position 
 		{ 
 			get{ return position; } 
-			set { position = value; }
+			set{ position = value; }
 		}
 
 		public GraphicsComponent graphics = null;

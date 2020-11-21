@@ -269,11 +269,7 @@ namespace BirdWarsTest.Network
 
 			foreach( var connection in gameRound.PlayerConnections )
 			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, 
-										   NetDeliveryMethod.ReliableUnordered );
-				}
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
 			}
 		}
 

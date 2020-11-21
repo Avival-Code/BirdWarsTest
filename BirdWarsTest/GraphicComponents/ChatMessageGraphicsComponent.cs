@@ -47,7 +47,7 @@ namespace BirdWarsTest.GraphicComponents
 										   gameObject.Position.Y + 10 );
 			batch.DrawString( normalFont, username, usernamePosition, textColor);
 
-			var messagePosition = new Vector2( gameObject.Position.X + texture.Width - 10 - normalFont.MeasureString(username).X,
+			var messagePosition = new Vector2( gameObject.Position.X + texture.Width - 10 - normalFont.MeasureString( message ).X,
 											   usernamePosition.Y + ( normalFont.MeasureString( message ).Y + 5 ) );
 			batch.DrawString( normalFont, message, messagePosition, textColor );
 		}
