@@ -177,10 +177,11 @@ namespace BirdWarsTest.Network
 
 		private void HandleLoginRequestMessages( NetIncomingMessage incomingMessage )
 		{
-			if( gameDatabase.users.Read( incomingMessage.ReadString(), 
-										 incomingMessage.ReadString() ) != null )
+			var user = gameDatabase.users.Read( incomingMessage.ReadString(),
+											    incomingMessage.ReadString() );
+			if( user != null )
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved" );
+				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved", user );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );
@@ -190,7 +191,7 @@ namespace BirdWarsTest.Network
 			}
 			else
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( false, "Login credentials invalid" );
+				LoginResultMessage loginResult = new LoginResultMessage( false, "Login credentials invalid", new User() );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );

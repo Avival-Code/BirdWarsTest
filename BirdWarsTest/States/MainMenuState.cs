@@ -29,7 +29,8 @@ namespace BirdWarsTest.States
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 60.0f ) ) );
 			gameObjects.Add( new GameObject( new DecorationGraphicsComponent(content, "Logos/BirdWarsLogo_440x246" ),
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 20.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Find Game" ), null, Identifiers.MenuOption,
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Find Game" ), 
+										     new FindGameInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 2 ].position.Y + 270.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Create Game" ), 
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,

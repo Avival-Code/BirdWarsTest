@@ -139,7 +139,7 @@ namespace BirdWarsTest.Network
 						switch( gameMessageType )
 						{
 							case GameMessageTypes.LoginResultMessage:
-								HandleLoginMessage( incomingMessage, handler );
+								HandleLoginResultMessage( incomingMessage, handler );
 								break;
 							case GameMessageTypes.JoinRoundRequestResultMessage:
 								HandleJoinRoundRequestResultMessage( handler, incomingMessage );
@@ -159,11 +159,14 @@ namespace BirdWarsTest.Network
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
 		}
 
-		private void HandleLoginMessage( NetIncomingMessage incomingMessage, StateHandler handler )
+		private void HandleLoginResultMessage( NetIncomingMessage incomingMessage, StateHandler handler )
 		{
 			var loginResult = incomingMessage.ReadBoolean();
 			if( loginResult )
 			{
+				incomingMessage.ReadString();
+				userSession.Login( new User( incomingMessage.ReadInt32(), incomingMessage.ReadString(), incomingMessage.ReadString(),
+											 incomingMessage.ReadString(), incomingMessage.ReadString(), incomingMessage.ReadString() ) );
 				handler.ChangeState( StateTypes.MainMenuState );
 			}
 			Console.WriteLine( incomingMessage.ReadString() );
