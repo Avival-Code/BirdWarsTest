@@ -147,6 +147,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.RoundStateChangedMessage:
 								HandleRoundStateChangedMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.ChatMessage:
+								HandleChatMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 					case NetIncomingMessageType.Data:
@@ -167,6 +170,9 @@ namespace BirdWarsTest.Network
 								break;
 							case GameMessageTypes.JoinRoundRequestMessage:
 								HandleJoinRoundRequestMessage( incomingMessage );
+								break;
+							case GameMessageTypes.ChatMessage:
+								HandleChatMessage( handler, incomingMessage );
 								break;
 						}
 						break;
@@ -265,7 +271,7 @@ namespace BirdWarsTest.Network
 			{
 				if( connection != incomingMessage.SenderConnection )
 				{
-					netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, 
+					netServer.SendMessage( outgoingMessage, connection, 
 										   NetDeliveryMethod.ReliableUnordered );
 				}
 			}
@@ -291,7 +297,12 @@ namespace BirdWarsTest.Network
 
 		public void SendChatMessage( string message )
 		{
-			throw new NotImplementedException();
+			ChatMessage chatMessage = new ChatMessage( userSession.currentUser.username, message );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )chatMessage.messageType );
+			chatMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
 		private GameDatabase gameDatabase;

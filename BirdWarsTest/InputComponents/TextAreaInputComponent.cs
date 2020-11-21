@@ -101,6 +101,11 @@ namespace BirdWarsTest.InputComponents
 			return text;
 		}
 
+		public override void ClearText()
+		{
+			text = "";
+		}
+
 		private GameWindow gameWindow;
 		public string text;
 		private bool hasFocus;

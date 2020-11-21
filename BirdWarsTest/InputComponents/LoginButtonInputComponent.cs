@@ -58,7 +58,7 @@ namespace BirdWarsTest.InputComponents
 		private StateHandler handler;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public event EventHandler< LoginEventArgs > click;
+		private event EventHandler< LoginEventArgs > click;
 		private LoginEventArgs loginEvents;
 		public bool clicked;
 		private bool isHovering;

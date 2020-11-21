@@ -22,7 +22,7 @@ namespace BirdWarsTest.GraphicComponents
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
 			batch.Draw( texture, gameObject.Position, Color.White );
-			if( isFromOtherUser )
+			if( !isFromOtherUser )
 			{
 				AlignLeftRender( gameObject, ref batch );
 			}
@@ -48,7 +48,7 @@ namespace BirdWarsTest.GraphicComponents
 			batch.DrawString( normalFont, username, usernamePosition, textColor);
 
 			var messagePosition = new Vector2( gameObject.Position.X + texture.Width - 10 - normalFont.MeasureString(username).X,
-											   usernamePosition.Y + 5 );
+											   usernamePosition.Y + ( normalFont.MeasureString( message ).Y + 5 ) );
 			batch.DrawString( normalFont, message, messagePosition, textColor );
 		}
 

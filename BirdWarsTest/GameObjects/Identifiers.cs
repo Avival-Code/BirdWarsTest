@@ -15,6 +15,7 @@
 		Decoration,
 		MenuOption,
 		Selector,
+		ChatMessageSender,
 		ChatMessage,
 		Player
 	}

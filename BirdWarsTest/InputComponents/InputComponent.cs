@@ -15,6 +15,8 @@ namespace BirdWarsTest.InputComponents
 			return "";
 		}
 
+		public virtual void ClearText() {}
+
 		protected Command moveUpButton = null;
 		protected Command moveDownButton = null;
 		protected Command moveLeftButton = null;

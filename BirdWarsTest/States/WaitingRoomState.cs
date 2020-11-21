@@ -42,6 +42,8 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Leave" ), null, 
 											 Identifiers.Button2,
 											 new Vector2( 25.0f, gameObjects[ gameObjects.Count - 1 ].Position.Y + 35 ) ) );
+			gameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
+											 new Vector2( 0.0f, 0.0f ) ) );
 			messageManager = new ChatMessageManager( content, gameObjects[ 1 ].GetRectangle() );
 			
 		}
@@ -59,6 +61,7 @@ namespace BirdWarsTest.States
 			{
 				objects.Update( state );
 			}
+			gameObjects[ 6 ].Update( state, this );
 		}
 
 		public override void Render( ref SpriteBatch batch ) 
@@ -67,8 +70,8 @@ namespace BirdWarsTest.States
 			{
 				objects.Render( ref batch );
 			}
-			usernameManager.Render( ref batch );
 			messageManager.Render( ref batch );
+			usernameManager.Render( ref batch );
 		}
 
 		public ChatUsernameManager UsernameManager
@@ -81,9 +84,14 @@ namespace BirdWarsTest.States
 			get{ return messageManager; }
 		}
 
-		public Microsoft.Xna.Framework.Content.ContentManager Content
+		public INetworkManager NetworkManager
 		{
-			get{ return content; }
+			get{ return networkManager; }
+		}
+
+		public List< GameObject > GameObjects
+		{
+			get{ return gameObjects; }
 		}
 
 		private GameWindow gameWindow;
