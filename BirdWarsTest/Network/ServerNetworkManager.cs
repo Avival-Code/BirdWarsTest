@@ -13,6 +13,7 @@ namespace BirdWarsTest.Network
 		{
 			gameDatabase = new GameDatabase();
 			gameRound = new GameRound();
+			emailManager = new EmailManager();
 			userSession = new LoginSession();
 			Connect();
 		}
@@ -217,6 +218,9 @@ namespace BirdWarsTest.Network
 			gameDatabase.users.Create( user );
 			var userWithId = gameDatabase.users.Read( user.email, user.password );
 			gameDatabase.accounts.Create( new Account( 0, userWithId.userId, 0, 0, 0, 0, 0 ) );
+			emailManager.SendEmailMessage( userWithId.names, userWithId.email, "Registration", 
+										   ( "Thank you for completing the registration process! Your account " +
+										   "has been created!" ) );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( "Registration successfull." );
 			incomingMessage.SenderConnection.SendMessage( outgoingMessage,  NetDeliveryMethod.ReliableUnordered, 
@@ -294,6 +298,9 @@ namespace BirdWarsTest.Network
 			gameDatabase.users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
 			var user = gameDatabase.users.Read( emailIn, passwordIn );
 			gameDatabase.accounts.Create( new Account( 0, user.userId, 0, 0, 0, 0, 0 ) );
+			emailManager.SendEmailMessage( user.names, user.email, "Registration",
+										   ( "Thank you for completing the registration process! Your account " +
+										     "has been created!" ) );
 		}
 
 		public void CreateRound()
@@ -327,6 +334,7 @@ namespace BirdWarsTest.Network
 		private GameDatabase gameDatabase;
 		private NetServer netServer;
 		private GameRound gameRound;
+		private EmailManager emailManager;
 		public LoginSession userSession;
 		private bool isDisposed;
 	}
