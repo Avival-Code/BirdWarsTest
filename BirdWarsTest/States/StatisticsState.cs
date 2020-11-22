@@ -103,6 +103,16 @@ namespace BirdWarsTest.States
 			}
 		}
 
+		private void SetStatistic( GameObject gameObject, int statistic )
+		{
+			gameObject.graphics.SetText( statistic.ToString() );
+		}
+
+		private void SetGameObjectStatistics()
+		{
+			SetStatistic( gameObjects[ 4 ], networkManager.GetLoginSession().currentAccount. );
+		}
+
 		private List< GameObject > gameObjects;
 	}
 }

@@ -28,6 +28,8 @@ namespace BirdWarsTest.Network
 
 		NetConnectionStatus GetConnectionState();
 
+		LoginSession GetLoginSession();
+
 		void CreateRound();
 
 		void JoinRound();

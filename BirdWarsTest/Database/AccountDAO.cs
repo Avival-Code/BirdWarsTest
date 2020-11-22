@@ -15,15 +15,17 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string mySqlCommandText = "INSERT INTO Account( userId, matchesWon, matchesLost, matchesSurvived, money ) " +
-										  "VALUES ( @userId, @matchesWon, @matchesLost, @matchesSurvived, @money );";
+				string mySqlCommandText = "INSERT INTO Account( userId, totalMatchesPlayed matchesWon, matchesLost, " +
+										  "matchesSurvived, money ) VALUES ( @userId, @totalMatchesPlayed, @matchesWon, " +
+										  "@matchesLost, @matchesSurvived, @money );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
-				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
+				MySqlParameter[] parameters = new MySqlParameter[ 6 ];
 				parameters[ 0 ] = new MySqlParameter( "@userId", account.userId );
-				parameters[ 1 ] = new MySqlParameter( "@matchesWon", account.matchesWon );
-				parameters[ 2 ] = new MySqlParameter( "@matchesLost", account.matchesLost );
-				parameters[ 3 ] = new MySqlParameter( "@matchesSurvived", account.matchesSurvived );
-				parameters[ 4 ] = new MySqlParameter( "@money", account.money );
+				parameters[ 1 ] = new MySqlParameter( "@totalMatchesPlayed", account.totalMatchesPlayed );
+				parameters[ 2 ] = new MySqlParameter( "@matchesWon", account.matchesWon );
+				parameters[ 3 ] = new MySqlParameter( "@matchesLost", account.matchesLost );
+				parameters[ 4 ] = new MySqlParameter( "@matchesSurvived", account.matchesSurvived );
+				parameters[ 5 ] = new MySqlParameter( "@money", account.money );
 				foreach( var parameter in parameters )
 				{
 					command.Parameters.Add(parameter);
@@ -84,8 +86,8 @@ namespace BirdWarsTest.Database
 
 				if( reader.HasRows && reader.Read() )
 				{
-					temp = new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ),
-									    reader.GetInt32( 3 ), reader.GetInt32( 4 ), reader.GetInt32( 5 ) );
+					temp = new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ), reader.GetInt32( 3 ),
+									    reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ) );
 				}
 				else
 				{
@@ -116,8 +118,8 @@ namespace BirdWarsTest.Database
 
 				while( reader.HasRows && reader.Read() )
 				{
-					accounts.Add( new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ),
-										       reader.GetInt32( 3 ), reader.GetInt32( 4 ), reader.GetInt32( 5 ) ) );
+					accounts.Add( new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ), reader.GetInt32( 3 ),
+										       reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ) ) );
 					reader.NextResult();
 				}
 				reader.Close();
@@ -131,7 +133,8 @@ namespace BirdWarsTest.Database
 			return accounts;
 		}
 
-		public bool Update( int userId, int matchesWon, int matchesLost, int matchesSurvived, int money )
+		public bool Update( int userId, int totalMatchesPlayed,int matchesWon, 
+							int matchesLost, int matchesSurvived, int money )
 		{
 			bool wasUpdated = false;
 			Connection connection = new Connection();
@@ -139,10 +142,12 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string mySqlCommandText = "UPDATE Account SET matchesWon = @matchesWon, matchesLost = @matchesLost, " +
-										  "matchesSurvived = @matchesSurvived, money = @money WHERE userId = @userId";
+				string mySqlCommandText = "UPDATE Account SET totalMatchesPlayed = @totalMatchesPlayed, matchesWon = @matchesWon" +
+										  ", matchesLost = @matchesLost, matchesSurvived = @matchesSurvived, " +
+										  "money = @money WHERE userId = @userId";
 				MySqlCommand command = new MySqlCommand(mySqlCommandText, connection.connection);
 				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
+				parameters[ 0 ] = new MySqlParameter( "@totalMatchesPlayed", totalMatchesPlayed );
 				parameters[ 0 ] = new MySqlParameter( "@matchesWon", matchesWon );
 				parameters[ 1 ] = new MySqlParameter( "@matchesLost", matchesLost );
 				parameters[ 2 ] = new MySqlParameter( "@matchesSurvived", matchesSurvived );

@@ -301,6 +301,11 @@ namespace BirdWarsTest.Network
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		public LoginSession GetLoginSession()
+		{
+			return userSession;
+		}
+
 		private GameDatabase gameDatabase;
 		private NetServer netServer;
 		private GameRound gameRound;

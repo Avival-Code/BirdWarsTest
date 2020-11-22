@@ -18,6 +18,8 @@ namespace BirdWarsTest.GraphicComponents
 			return new Vector2( texture.Width, texture.Height );
 		}
 
+		virtual public void SetText( string newText ) {}
+
 		protected Texture2D texture;
 	}
 }

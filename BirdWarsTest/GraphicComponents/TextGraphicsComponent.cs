@@ -24,6 +24,11 @@ namespace BirdWarsTest.GraphicComponents
 			return font.MeasureString( text );
 		}
 
+		public override void SetText( string newText )
+		{
+			text = newText;
+		}
+
 		private SpriteFont font;
 		private string text;
 	}

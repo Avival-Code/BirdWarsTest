@@ -207,6 +207,11 @@ namespace BirdWarsTest.Network
 			SendMessage( new ChatMessage( userSession.currentUser.username, message ) );
 		}
 
+		public LoginSession GetLoginSession()
+		{
+			return userSession;
+		}
+
 		private NetClient netClient;
 		private LoginSession userSession;
 		private bool isDisposed;
