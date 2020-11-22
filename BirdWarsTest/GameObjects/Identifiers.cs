@@ -6,6 +6,7 @@
 		LoginBox1,
 		RegisterBox,
 		PasswordBox,
+		ConfigurationBox,
 		Background,
 		TextGraphics,
 		TextArea,

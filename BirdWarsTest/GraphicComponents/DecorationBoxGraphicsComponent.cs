@@ -4,11 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	class RegisterBoxGraphicsComponent : GraphicsComponent
+	public class DecorationBoxGraphicsComponent : GraphicsComponent
 	{
-		public RegisterBoxGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
+		public DecorationBoxGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content, 
+											   string textureName )
 			:
-			base( content.Load< Texture2D >( "RegisterBox" ) )
+			base( content.Load< Texture2D >( textureName ) )
 		{}
 
 		public override void Render(GameObject gameObject, ref SpriteBatch batch)

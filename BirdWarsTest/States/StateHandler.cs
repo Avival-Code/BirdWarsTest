@@ -8,7 +8,7 @@ namespace BirdWarsTest.States
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
 							 GameWindow gameWindow, ref GraphicsDeviceManager graphics, INetworkManager networkManagerIn )
 		{
-			currentState = StateTypes.LoginState;
+			currentState = StateTypes.OptionsState;
 			networkManager = networkManagerIn;
 			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, ref networkManager, loginWidth, loginHeight );
@@ -18,7 +18,7 @@ namespace BirdWarsTest.States
 			gameStates[ 4 ] = new MainMenuState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
 			gameStates[ 5 ] = new WaitingRoomState( content, gameWindow, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
 			gameStates[ 6 ] = new PlayState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 7 ] = new OptionsState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 7 ] = new OptionsState( content, ref graphics, ref networkManagerIn, configWidth, configHeight );
 			gameStates[ 8 ] = new StatisticsState( content, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
 		}
 
@@ -48,6 +48,8 @@ namespace BirdWarsTest.States
 		private const int registerHeight = 500;
 		private const int passwordWidth = 450;
 		private const int passwordHeight = 450;
+		private const int configWidth = 450;
+		private const int configHeight = 400;
 		private const int stateWidth = 800;
 		private const int stateHeight = 600;
 	}
