@@ -15,7 +15,7 @@ namespace BirdWarsTest.States
 								  GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics,
 								  ref INetworkManager networkManagerIn, int width_in, int height_in )
 			:
-			base( newContent, ref newGraphics, ref networkManagerIn, width_in,height_in )
+			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
 			gameWindow = gameWindowIn;
 			gameObjects = new List< GameObject >();
