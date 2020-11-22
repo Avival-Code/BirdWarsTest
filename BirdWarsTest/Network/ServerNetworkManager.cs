@@ -31,6 +31,11 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void Logout()
+		{
+			userSession.Logout();
+		}
+
 		public void Connect()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )

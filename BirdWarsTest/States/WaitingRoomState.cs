@@ -27,7 +27,7 @@ namespace BirdWarsTest.States
 		{
 			usernameManager.AddObjects( content );
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, Identifiers.Background,
-						     new Vector2( 0.0f, 0.0f ) ) );
+											 new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( content, "TextAreas/ChatBoard530x480" ), null,
 											 Identifiers.TextArea, new Vector2( 250.0f, 20.0f ) ) );
 			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextAreas/ChatTextArea530x35" ),
@@ -35,7 +35,6 @@ namespace BirdWarsTest.States
 											 Identifiers.TextArea, new Vector2( 250.0f, 520.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Players", "Fonts/MainFont_S20" ), null,
 											 Identifiers.TextGraphics, new Vector2( 70.0f, 20.0f ) ) );
-
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Start Round"), null, 
 											 Identifiers.Button2, 
 											 new Vector2( 25.0f, usernameManager.gameObjects[ usernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
@@ -45,7 +44,6 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
 											 new Vector2( 0.0f, 0.0f ) ) );
 			messageManager = new ChatMessageManager( content, gameObjects[ 1 ].GetRectangle() );
-			
 		}
 
 		public override void Pause() {}

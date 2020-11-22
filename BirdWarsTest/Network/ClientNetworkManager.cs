@@ -20,6 +20,11 @@ namespace BirdWarsTest.Network
 			SendMessage( new LoginRequestMessage( email, password ) );
 		}
 
+		public void Logout()
+		{
+			userSession.Logout();
+		}
+
 		public void Connect()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )

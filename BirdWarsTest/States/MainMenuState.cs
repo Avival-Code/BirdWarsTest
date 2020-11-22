@@ -44,7 +44,8 @@ namespace BirdWarsTest.States
 											 new SelectorChangeStateInputComponent( handler, StateTypes.OptionsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(content, "Logout"), null, Identifiers.MenuOption,
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(content, "Logout"), 
+											 new LogoutInputComponent( handler ), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,
 											 new Vector2( 0.0f, 0.0f ) ) );
@@ -56,7 +57,7 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput(KeyboardState state) { }
 
-		public override void UpdateLogic(StateHandler handler, KeyboardState state)
+		public override void UpdateLogic( StateHandler handler, KeyboardState state )
 		{
 			networkManager.ProcessMessages( handler );
 			gameObjects[ 8 ].Update( state, this );

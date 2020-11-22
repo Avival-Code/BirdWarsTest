@@ -9,6 +9,8 @@ namespace BirdWarsTest.Network
 	{
 		void Login( string email, string password );
 
+		void Logout();
+
 		void RegisterUser( string nameIn, string lastNameIn, string usernameIn,
 						   string emailIn, string passwordIn );
 
