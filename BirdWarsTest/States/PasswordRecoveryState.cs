@@ -59,7 +59,7 @@ namespace BirdWarsTest.States
 											 new Vector2( gameObjects[ 9 ].Position.X - 30,
 														  gameObjects[ 9 ].Position.Y + 50.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
-											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
+											 new ButtonChangeStateInputComponent( handler, StateTypes.LoginState ),
 										     Identifiers.Button1, 
 											 new Vector2( gameObjects[ 10 ].Position.X + 160.0f,
 												          gameObjects[ 9 ].Position.Y + 50.0f ) ) );

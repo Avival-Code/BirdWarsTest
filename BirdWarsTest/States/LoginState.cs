@@ -37,12 +37,12 @@ namespace BirdWarsTest.States
 										  ( gameObjects[ 2 ].Position.X + 40 ), 
 										  ( gameObjects[ 2 ].Position.Y + 155 ) ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button", "Register" ), 
-											 new ChangeStateInputComponent( handler, StateTypes.UserRegistryState ),
+											 new ButtonChangeStateInputComponent( handler, StateTypes.UserRegistryState ),
 										  Identifiers.Button1, new Vector2(
 										  ( gameObjects[ 2 ].Position.X + 160 ),
 										  ( gameObjects[ 2 ].Position.Y + 155 ) ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Lost Password?" ),
-										     new ChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
+										     new ButtonChangeStateInputComponent( handler, StateTypes.PasswordRecoveryState ),
 										  Identifiers.Button2, stateWidth,
 										  gameObjects[ 2 ].Position.Y + 190 ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ), null, 

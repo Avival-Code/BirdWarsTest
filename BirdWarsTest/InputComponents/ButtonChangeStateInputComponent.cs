@@ -6,9 +6,9 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class ChangeStateInputComponent : InputComponent
+	class ButtonChangeStateInputComponent : InputComponent
 	{
-		public ChangeStateInputComponent( StateHandler handlerIn, StateTypes state )
+		public ButtonChangeStateInputComponent( StateHandler handlerIn, StateTypes state )
 		{
 			handler = handlerIn;
 			isHovering = false;
@@ -30,7 +30,7 @@ namespace BirdWarsTest.InputComponents
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
-					click?.Invoke(this, new EventArgs());
+					click?.Invoke( this, new EventArgs() );
 				}
 			}
 		}

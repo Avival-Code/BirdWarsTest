@@ -36,11 +36,11 @@ namespace BirdWarsTest.States
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Statistics" ), 
-										     new ChangeStateInputComponent( handler, StateTypes.StatisticsState ), 
+										     new SelectorChangeStateInputComponent( handler, StateTypes.StatisticsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Settings" ), 
-											 new ChangeStateInputComponent( handler, StateTypes.OptionsState ), 
+											 new SelectorChangeStateInputComponent( handler, StateTypes.OptionsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(content, "Logout"), null, Identifiers.MenuOption,

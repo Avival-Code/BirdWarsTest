@@ -32,7 +32,7 @@ namespace BirdWarsTest.States
 											 new RegisterButtonInputComponent( handler ), Identifiers.Button1, 
 											 new Vector2( 70.0f, 425.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
-											 new ChangeStateInputComponent( handler, StateTypes.LoginState ),
+											 new ButtonChangeStateInputComponent( handler, StateTypes.LoginState ),
 										  Identifiers.Button1, new Vector2( 220.0f, 425.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Name", "Fonts/MainFont_S10" ), null,
 										   Identifiers.TextArea, stateWidth, gameObjects[ 1 ].Position.Y + 50 ) );
