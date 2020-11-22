@@ -169,7 +169,10 @@ namespace BirdWarsTest.Network
 			{
 				incomingMessage.ReadString();
 				userSession.Login( new User( incomingMessage.ReadInt32(), incomingMessage.ReadString(), incomingMessage.ReadString(),
-											 incomingMessage.ReadString(), incomingMessage.ReadString(), incomingMessage.ReadString() ) );
+											 incomingMessage.ReadString(), incomingMessage.ReadString(), incomingMessage.ReadString() ),
+								   new Account( incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
+												incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
+												incomingMessage.ReadInt32() ) );
 				handler.ChangeState( StateTypes.MainMenuState );
 			}
 			Console.WriteLine( incomingMessage.ReadString() );

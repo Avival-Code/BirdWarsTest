@@ -21,7 +21,8 @@ namespace BirdWarsTest.Network
 		{
 			if( gameDatabase.users.Read( email, password ) != null )
 			{
-				userSession.Login( gameDatabase.users.Read( email, password ) );
+				var user = gameDatabase.users.Read( email, password );
+				userSession.Login( user, gameDatabase.accounts.Read( user.userId ) );
 				Console.WriteLine( "Login credentials approved." );
 			}
 			else
@@ -160,13 +161,7 @@ namespace BirdWarsTest.Network
 								HandleLoginRequestMessages( incomingMessage );
 								break;
 							case GameMessageTypes.registerUserMessage:
-								gameDatabase.users.Create( new User( incomingMessage.ReadString(), incomingMessage.ReadString(),
-														   incomingMessage.ReadString(), incomingMessage.ReadString(),
-														   incomingMessage.ReadString() ) );
-								NetOutgoingMessage outgoingMessage = CreateMessage();
-								outgoingMessage.Write( "Registration successfull." );
-								incomingMessage.SenderConnection.SendMessage( outgoingMessage, 
-										           NetDeliveryMethod.ReliableUnordered, incomingMessage.SequenceChannel );
+								HandleRegisterUserMessage( incomingMessage );
 								break;
 							case GameMessageTypes.JoinRoundRequestMessage:
 								HandleJoinRoundRequestMessage( incomingMessage );
@@ -187,7 +182,8 @@ namespace BirdWarsTest.Network
 											    incomingMessage.ReadString() );
 			if( user != null )
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved", user );
+				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved", user,
+																		 gameDatabase.accounts.Read( user.userId ) );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );
@@ -197,7 +193,8 @@ namespace BirdWarsTest.Network
 			}
 			else
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( false, "Login credentials invalid", new User() );
+				LoginResultMessage loginResult = new LoginResultMessage( false, "Login credentials invalid", new User(),
+																		 new Account() );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );
@@ -205,6 +202,20 @@ namespace BirdWarsTest.Network
 				netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection,
 									   NetDeliveryMethod.ReliableUnordered );
 			}
+		}
+
+		private void HandleRegisterUserMessage( NetIncomingMessage incomingMessage )
+		{
+			var user = new User( incomingMessage.ReadString(), incomingMessage.ReadString(),
+								 incomingMessage.ReadString(), incomingMessage.ReadString(),
+								 incomingMessage.ReadString() );
+			gameDatabase.users.Create( user );
+			var userWithId = gameDatabase.users.Read( user.email, user.password );
+			gameDatabase.accounts.Create( new Account( 0, userWithId.userId, 0, 0, 0, 0, 0 ) );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( "Registration successfull." );
+			incomingMessage.SenderConnection.SendMessage( outgoingMessage,  NetDeliveryMethod.ReliableUnordered, 
+														  incomingMessage.SequenceChannel );
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -276,6 +287,8 @@ namespace BirdWarsTest.Network
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
+			var user = gameDatabase.users.Read( emailIn, passwordIn );
+			gameDatabase.accounts.Create( new Account( 0, user.userId, 0, 0, 0, 0, 0 ) );
 		}
 
 		public void CreateRound()

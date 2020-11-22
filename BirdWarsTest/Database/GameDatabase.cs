@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BirdWarsTest.Database
 {
-	class GameDatabase
+	public class GameDatabase
 	{
 		public GameDatabase()
 		{

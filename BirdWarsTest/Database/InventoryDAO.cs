@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BirdWarsTest.Database
 {
-	class InventoryDAO : IInventoryDAO
+	public class InventoryDAO : IInventoryDAO
 	{
 		public bool Create( Inventory inventory )
 		{

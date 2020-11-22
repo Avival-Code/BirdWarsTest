@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BirdWarsTest.Database
 {
-	class AccountDAO : IAccountDAO
+	public class AccountDAO : IAccountDAO
 	{
 		public bool Create( Account account )
 		{
@@ -15,7 +15,7 @@ namespace BirdWarsTest.Database
 
 			try
 			{
-				string mySqlCommandText = "INSERT INTO Account( userId, totalMatchesPlayed matchesWon, matchesLost, " +
+				string mySqlCommandText = "INSERT INTO Account( userId, totalMatchesPlayed, matchesWon, matchesLost, " +
 										  "matchesSurvived, money ) VALUES ( @userId, @totalMatchesPlayed, @matchesWon, " +
 										  "@matchesLost, @matchesSurvived, @money );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );

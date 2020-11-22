@@ -22,6 +22,7 @@ namespace BirdWarsTest.States
 
 		public override void Init( StateHandler handler ) 
 		{
+			gameObjects.Clear();
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, Identifiers.Background,
 											 new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( content ), null, 
@@ -79,6 +80,7 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Return" ), 
 											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ),
 											 Identifiers.Button2, stateWidth, gameObjects[ 17 ].Position.Y + 40.0f ) );
+			SetGameObjectStatistics();
 		}
 
 		public override void Pause() {}
@@ -108,9 +110,51 @@ namespace BirdWarsTest.States
 			gameObject.graphics.SetText( statistic.ToString() );
 		}
 
+		private void SetPercentStatistic( GameObject gameObject, float statistic )
+		{
+			string value = statistic.ToString();
+			gameObject.graphics.SetText( value + "%" );
+		}
+
 		private void SetGameObjectStatistics()
 		{
-			SetStatistic( gameObjects[ 4 ], networkManager.GetLoginSession().currentAccount. );
+			SetStatistic( gameObjects[ 4 ], networkManager.GetLoginSession().currentAccount.totalMatchesPlayed );
+			SetStatistic( gameObjects[ 6 ], networkManager.GetLoginSession().currentAccount.matchesWon );
+			SetPercentStatistic( gameObjects[ 8 ], CalculateWinRate() );
+			SetStatistic( gameObjects[ 10 ], networkManager.GetLoginSession().currentAccount.matchesSurvived );
+			SetPercentStatistic( gameObjects[ 12 ], CalculateSurvivalRate() );
+			SetStatistic( gameObjects[ 14 ], networkManager.GetLoginSession().currentAccount.matchesLost );
+			SetPercentStatistic( gameObjects[ 16 ], CalculateLoseRate() );
+		}
+
+		private float CalculateWinRate()
+		{
+			if( networkManager.GetLoginSession().currentAccount.totalMatchesPlayed == 0 )
+			{
+				return 0.0f;
+			}
+			return networkManager.GetLoginSession().currentAccount.matchesWon /
+				   networkManager.GetLoginSession().currentAccount.totalMatchesPlayed;
+		}
+
+		private float CalculateSurvivalRate()
+		{
+			if( networkManager.GetLoginSession().currentAccount.totalMatchesPlayed == 0 )
+			{
+				return 0.0f;
+			}
+			return networkManager.GetLoginSession().currentAccount.matchesSurvived /
+				   networkManager.GetLoginSession().currentAccount.totalMatchesPlayed;
+		}
+
+		private float CalculateLoseRate()
+		{
+			if( networkManager.GetLoginSession().currentAccount.totalMatchesPlayed == 0 )
+			{
+				return 0.0f;
+			}
+			return networkManager.GetLoginSession().currentAccount.matchesLost /
+				   networkManager.GetLoginSession().currentAccount.totalMatchesPlayed;
 		}
 
 		private List< GameObject > gameObjects;

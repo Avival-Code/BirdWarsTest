@@ -14,18 +14,18 @@ namespace BirdWarsTest.Database
 			isLoggedIn = false;
 		}
 
-		public LoginSession( User userIn )
+		public LoginSession( User userIn, GameDatabase database )
 		{
 			currentUser = userIn;
-			currentAccount = null;
+			currentAccount = database.accounts.Read( currentUser.userId );
 			currentInventory = null;
 			isLoggedIn = true;
 		}
 
-		public void Login( User userIn )
+		public void Login( User userIn, Account accountIn )
 		{
 			currentUser = userIn;
-			currentAccount = null;
+			currentAccount = accountIn;
 			currentInventory = null;
 			isLoggedIn = true;
 		}

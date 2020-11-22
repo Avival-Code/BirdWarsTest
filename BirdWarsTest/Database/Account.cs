@@ -2,6 +2,16 @@
 {
 	public class Account
 	{
+		public Account()
+		{
+			accountId = 0;
+			userId = 0;
+			totalMatchesPlayed = 0;
+			matchesWon = 0;
+			matchesLost = 0;
+			matchesSurvived = 0;
+			money = 0;
+		}
 		public Account( int accountId_In, int userId_In )
 		{
 			accountId = accountId_In;
