@@ -1,9 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.InputComponents
 {

@@ -35,7 +35,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		private void ManageMessages()
 		{
-			if( gameObjects.Count > 5 )
+			if( gameObjects.Count > maxMessages )
 			{
 				gameObjects.RemoveAt( 0 );
 			}
@@ -60,7 +60,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		private Microsoft.Xna.Framework.Content.ContentManager content;
 		private List< GameObject > gameObjects;
 		private Rectangle chatBoardBoundaries;
-		private const int maxMessages = 7;
+		private const int maxMessages = 5;
 		private const int chatMessageTextureHeight = 68;
 	}
 }
