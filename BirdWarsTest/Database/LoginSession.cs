@@ -8,39 +8,39 @@ namespace BirdWarsTest.Database
 	{
 		public LoginSession()
 		{
-			currentUser = null;
-			currentAccount = null;
-			currentInventory = null;
-			isLoggedIn = false;
+			CurrentUser = null;
+			CurrentAccount = null;
+			CurrentInventory = null;
+			IsLoggedIn = false;
 		}
 
 		public LoginSession( User userIn, GameDatabase database )
 		{
-			currentUser = userIn;
-			currentAccount = database.accounts.Read( currentUser.userId );
-			currentInventory = null;
-			isLoggedIn = true;
+			CurrentUser = userIn;
+			CurrentAccount = database.Accounts.Read( CurrentUser.UserId );
+			CurrentInventory = null;
+			IsLoggedIn = true;
 		}
 
 		public void Login( User userIn, Account accountIn )
 		{
-			currentUser = userIn;
-			currentAccount = accountIn;
-			currentInventory = null;
-			isLoggedIn = true;
+			CurrentUser = userIn;
+			CurrentAccount = accountIn;
+			CurrentInventory = null;
+			IsLoggedIn = true;
 		}
 
 		public void Logout()
 		{
-			isLoggedIn = false;
-			currentUser = null;
-			currentAccount = null;
-			currentInventory = null;
+			IsLoggedIn = false;
+			CurrentUser = null;
+			CurrentAccount = null;
+			CurrentInventory = null;
 		}
 
-		public bool isLoggedIn;
-		public User currentUser;
-		public Account currentAccount;
-		public Inventory currentInventory;
+		public bool IsLoggedIn { get; set; }
+		public User CurrentUser { get; set; }
+		public Account CurrentAccount { get; set; }
+		public Inventory CurrentInventory { get; set; }
 	}
 }

@@ -55,7 +55,7 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
-		public bool approved;
-		public string [] playerUsernameList;
+		private bool approved;
+		private string [] playerUsernameList;
 	}
 }

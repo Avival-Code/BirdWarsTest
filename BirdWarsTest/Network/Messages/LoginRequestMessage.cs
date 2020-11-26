@@ -35,7 +35,7 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( password );
 		}
 
-		public string email;
-		public string password;
+		private string email;
+		private string password;
 	}
 }

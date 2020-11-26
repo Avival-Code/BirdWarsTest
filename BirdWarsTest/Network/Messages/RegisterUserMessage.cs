@@ -15,11 +15,11 @@ namespace BirdWarsTest.Network.Messages
 
 		public RegisterUserMessage( User newUser )
 		{
-			name = newUser.names;
-			lastNames = newUser.lastName;
-			username = newUser.username;
-			email = newUser.email;
-			password = newUser.password;
+			name = newUser.Names;
+			lastNames = newUser.LastName;
+			username = newUser.Username;
+			email = newUser.Email;
+			password = newUser.Password;
 		}
 		public GameMessageTypes messageType
 		{
@@ -44,10 +44,10 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( password );
 		}
 
-		public string name;
-		public string lastNames;
-		public string username;
-		public string email;
-		public string password;
+		private string name;
+		private string lastNames;
+		private string username;
+		private string email;
+		private string password;
 	}
 }

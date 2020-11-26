@@ -20,8 +20,8 @@ namespace BirdWarsTest.Database
 										  "VALUES ( @userId, @totalItems );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlParameter[] parameters = new MySqlParameter[ 2 ];
-				parameters[ 0 ] = new MySqlParameter( "@userId", inventory.userId );
-				parameters[ 1 ] = new MySqlParameter( "@totalItems", inventory.totalItems );
+				parameters[ 0 ] = new MySqlParameter( "@userId", inventory.UserId );
+				parameters[ 1 ] = new MySqlParameter( "@totalItems", inventory.TotalItems );
 				command.Parameters.Add( parameters[ 0 ] );
 				command.Parameters.Add( parameters[ 1 ] );
 
@@ -145,8 +145,8 @@ namespace BirdWarsTest.Database
 										  "WHERE userId = @userId";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
-				parameters[ 0 ] = new MySqlParameter( "@totalItems", inventory.totalItems );
-				parameters[ 1 ] = new MySqlParameter( "@userId", inventory.userId );
+				parameters[ 0 ] = new MySqlParameter( "@totalItems", inventory.TotalItems );
+				parameters[ 1 ] = new MySqlParameter( "@userId", inventory.UserId );
 				command.Parameters.Add( parameters[ 0 ] );
 				command.Parameters.Add( parameters[ 1 ] );
 

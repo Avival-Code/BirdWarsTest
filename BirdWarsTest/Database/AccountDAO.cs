@@ -20,12 +20,12 @@ namespace BirdWarsTest.Database
 										  "@matchesLost, @matchesSurvived, @money );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlParameter[] parameters = new MySqlParameter[ 6 ];
-				parameters[ 0 ] = new MySqlParameter( "@userId", account.userId );
-				parameters[ 1 ] = new MySqlParameter( "@totalMatchesPlayed", account.totalMatchesPlayed );
-				parameters[ 2 ] = new MySqlParameter( "@matchesWon", account.matchesWon );
-				parameters[ 3 ] = new MySqlParameter( "@matchesLost", account.matchesLost );
-				parameters[ 4 ] = new MySqlParameter( "@matchesSurvived", account.matchesSurvived );
-				parameters[ 5 ] = new MySqlParameter( "@money", account.money );
+				parameters[ 0 ] = new MySqlParameter( "@userId", account.UserId );
+				parameters[ 1 ] = new MySqlParameter( "@totalMatchesPlayed", account.TotalMatchesPlayed );
+				parameters[ 2 ] = new MySqlParameter( "@matchesWon", account.MatchesWon );
+				parameters[ 3 ] = new MySqlParameter( "@matchesLost", account.MatchesLost );
+				parameters[ 4 ] = new MySqlParameter( "@matchesSurvived", account.MatchesSurvived );
+				parameters[ 5 ] = new MySqlParameter( "@money", account.Money );
 				foreach( var parameter in parameters )
 				{
 					command.Parameters.Add(parameter);

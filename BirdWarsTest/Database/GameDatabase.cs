@@ -8,13 +8,13 @@ namespace BirdWarsTest.Database
 	{
 		public GameDatabase()
 		{
-			users = new UserDAO();
-			accounts = new AccountDAO();
-			inventories = new InventoryDAO();
+			Users = new UserDAO();
+			Accounts = new AccountDAO();
+			Inventories = new InventoryDAO();
 		}
 
-		public UserDAO users;
-		public AccountDAO accounts;
-		public InventoryDAO inventories;
+		public UserDAO Users { get; set; }
+		public AccountDAO Accounts { get; set; }
+		public InventoryDAO Inventories { get; set; }
 	}
 }

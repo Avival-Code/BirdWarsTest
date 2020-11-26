@@ -27,7 +27,7 @@ namespace BirdWarsTest.InputComponents
 			if( !sentMessage && state.IsKeyDown( Keys.Enter ) )
 			{
 				sentMessage = !sentMessage;
-				chatEvents.message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].input.GetText();
+				chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].input.GetText();
 				( ( WaitingRoomState )gameState ).GameObjects[ 2 ].input.ClearText();
 				click?.Invoke( this, chatEvents );
 			}
@@ -36,9 +36,9 @@ namespace BirdWarsTest.InputComponents
 
 		private void SendMessage( Object sender, ChatMessageArgs chatEvents )
 		{
-			if( !chatEvents.message.Equals( "" ) )
+			if( !chatEvents.Message.Equals( "" ) )
 			{
-				handler.networkManager.SendChatMessage(chatEvents.message);
+				handler.networkManager.SendChatMessage( chatEvents.Message );
 			}
 		}
 

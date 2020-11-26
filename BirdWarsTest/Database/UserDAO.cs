@@ -19,11 +19,11 @@ namespace BirdWarsTest.Database
 										  "VALUES ( @name, @lastNames, @username, @email, @password );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
-				parameters[ 0 ] = new MySqlParameter( "@name", user.names );
-				parameters[ 1 ] = new MySqlParameter( "@lastNames", user.lastName );
-				parameters[ 2 ] = new MySqlParameter( "@username", user.username );
-				parameters[ 3 ] = new MySqlParameter( "@email", user.email );
-				parameters[ 4 ] = new MySqlParameter( "@password", user.password );
+				parameters[ 0 ] = new MySqlParameter( "@name", user.Names );
+				parameters[ 1 ] = new MySqlParameter( "@lastNames", user.LastName );
+				parameters[ 2 ] = new MySqlParameter( "@username", user.Username );
+				parameters[ 3 ] = new MySqlParameter( "@email", user.Email );
+				parameters[ 4 ] = new MySqlParameter( "@password", user.Password );
 				foreach( var parameter in parameters )
 				{
 					command.Parameters.Add( parameter );

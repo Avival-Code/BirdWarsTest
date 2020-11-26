@@ -200,19 +200,19 @@ namespace BirdWarsTest.Network
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.
-				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), userSession.currentUser.username );
+				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), userSession.CurrentUser.Username );
 		}
 
 		public void CreateRound() {}
 		
 		public void JoinRound()
 		{
-			SendMessage( new JoinRoundRequestMessage( userSession.currentUser.username ) );
+			SendMessage( new JoinRoundRequestMessage( userSession.CurrentUser.Username ) );
 		}
 
 		public void SendChatMessage( string message )
 		{
-			SendMessage( new ChatMessage( userSession.currentUser.username, message ) );
+			SendMessage( new ChatMessage( userSession.CurrentUser.Username, message ) );
 		}
 
 		public LoginSession GetLoginSession()

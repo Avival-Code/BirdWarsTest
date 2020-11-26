@@ -6,6 +6,6 @@ namespace BirdWarsTest.InputComponents.EventArguments
 {
 	class ChatMessageArgs : EventArgs
 	{
-		public string message;
+		public string Message { get; set; }
 	}
 }

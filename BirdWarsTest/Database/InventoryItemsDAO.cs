@@ -17,11 +17,11 @@ namespace BirdWarsTest.Database
 			{
 				string mySqlCommandText = "INSERT INTO InventoryItems( inventoryId, itemCode ) " +
 										  "VALUES ( @inventoryId, @itemCode );";
-				foreach( var itemCode in inventory.itemCodes )
+				foreach( var itemCode in inventory.ItemCodes )
 				{
 					MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
 					MySqlParameter[] parameters = new MySqlParameter[ 2 ];
-					parameters[ 0 ] = new MySqlParameter( "@inventoryId", inventory.inventoryId );
+					parameters[ 0 ] = new MySqlParameter( "@inventoryId", inventory.InventoryId );
 					parameters[ 1 ] = new MySqlParameter( "@itemCode", itemCode );
 					command.Parameters.Add( parameters[ 0 ] );
 					command.Parameters.Add( parameters[ 1 ] );
@@ -98,7 +98,7 @@ namespace BirdWarsTest.Database
 
 		public bool Update( Inventory inventory )
 		{
-			bool wasUpdated = Delete( inventory.inventoryId );
+			bool wasUpdated = Delete( inventory.InventoryId );
 			wasUpdated = Create( inventory );
 			return wasUpdated;
 		}

@@ -20,10 +20,10 @@ namespace BirdWarsTest.Network
 
 		public void Login( string email, string password )
 		{
-			if( gameDatabase.users.Read( email, password ) != null )
+			if( gameDatabase.Users.Read( email, password ) != null )
 			{
-				var user = gameDatabase.users.Read( email, password );
-				userSession.Login( user, gameDatabase.accounts.Read( user.userId ) );
+				var user = gameDatabase.Users.Read( email, password );
+				userSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
 				Console.WriteLine( "Login credentials approved." );
 			}
 			else
@@ -184,12 +184,12 @@ namespace BirdWarsTest.Network
 
 		private void HandleLoginRequestMessages( NetIncomingMessage incomingMessage )
 		{
-			var user = gameDatabase.users.Read( incomingMessage.ReadString(),
+			var user = gameDatabase.Users.Read( incomingMessage.ReadString(),
 											    incomingMessage.ReadString() );
 			if( user != null )
 			{
 				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved", user,
-																		 gameDatabase.accounts.Read( user.userId ) );
+																		 gameDatabase.Accounts.Read( user.UserId ) );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );
@@ -215,10 +215,10 @@ namespace BirdWarsTest.Network
 			var user = new User( incomingMessage.ReadString(), incomingMessage.ReadString(),
 								 incomingMessage.ReadString(), incomingMessage.ReadString(),
 								 incomingMessage.ReadString() );
-			gameDatabase.users.Create( user );
-			var userWithId = gameDatabase.users.Read( user.email, user.password );
-			gameDatabase.accounts.Create( new Account( 0, userWithId.userId, 0, 0, 0, 0, 0 ) );
-			emailManager.SendEmailMessage( userWithId.names, userWithId.email, "Registration", 
+			gameDatabase.Users.Create( user );
+			var userWithId = gameDatabase.Users.Read( user.Email, user.Password );
+			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0 ) );
+			emailManager.SendEmailMessage( userWithId.Names, userWithId.Email, "Registration", 
 										   ( "Thank you for completing the registration process! Your account " +
 										   "has been created!" ) );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
@@ -279,7 +279,7 @@ namespace BirdWarsTest.Network
 			string username = incomingMessage.ReadString();
 			string message = incomingMessage.ReadString();
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
-					username, message, userSession.currentUser.username
+					username, message, userSession.CurrentUser.Username
 				);
 
 			ChatMessage newMessage = new ChatMessage( username, message );
@@ -295,17 +295,17 @@ namespace BirdWarsTest.Network
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
-			gameDatabase.users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
-			var user = gameDatabase.users.Read( emailIn, passwordIn );
-			gameDatabase.accounts.Create( new Account( 0, user.userId, 0, 0, 0, 0, 0 ) );
-			emailManager.SendEmailMessage( user.names, user.email, "Registration",
+			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
+			var user = gameDatabase.Users.Read( emailIn, passwordIn );
+			gameDatabase.Accounts.Create( new Account( 0, user.UserId, 0, 0, 0, 0, 0 ) );
+			emailManager.SendEmailMessage( user.Names, user.Email, "Registration",
 										   ( "Thank you for completing the registration process! Your account " +
 										     "has been created!" ) );
 		}
 
 		public void CreateRound()
 		{
-			gameRound.CreateRound( userSession.currentUser.username );
+			gameRound.CreateRound( userSession.CurrentUser.Username );
 			RoundCreatedMessage newRound = new RoundCreatedMessage( true, gameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
 			updateMessage.Write( ( byte )newRound.messageType );
@@ -318,7 +318,7 @@ namespace BirdWarsTest.Network
 
 		public void SendChatMessage( string message )
 		{
-			ChatMessage chatMessage = new ChatMessage( userSession.currentUser.username, message );
+			ChatMessage chatMessage = new ChatMessage( userSession.CurrentUser.Username, message );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )chatMessage.messageType );
 			chatMessage.Encode( outgoingMessage );

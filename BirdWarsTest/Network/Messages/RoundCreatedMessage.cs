@@ -18,7 +18,7 @@ namespace BirdWarsTest.Network.Messages
 		{
 			playerUsernameList = new string[ 8 ];
 			EmptyFill();
-			roundCreated = roundCreatedIn;
+			RoundCreated = roundCreatedIn;
 			for( int i = 0; i < 8; i++ )
 			{
 				playerUsernameList[ i ] = usernames[ i ];
@@ -31,7 +31,7 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			roundCreated = incomingMessage.ReadBoolean();
+			RoundCreated = incomingMessage.ReadBoolean();
 			for( int i = 0; i < 8; i++ )
 			{
 				playerUsernameList[ i ] = incomingMessage.ReadString();
@@ -40,7 +40,7 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( roundCreated );
+			outgoingMessage.Write( RoundCreated );
 			for( int i = 0; i < 8; i++ )
 			{
 				outgoingMessage.Write( playerUsernameList[ i ] );
@@ -51,16 +51,12 @@ namespace BirdWarsTest.Network.Messages
 		{
 			for( int i = 0; i < 8; i++ )
 			{
-				playerUsernameList[i] = "";
+				playerUsernameList[ i ] = "";
 			}
 		}
 
-		public bool RoundCreated
-		{
-			get{ return roundCreated; }
-		}
+		public bool RoundCreated { get; private set; }
 
-		private bool roundCreated;
 		private string [] playerUsernameList;
 	}
 }

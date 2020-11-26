@@ -48,10 +48,10 @@ namespace BirdWarsTest.Network.Messages
 		{
 			for ( int i = 0; i < 8; i++ )
 			{
-				playerUsernameList[i] = "";
+				playerUsernameList[ i ] = "";
 			}
 		}
 
-		public string [] playerUsernameList;
+		private string [] playerUsernameList;
 	}
 }

@@ -38,23 +38,23 @@ namespace BirdWarsTest.Network.Messages
 
 		private void GetUserInfo( NetIncomingMessage incomingMessage )
 		{
-			user.userId = incomingMessage.ReadInt32();
-			user.names = incomingMessage.ReadString();
-			user.lastName = incomingMessage.ReadString();
-			user.username = incomingMessage.ReadString();
-			user.email = incomingMessage.ReadString();
-			user.password = incomingMessage.ReadString();
+			user.UserId = incomingMessage.ReadInt32();
+			user.Names = incomingMessage.ReadString();
+			user.LastName = incomingMessage.ReadString();
+			user.Username = incomingMessage.ReadString();
+			user.Email = incomingMessage.ReadString();
+			user.Password = incomingMessage.ReadString();
 		}
 
 		private void GetAccountInfo( NetIncomingMessage incomingMessage )
 		{
-			userAccount.accountId = incomingMessage.ReadInt32();
-			userAccount.userId = incomingMessage.ReadInt32();
-			userAccount.totalMatchesPlayed = incomingMessage.ReadInt32();
-			userAccount.matchesWon = incomingMessage.ReadInt32();
-			userAccount.matchesSurvived = incomingMessage.ReadInt32();
-			userAccount.matchesLost = incomingMessage.ReadInt32();
-			userAccount.money = incomingMessage.ReadInt32();
+			userAccount.AccountId = incomingMessage.ReadInt32();
+			userAccount.UserId = incomingMessage.ReadInt32();
+			userAccount.TotalMatchesPlayed = incomingMessage.ReadInt32();
+			userAccount.MatchesWon = incomingMessage.ReadInt32();
+			userAccount.MatchesSurvived = incomingMessage.ReadInt32();
+			userAccount.MatchesLost = incomingMessage.ReadInt32();
+			userAccount.Money = incomingMessage.ReadInt32();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
@@ -67,27 +67,27 @@ namespace BirdWarsTest.Network.Messages
 
 		private void SetUserInfo( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( user.userId );
-			outgoingMessage.Write( user.names );
-			outgoingMessage.Write( user.lastName );
-			outgoingMessage.Write( user.username );
-			outgoingMessage.Write( user.email );
-			outgoingMessage.Write( user.password );
+			outgoingMessage.Write( user.UserId );
+			outgoingMessage.Write( user.Names );
+			outgoingMessage.Write( user.LastName );
+			outgoingMessage.Write( user.Username );
+			outgoingMessage.Write( user.Email );
+			outgoingMessage.Write( user.Password );
 		}
 
 		private void SetAccountInfo( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( userAccount.accountId );
-			outgoingMessage.Write( userAccount.userId );
-			outgoingMessage.Write( userAccount.totalMatchesPlayed );
-			outgoingMessage.Write( userAccount.matchesWon );
-			outgoingMessage.Write( userAccount.matchesSurvived );
-			outgoingMessage.Write( userAccount.matchesLost );
-			outgoingMessage.Write( userAccount.money );
+			outgoingMessage.Write( userAccount.AccountId );
+			outgoingMessage.Write( userAccount.UserId );
+			outgoingMessage.Write( userAccount.TotalMatchesPlayed );
+			outgoingMessage.Write( userAccount.MatchesWon );
+			outgoingMessage.Write( userAccount.MatchesSurvived );
+			outgoingMessage.Write( userAccount.MatchesLost );
+			outgoingMessage.Write( userAccount.Money );
 		}
 
-		public bool loginRequestResult;
-		public string reason;
+		private bool loginRequestResult;
+		private string reason;
 		private User user;
 		private Account userAccount;
 	}
