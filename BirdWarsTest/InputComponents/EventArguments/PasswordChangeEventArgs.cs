@@ -4,20 +4,21 @@ using System.Text;
 
 namespace BirdWarsTest.InputComponents.EventArguments
 {
-	public class LoginEventArgs : EventArgs
+	class PasswordChangeEventArgs : EventArgs
 	{
-		public LoginEventArgs()
+		public PasswordChangeEventArgs()
 		{
-			Email = "";
-			Password = "";
-		}
-		public void ResetArgs()
-		{
-			Email = "";
+			Code = "";
 			Password = "";
 		}
 
-		public string Email { get; set; }
+		public void ResetArgs()
+		{
+			Code = "";
+			Password = "";
+		}
+
+		public string Code { get; set; }
 		public string Password { get; set; }
 	}
 }

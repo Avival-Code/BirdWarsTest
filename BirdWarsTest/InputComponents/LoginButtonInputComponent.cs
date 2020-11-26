@@ -20,8 +20,6 @@ namespace BirdWarsTest.InputComponents
 			click += Login;
 		}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
-
 		private void Login( object sender, LoginEventArgs loginEvents )
 		{
 			if( !string.IsNullOrEmpty( loginEvents.Password ) && validator.AreLoginArgsValid( loginEvents ) )
@@ -31,6 +29,8 @@ namespace BirdWarsTest.InputComponents
 				HostChangeState();
 			}
 		}
+
+		public override void HandleInput(GameObject gameObject, KeyboardState state) { }
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{

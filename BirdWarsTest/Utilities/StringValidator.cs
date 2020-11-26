@@ -36,13 +36,13 @@ namespace BirdWarsTest.Utilities
 					 !HasSpaces( username ) );
 		}
 
-		private bool IsEmailValid( string email )
+		public bool IsEmailValid( string email )
 		{
 			return ( IsStringValidSize( email, minEmailCount, maxEmailCount ) && CheckForInvalidChar( email ) &&
 					 HasSingleAtChar( email ) && !HasSpaces( email ) );
 		}
 
-		private bool IsPasswordValid( string password )
+		public bool IsPasswordValid( string password )
 		{
 			return ( IsStringValidSize( password, minPasswordCount, maxPasswordCount ) && CheckForInvalidChar( password ) &&
 					 !HasSpaces( password ) );

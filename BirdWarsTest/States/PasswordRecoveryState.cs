@@ -38,7 +38,8 @@ namespace BirdWarsTest.States
 										     Identifiers.TextArea, stateWidth,
 										     GameObjects[ 3 ].Position.Y + 20 ) );
 			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Send Code" ),
-											 null, Identifiers.Button1, stateWidth, 
+											 new SolicitPasswordResetInputComponent( handler ), 
+											 Identifiers.Button1, stateWidth, 
 										     GameObjects[ 4 ].Position.Y + 40.0f ) );
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Code", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth,
@@ -55,7 +56,8 @@ namespace BirdWarsTest.States
 											 Identifiers.TextArea, stateWidth,
 											 GameObjects[ 8 ].Position.Y + 20 ) );
 			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Reset" ),
-											 null, Identifiers.Button1, 
+											 new ResetPasswordInputComponent( handler ), 
+											 Identifiers.Button1, 
 											 new Vector2( GameObjects[ 9 ].Position.X - 30,
 														  GameObjects[ 9 ].Position.Y + 50.0f ) ) );
 			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
@@ -74,7 +76,7 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			foreach( var objects in GameObjects )
-				objects.Update( state );
+				objects.Update( state, this );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 

@@ -14,6 +14,7 @@ namespace BirdWarsTest.Network
 			gameDatabase = new GameDatabase();
 			gameRound = new GameRound();
 			emailManager = new EmailManager();
+			ChangeManager = new PasswordChangeManager();
 			userSession = new LoginSession();
 			Connect();
 		}
@@ -303,6 +304,26 @@ namespace BirdWarsTest.Network
 										     "has been created!" ) );
 		}
 
+		public void SendPasswordChangeMessage( string emailIn )
+		{
+			var user = gameDatabase.Users.Read( emailIn );
+			if( user != null )
+			{
+				ChangeManager.SetChangeCode( emailIn );
+				emailManager.SendEmailMessage( user.Names, user.Email, "Password Reset", 
+											   "Your password reset code is: " + ChangeManager.ChangeCode + "." );
+			}
+		}
+
+		public void UpdatePassword( string code, string password )
+		{
+			if( ChangeManager.PasswordChangeWasSolicited && code.Equals( ChangeManager.ChangeCode.ToString() ) )
+			{
+				var user = gameDatabase.Users.Read( ChangeManager.TargetUserEmail );
+				gameDatabase.Users.Update( user.UserId, user.Names, user.LastName, user.Username, user.Email, password );
+			}
+		}
+
 		public void CreateRound()
 		{
 			gameRound.CreateRound( userSession.CurrentUser.Username );
@@ -331,10 +352,12 @@ namespace BirdWarsTest.Network
 			return userSession;
 		}
 
-		private GameDatabase gameDatabase;
+		public PasswordChangeManager ChangeManager { get; private set; }
+
 		private NetServer netServer;
-		private GameRound gameRound;
 		private EmailManager emailManager;
+		private GameDatabase gameDatabase;
+		private GameRound gameRound;
 		public LoginSession userSession;
 		private bool isDisposed;
 	}

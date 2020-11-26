@@ -68,6 +68,40 @@ namespace BirdWarsTest.Database
 			return wasDeleted;
 		}
 
+		public User Read( string email )
+		{
+			User temp = null;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string MySqlCommandText = "SELECT * FROM Users WHERE email = @email";
+				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
+				MySqlParameter parameter = new MySqlParameter( "@email", email );
+				command.Parameters.Add( parameter );
+				MySqlDataReader reader = command.ExecuteReader();
+
+				if ( reader.HasRows && reader.Read() )
+				{
+					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
+									 reader.GetString( 4 ), reader.GetString( 5 ) );
+				}
+				else
+				{
+					Console.WriteLine( "No users found." );
+				}
+				reader.Close();
+			}
+			catch( Exception exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return temp;
+		}
+
 		public User Read( string email, string password )
 		{
 			User temp = null;
@@ -85,7 +119,7 @@ namespace BirdWarsTest.Database
 				command.Parameters.Add( parameters[ 1 ] );
 				MySqlDataReader reader = command.ExecuteReader();
 
-				if( reader.HasRows  && reader.Read() )
+				if( reader.HasRows && reader.Read() )
 				{
 					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
 									 reader.GetString( 4 ), reader.GetString( 5 ) );
