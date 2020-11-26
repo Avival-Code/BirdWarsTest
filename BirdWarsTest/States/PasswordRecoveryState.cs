@@ -17,52 +17,52 @@ namespace BirdWarsTest.States
 			:
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
-			gameObjects = new List< GameObject >();
+			GameObjects = new List< GameObject >();
 			gameWindow = gameWindowIn;
 		}
 
 		public override void Init( StateHandler handler ) 
 		{
-			gameObjects.Clear();
-			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
+			GameObjects.Clear();
+			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null,
 										 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuBoxGraphicsComponent( content ), null,
+			GameObjects.Add( new GameObject( new MenuBoxGraphicsComponent( content ), null,
 										 Identifiers.PasswordBox, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Recover Password", "Fonts/MainFont_S10" ),
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Recover Password", "Fonts/MainFont_S10" ),
 							                 null, Identifiers.TextGraphics, stateWidth, 50.0f ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ),
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Email", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth, 
-											 gameObjects[ 2 ].Position.Y + 50.0f ) );
-			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
+											 GameObjects[ 2 ].Position.Y + 50.0f ) );
+			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 										     Identifiers.TextArea, stateWidth,
-										     gameObjects[ 3 ].Position.Y + 20 ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Send Code" ),
+										     GameObjects[ 3 ].Position.Y + 20 ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Send Code" ),
 											 null, Identifiers.Button1, stateWidth, 
-										     gameObjects[ 4 ].Position.Y + 40.0f ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Code", "Fonts/MainFont_S10" ),
+										     GameObjects[ 4 ].Position.Y + 40.0f ) );
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Code", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth,
-											 gameObjects[ 5 ].Position.Y + 60.0f ) );
-			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
+											 GameObjects[ 5 ].Position.Y + 60.0f ) );
+			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 											 Identifiers.TextArea, stateWidth,
-											 gameObjects[ 6 ].Position.Y + 20 ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "New Password", "Fonts/MainFont_S10" ),
+											 GameObjects[ 6 ].Position.Y + 20 ) );
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "New Password", "Fonts/MainFont_S10" ),
 											 null, Identifiers.TextGraphics, stateWidth,
-											 gameObjects[ 7 ].Position.Y + 35.0f ) );
-			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
+											 GameObjects[ 7 ].Position.Y + 35.0f ) );
+			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextArea1" ),
 											 new TextAreaInputComponent( gameWindow ),
 											 Identifiers.TextArea, stateWidth,
-											 gameObjects[ 8 ].Position.Y + 20 ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Reset" ),
+											 GameObjects[ 8 ].Position.Y + 20 ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Reset" ),
 											 null, Identifiers.Button1, 
-											 new Vector2( gameObjects[ 9 ].Position.X - 30,
-														  gameObjects[ 9 ].Position.Y + 50.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
+											 new Vector2( GameObjects[ 9 ].Position.X - 30,
+														  GameObjects[ 9 ].Position.Y + 50.0f ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Cancel" ),
 											 new ButtonChangeStateInputComponent( handler, StateTypes.LoginState ),
 										     Identifiers.Button1, 
-											 new Vector2( gameObjects[ 10 ].Position.X + 160.0f,
-												          gameObjects[ 9 ].Position.Y + 50.0f ) ) );
+											 new Vector2( GameObjects[ 10 ].Position.X + 160.0f,
+												          GameObjects[ 9 ].Position.Y + 50.0f ) ) );
 		}
 
 		public override void Pause() {}
@@ -73,17 +73,18 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
-			foreach( var objects in gameObjects )
+			foreach( var objects in GameObjects )
 				objects.Update( state );
 		}
 
 		public override void Render( ref SpriteBatch sprites ) 
 		{
-			foreach( var objects in gameObjects )
+			foreach( var objects in GameObjects )
 				objects.Render( ref sprites );
 		}
 
-		private List< GameObject > gameObjects;
+		public List<GameObject> GameObjects { get; set; }
+
 		private GameWindow gameWindow;
 	}
 }
