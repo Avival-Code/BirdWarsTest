@@ -176,6 +176,12 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.ChatMessage:
 								HandleChatMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.SolicitPasswordResetmessage:
+								HandleSolicitPasswordResetMessage( incomingMessage );
+								break;
+							case GameMessageTypes.PasswordResetMessage:
+								HandlePasswordResetMessage( incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -226,6 +232,16 @@ namespace BirdWarsTest.Network
 			outgoingMessage.Write( "Registration successfull." );
 			incomingMessage.SenderConnection.SendMessage( outgoingMessage,  NetDeliveryMethod.ReliableUnordered, 
 														  incomingMessage.SequenceChannel );
+		}
+
+		private void HandleSolicitPasswordResetMessage( NetIncomingMessage incomingMessage )
+		{
+			SendPasswordChangeMessage( incomingMessage.ReadString() );
+		}
+
+		private void HandlePasswordResetMessage( NetIncomingMessage incomingMessage )
+		{
+			UpdatePassword( incomingMessage.ReadString(), incomingMessage.ReadString() );
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )

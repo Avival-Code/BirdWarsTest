@@ -220,9 +220,15 @@ namespace BirdWarsTest.Network
 			return userSession;
 		}
 
-		public void SendPasswordChangeMessage( string emailIn ) {}
+		public void SendPasswordChangeMessage( string emailIn ) 
+		{
+			SendMessage( new SolicitPasswordResetMessage( emailIn ) );
+		}
 
-		public void UpdatePassword(string code, string password) {}
+		public void UpdatePassword( string code, string password ) 
+		{
+			SendMessage( new PasswordResetMessage( code, password ) );
+		}
 
 		private NetClient netClient;
 		private LoginSession userSession;
