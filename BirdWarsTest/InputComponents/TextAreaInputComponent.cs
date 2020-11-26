@@ -12,7 +12,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			gameWindow = gameWindowIn;
 			hasFocus = false;
-			text = "";
+			Text = "";
 			timer = 0;
 		}
 
@@ -87,29 +87,34 @@ namespace BirdWarsTest.InputComponents
 
 		public void AddCharacter( char newChar )
 		{
-			text += newChar;
+			if( Text.Length < maxCharacters )
+			{
+				Text += newChar;
+			}
 		}
 
 		public void RemoveCharacter()
 		{
-			if( text.Length >= 1 )
-			text = text.Remove(text.Length - 1, 1);
+			if( Text.Length >= 1 )
+			Text = Text.Remove( Text.Length - 1, 1 );
 		}
 
 		public override string GetText()
 		{
-			return text;
+			return Text;
 		}
 
 		public override void ClearText()
 		{
-			text = "";
+			Text = "";
 		}
 
+		public string Text { get; set; }
+
 		private GameWindow gameWindow;
-		public string text;
 		private bool hasFocus;
 		private bool timerIsOn;
+		private const int maxCharacters = 40;
 		private int timer;
 	}
 }

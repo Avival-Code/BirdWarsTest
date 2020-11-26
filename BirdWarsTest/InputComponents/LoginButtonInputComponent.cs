@@ -1,5 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using BirdWarsTest.InputComponents.EventArguments;
+using BirdWarsTest.Utilities;
 using BirdWarsTest.Network;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
@@ -12,8 +13,9 @@ namespace BirdWarsTest.InputComponents
 	{
 		public LoginButtonInputComponent( StateHandler handlerIn )
 		{
-			loginEvents = new LoginEventArgs();
 			handler = handlerIn;
+			loginEvents = new LoginEventArgs();
+			validator = new StringValidator();
 			isHovering = false;
 			click += Login;
 		}
@@ -22,15 +24,11 @@ namespace BirdWarsTest.InputComponents
 
 		private void Login( object sender, LoginEventArgs loginEvents )
 		{
-			handler.networkManager.Login( loginEvents.email, loginEvents.password );
-			loginEvents.email = "";
-			loginEvents.password = "";
-			if( handler.networkManager.IsHost() )
+			if( !string.IsNullOrEmpty( loginEvents.Password ) && validator.AreLoginArgsValid( loginEvents ) )
 			{
-				if( ( ( ServerNetworkManager )handler.networkManager ).userSession.isLoggedIn )
-				{
-					handler.ChangeState( StateTypes.MainMenuState );
-				}
+				handler.networkManager.Login( loginEvents.Email, loginEvents.Password );
+				loginEvents.ResetArgs();
+				HostChangeState();
 			}
 		}
 
@@ -45,21 +43,33 @@ namespace BirdWarsTest.InputComponents
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
 				isHovering = true;
-				if (currentMouseState.LeftButton == ButtonState.Released &&
-					previousMouseState.LeftButton == ButtonState.Pressed)
+				if( currentMouseState.LeftButton == ButtonState.Released &&
+					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
-					loginEvents.email = ( ( LoginState ) gameState ).gameObjects[ 7 ].input.GetText();
-					loginEvents.password = ( ( LoginState ) gameState ).gameObjects[ 9 ].input.GetText();
+					loginEvents.Email = ( ( LoginState ) gameState ).gameObjects[ 7 ].input.GetText();
+					loginEvents.Password = ( ( LoginState ) gameState ).gameObjects[ 9 ].input.GetText();
 					click?.Invoke( this, loginEvents );
 				}
 			}
 		}
 
+		private void HostChangeState()
+		{
+			if( handler.networkManager.IsHost() )
+			{
+				if( ( ( ServerNetworkManager )handler.networkManager ).userSession.isLoggedIn )
+				{
+					handler.ChangeState( StateTypes.MainMenuState );
+				}
+			}
+		}
+
 		private StateHandler handler;
-		private MouseState currentMouseState;
-		private MouseState previousMouseState;
 		private event EventHandler< LoginEventArgs > click;
 		private LoginEventArgs loginEvents;
+		private StringValidator validator;
+		private MouseState currentMouseState;
+		private MouseState previousMouseState;
 		public bool clicked;
 		private bool isHovering;
 	}

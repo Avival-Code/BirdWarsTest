@@ -31,23 +31,24 @@ namespace BirdWarsTest.States
 											 null, Identifiers.TextGraphics, stateWidth, 55.0f ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Volume", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics, 
-											 new Vector2( 60.0f, gameObjects[ 2 ].Position.Y + 60.0f ) ) );
+											 new Vector2( 70.0f, gameObjects[ 2 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "50%", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 305.0f, gameObjects[ 2 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Keyboard", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 60.0f, gameObjects[ 4 ].Position.Y + 70.0f ) ) );
+											 new Vector2( 70.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Standard", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 275.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Language", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 60.0f, gameObjects[ 6 ].Position.Y + 70.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Volume", "Fonts/MainFont_S15" ),
+											 new Vector2( 70.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "English", "Fonts/MainFont_S15" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 280.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Accept" ), null, 
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Accept" ), 
+											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ), 
 											 Identifiers.Button2, stateWidth, gameObjects[ 8 ].Position.Y + 60.0f ) );
 		}
 
@@ -57,7 +58,13 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) {}
 
-		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}
+		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
+		{
+			foreach( var objects in gameObjects )
+			{
+				objects.Update( state );
+			}
+		}
 
 		public override void Render( ref SpriteBatch batch ) 
 		{
