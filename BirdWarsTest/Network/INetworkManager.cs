@@ -38,6 +38,8 @@ namespace BirdWarsTest.Network
 
 		void CreateRound();
 
+		void StartRound();
+
 		void JoinRound();
 
 		void SendChatMessage( string message );

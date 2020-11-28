@@ -38,15 +38,22 @@ namespace BirdWarsTest.Network.Messages
 		public void ConfigureSMTPAndSend( MimeMessage message )
 		{
 			Console.WriteLine( "Sending email..." );
-			using( var smtpClient = new SmtpClient() )
+			try
 			{
-				smtpClient.ServerCertificateValidationCallback =
-					( mysender, certificate, chain, sslpolicyerror ) => { return true; };
-				smtpClient.CheckCertificateRevocation = false;
-				smtpClient.Connect( server, port, true );
-				smtpClient.Authenticate( senderEmail, senderPassword );
-				smtpClient.Send( message );
-				smtpClient.Disconnect( true );
+				using (var smtpClient = new SmtpClient())
+				{
+					smtpClient.ServerCertificateValidationCallback =
+						(mysender, certificate, chain, sslpolicyerror) => { return true; };
+					smtpClient.CheckCertificateRevocation = false;
+					smtpClient.Connect( server, port, true );
+					smtpClient.Authenticate( senderEmail, senderPassword );
+					smtpClient.Send( message );
+					smtpClient.Disconnect( true );
+				}
+			}
+			catch( Exception exception )
+			{
+				Console.Write( exception.Message );
 			}
 		}
 

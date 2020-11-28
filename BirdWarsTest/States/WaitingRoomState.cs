@@ -19,31 +19,31 @@ namespace BirdWarsTest.States
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
 			gameWindow = gameWindowIn;
-			gameObjects = new List< GameObject >();
-			usernameManager = new ChatUsernameManager();
+			GameObjects = new List< GameObject >();
+			UsernameManager = new ChatUsernameManager();
 		}
 
 		public override void Init( StateHandler handler ) 
 		{
-			usernameManager.AddObjects( content );
-			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, Identifiers.Background,
-											 new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( content, "TextAreas/ChatBoard530x480" ), null,
-											 Identifiers.TextArea, new Vector2( 250.0f, 20.0f ) ) );
-			gameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextAreas/ChatTextArea530x35" ),
+			UsernameManager.AddObjects( content );
+			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, 
+											 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
+			GameObjects.Add( new GameObject( new DecorationGraphicsComponent( content, "TextAreas/ChatBoard530x480" ), 
+											 null, Identifiers.TextArea, new Vector2( 250.0f, 20.0f ) ) );
+			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextAreas/ChatTextArea530x35" ),
 											 new TextAreaInputComponent( gameWindow ), 
 											 Identifiers.TextArea, new Vector2( 250.0f, 520.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Players", "Fonts/MainFont_S20" ), null,
-											 Identifiers.TextGraphics, new Vector2( 70.0f, 20.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Start Round"), null, 
-											 Identifiers.Button2, 
-											 new Vector2( 25.0f, usernameManager.gameObjects[ usernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Leave" ), null, 
-											 Identifiers.Button2,
-											 new Vector2( 25.0f, gameObjects[ gameObjects.Count - 1 ].Position.Y + 35 ) ) );
-			gameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Players", "Fonts/MainFont_S20" ), 
+											 null, Identifiers.TextGraphics, new Vector2( 70.0f, 20.0f ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Start Round"), 
+											 new StartRoundInputComponent( handler ), Identifiers.Button2, 
+											 new Vector2( 25.0f, UsernameManager.gameObjects[ UsernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Leave" ), 
+											 null, Identifiers.Button2,
+											 new Vector2( 25.0f, GameObjects[ GameObjects.Count - 1 ].Position.Y + 35 ) ) );
+			GameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
 											 new Vector2( 0.0f, 0.0f ) ) );
-			messageManager = new ChatMessageManager( content, gameObjects[ 1 ].GetRectangle() );
+			MessageManager = new ChatMessageManager( content, GameObjects[ 1 ].GetRectangle() );
 		}
 
 		public override void Pause() {}
@@ -55,31 +55,21 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			networkManager.ProcessMessages( handler );
-			foreach( var objects in gameObjects )
+			foreach( var objects in GameObjects )
 			{
 				objects.Update( state );
 			}
-			gameObjects[ 6 ].Update( state, this );
+			GameObjects[ 6 ].Update( state, this );
 		}
 
 		public override void Render( ref SpriteBatch batch ) 
 		{
-			foreach( var objects in gameObjects )
+			foreach( var objects in GameObjects )
 			{
 				objects.Render( ref batch );
 			}
-			messageManager.Render( ref batch );
-			usernameManager.Render( ref batch );
-		}
-
-		public ChatUsernameManager UsernameManager
-		{
-			get{ return usernameManager; }
-		}
-
-		public ChatMessageManager MessageManager
-		{
-			get{ return messageManager; }
+			MessageManager.Render( ref batch );
+			UsernameManager.Render( ref batch );
 		}
 
 		public INetworkManager NetworkManager
@@ -87,14 +77,10 @@ namespace BirdWarsTest.States
 			get{ return networkManager; }
 		}
 
-		public List< GameObject > GameObjects
-		{
-			get{ return gameObjects; }
-		}
+		public List<GameObject> GameObjects { get; set; }
+		public ChatUsernameManager UsernameManager { get; set; }
+		public ChatMessageManager MessageManager { get; set; }
 
 		private GameWindow gameWindow;
-		private List< GameObject > gameObjects;
-		private ChatUsernameManager usernameManager;
-		private ChatMessageManager messageManager;
 	}
 }

@@ -155,16 +155,14 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.ChatMessage:
 								HandleChatMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.StartRoundMessage:
+								HandleStartRoundMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
 				Recycle( incomingMessage );
 			}
-		}
-
-		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
-		{
-			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
 		}
 
 		private void HandleLoginResultMessage( NetIncomingMessage incomingMessage, StateHandler handler )
@@ -203,8 +201,20 @@ namespace BirdWarsTest.Network
 				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), userSession.CurrentUser.Username );
 		}
 
+		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			handler.ChangeState( StateTypes.PlayState );
+		}
+
+		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
+		{
+			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
+		}
+
 		public void CreateRound() {}
-		
+
+		public void StartRound() {}
+
 		public void JoinRound()
 		{
 			SendMessage( new JoinRoundRequestMessage( userSession.CurrentUser.Username ) );

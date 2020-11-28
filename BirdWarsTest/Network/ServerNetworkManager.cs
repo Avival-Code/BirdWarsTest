@@ -11,12 +11,12 @@ namespace BirdWarsTest.Network
 	{
 		public ServerNetworkManager()
 		{
+			Connect();
 			gameDatabase = new GameDatabase();
 			gameRound = new GameRound();
 			emailManager = new EmailManager();
 			ChangeManager = new PasswordChangeManager();
 			userSession = new LoginSession();
-			Connect();
 		}
 
 		public void Login( string email, string password )
@@ -57,9 +57,6 @@ namespace BirdWarsTest.Network
 
 			netServer = new NetServer( config );
 			netServer.Start();
-
-			foreach( var connection in netServer.Connections )
-			Console.WriteLine( connection );
 		}
 
 		public NetOutgoingMessage CreateMessage()
@@ -157,6 +154,9 @@ namespace BirdWarsTest.Network
 								break;
 							case GameMessageTypes.ChatMessage:
 								HandleChatMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.StartRoundMessage:
+								HandleStartRoundMessage( handler, incomingMessage );
 								break;
 						}
 						break;
@@ -291,6 +291,21 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			StartRoundMessage startMessage = new StartRoundMessage( gameRound.GetPlayerUsernames() );
+			NetOutgoingMessage outgoingStartMessage = CreateMessage();
+			outgoingStartMessage.Write( ( byte )startMessage.messageType );
+			startMessage.Encode( outgoingStartMessage );
+
+			foreach( var connection in gameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingStartMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+
+			handler.ChangeState( StateTypes.PlayState );
+		}
+
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			string username = incomingMessage.ReadString();
@@ -349,6 +364,16 @@ namespace BirdWarsTest.Network
 			newRound.Encode( updateMessage );
 
 			netServer.SendUnconnectedToSelf( updateMessage );
+		}
+
+		public void StartRound()
+		{
+			StartRoundMessage startMessage = new StartRoundMessage( gameRound.GetPlayerUsernames() );
+			NetOutgoingMessage outgoingStartMessage = CreateMessage();
+			outgoingStartMessage.Write( ( byte )startMessage.messageType );
+			startMessage.Encode( outgoingStartMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingStartMessage );
 		}
 
 		public void JoinRound() {}

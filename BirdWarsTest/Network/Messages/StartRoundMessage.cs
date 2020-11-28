@@ -1,37 +1,33 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class JoinRoundRequestResultMessage : IGameMessage
+	public class StartRoundMessage : IGameMessage
 	{
-		public JoinRoundRequestResultMessage( NetIncomingMessage incomingMessage )
+		public StartRoundMessage( NetIncomingMessage incomingMessage )
 		{
 			playerUsernameList = new string[ 8 ];
 			EmptyFill();
 			Decode( incomingMessage );
 		}
 
-		public JoinRoundRequestResultMessage( bool approvedIn, string [] usernames )
+		public StartRoundMessage( string [] usernames )
 		{
 			playerUsernameList = new string[ 8 ];
 			EmptyFill();
-			approved = approvedIn;
-			for ( int i = 0; i < 8; i++ )
+			for( int i = 0; i < 8; i++ )
 			{
 				playerUsernameList[ i ] = usernames[ i ];
 			}
 		}
+
 		public GameMessageTypes messageType
 		{
-			get{ return GameMessageTypes.JoinRoundRequestResultMessage; }
+			get { return GameMessageTypes.StartRoundMessage; }
 		}
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			approved = incomingMessage.ReadBoolean();
 			for( int i = 0; i < 8; i++ )
 			{
 				playerUsernameList[ i ] = incomingMessage.ReadString();
@@ -40,7 +36,6 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( approved );
 			for( int i = 0; i < 8; i++ )
 			{
 				outgoingMessage.Write( playerUsernameList[ i ] );
@@ -55,7 +50,6 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
-		private bool approved;
 		private string [] playerUsernameList;
 	}
 }
