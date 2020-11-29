@@ -1,5 +1,4 @@
 ﻿using BirdWarsTest.GameObjects;
-using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -51,6 +50,8 @@ namespace BirdWarsTest.GraphicComponents
 											   usernamePosition.Y + ( normalFont.MeasureString( message ).Y + 5 ) );
 			batch.DrawString( normalFont, message, messagePosition, textColor );
 		}
+
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) {}
 
 		private SpriteFont normalFont;
 		private Color textColor;

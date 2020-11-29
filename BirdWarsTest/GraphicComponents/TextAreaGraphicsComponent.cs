@@ -1,9 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GraphicComponents
 {
@@ -26,6 +23,8 @@ namespace BirdWarsTest.GraphicComponents
 									    ( gameObject.Position.Y + ( texture.Height / 2 ) ) - ( font.MeasureString( text ).Y / 2 ) );
 			batch.DrawString( font, text, temp, textColor );
 		}
+
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) {}
 
 		private SpriteFont font;
 		public Color textColor;

@@ -27,6 +27,8 @@ namespace BirdWarsTest.GraphicComponents
 			}
 		}
 
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) { }
+
 		public void changeColor( Color newColor )
 		{
 			buttonColor = newColor;

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
+using BirdWarsTest.GameRounds;
 
 namespace BirdWarsTest.States
 {
@@ -24,6 +25,6 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}
 
-		public override void Render( ref SpriteBatch batch) {}
+		public override void Render( ref SpriteBatch batch ) {}
 	}
 }

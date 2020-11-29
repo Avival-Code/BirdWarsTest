@@ -1,9 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GraphicComponents
 {
@@ -20,6 +17,8 @@ namespace BirdWarsTest.GraphicComponents
 			text = optionText;
 			isSelected = false;
 		}
+
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) { }
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
 			if( isSelected )

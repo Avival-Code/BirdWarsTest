@@ -14,5 +14,7 @@ namespace BirdWarsTest.GraphicComponents
 		{
 			batch.Draw( texture, gameObject.Position, Color.White );
 		}
+
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) {}
 	}
 }

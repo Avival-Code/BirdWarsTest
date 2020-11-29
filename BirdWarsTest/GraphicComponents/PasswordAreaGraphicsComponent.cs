@@ -23,6 +23,8 @@ namespace BirdWarsTest.GraphicComponents
 			batch.DrawString(font, text, temp, textColor);
 		}
 
+		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) {}
+
 		private string HideText( string password )
 		{
 			string temp = "";

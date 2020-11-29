@@ -45,6 +45,11 @@ namespace BirdWarsTest.GameObjects
 			graphics?.Render( this, ref batch );
 		}
 
+		public void Render( ref SpriteBatch batch, Rectangle cameraBounds )
+		{
+
+		}
+
 		public float CenterXWidth( float screenWidth, float textureWidth )
 		{
 			return ( screenWidth / 2 ) - ( textureWidth / 2 );
