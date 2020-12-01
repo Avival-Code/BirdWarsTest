@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BirdWarsTest.GameRounds
 {
-	class GameRound
+	public class GameRound
 	{
 		public GameRound()
 		{

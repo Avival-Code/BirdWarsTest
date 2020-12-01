@@ -1,4 +1,7 @@
 ﻿using Lidgren.Network;
+using BirdWarsTest.GameObjects;
+using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.Network.Messages
 {
@@ -7,17 +10,35 @@ namespace BirdWarsTest.Network.Messages
 		public StartRoundMessage( NetIncomingMessage incomingMessage )
 		{
 			playerUsernameList = new string[ 8 ];
-			EmptyFill();
+			playerPositions = new List< Vector2 >();
+			EmptyUsernameFill();
 			Decode( incomingMessage );
 		}
 
 		public StartRoundMessage( string [] usernames )
 		{
 			playerUsernameList = new string[ 8 ];
-			EmptyFill();
+			playerPositions = new List< Vector2 >();
+			EmptyUsernameFill();
+			EmptyPositionFill();
 			for( int i = 0; i < 8; i++ )
 			{
 				playerUsernameList[ i ] = usernames[ i ];
+			}
+		}
+
+		public StartRoundMessage( string[] usernames, List< GameObject > players  )
+		{
+			playerUsernameList = new string[ 8 ];
+			playerPositions = new List< Vector2 >();
+			EmptyUsernameFill();
+			for(int i = 0; i < 8; i++ )
+			{
+				playerUsernameList[ i ] = usernames[ i ];
+				if( players.Count > 0 && i < players.Count )
+				{
+					playerPositions.Add(new Vector2(players[i].Position.X, players[i].Position.Y));
+				}
 			}
 		}
 
@@ -30,7 +51,12 @@ namespace BirdWarsTest.Network.Messages
 		{
 			for( int i = 0; i < 8; i++ )
 			{
-				playerUsernameList[ i ] = incomingMessage.ReadString();
+				var username = incomingMessage.ReadString();
+				playerUsernameList[ i ] = username;
+				if( !string.IsNullOrEmpty( username ) )
+				{
+					playerPositions.Add( new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) );
+				}
 			}
 		}
 
@@ -39,10 +65,15 @@ namespace BirdWarsTest.Network.Messages
 			for( int i = 0; i < 8; i++ )
 			{
 				outgoingMessage.Write( playerUsernameList[ i ] );
+				if( playerPositions.Count > 0 && i < playerPositions.Count )
+				{
+					outgoingMessage.Write( playerPositions[ i ].X );
+					outgoingMessage.Write( playerPositions[ i ].Y );
+				}
 			}
 		}
 
-		public void EmptyFill()
+		public void EmptyUsernameFill()
 		{
 			for( int i = 0; i < 8; i++ )
 			{
@@ -50,6 +81,15 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
+		public void EmptyPositionFill()
+		{
+			for( int i = 0; i < 8; i++ )
+			{
+				playerPositions.Add( new Vector2( 0.0f, 0.0f ) );
+			}
+		}
+
 		private string [] playerUsernameList;
+		private List< Vector2 > playerPositions;
 	}
 }

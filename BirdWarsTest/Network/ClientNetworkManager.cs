@@ -204,6 +204,8 @@ namespace BirdWarsTest.Network
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			handler.ChangeState( StateTypes.PlayState );
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content,
+																					incomingMessage, userSession.CurrentUser.Username );
 		}
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )

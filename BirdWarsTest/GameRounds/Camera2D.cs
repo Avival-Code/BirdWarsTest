@@ -15,6 +15,13 @@ namespace BirdWarsTest.GameRounds
 			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
 		}
 
+		public void SetCamera( Vector2 position )
+		{
+			CameraPosition = new Vector2( position.X - 400.0f, position.Y - 300.0f );
+			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
+			isCameraSet = true;
+		}
+
 		public void Update( Rectangle mapBoundary, Rectangle objectRect )
 		{
 			if( CameraPosition.Y >= mapBoundary.Top && objectRect.Top < GetMoveEntityBounds().Top )
@@ -54,6 +61,8 @@ namespace BirdWarsTest.GameRounds
 		}
 
 		public Vector2 CameraPosition { get; set; }
+		public bool isCameraSet { get; private set; }
+
 		private Vector2 moveEntityPosition;
 		private const int CameraWidth = 800;
 		private const int CameraHeight = 600;

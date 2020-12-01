@@ -24,27 +24,27 @@ namespace BirdWarsTest.States
 		public override void Init(StateHandler handler)
 		{
 			gameObjects.Clear();
-			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, Identifiers.Background,
+			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, Identifiers.Background,
 											 new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( content, "Decorations/MainMenuBar800x110" ),
+			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( Content, "Decorations/MainMenuBar800x110" ),
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 60.0f ) ) );
-			gameObjects.Add( new GameObject( new DecorationGraphicsComponent(content, "Logos/BirdWarsLogo_440x246" ),
+			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( Content, "Logos/BirdWarsLogo_440x246" ),
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 20.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Find Game" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Find Game" ), 
 										     new FindGameInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 2 ].Position.Y + 270.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Create Game" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Create Game" ), 
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Statistics" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Statistics" ), 
 										     new SelectorChangeStateInputComponent( handler, StateTypes.StatisticsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( content, "Settings" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Settings" ), 
 											 new SelectorChangeStateInputComponent( handler, StateTypes.OptionsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(content, "Logout"), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Logout"), 
 											 new LogoutInputComponent( handler ), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,

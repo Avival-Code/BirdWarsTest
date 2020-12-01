@@ -11,7 +11,7 @@ namespace BirdWarsTest.States
 						     ref GraphicsDeviceManager newGraphics, ref INetworkManager networkManagerIn,
 							 int stateWidth_in, int stateHeight_in )
 		{
-			content = newContent;
+			Content = newContent;
 			graphics = newGraphics;
 			networkManager = networkManagerIn;
 			stateWidth = stateWidth_in;
@@ -39,7 +39,8 @@ namespace BirdWarsTest.States
 			stateHandler.ChangeState( state );
 		}
 
-		protected Microsoft.Xna.Framework.Content.ContentManager content;
+		public Microsoft.Xna.Framework.Content.ContentManager Content { get; }
+
 		protected GraphicsDeviceManager graphics;
 		protected INetworkManager networkManager;
 		protected int stateWidth;

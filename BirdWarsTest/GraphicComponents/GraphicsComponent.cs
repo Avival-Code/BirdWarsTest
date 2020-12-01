@@ -6,6 +6,8 @@ namespace BirdWarsTest.GraphicComponents
 {
 	public abstract class GraphicsComponent
 	{
+		public GraphicsComponent() {}
+
 		public GraphicsComponent( Texture2D texture_In )
 		{
 			texture = texture_In;

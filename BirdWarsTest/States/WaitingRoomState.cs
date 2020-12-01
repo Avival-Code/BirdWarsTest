@@ -25,25 +25,25 @@ namespace BirdWarsTest.States
 
 		public override void Init( StateHandler handler ) 
 		{
-			UsernameManager.AddObjects( content );
-			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( content ), null, 
+			UsernameManager.AddObjects( Content );
+			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, 
 											 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
-			GameObjects.Add( new GameObject( new DecorationGraphicsComponent( content, "TextAreas/ChatBoard530x480" ), 
+			GameObjects.Add( new GameObject( new DecorationGraphicsComponent( Content, "TextAreas/ChatBoard530x480" ), 
 											 null, Identifiers.TextArea, new Vector2( 250.0f, 20.0f ) ) );
-			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( content, "TextAreas/ChatTextArea530x35" ),
+			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( Content, "TextAreas/ChatTextArea530x35" ),
 											 new TextAreaInputComponent( gameWindow ), 
 											 Identifiers.TextArea, new Vector2( 250.0f, 520.0f ) ) );
-			GameObjects.Add( new GameObject( new TextGraphicsComponent( content, "Players", "Fonts/MainFont_S20" ), 
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Players", "Fonts/MainFont_S20" ), 
 											 null, Identifiers.TextGraphics, new Vector2( 70.0f, 20.0f ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Start Round"), 
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Start Round"), 
 											 new StartRoundInputComponent( handler ), Identifiers.Button2, 
 											 new Vector2( 25.0f, UsernameManager.gameObjects[ UsernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( content, "Button2", "Leave" ), 
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Leave" ), 
 											 null, Identifiers.Button2,
 											 new Vector2( 25.0f, GameObjects[ GameObjects.Count - 1 ].Position.Y + 35 ) ) );
 			GameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
 											 new Vector2( 0.0f, 0.0f ) ) );
-			MessageManager = new ChatMessageManager( content, GameObjects[ 1 ].GetRectangle() );
+			MessageManager = new ChatMessageManager( Content, GameObjects[ 1 ].GetRectangle() );
 		}
 
 		public override void Pause() {}

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
+using BirdWarsTest.GameObjects.ObjectManagers;
 using BirdWarsTest.GameRounds;
 
 namespace BirdWarsTest.States
@@ -13,7 +14,10 @@ namespace BirdWarsTest.States
 						  int width_in, int height_in )
 			:
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
-		{}
+		{
+			PlayerManager = new PlayerManager();
+			camera = new Camera2D();
+		}
 
 		public override void Init( StateHandler handler ) {}
 
@@ -23,8 +27,25 @@ namespace BirdWarsTest.States
 
 		public override void HandleInput( KeyboardState state ) {}
 
-		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}
+		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
+		{
+			networkManager.ProcessMessages( handler );
+			if( PlayerManager.CreatedPlayers && !camera.isCameraSet )
+			{
+				camera.SetCamera( PlayerManager.GetLocalPlayer().Position );
+			}
+			//if( camera.isCameraSet )
+			//{
+				camera.Update( new Rectangle( 0, 0, 2400, 1800 ), PlayerManager.GetLocalPlayer().GetRectangle() );
+			//}
+		}
 
-		public override void Render( ref SpriteBatch batch ) {}
+		public override void Render( ref SpriteBatch batch )
+		{
+			PlayerManager.Render( ref batch, camera.GetCameraBounds() );
+		}
+
+		private Camera2D camera;
+		public PlayerManager PlayerManager { get; private set; }
 	}
 }
