@@ -52,12 +52,12 @@ namespace BirdWarsTest.InputComponents
 
 		private void GetRegisterValues( GameState gameState )
 		{
-			registerEvents.Name = ( ( UserRegistryState )gameState ).GameObjects[ 6 ].input.GetText();
-			registerEvents.LastNames = ( ( UserRegistryState )gameState ).GameObjects[ 8 ].input.GetText();
-			registerEvents.Username = ( ( UserRegistryState )gameState ).GameObjects[ 10 ].input.GetText();
-			registerEvents.Email = ( ( UserRegistryState )gameState ).GameObjects[ 12 ].input.GetText();
-			registerEvents.Password = ( ( UserRegistryState )gameState ).GameObjects[ 14 ].input.GetText();
-			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].input.GetText();
+			registerEvents.Name = ( ( UserRegistryState )gameState ).GameObjects[ 6 ].Input.GetText();
+			registerEvents.LastNames = ( ( UserRegistryState )gameState ).GameObjects[ 8 ].Input.GetText();
+			registerEvents.Username = ( ( UserRegistryState )gameState ).GameObjects[ 10 ].Input.GetText();
+			registerEvents.Email = ( ( UserRegistryState )gameState ).GameObjects[ 12 ].Input.GetText();
+			registerEvents.Password = ( ( UserRegistryState )gameState ).GameObjects[ 14 ].Input.GetText();
+			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].Input.GetText();
 		}
 
 		public event EventHandler< RegisterEventArgs > click;

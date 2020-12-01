@@ -19,7 +19,7 @@ namespace BirdWarsTest.InputComponents
 			timer = 0;
 			changedSelection = false;
 
-			( ( MenuOptionGraphicsComponent )selections[ currentSelection ].graphics ).ToggleSelect();
+			( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
 		}
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
@@ -55,9 +55,9 @@ namespace BirdWarsTest.InputComponents
 			if( !changedSelection && currentSelection > minSelectorValue )
 			{
 				changedSelection = !changedSelection;
-				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].graphics ).ToggleSelect();
+				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
 				currentSelection -= 1;
-				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].graphics ).ToggleSelect();
+				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
 			}
 		}
 
@@ -66,9 +66,9 @@ namespace BirdWarsTest.InputComponents
 			if( !changedSelection && currentSelection < maxSelectorValue )
 			{
 				changedSelection = !changedSelection;
-				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].graphics ).ToggleSelect();
+				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].Graphics ).ToggleSelect();
 				currentSelection += 1;
-				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].graphics ).ToggleSelect();
+				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].Graphics ).ToggleSelect();
 			}
 		}
 

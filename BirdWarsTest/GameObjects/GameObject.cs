@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.GraphicComponents;
+using BirdWarsTest.HealthComponents;
 using BirdWarsTest.States;
 
 namespace BirdWarsTest.GameObjects
@@ -12,42 +13,54 @@ namespace BirdWarsTest.GameObjects
 		public GameObject( GraphicsComponent graphics_In, InputComponent input_In,
 						   Identifiers id_In, Vector2 position_in )
 		{
-			graphics = graphics_In;
-			input = input_In;
-			identifier = id_In;
-			position = position_in;
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = null;
+			Identifier = id_In;
+			Position = position_in;
 		}
 
 		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, 
 						   Identifiers id_In, float screenWidth, float screenHeight )
 		{
-			graphics = graphics_In;
-			input = input_In;
-			identifier = id_In;
-			if( graphics != null )
-				position = new Vector2( CenterXWidth( screenWidth, graphics.GetTextureSize().X ),
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = null;
+			Identifier = id_In;
+			if( Graphics != null )
+				Position = new Vector2( CenterXWidth( screenWidth, Graphics.GetTextureSize().X ),
 										screenHeight );
-			else { position = new Vector2( 0.0f, 0.0f ); }
+			else { Position = new Vector2( 0.0f, 0.0f ); }
+		}
+
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, HealthComponent health_In,
+						   Identifiers id_In, Vector2 position_in )
+		{
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = health_In;
+			Identifier = id_In;
+			Position = position_in;
 		}
 
 		public void Update( KeyboardState state )
 		{
-			input?.HandleInput( this, state );
+			Input?.HandleInput( this, state );
 		}
 
 		public void Update( KeyboardState state, GameState gameState )
 		{
-			input?.HandleInput( this, state, gameState );
+			Input?.HandleInput( this, state, gameState );
 		}
 
 		public void Render( ref SpriteBatch batch )
 		{
-			graphics?.Render( this, ref batch );
+			Graphics?.Render( this, ref batch );
 		}
 
 		public void Render( ref SpriteBatch batch, Rectangle cameraBounds )
 		{
-			graphics?.Render( this, ref batch, cameraBounds );
+			Graphics?.Render( this, ref batch, cameraBounds );
 		}
 
 		public float CenterXWidth( float screenWidth, float textureWidth )
@@ -57,19 +70,15 @@ namespace BirdWarsTest.GameObjects
 
 		public Rectangle GetRectangle()
 		{
-			return new Rectangle( ( int )position.X, ( int )position.Y, 
-								( int )graphics.GetTextureSize().X, ( int )graphics.GetTextureSize().Y );
+			return new Rectangle( ( int )Position.X, ( int )Position.Y, 
+								( int )Graphics.GetTextureSize().X, ( int )Graphics.GetTextureSize().Y );
 		}
 
-		public Vector2 Position 
-		{ 
-			get{ return position; } 
-			set{ position = value; }
-		}
 
-		public GraphicsComponent graphics = null;
-		public InputComponent input = null;
-		public Identifiers identifier;
-		private Vector2 position;
+		public GraphicsComponent Graphics { get; set; }
+		public InputComponent Input { get; set; }
+		public HealthComponent Health { get; set; }
+		public Identifiers Identifier { get; private set; }
+		public Vector2 Position { get; set; }
 	}
 }

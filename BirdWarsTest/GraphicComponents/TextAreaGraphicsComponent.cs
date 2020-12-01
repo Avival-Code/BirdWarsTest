@@ -18,7 +18,7 @@ namespace BirdWarsTest.GraphicComponents
 		public override void Render( GameObject gameObject, ref SpriteBatch batch )
 		{
 			batch.Draw( texture, gameObject.Position, Color.White );
-			string text = gameObject.input.GetText();
+			string text = gameObject.Input.GetText();
 			Vector2 temp = new Vector2( ( gameObject.Position.X + ( texture.Width / 2 ) ) - ( font.MeasureString( text ).X / 2 ),
 									    ( gameObject.Position.Y + ( texture.Height / 2 ) ) - ( font.MeasureString( text ).Y / 2 ) );
 			batch.DrawString( font, text, temp, textColor );

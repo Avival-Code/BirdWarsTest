@@ -29,7 +29,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			for( int i = 0; i < 8; i++ )
 			{
-				( ( ButtonGraphicsComponent )gameObjects[ i ].graphics ).Text = incomingMessage.ReadString(); 
+				( ( ButtonGraphicsComponent )gameObjects[ i ].Graphics ).Text = incomingMessage.ReadString(); 
 			}
 		}
 
@@ -37,7 +37,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			for( int i = 0; i < 8; i++ )
 			{
-				( ( ButtonGraphicsComponent )gameObjects[ i ].graphics ).Text = incomingMessage.ReadString();
+				( ( ButtonGraphicsComponent )gameObjects[ i ].Graphics ).Text = incomingMessage.ReadString();
 			}
 		}
 

@@ -107,13 +107,13 @@ namespace BirdWarsTest.States
 
 		private void SetStatistic( GameObject gameObject, int statistic )
 		{
-			gameObject.graphics.SetText( statistic.ToString() );
+			gameObject.Graphics.SetText( statistic.ToString() );
 		}
 
 		private void SetPercentStatistic( GameObject gameObject, float statistic )
 		{
 			string value = statistic.ToString();
-			gameObject.graphics.SetText( value + "%" );
+			gameObject.Graphics.SetText( value + "%" );
 		}
 
 		private void SetGameObjectStatistics()

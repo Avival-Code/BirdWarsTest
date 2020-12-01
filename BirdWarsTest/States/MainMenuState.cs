@@ -74,7 +74,7 @@ namespace BirdWarsTest.States
 			List<GameObject> menuOptions = new List<GameObject>();
 			foreach( var objects in gameObjects )
 			{
-				if( objects.identifier == Identifiers.MenuOption )
+				if( objects.Identifier == Identifiers.MenuOption )
 				{
 					menuOptions.Add( objects );
 				}
