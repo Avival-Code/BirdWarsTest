@@ -1,27 +1,29 @@
-﻿namespace BirdWarsTest.HealthComponents
+﻿using System;
+
+namespace BirdWarsTest.HealthComponents
 {
 	public class HealthComponent
 	{
 		public HealthComponent()
 		{
-			Health = 5.0f;
+			Health = 10;
 		}
 
-		public void TakeDamage( float damage )
+		public void TakeDamage( int damage )
 		{
 			Health -= damage;
 		}
 
-		public void Heal( float health )
+		public void Heal( int health )
 		{
 			Health += health;
 		}
 
 		public bool IsDead()
 		{
-			return Health > 0.0f;
+			return Health <= 0;
 		}
 
-		public float Health { get; set; }
+		public int Health { get; set; }
 	}
 }

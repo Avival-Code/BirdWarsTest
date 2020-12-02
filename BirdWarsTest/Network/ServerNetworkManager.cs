@@ -2,6 +2,7 @@
 using BirdWarsTest.Database;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.GameRounds;
+using BirdWarsTest.GameObjects;
 using Lidgren.Network;
 using System;
 
@@ -182,6 +183,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PasswordResetMessage:
 								HandlePasswordResetMessage( incomingMessage );
 								break;
+							case GameMessageTypes.PlayerStateChangeMessage:
+								HandlePlayerStateChangeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -294,7 +298,7 @@ namespace BirdWarsTest.Network
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			handler.ChangeState( StateTypes.PlayState );
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content,
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
 																					GameRound.GetPlayerUsernames(),
 																					userSession.CurrentUser.Username );
 
@@ -329,6 +333,11 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
@@ -347,6 +356,19 @@ namespace BirdWarsTest.Network
 				ChangeManager.SetChangeCode( emailIn );
 				emailManager.SendEmailMessage( user.Names, user.Email, "Password Reset", 
 											   "Your password reset code is: " + ChangeManager.ChangeCode + "." );
+			}
+		}
+
+		public void SendPlayerStateChangeMessage( GameObject player )
+		{
+			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( player );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )stateChangeMessage.messageType );
+			stateChangeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
 			}
 		}
 

@@ -23,6 +23,7 @@ namespace BirdWarsTest.States
 		public override void HandleInput( KeyboardState state ) {}
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}
+		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime ) {}
 
 		public override void Render( ref SpriteBatch sprites ) {}
 	}

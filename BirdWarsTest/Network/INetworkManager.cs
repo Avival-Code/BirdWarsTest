@@ -1,6 +1,7 @@
 ﻿using Lidgren.Network;
 using BirdWarsTest.Database;
 using BirdWarsTest.States;
+using BirdWarsTest.GameObjects;
 using System;
 
 namespace BirdWarsTest.Network
@@ -15,6 +16,10 @@ namespace BirdWarsTest.Network
 						   string emailIn, string passwordIn );
 
 		void SendPasswordChangeMessage( string emailIn );
+
+		void SendChatMessage( string message );
+
+		void SendPlayerStateChangeMessage( GameObject player );
 
 		void UpdatePassword( string code, string password );
 
@@ -41,7 +46,5 @@ namespace BirdWarsTest.Network
 		void StartRound();
 
 		void JoinRound();
-
-		void SendChatMessage( string message );
 	}
 }

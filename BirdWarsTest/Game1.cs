@@ -39,7 +39,7 @@ namespace BirdWarsTest
 				 Keyboard.GetState().IsKeyDown( Keys.Escape ) )
 				Exit();
 
-			stateHandler.GetCurrentState().UpdateLogic( stateHandler, Keyboard.GetState() );
+			stateHandler.GetCurrentState().UpdateLogic( stateHandler, Keyboard.GetState(), gameTime );
 
 			base.Update( gameTime );
 		}

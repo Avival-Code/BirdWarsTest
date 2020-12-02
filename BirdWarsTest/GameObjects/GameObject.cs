@@ -53,6 +53,13 @@ namespace BirdWarsTest.GameObjects
 			Input?.HandleInput( this, state, gameState );
 		}
 
+		public void Update( KeyboardState state, GameState gameState, GameTime gameTime )
+		{
+			var elapsedGameTime = ( float )gameTime.ElapsedGameTime.TotalSeconds;
+			Input?.HandleInput( this, state, gameState );
+			Position += Input.GetVelocity() * elapsedGameTime;
+		}
+
 		public void Render( ref SpriteBatch batch )
 		{
 			Graphics?.Render( this, ref batch );
@@ -71,7 +78,7 @@ namespace BirdWarsTest.GameObjects
 		public Rectangle GetRectangle()
 		{
 			return new Rectangle( ( int )Position.X, ( int )Position.Y, 
-								( int )Graphics.GetTextureSize().X, ( int )Graphics.GetTextureSize().Y );
+								  ( int )Graphics.GetTextureSize().X, ( int )Graphics.GetTextureSize().Y );
 		}
 
 

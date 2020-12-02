@@ -63,6 +63,11 @@ namespace BirdWarsTest.States
 			gameObjects[ 8 ].Update( state, this );
 		}
 
+		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
+		{
+			UpdateLogic( handler, state );
+		}
+
 		public override void Render(ref SpriteBatch sprites)
 		{
 			foreach( var objects in gameObjects )

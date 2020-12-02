@@ -1,4 +1,5 @@
 ﻿using BirdWarsTest.Database;
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.States;
 using Lidgren.Network;
@@ -158,6 +159,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.StartRoundMessage:
 								HandleStartRoundMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PlayerStateChangeMessage:
+								HandlePlayerStateChangeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -204,8 +208,13 @@ namespace BirdWarsTest.Network
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			handler.ChangeState( StateTypes.PlayState );
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content,
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
 																					incomingMessage, userSession.CurrentUser.Username );
+		}
+
+		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
 		}
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
@@ -235,6 +244,11 @@ namespace BirdWarsTest.Network
 		public void SendPasswordChangeMessage( string emailIn ) 
 		{
 			SendMessage( new SolicitPasswordResetMessage( emailIn ) );
+		}
+
+		public void SendPlayerStateChangeMessage( GameObject player )
+		{
+			SendMessage( new PlayerStateChangeMessage( player ) );
 		}
 
 		public void UpdatePassword( string code, string password ) 

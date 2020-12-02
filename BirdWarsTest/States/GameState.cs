@@ -32,6 +32,7 @@ namespace BirdWarsTest.States
 
 		public abstract void HandleInput( KeyboardState state );
 		public abstract void UpdateLogic( StateHandler handler, KeyboardState state );
+		public abstract void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime );
 		public abstract void Render( ref SpriteBatch sprites );
 
 		public void ChangeState( StateHandler stateHandler, StateTypes state )
