@@ -30,7 +30,7 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
-			networkManager.ProcessMessages(handler);
+			networkManager.ProcessMessages( handler );
 			if( PlayerManager.CreatedPlayers && !camera.isCameraSet )
 			{
 				camera.SetCamera( PlayerManager.GetLocalPlayer().Position );
@@ -39,7 +39,7 @@ namespace BirdWarsTest.States
 			//{
 			camera.Update( new Rectangle(0, 0, 2400, 1800), PlayerManager.GetLocalPlayer().GetRectangle() );
 			//}
-			PlayerManager.Update( this, state, gameTime );
+			PlayerManager.Update( this, state, gameTime, new Rectangle( 0, 0, 2400, 1800 ) );
 		}
 
 		public override void Render( ref SpriteBatch batch )

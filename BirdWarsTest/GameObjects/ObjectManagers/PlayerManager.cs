@@ -110,11 +110,32 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			return null;
 		}
 
-		public void Update( GameState gameState, KeyboardState state, GameTime gameTime )
+		public void Update( GameState gameState, KeyboardState state, GameTime gameTime, Rectangle mapBounds )
 		{
 			foreach( var player in Players )
 			{
 				player.Update( state, gameState, gameTime );
+				ImposeMapBoundaryLimits( player, mapBounds );
+			}
+		}
+
+		private void ImposeMapBoundaryLimits( GameObject player, Rectangle mapBounds )
+		{
+			if( player.Position.X < mapBounds.Left )
+			{
+				player.Position = new Vector2( mapBounds.Left, player.Position.Y );
+			}
+			if( player.Position.Y < mapBounds.Top )
+			{
+				player.Position = new Vector2( player.Position.X, mapBounds.Top );
+			}
+			if( player.GetRectangle().Right > mapBounds.Right )
+			{
+				player.Position = new Vector2( mapBounds.Right - player.Graphics.GetTextureSize().X, player.Position.Y );
+			}
+			if( player.GetRectangle().Bottom > mapBounds.Bottom )
+			{
+				player.Position = new Vector2( player.Position.X, mapBounds.Bottom - player.Graphics.GetTextureSize().Y );
 			}
 		}
 

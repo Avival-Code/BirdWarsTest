@@ -10,7 +10,7 @@ namespace BirdWarsTest.InputComponents
 		public LocalPlayerInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
-			playerSpeed = 150.0f;
+			playerSpeed = 300.0f;
 			lastUpdateTime = 1.0;
 		}
 
