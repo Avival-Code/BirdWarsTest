@@ -39,7 +39,7 @@ namespace BirdWarsTest.States
 											 new StartRoundInputComponent( handler ), Identifiers.Button2, 
 											 new Vector2( 25.0f, UsernameManager.gameObjects[ UsernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
 			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Leave" ), 
-											 null, Identifiers.Button2,
+											 new LeaveGameInputComponent( handler, StateTypes.MainMenuState ), Identifiers.Button2,
 											 new Vector2( 25.0f, GameObjects[ GameObjects.Count - 1 ].Position.Y + 35 ) ) );
 			GameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
 											 new Vector2( 0.0f, 0.0f ) ) );

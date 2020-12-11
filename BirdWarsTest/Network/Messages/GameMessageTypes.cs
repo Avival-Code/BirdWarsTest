@@ -11,6 +11,7 @@ namespace BirdWarsTest.Network.Messages
 		JoinRoundRequestResultMessage,
 		LoginRequestMessage,
 		LoginResultMessage,
+		LeaveRoundMessage,
 		registerUserMessage,
 		RoundCreatedMessage,
 		RoundStateChangedMessage,

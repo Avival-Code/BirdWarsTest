@@ -46,5 +46,7 @@ namespace BirdWarsTest.Network
 		void StartRound();
 
 		void JoinRound();
+
+		void LeaveRound();
 	}
 }

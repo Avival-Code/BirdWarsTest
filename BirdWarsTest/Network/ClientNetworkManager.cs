@@ -231,6 +231,11 @@ namespace BirdWarsTest.Network
 			SendMessage( new JoinRoundRequestMessage( userSession.CurrentUser.Username ) );
 		}
 
+		public void LeaveRound()
+		{
+			SendMessage( new LeaveRoundMessage( userSession.CurrentUser.Username ) );
+		}
+
 		public void SendChatMessage( string message )
 		{
 			SendMessage( new ChatMessage( userSession.CurrentUser.Username, message ) );

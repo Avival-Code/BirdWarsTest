@@ -186,6 +186,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PlayerStateChangeMessage:
 								HandlePlayerStateChangeMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.LeaveRoundMessage:
+								HandleLeaveRoundMessage( incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -293,6 +296,17 @@ namespace BirdWarsTest.Network
 				netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, 
 									   NetDeliveryMethod.ReliableUnordered );
 			}
+		}
+
+		private void HandleLeaveRoundMessage( NetIncomingMessage incomingMessage )
+		{
+			GameRound.RemovePlayer( incomingMessage.SenderConnection, incomingMessage.ReadString() );
+			RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
+			NetOutgoingMessage updateMessage = CreateMessage();
+			updateMessage.Write( ( byte )newRoundState.messageType );
+			newRoundState.Encode( updateMessage );
+
+			netServer.SendUnconnectedToSelf( updateMessage );
 		}
 
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -418,6 +432,8 @@ namespace BirdWarsTest.Network
 		{
 			return userSession;
 		}
+
+		public void LeaveRound() {}
 
 		public PasswordChangeManager ChangeManager { get; private set; }
 		public GameRound GameRound { get; set; }

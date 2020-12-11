@@ -29,9 +29,10 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
-		public void RemovePlayer( NetConnection playerConnection )
+		public void RemovePlayer( NetConnection playerConnection, string username )
 		{
 			PlayerConnections.Remove( playerConnection );
+			playerUsernames.Remove( username );
 		}
 
 		public int GetPlayerCount()
@@ -61,9 +62,9 @@ namespace BirdWarsTest.GameRounds
 			return temp;
 		}
 
-		public bool Created { get; private set; }
+		public List< NetConnection > PlayerConnections { get; private set; }
 
-		public List<NetConnection> PlayerConnections { get; private set; }
+		public bool Created { get; private set; }
 
 		private List< string > playerUsernames;
 		private const int maxPlayers = 8;

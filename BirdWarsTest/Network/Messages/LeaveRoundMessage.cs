@@ -2,21 +2,21 @@
 
 namespace BirdWarsTest.Network.Messages
 {
-	class JoinRoundRequestMessage : IGameMessage
+	class LeaveRoundMessage : IGameMessage
 	{
-		public JoinRoundRequestMessage( NetIncomingMessage incomingMessage )
+		public LeaveRoundMessage( NetIncomingMessage incomingMessage )
 		{
 			Decode( incomingMessage );
 		}
 
-		public JoinRoundRequestMessage( string usernameIn )
+		public LeaveRoundMessage( string username_In )
 		{
-			username = usernameIn;
+			username = username_In;
 		}
 
 		public GameMessageTypes messageType
 		{
-			get { return GameMessageTypes.JoinRoundRequestMessage; }
+			get { return GameMessageTypes.LeaveRoundMessage; }
 		}
 
 		public void Decode( NetIncomingMessage incomingMessage )
@@ -24,7 +24,7 @@ namespace BirdWarsTest.Network.Messages
 			username = incomingMessage.ReadString();
 		}
 
-		public void Encode( NetOutgoingMessage outgoingMessage )
+		public void Encode (NetOutgoingMessage outgoingMessage )
 		{
 			outgoingMessage.Write( username );
 		}

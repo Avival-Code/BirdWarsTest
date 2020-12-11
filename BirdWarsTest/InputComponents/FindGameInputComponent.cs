@@ -6,9 +6,9 @@ namespace BirdWarsTest.InputComponents
 {
 	class FindGameInputComponent : InputComponent
 	{
-		public override void HandleInput(GameObject gameObject, KeyboardState state) {}
+		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
-		public override void HandleInput(GameObject gameObject, KeyboardState state, GameState gameState)
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			( ( MainMenuState )gameState ).NetworkManager.JoinRound();
 		}
