@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using BirdWarsTest.Utilities;
 using BirdWarsTest.Network;
 
 namespace BirdWarsTest.States
@@ -14,7 +15,7 @@ namespace BirdWarsTest.States
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{}
 
-		public override void Init( StateHandler handler ) { }
+		public override void Init( StateHandler handler, StringManager stringManager ) { }
 
 		public override void Pause() {}
 

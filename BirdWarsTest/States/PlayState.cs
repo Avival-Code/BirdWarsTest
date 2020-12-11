@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
 using BirdWarsTest.GameObjects.ObjectManagers;
 using BirdWarsTest.GameRounds;
+using BirdWarsTest.Utilities;
 
 namespace BirdWarsTest.States
 {
@@ -19,7 +20,7 @@ namespace BirdWarsTest.States
 			camera = new Camera2D();
 		}
 
-		public override void Init( StateHandler handler ) {}
+		public override void Init( StateHandler handler, StringManager stringManager ) {}
 
 		public override void Pause() {}
 

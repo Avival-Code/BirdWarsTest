@@ -1,4 +1,5 @@
 ﻿using BirdWarsTest.Network;
+using BirdWarsTest.Utilities;
 using Microsoft.Xna.Framework;
 
 namespace BirdWarsTest.States
@@ -10,6 +11,7 @@ namespace BirdWarsTest.States
 		{
 			currentState = StateTypes.LoginState;
 			networkManager = networkManagerIn;
+			stringManager = new StringManager();
 			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, ref networkManager, loginWidth, loginHeight );
 			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
@@ -39,6 +41,7 @@ namespace BirdWarsTest.States
 		}
 
 		private GameState[] gameStates;
+		private StringManager stringManager;
 		public INetworkManager networkManager;
 		private StateTypes currentState;
 		private const int maxStates = 9;

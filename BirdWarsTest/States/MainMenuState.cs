@@ -5,6 +5,7 @@ using BirdWarsTest.Network;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
+using BirdWarsTest.Utilities;
 using System.Collections.Generic;
 
 namespace BirdWarsTest.States
@@ -21,7 +22,7 @@ namespace BirdWarsTest.States
 			gameObjects = new List<GameObject>();
 		}
 
-		public override void Init(StateHandler handler)
+		public override void Init( StateHandler handler, StringManager stringManager )
 		{
 			gameObjects.Clear();
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, Identifiers.Background,

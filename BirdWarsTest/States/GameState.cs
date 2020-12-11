@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
+using BirdWarsTest.Utilities;
 
 namespace BirdWarsTest.States
 {
@@ -18,16 +19,16 @@ namespace BirdWarsTest.States
 			stateHeight = stateHeight_in;
 		}
 
-		public abstract void Init( StateHandler handler );
+		public abstract void Init( StateHandler handler, StringManager stringManager );
 
 		public abstract void Pause();
 		public abstract void Resume();
-		public void Enter( StateHandler handler )
+		public void Enter( StateHandler handler, StringManager stringManager )
 		{
 			graphics.PreferredBackBufferWidth = stateWidth;
 			graphics.PreferredBackBufferHeight = stateHeight;
 			graphics.ApplyChanges();
-			Init( handler );
+			Init( handler, stringManager );
 		}
 
 		public abstract void HandleInput( KeyboardState state );

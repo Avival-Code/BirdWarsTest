@@ -6,6 +6,7 @@ using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.GameObjects.ObjectManagers;
+using BirdWarsTest.Utilities;
 using System.Collections.Generic;
 
 namespace BirdWarsTest.States
@@ -23,7 +24,7 @@ namespace BirdWarsTest.States
 			UsernameManager = new ChatUsernameManager();
 		}
 
-		public override void Init( StateHandler handler ) 
+		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
 			UsernameManager.AddObjects( Content );
 			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, 
@@ -59,6 +60,7 @@ namespace BirdWarsTest.States
 			{
 				objects.Update( state );
 			}
+			GameObjects[ 5 ].Update( state, this );
 			GameObjects[ 6 ].Update( state, this );
 		}
 

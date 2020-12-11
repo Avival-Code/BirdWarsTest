@@ -4,9 +4,9 @@ using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
-using System.Collections.Generic;
 using BirdWarsTest.Network;
-using System;
+using BirdWarsTest.Utilities;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
@@ -23,7 +23,7 @@ namespace BirdWarsTest.States
 			gameWindow = gameWindowIn;
 		}
 
-		public override void Init( StateHandler handler )
+		public override void Init( StateHandler handler, StringManager stringManager )
 		{
 			GameObjects.Clear();
 			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null,
