@@ -10,7 +10,7 @@ namespace BirdWarsTest.Utilities
 		public StringManager()
 		{
 			Strings = new List< string >();
-			CurrentLanguage = Languages.English;
+			CurrentLanguage = Languages.Spanish;
 			LoadStrings( CurrentLanguage );
 		}
 

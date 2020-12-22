@@ -1,6 +1,7 @@
 ﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace BirdWarsTest.GraphicComponents
 {

@@ -145,6 +145,13 @@
 /processorParam:TextureFormat=Color
 /build:Decorations/UsernameBorder200x50.png
 
+#begin Fonts/BabeFont_10.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/BabeFont_10.spritefont
+
 #begin Fonts/MainFont_S10.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

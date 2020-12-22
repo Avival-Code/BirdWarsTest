@@ -11,7 +11,7 @@ namespace BirdWarsTest.GraphicComponents
 			:
 			base( content.Load< Texture2D >( textureName ) )
 		{
-			font = content.Load< SpriteFont >( "Fonts/MainFont_S10" );
+			font = content.Load< SpriteFont >( "Fonts/BabeFont_10" );
 			text = buttonText;
 			textColor = Color.Black;
 		}
