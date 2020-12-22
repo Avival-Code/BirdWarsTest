@@ -23,7 +23,7 @@ namespace BirdWarsTest.States
 
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
-			gameObjects.Clear();
+			ClearContents();
 			gameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, Identifiers.Background,
 											 new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new DecorationBoxGraphicsComponent( Content, "Decorations/ConfigurationBox450x400" ),
@@ -64,6 +64,12 @@ namespace BirdWarsTest.States
 		public override void Pause() {}
 
 		public override void Resume() {}
+
+		public override void ClearContents()
+		{
+			gameObjects.Clear();
+		}
+
 
 		public override void HandleInput( KeyboardState state ) {}
 

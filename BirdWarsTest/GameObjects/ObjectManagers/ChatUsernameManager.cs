@@ -25,6 +25,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		public void ClearObjects()
+		{
+			gameObjects.Clear();
+		}
+
 		public void HandleRoundStateChangeMessage( NetIncomingMessage incomingMessage )
 		{
 			for( int i = 0; i < 8; i++ )

@@ -21,6 +21,8 @@ namespace BirdWarsTest.States
 
 		public override void Resume() {}
 
+		public override void ClearContents() { }
+
 		public override void HandleInput( KeyboardState state ) {}
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) {}

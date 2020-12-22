@@ -23,6 +23,8 @@ namespace BirdWarsTest.States
 
 		public abstract void Pause();
 		public abstract void Resume();
+		public abstract void ClearContents();
+
 		public void Enter( StateHandler handler, StringManager stringManager )
 		{
 			graphics.PreferredBackBufferWidth = stateWidth;

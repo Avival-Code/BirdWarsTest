@@ -22,10 +22,12 @@ namespace BirdWarsTest.States
 			gameWindow = gameWindowIn;
 			GameObjects = new List< GameObject >();
 			UsernameManager = new ChatUsernameManager();
+			MessageManager = null;
 		}
 
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
+			ClearContents();
 			UsernameManager.AddObjects( Content );
 			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, 
 											 Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
@@ -52,6 +54,13 @@ namespace BirdWarsTest.States
 		public override void Pause() {}
 
 		public override void Resume() {}
+
+		public override void ClearContents()
+		{
+			UsernameManager.ClearObjects();
+			GameObjects.Clear();
+			MessageManager = null;
+		}
 
 		public override void HandleInput( KeyboardState state ) {}
 
