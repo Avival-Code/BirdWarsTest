@@ -11,8 +11,8 @@ namespace BirdWarsTest.GraphicComponents
 			:
 			base( content.Load< Texture2D >( "Buttons/MainMenuSelectionBox350x60" ) )
 		{
-			regularFont = content.Load< SpriteFont >( "Fonts/MainFont_S15" );
-			increasedFont = content.Load< SpriteFont >( "Fonts/MainFont_S20" );
+			regularFont = content.Load< SpriteFont >( "Fonts/BabeFont_17" );
+			increasedFont = content.Load< SpriteFont >( "Fonts/BabeFont_22" );
 			textColor = Color.Black;
 			text = optionText;
 			isSelected = false;

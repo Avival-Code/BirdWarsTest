@@ -22,6 +22,11 @@ namespace BirdWarsTest.Utilities
 		SendCode,
 		EnterCode,
 		NewPassword,
-		Reset
+		Reset,
+		FindGame,
+		CreateGame,
+		Statistics,
+		Settings,
+		Logout
 	}
 }

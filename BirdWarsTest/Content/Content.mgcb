@@ -159,6 +159,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/BabeFont_17.spritefont
 
+#begin Fonts/BabeFont_22.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/BabeFont_22.spritefont
+
 #begin Fonts/MainFont_S10.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

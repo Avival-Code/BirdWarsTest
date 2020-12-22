@@ -31,21 +31,21 @@ namespace BirdWarsTest.States
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 60.0f ) ) );
 			gameObjects.Add( new GameObject( new DecorationGraphicsComponent( Content, "Logos/BirdWarsLogo_440x246" ),
 											 null, Identifiers.Decoration, new Vector2( 0.0f, 20.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Find Game" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.FindGame ) ), 
 										     new FindGameInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 2 ].Position.Y + 270.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Create Game" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.CreateGame ) ), 
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Statistics" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Statistics ) ), 
 										     new SelectorChangeStateInputComponent( handler, StateTypes.StatisticsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Settings" ), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Settings ) ), 
 											 new SelectorChangeStateInputComponent( handler, StateTypes.OptionsState ), 
 											 Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, "Logout"), 
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Logout ) ), 
 											 new LogoutInputComponent( handler ), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,
