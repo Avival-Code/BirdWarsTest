@@ -44,6 +44,8 @@ namespace BirdWarsTest.Utilities
 		Volume,
 		Keyboard,
 		Language,
-		Accept
+		Accept,
+		English,
+		Spanish
 	}
 }

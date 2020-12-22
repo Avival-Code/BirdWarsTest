@@ -109,6 +109,30 @@
 /processorParam:TextureFormat=Color
 /build:Buttons/MainMenuSelectionBox350x60.png
 
+#begin Buttons/SelectorButtonLeft.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/SelectorButtonLeft.png
+
+#begin Buttons/SelectorButtonRight.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Buttons/SelectorButtonRight.png
+
 #begin Decorations/ConfigurationBox450x400.png
 /importer:TextureImporter
 /processor:TextureProcessor
