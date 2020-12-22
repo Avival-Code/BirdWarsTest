@@ -49,13 +49,16 @@ namespace BirdWarsTest.States
 																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new LanguageSelectorGraphicsComponent( Content, stringManager.CurrentLanguage, 
-																				    stringManager ),
+			gameObjects.Add( new GameObject( new LanguageSelectorGraphicsComponent( Content, stringManager, 
+											 stringManager.CurrentLanguage, new Vector2( 230.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 230.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
+			gameObjects.Add( new GameObject( null, new LanguageSelectorInputComponent( gameObjects[ 8 ], stringManager ),
+											Identifiers.LanguageSelector, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
 																		  stringManager.GetString( StringNames.Accept ) ), 
-											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ), 
+											 new ButtonChangeConfigurationInputComponent( handler, gameObjects[ 9 ], 
+																						  stringManager, StateTypes.MainMenuState ), 
 											 Identifiers.Button2, stateWidth, gameObjects[ 8 ].Position.Y + 60.0f ) );
 		}
 

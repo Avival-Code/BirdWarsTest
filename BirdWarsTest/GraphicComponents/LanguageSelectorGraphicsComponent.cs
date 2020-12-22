@@ -2,21 +2,21 @@
 using BirdWarsTest.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	class LanguageSelectorGraphicsComponent : GraphicsComponent
+	public class LanguageSelectorGraphicsComponent : GraphicsComponent
 	{
 		public LanguageSelectorGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
-												  Languages currentLanguage, StringManager stringManager )
+												  StringManager stringManager, Languages currentLanguage,
+												  Vector2 positionIn )
 			:
 			base( content.Load< Texture2D >( "Buttons/SelectorButtonLeft" ) )
 		{
-			RightArrowTexture = content.Load< Texture2D >( "Buttons/SelectorButtonRight" );
+			rightArrowTexture = content.Load< Texture2D >( "Buttons/SelectorButtonRight" );
 			font = content.Load< SpriteFont >( "Fonts/BabeFont_17" );
+			SelectedLanguage = currentLanguage;
+			position = positionIn;
 			switch( currentLanguage )
 			{
 				case Languages.English:
@@ -33,15 +33,25 @@ namespace BirdWarsTest.GraphicComponents
 		{
 			batch.Draw( texture, gameObject.Position, Color.White );
 			batch.DrawString( font, Text, new Vector2( gameObject.Position.X + 35, gameObject.Position.Y ), Color.Black );
-			batch.Draw( RightArrowTexture, new Vector2( gameObject.Position.X + 135, gameObject.Position.Y ), Color.White );
+			batch.Draw( rightArrowTexture, new Vector2( gameObject.Position.X + 135, gameObject.Position.Y ), Color.White );
 		}
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) {}
 
-		public string Text { get; set; }
-		public Texture2D LeftArrowTexture { get { return texture; } }
-		public Texture2D RightArrowTexture { get; private set; }
+		public Rectangle GetLeftArrowBounds()
+		{
+			return new Rectangle( ( int )position.X, ( int )position.Y, texture.Width, texture.Height );
+		}
 
+		public Rectangle GetRightArrowBounds()
+		{
+			return new Rectangle( ( int )position.X + 135, ( int )position.Y, rightArrowTexture.Width, rightArrowTexture.Height );
+		}
+
+		private Texture2D rightArrowTexture;
 		private SpriteFont font;
+		private Vector2 position;
+		public Languages SelectedLanguage { get; set; }
+		public string Text { get; set; }
 	}
 }

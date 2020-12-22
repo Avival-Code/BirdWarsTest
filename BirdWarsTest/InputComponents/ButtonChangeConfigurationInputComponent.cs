@@ -1,19 +1,22 @@
 ﻿using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
+using BirdWarsTest.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class ButtonChangeStateInputComponent : InputComponent
+	class ButtonChangeConfigurationInputComponent : InputComponent
 	{
-		public ButtonChangeStateInputComponent( StateHandler handlerIn, StateTypes state )
+		public ButtonChangeConfigurationInputComponent( StateHandler handlerIn, GameObject selectorInputIn, 
+														StringManager stringManagerIn, StateTypes state )
 		{
 			handler = handlerIn;
-			isHovering = false;
-			click += ToOtherScreen;
+			selectorInput = selectorInputIn;
+			stringManager = stringManagerIn;
 			stateChange = state;
+			click += ToOtherScreen;
 		}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
@@ -23,10 +26,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
-			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
+			if (mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
@@ -42,15 +43,24 @@ namespace BirdWarsTest.InputComponents
 
 		private void ToOtherScreen( Object sender, System.EventArgs e )
 		{
+			ChangeLanguage();
 			handler.ChangeState( stateChange );
 		}
 
+		private void ChangeLanguage()
+		{
+			if( ( ( LanguageSelectorInputComponent )selectorInput.Input ).ChangedLanguage )
+			{
+				stringManager.ChangeLanguage( ( Languages )( ( LanguageSelectorInputComponent )selectorInput.Input ).CurrentLanguageValue );
+			}
+		}
+
 		private StateHandler handler;
+		private StringManager stringManager;
 		public event EventHandler click;
+		private GameObject selectorInput;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 		private StateTypes stateChange;
-		public bool clicked;
-		private bool isHovering;
 	}
 }

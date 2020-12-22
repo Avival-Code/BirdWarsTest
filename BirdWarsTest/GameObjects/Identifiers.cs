@@ -16,6 +16,7 @@
 		Decoration,
 		MenuOption,
 		Selector,
+		LanguageSelector,
 		ChatMessageSender,
 		ChatMessage,
 		Player1,
