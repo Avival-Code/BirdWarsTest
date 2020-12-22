@@ -30,7 +30,7 @@ namespace BirdWarsTest.States
 			GameObjects.Add( new GameObject( new MenuBoxGraphicsComponent( Content ), null,
 										 Identifiers.PasswordBox, new Vector2( 0.0f, 0.0f ) ) );
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.RecoverPass ), 
-																		"Fonts/BabeFont_10" ),
+																		"Fonts/BabeFont_17" ),
 							                 null, Identifiers.TextGraphics, stateWidth, 50.0f ) );
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Email ), 
 																		"Fonts/BabeFont_10" ),
