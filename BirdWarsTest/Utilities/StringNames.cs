@@ -7,9 +7,21 @@ namespace BirdWarsTest.Utilities
 	public enum StringNames
 	{
 		Login,
-		Register,
+		RegisterL,
 		LostPassword,
 		Email,
-		Password
+		Password,
+		Registration,
+		Name,
+		LastName,
+		Username,
+		ConfirmPass,
+		RegisterWR,
+		Cancel,
+		RecoverPass,
+		SendCode,
+		EnterCode,
+		NewPassword,
+		Reset
 	}
 }

@@ -38,7 +38,7 @@ namespace BirdWarsTest.States
 									   	     ( GameObjects[ 2 ].Position.X + 40 ), 
 										     ( GameObjects[ 2 ].Position.Y + 155 ) ) ) );
 			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button", 
-																		  stringManager.GetString( StringNames.Register ) ), 
+																		  stringManager.GetString( StringNames.RegisterL ) ), 
 											 new ButtonChangeStateInputComponent( handler, StateTypes.UserRegistryState ),
 										     Identifiers.Button1, new Vector2(
 										     ( GameObjects[ 2 ].Position.X + 160 ),
