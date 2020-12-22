@@ -61,6 +61,10 @@ namespace BirdWarsTest.States
 			GameObjects.Add( new GameObject( new PasswordAreaGraphicsComponent( Content ),
 											 new TextAreaInputComponent( gameWindow ),  Identifiers.PasswordArea, 
 											 stateWidth, ( GameObjects[ 8 ].Position.Y + 20 ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Buttons/Configuration", "" ),
+											 new ButtonChangeStateInputComponent( handler, StateTypes.OptionsState ),
+											 Identifiers.Button2, 
+											 new Vector2( GameObjects[ 5 ].Position.X + 145, GameObjects[ 5 ].Position.Y ) ) );
 		}
 
 		public override void Pause() {}

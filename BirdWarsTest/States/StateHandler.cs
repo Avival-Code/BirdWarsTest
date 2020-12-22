@@ -9,7 +9,7 @@ namespace BirdWarsTest.States
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
 							 GameWindow gameWindow, ref GraphicsDeviceManager graphics, INetworkManager networkManagerIn )
 		{
-			currentState = StateTypes.OptionsState;
+			currentState = StateTypes.LoginState;
 			networkManager = networkManagerIn;
 			stringManager = new StringManager();
 			gameStates = new GameState[ maxStates ];
@@ -31,6 +31,7 @@ namespace BirdWarsTest.States
 
 		public void ChangeState( StateTypes state )
 		{
+			LastState = currentState;
 			currentState = state;
 			gameStates[ ( int )state ].Enter( this, stringManager );
 		}
@@ -55,5 +56,6 @@ namespace BirdWarsTest.States
 		private const int configHeight = 400;
 		private const int stateWidth = 800;
 		private const int stateHeight = 600;
+		public StateTypes LastState { get; private set; }
 	}
 }

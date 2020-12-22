@@ -57,8 +57,7 @@ namespace BirdWarsTest.States
 											Identifiers.LanguageSelector, new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
 																		  stringManager.GetString( StringNames.Accept ) ), 
-											 new ButtonChangeConfigurationInputComponent( handler, gameObjects[ 9 ], 
-																						  stringManager, StateTypes.MainMenuState ), 
+											 new ButtonChangeConfigurationInputComponent( handler, gameObjects[ 9 ], stringManager ), 
 											 Identifiers.Button2, stateWidth, gameObjects[ 8 ].Position.Y + 60.0f ) );
 		}
 

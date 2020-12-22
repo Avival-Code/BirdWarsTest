@@ -10,12 +10,11 @@ namespace BirdWarsTest.InputComponents
 	class ButtonChangeConfigurationInputComponent : InputComponent
 	{
 		public ButtonChangeConfigurationInputComponent( StateHandler handlerIn, GameObject selectorInputIn, 
-														StringManager stringManagerIn, StateTypes state )
+														StringManager stringManagerIn )
 		{
 			handler = handlerIn;
 			selectorInput = selectorInputIn;
 			stringManager = stringManagerIn;
-			stateChange = state;
 			click += ToOtherScreen;
 		}
 
@@ -44,7 +43,7 @@ namespace BirdWarsTest.InputComponents
 		private void ToOtherScreen( Object sender, System.EventArgs e )
 		{
 			ChangeLanguage();
-			handler.ChangeState( stateChange );
+			handler.ChangeState( handler.LastState );
 		}
 
 		private void ChangeLanguage()
@@ -61,6 +60,5 @@ namespace BirdWarsTest.InputComponents
 		private GameObject selectorInput;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		private StateTypes stateChange;
 	}
 }
