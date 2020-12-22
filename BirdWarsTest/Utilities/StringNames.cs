@@ -27,6 +27,23 @@ namespace BirdWarsTest.Utilities
 		CreateGame,
 		Statistics,
 		Settings,
-		Logout
+		Logout,
+		Players,
+		StartRound,
+		Leave,
+		UserStats,
+		MatchesPlayed,
+		MatchesWon,
+		WinRate,
+		MatchesSurvived,
+		SurvivalRate,
+		MatchesLost,
+		LoseRate,
+		ShortestTime,
+		Return,
+		Volume,
+		Keyboard,
+		Language,
+		Accept
 	}
 }

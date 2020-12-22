@@ -9,7 +9,7 @@ namespace BirdWarsTest.States
 		public StateHandler( Microsoft.Xna.Framework.Content.ContentManager content,
 							 GameWindow gameWindow, ref GraphicsDeviceManager graphics, INetworkManager networkManagerIn )
 		{
-			currentState = StateTypes.MainMenuState;
+			currentState = StateTypes.LoginState;
 			networkManager = networkManagerIn;
 			stringManager = new StringManager();
 			gameStates = new GameState[ maxStates ];

@@ -34,12 +34,14 @@ namespace BirdWarsTest.States
 			GameObjects.Add( new GameObject( new TextAreaGraphicsComponent( Content, "TextAreas/ChatTextArea530x35" ),
 											 new TextAreaInputComponent( gameWindow ), 
 											 Identifiers.TextArea, new Vector2( 250.0f, 520.0f ) ) );
-			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Players", "Fonts/MainFont_S20" ), 
-											 null, Identifiers.TextGraphics, new Vector2( 70.0f, 20.0f ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Start Round"), 
-											 new StartRoundInputComponent( handler ), Identifiers.Button2, 
-											 new Vector2( 25.0f, UsernameManager.gameObjects[ UsernameManager.gameObjects.Count - 1 ].Position.Y + 60 ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Leave" ), 
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Players ), 
+																		"Fonts/BabeFont_22" ), 
+											 null, Identifiers.TextGraphics, new Vector2( 65.0f, 20.0f ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
+																		  stringManager.GetString( StringNames.StartRound ) ), 
+											 new StartRoundInputComponent( handler ), Identifiers.Button2, new Vector2( 25.0f, 520.0f ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
+																		  stringManager.GetString( StringNames.Leave ) ), 
 											 new LeaveGameInputComponent( handler, StateTypes.MainMenuState ), Identifiers.Button2,
 											 new Vector2( 25.0f, GameObjects[ GameObjects.Count - 1 ].Position.Y + 35 ) ) );
 			GameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,

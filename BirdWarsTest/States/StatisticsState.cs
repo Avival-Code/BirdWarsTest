@@ -28,57 +28,67 @@ namespace BirdWarsTest.States
 											 new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new RegisterBoxGraphicsComponent( Content ), null, 
 											 Identifiers.RegisterBox, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "User Statistics", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.UserStats ), 
+																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics, stateWidth, gameObjects[ 1 ].Position.Y + 50 ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Matches Played.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesPlayed ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics, 
 											 new Vector2( 70.0f, gameObjects[ 2 ].Position.Y + 50 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 2 ].Position.Y + 50 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Matches Won.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesWon ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 3 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 3 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Win Rate.......", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.WinRate ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 5 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 5 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Matches Survived.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesSurvived ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 7 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 7 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Survival Rate.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.SurvivalRate ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 9 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 9 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Matches Lost.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesLost ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 11 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 11 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Lose Rate.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.LoseRate ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 13 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 13 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Shortest Match Time.....", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.ShortestTime ), 
+																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 15 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0:00", "Fonts/MainFont_S10" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0:00", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 334.0f, gameObjects[ 15 ].Position.Y + 40 ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Return" ), 
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
+																		  stringManager.GetString( StringNames.Return ) ), 
 											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ),
 											 Identifiers.Button2, stateWidth, gameObjects[ 17 ].Position.Y + 40.0f ) );
 			SetGameObjectStatistics();

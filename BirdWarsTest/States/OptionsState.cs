@@ -28,27 +28,32 @@ namespace BirdWarsTest.States
 											 new Vector2( 0.0f, 0.0f ) ) );
 			gameObjects.Add( new GameObject( new DecorationBoxGraphicsComponent( Content, "Decorations/ConfigurationBox450x400" ),
 											 null, Identifiers.ConfigurationBox, new Vector2( 0.0f, 0.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Settings", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Settings ), 
+																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics, stateWidth, 55.0f ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Volume", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Volume ), 
+																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics, 
 											 new Vector2( 70.0f, gameObjects[ 2 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "50%", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "50%", "Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 305.0f, gameObjects[ 2 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Keyboard", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Keyboard ), 
+																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Standard", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Standard", "Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 275.0f, gameObjects[ 4 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "Language", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Language ), 
+																		"Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "English", "Fonts/MainFont_S15" ),
+			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "English", "Fonts/BabeFont_17" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 280.0f, gameObjects[ 6 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", "Accept" ), 
+			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
+																		  stringManager.GetString( StringNames.Accept ) ), 
 											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ), 
 											 Identifiers.Button2, stateWidth, gameObjects[ 8 ].Position.Y + 60.0f ) );
 		}
