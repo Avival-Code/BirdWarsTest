@@ -14,6 +14,8 @@ namespace BirdWarsTest.InputComponents
 			lastUpdateTime = 1.0;
 		}
 
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
+
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )

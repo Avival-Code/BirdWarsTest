@@ -1,9 +1,7 @@
 ﻿using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.InputComponents
 {
@@ -13,6 +11,8 @@ namespace BirdWarsTest.InputComponents
 		{
 			handler = handlerIn;
 		}
+
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 

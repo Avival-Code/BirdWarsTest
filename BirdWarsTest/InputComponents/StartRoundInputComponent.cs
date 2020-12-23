@@ -12,6 +12,9 @@ namespace BirdWarsTest.InputComponents
 			handler = handlerIn;
 			clicked = false;
 		}
+
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
+
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
 			previousMouseState = currentMouseState;

@@ -5,14 +5,19 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BirdWarsTest.InputComponents
 {
-	class FindGameInputComponent : InputComponent
+	class RoundTimeInputComponent : InputComponent
 	{
+		public RoundTimeInputComponent()
+		{
+
+		}
+
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
+
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
-		{
-			( ( MainMenuState )gameState ).NetworkManager.JoinRound();
-		}
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) {}
+
+		public float RemainingRoundTime { get; private set; }
 	}
 }

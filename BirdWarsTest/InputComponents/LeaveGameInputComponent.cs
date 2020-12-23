@@ -15,6 +15,7 @@ namespace BirdWarsTest.InputComponents
 			click += ToOtherScreen;
 			stateChange = state;
 		}
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) 	{}
 

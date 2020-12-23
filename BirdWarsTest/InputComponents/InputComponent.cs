@@ -7,6 +7,8 @@ namespace BirdWarsTest.InputComponents
 {
 	public abstract class InputComponent
 	{
+		abstract public void HandleInput( GameObject gameObject, GameTime gameTime );
+
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state );
 
 		abstract public void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState );

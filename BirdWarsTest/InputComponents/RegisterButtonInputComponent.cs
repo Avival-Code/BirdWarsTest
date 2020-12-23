@@ -19,6 +19,8 @@ namespace BirdWarsTest.InputComponents
 			click += Register;
 		}
 
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
+
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
