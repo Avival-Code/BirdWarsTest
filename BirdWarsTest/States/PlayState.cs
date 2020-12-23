@@ -16,11 +16,15 @@ namespace BirdWarsTest.States
 			:
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
+			interfaceManager = new HeadsUpDisplayManager();
 			PlayerManager = new PlayerManager();
 			camera = new Camera2D();
 		}
 
-		public override void Init( StateHandler handler, StringManager stringManager ) {}
+		public override void Init( StateHandler handler, StringManager stringManager ) 
+		{
+			interfaceManager.InitializeInterfaceComponents( Content );
+		}
 
 		public override void Pause() {}
 
@@ -40,7 +44,7 @@ namespace BirdWarsTest.States
 			}
 			//if( camera.isCameraSet )
 			//{
-			camera.Update( new Rectangle(0, 0, 2400, 1800), PlayerManager.GetLocalPlayer().GetRectangle() );
+			camera.Update( new Rectangle( 0, 0, 2400, 1800 ), PlayerManager.GetLocalPlayer().GetRectangle() );
 			//}
 			PlayerManager.Update( this, state, gameTime, new Rectangle( 0, 0, 2400, 1800 ) );
 		}
@@ -48,9 +52,11 @@ namespace BirdWarsTest.States
 		public override void Render( ref SpriteBatch batch )
 		{
 			PlayerManager.Render( ref batch, camera.GetCameraBounds() );
+			interfaceManager.Render( ref batch, PlayerManager.GetLocalPlayer().Health );
 		}
 
 		private Camera2D camera;
 		public PlayerManager PlayerManager { get; private set; }
+		private HeadsUpDisplayManager interfaceManager;
 	}
 }

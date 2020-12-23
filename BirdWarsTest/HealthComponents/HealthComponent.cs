@@ -6,7 +6,7 @@ namespace BirdWarsTest.HealthComponents
 	{
 		public HealthComponent()
 		{
-			Health = 10;
+			maxHealth = Health = 10;
 		}
 
 		public void TakeDamage( int damage )
@@ -24,6 +24,12 @@ namespace BirdWarsTest.HealthComponents
 			return Health <= 0;
 		}
 
-		public int Health { get; set; }
+		public float GetRemainingHealthPercent()
+		{
+			return ( float )Health / ( float )maxHealth;
+		}
+
+		public int Health { get; private set; }
+		private int maxHealth;
 	}
 }

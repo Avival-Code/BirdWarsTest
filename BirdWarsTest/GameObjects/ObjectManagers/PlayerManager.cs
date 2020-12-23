@@ -151,7 +151,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public bool CreatedPlayers { get; private set; }
 
-		private int localPlayerIndex;
 		private PositionGenerator positionGenerator;
+		private int localPlayerIndex;
 	}
 }

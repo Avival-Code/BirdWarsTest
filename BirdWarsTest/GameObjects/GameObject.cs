@@ -65,6 +65,11 @@ namespace BirdWarsTest.GameObjects
 			Graphics?.Render( this, ref batch );
 		}
 
+		public void Render( ref SpriteBatch batch, HealthComponent health )
+		{
+			( ( LifeBarGraphicsComponent )Graphics )?.Render( this, health, ref batch );
+		}
+
 		public void Render( ref SpriteBatch batch, Rectangle cameraBounds )
 		{
 			Graphics?.Render( this, ref batch, cameraBounds );

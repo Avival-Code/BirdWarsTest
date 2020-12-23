@@ -26,7 +26,8 @@
 		Player5,
 		Player6,
 		Player7,
-		Player8
+		Player8,
+		LifeBar
 
 	}
 }
