@@ -24,5 +24,9 @@ namespace BirdWarsTest.InputComponents
 		public virtual void SetLastUpdateTime( double newTime ) {}
 
 		public virtual void ClearText() {}
+
+		public virtual int GetRemainingMinutes() { return 0; }
+
+		public virtual int GetRemainingSeconds() { return 0; }
 	}
 }

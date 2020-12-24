@@ -43,6 +43,11 @@ namespace BirdWarsTest.GameObjects
 			Position = position_in;
 		}
 
+		public void Update( GameTime gameTime )
+		{
+			Input?.HandleInput( this, gameTime );
+		}
+
 		public void Update( KeyboardState state )
 		{
 			Input?.HandleInput( this, state );

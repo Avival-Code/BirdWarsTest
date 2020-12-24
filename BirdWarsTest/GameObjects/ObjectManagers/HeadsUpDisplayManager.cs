@@ -1,5 +1,6 @@
 ﻿using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.HealthComponents;
+using BirdWarsTest.InputComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
@@ -17,16 +18,19 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			gameObjects.Add( new GameObject( new LifeBarGraphicsComponent( content ), null, 
 											 Identifiers.LifeBar, new Vector2( 15.0f, 15.0f ) ) );
+			gameObjects.Add( new GameObject( new RoundTimerGraphicsComponent( content ), new RoundTimeInputComponent(),
+											 Identifiers.Timer, new Vector2( 375.0f, 15.0f ) ) );
 		}
 
-		public void Update()
+		public void Update( GameTime gameTime )
 		{
-
+			gameObjects[ 1 ].Update( gameTime );
 		}
 
 		public void Render( ref SpriteBatch batch, HealthComponent localPlayerHealth )
 		{
 			gameObjects[ 0 ].Render( ref batch, localPlayerHealth );
+			gameObjects[ 1 ].Render( ref batch );
 		}
 
 		private List< GameObject > gameObjects;
