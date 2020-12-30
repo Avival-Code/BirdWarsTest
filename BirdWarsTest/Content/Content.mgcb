@@ -181,6 +181,18 @@
 /processorParam:TextureFormat=Color
 /build:Decorations/UsernameBorder200x50.png
 
+#begin Floors/StoneFloor1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Floors/StoneFloor1.png
+
 #begin Fonts/BabeFont_10.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

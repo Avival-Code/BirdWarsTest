@@ -55,6 +55,11 @@ namespace BirdWarsTest.GameRounds
 			return new Rectangle( ( int )CameraPosition.X, ( int )CameraPosition.Y, CameraWidth, CameraHeight );
 		}
 
+		public Rectangle GetCameraRenderBounds()
+		{
+			return new Rectangle( ( int )CameraPosition.X - 100, ( int )CameraPosition.Y - 100, CameraWidth + 100, CameraHeight + 100 );
+		}
+
 		private Rectangle GetMoveEntityBounds()
 		{
 			return new Rectangle( ( int )moveEntityPosition.X, ( int )moveEntityPosition.Y, MoveEntityWidth, MoveEntityHeight );

@@ -28,7 +28,8 @@
 		Player7,
 		Player8,
 		LifeBar,
-		Timer
+		Timer,
+		Floor
 
 	}
 }

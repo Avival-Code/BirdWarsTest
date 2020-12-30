@@ -139,7 +139,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		public void Render( ref SpriteBatch batch, Rectangle cameraBounds )
+		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
 		{
 			foreach( var objects in Players )
 			{

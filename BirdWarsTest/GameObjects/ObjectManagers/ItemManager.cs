@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
-	class ItemManager
+	public class ItemManager
 	{
 	}
 }
