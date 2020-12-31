@@ -1,6 +1,7 @@
 ﻿using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.HealthComponents;
+using BirdWarsTest.AttackComponents;
 using BirdWarsTest.Utilities;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.States;
@@ -33,14 +34,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					{
 						localPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
-													 new HealthComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 positionGenerator.GetAPosition() ) );
 						playerIdentifier++;
 					}
 					else
 					{
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new ExternalPlayerInputComponent(),
-													 new HealthComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new ExternalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 positionGenerator.GetAPosition() ) );
 						playerIdentifier++;
 					}
@@ -62,14 +63,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					{
 						localPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
-													 new HealthComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						playerIdentifier++;
 					}
 					else
 					{
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new ExternalPlayerInputComponent(),
-													 new HealthComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new ExternalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						playerIdentifier++;
 					}

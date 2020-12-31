@@ -27,7 +27,21 @@ namespace BirdWarsTest.InputComponents
 				{
 					handler.networkManager.SendPlayerStateChangeMessage( gameObject );
 				}
+				HandlePlayerAbilities( gameObject );
 			}
+		}
+
+		private bool HandlePlayerAbilities( GameObject localPlayer )
+		{
+			bool actionPerformed = false;
+
+			if( IsKeyDown( Keys.A ) && !localPlayer.Attack.IsAttacking )
+			{
+				localPlayer.Attack.Attack();
+				actionPerformed = true;
+			}
+
+			return actionPerformed;
 		}
 
 		private bool HandlePlayerMovement()
@@ -38,6 +52,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Up ) )
 			{
 				velocity = new Vector2( 0.0f, -1.0f );
+				LastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Up ) )
 				{
 					velocityChanged = true;
@@ -53,6 +68,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Down ) )
 			{
 				velocity = new Vector2( 0.0f, 1.0f );
+				LastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Down ) )
 				{
 					velocityChanged = true;
@@ -68,6 +84,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Left ) )
 			{
 				velocity = new Vector2( -1.0f, 0.0f );
+				LastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Left ) )
 				{
 					velocityChanged = true;
@@ -83,6 +100,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Right ) )
 			{
 				velocity = new Vector2( 1.0f, 0.0f );
+				LastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Right ) )
 				{
 					velocityChanged = true;
@@ -140,6 +158,8 @@ namespace BirdWarsTest.InputComponents
 		{
 			lastUpdateTime = newTime;
 		}
+
+		public Vector2 LastActiveVelocity { get; private set; }
 
 		private StateHandler handler;
 		private KeyboardState currentKeyBoardState;

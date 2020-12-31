@@ -7,16 +7,24 @@ namespace BirdWarsTest.HealthComponents
 		public HealthComponent()
 		{
 			maxHealth = Health = 10;
+			coolDownTimer = 13;
+			TookDamage = false;
 		}
 
 		public HealthComponent( int maxHealthIn )
 		{
 			maxHealth = Health = maxHealthIn;
+			coolDownTimer = 13;
+			TookDamage = false;
 		}
 
 		public void TakeDamage( int damage )
 		{
-			Health -= damage;
+			if( !TookDamage )
+			{
+				Health -= damage;
+				TookDamage = true;
+			}
 		}
 
 		public void Heal( int health )
@@ -34,7 +42,22 @@ namespace BirdWarsTest.HealthComponents
 			return ( float )Health / ( float )maxHealth;
 		}
 
+		public void UpdateCoolDownTimer()
+		{
+			if( TookDamage )
+			{
+				coolDownTimer -= 1;
+				if( coolDownTimer <= 0 )
+				{
+					coolDownTimer = 13;
+					TookDamage = false;
+				}
+			}
+		}
+
 		public int Health { get; private set; }
+		public bool TookDamage { get; private set; }
 		private int maxHealth;
+		private int coolDownTimer;
 	}
 }

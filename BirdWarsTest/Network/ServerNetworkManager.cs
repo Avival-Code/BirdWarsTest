@@ -190,6 +190,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.LeaveRoundMessage:
 								HandleLeaveRoundMessage( incomingMessage );
 								break;
+							case GameMessageTypes.BoxDamageMessage:
+								HandleBoxDamageMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -364,6 +367,11 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
 		}
 
+		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
@@ -404,6 +412,19 @@ namespace BirdWarsTest.Network
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )spawnBoxMessage.messageType );
 			spawnBoxMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
+		public void SendBoxDamageMessage( int boxIndex, int damage )
+		{
+			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( boxIndex, damage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )boxDamageMessage.messageType );
+			boxDamageMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
 			{

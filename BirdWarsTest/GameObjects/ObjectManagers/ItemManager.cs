@@ -17,11 +17,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		public ItemManager( Microsoft.Xna.Framework.Content.ContentManager contentIn )
 		{
 			Boxes = new List<GameObject>();
-			Items = new List<GameObject>();
-			xPositionGenerator = new Random();
-			yPositionGenerator = new Random();
+			ConsumableItems = new List<GameObject>();
+			boxPositionGenerator = new Random();
 			content = contentIn;
-			maxBoxes = 15;
+			maxBoxes = 25;
 			maxBoxHealth = 3;
 			spawnBoxTimer = 0.0f;
 		}
@@ -63,17 +62,43 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private Vector2 GetRandomMapPosition()
+		public void HandleBoxDamageMessage( NetIncomingMessage incomingMessage )
 		{
-			return new Vector2( xPositionGenerator.Next( mapBounds.X, mapBounds.Width - 50 ),
-								yPositionGenerator.Next( mapBounds.Y, mapBounds.Height - 50 ) );
+			int index = incomingMessage.ReadInt32();
+			Boxes[ index ].Health.TakeDamage( incomingMessage.ReadInt32() );
 		}
 
-		public void Update( INetworkManager networkManager, GameTime gameTime )
+		private Vector2 GetRandomMapPosition()
+		{
+			return new Vector2( boxPositionGenerator.Next( mapBounds.X, mapBounds.Width - 50 ),
+								boxPositionGenerator.Next( mapBounds.Y, mapBounds.Height - 50 ) );
+		}
+
+		public void Update( INetworkManager networkManager, GameObject localPlayer, GameTime gameTime )
 		{
 			if( networkManager.IsHost() )
 			{
 				HandleSpawnBox( networkManager, gameTime );
+			}
+
+			foreach( var box in Boxes )
+			{
+				box.Update( gameTime );
+			}
+
+			HandleBoxDamage( networkManager, localPlayer );
+		}
+
+		private void HandleBoxDamage( INetworkManager networkManager, GameObject localPlayer )
+		{
+			for( int i = 0; i < Boxes.Count; i++ )
+			{
+				if( localPlayer.Attack.IsAttacking && !Boxes[ i ].Health.IsDead() && !Boxes[ i ].Health.TookDamage &&
+					localPlayer.Attack.GetAttackRectangle( localPlayer ).Intersects( Boxes[ i ].GetRectangle() ) )
+				{
+					Boxes[ i ].Health.TakeDamage( localPlayer.Attack.Damage );
+					networkManager.SendBoxDamageMessage( i, localPlayer.Attack.Damage );
+				}
 			}
 		}
 
@@ -81,13 +106,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			foreach( var box in Boxes )
 			{
-				if( cameraRenderBounds.Intersects( box.GetRectangle() ) )
+				if( !box.Health.IsDead() && cameraRenderBounds.Intersects( box.GetRectangle() ) )
 				{
 					box.Render( ref batch, cameraBounds );
 				}
 			}
 
-			foreach( var item in Items )
+			foreach( var item in ConsumableItems )
 			{
 				if( cameraRenderBounds.Intersects( item.GetRectangle() ) )
 				{
@@ -119,14 +144,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		public void ClearAllObjects()
 		{
 			Boxes.Clear();
-			Items.Clear();
+			ConsumableItems.Clear();
 		}
 
 		public List< GameObject > Boxes { get; private set; }
-		public List< GameObject > Items { get; private set; }
+		public List< GameObject > ConsumableItems { get; private set; }
 		private Microsoft.Xna.Framework.Content.ContentManager content;
-		private Random xPositionGenerator;
-		private Random yPositionGenerator;
+		private Random boxPositionGenerator;
 		private Rectangle mapBounds;
 		private int maxBoxes;
 		private int maxBoxHealth;

@@ -50,7 +50,7 @@ namespace BirdWarsTest.States
 			camera.Update( mapManager.GetMapBounds(), PlayerManager.GetLocalPlayer().GetRectangle() );
 			displayManager.Update( gameTime );
 			PlayerManager.Update( this, state, gameTime, mapManager.GetMapBounds() );
-			ItemManager.Update( networkManager, gameTime );
+			ItemManager.Update( networkManager, PlayerManager.GetLocalPlayer(), gameTime );
 		}
 
 		public override void Render( ref SpriteBatch batch )

@@ -17,7 +17,14 @@ namespace BirdWarsTest.InputComponents
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
-		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) {}
+		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
+		{
+			if( !gameObject.Health.IsDead() )
+			{
+				gameObject.Attack.UpdateAttackTimer();
+				gameObject.Health.UpdateCoolDownTimer();
+			}
+		}
 
 		public override Vector2 GetVelocity()
 		{
@@ -26,6 +33,10 @@ namespace BirdWarsTest.InputComponents
 
 		public override void SetVelocity( Vector2 newVelocity )
 		{
+			if( newVelocity != new Vector2( 0.0f, 0.0f ) )
+			{
+				LastActiveVelocity = velocity;
+			}
 			velocity = newVelocity;
 		}
 
@@ -39,6 +50,7 @@ namespace BirdWarsTest.InputComponents
 			lastUpdateTime = newTime;
 		}
 
+		public Vector2 LastActiveVelocity { get; private set; }
 		private Vector2 velocity;
 		private double lastUpdateTime;
 	}

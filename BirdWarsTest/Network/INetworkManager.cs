@@ -24,6 +24,8 @@ namespace BirdWarsTest.Network
 
 		void SendSpawnBoxMessage( List< GameObject > boxes );
 
+		void SendBoxDamageMessage( int boxIndex, int damage );
+
 		void UpdatePassword( string code, string password );
 
 		bool IsHost();

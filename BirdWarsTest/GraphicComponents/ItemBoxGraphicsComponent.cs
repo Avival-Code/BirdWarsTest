@@ -1,9 +1,6 @@
 ﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GraphicComponents
 {
@@ -18,8 +15,11 @@ namespace BirdWarsTest.GraphicComponents
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds ) 
 		{
-			batch.Draw( texture, new Vector2( gameObject.Position.X - cameraBounds.X, gameObject.Position.Y - cameraBounds.Top ), 
-						Color.White );
+			if( !gameObject.Health.IsDead() )
+			{
+				batch.Draw( texture, new Vector2( gameObject.Position.X - cameraBounds.X, gameObject.Position.Y - cameraBounds.Top ),
+						    Color.White );
+			}
 		}
 	}
 }
