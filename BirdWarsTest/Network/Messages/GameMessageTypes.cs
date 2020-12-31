@@ -18,6 +18,7 @@ namespace BirdWarsTest.Network.Messages
 		PasswordResetMessage,
 		SolicitPasswordResetmessage,
 		StartRoundMessage,
-		PlayerStateChangeMessage
+		PlayerStateChangeMessage,
+		SpawnBoxMessage
 	}
 }

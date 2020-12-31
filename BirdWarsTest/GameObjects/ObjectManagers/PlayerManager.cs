@@ -143,7 +143,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			foreach( var objects in Players )
 			{
-				objects.Render( ref batch, cameraBounds );
+				if( cameraRenderBounds.Intersects( objects.GetRectangle() ) )
+				{
+					objects.Render( ref batch, cameraBounds );
+				}
 			}
 		}
 

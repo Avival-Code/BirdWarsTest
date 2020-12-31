@@ -9,6 +9,11 @@ namespace BirdWarsTest.HealthComponents
 			maxHealth = Health = 10;
 		}
 
+		public HealthComponent( int maxHealthIn )
+		{
+			maxHealth = Health = maxHealthIn;
+		}
+
 		public void TakeDamage( int damage )
 		{
 			Health -= damage;

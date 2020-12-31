@@ -3,6 +3,7 @@ using BirdWarsTest.Database;
 using BirdWarsTest.States;
 using BirdWarsTest.GameObjects;
 using System;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.Network
 {
@@ -20,6 +21,8 @@ namespace BirdWarsTest.Network
 		void SendChatMessage( string message );
 
 		void SendPlayerStateChangeMessage( GameObject player );
+
+		void SendSpawnBoxMessage( List< GameObject > boxes );
 
 		void UpdatePassword( string code, string password );
 

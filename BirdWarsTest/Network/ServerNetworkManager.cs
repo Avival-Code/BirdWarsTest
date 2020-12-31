@@ -5,6 +5,7 @@ using BirdWarsTest.GameRounds;
 using BirdWarsTest.GameObjects;
 using Lidgren.Network;
 using System;
+using System.Collections.Generic;
 
 namespace BirdWarsTest.Network
 {
@@ -326,6 +327,17 @@ namespace BirdWarsTest.Network
 			{
 				netServer.SendMessage( outgoingStartMessage, connection, NetDeliveryMethod.ReliableUnordered );
 			}
+
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.SpawnBoxes();
+			SpawnBoxMessage spawnBoxesMessage = new SpawnBoxMessage( ( ( PlayState )handler.GetCurrentState() ).ItemManager.Boxes );
+			NetOutgoingMessage outgoingBoxMessage = CreateMessage();
+			outgoingBoxMessage.Write( ( byte )spawnBoxesMessage.messageType );
+			spawnBoxesMessage.Encode( outgoingBoxMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingBoxMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
 		}
 
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -379,6 +391,19 @@ namespace BirdWarsTest.Network
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )stateChangeMessage.messageType );
 			stateChangeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
+		public void SendSpawnBoxMessage( List< GameObject > boxes )
+		{
+			SpawnBoxMessage spawnBoxMessage = new SpawnBoxMessage( boxes );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )spawnBoxMessage.messageType );
+			spawnBoxMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
 			{

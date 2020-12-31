@@ -29,7 +29,8 @@
 		Player8,
 		LifeBar,
 		Timer,
-		Floor
+		Floor,
+		ItemBox
 
 	}
 }

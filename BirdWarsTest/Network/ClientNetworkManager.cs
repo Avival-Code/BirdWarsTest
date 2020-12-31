@@ -4,6 +4,7 @@ using BirdWarsTest.Network.Messages;
 using BirdWarsTest.States;
 using Lidgren.Network;
 using System;
+using System.Collections.Generic;
 using System.Net;
 
 namespace BirdWarsTest.Network
@@ -162,6 +163,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PlayerStateChangeMessage:
 								HandlePlayerStateChangeMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.SpawnBoxMessage:
+								HandleSpawnBoxMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -217,6 +221,11 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
 		}
 
+		public void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -255,6 +264,8 @@ namespace BirdWarsTest.Network
 		{
 			SendMessage( new PlayerStateChangeMessage( player ) );
 		}
+
+		public void SendSpawnBoxMessage( List< GameObject > boxes ) {}
 
 		public void UpdatePassword( string code, string password ) 
 		{
