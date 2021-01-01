@@ -11,6 +11,11 @@ namespace BirdWarsTest.AttackComponents
 			base()
 		{}
 
+		public LocalPlayerAttackComponent( int damageIn )
+			:
+			base( damageIn )
+		{}
+
 		public override Rectangle GetAttackRectangle( GameObject gameObject )
 		{
 			Rectangle attackRectangle = new Rectangle( -100, -100, 1, 1 );

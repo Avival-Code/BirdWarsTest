@@ -7,14 +7,14 @@ namespace BirdWarsTest.HealthComponents
 		public HealthComponent()
 		{
 			maxHealth = Health = 10;
-			coolDownTimer = 13;
+			coolDownTimer = 20;
 			TookDamage = false;
 		}
 
 		public HealthComponent( int maxHealthIn )
 		{
 			maxHealth = Health = maxHealthIn;
-			coolDownTimer = 13;
+			coolDownTimer = 20;
 			TookDamage = false;
 		}
 
@@ -49,7 +49,7 @@ namespace BirdWarsTest.HealthComponents
 				coolDownTimer -= 1;
 				if( coolDownTimer <= 0 )
 				{
-					coolDownTimer = 13;
+					coolDownTimer = 20;
 					TookDamage = false;
 				}
 			}

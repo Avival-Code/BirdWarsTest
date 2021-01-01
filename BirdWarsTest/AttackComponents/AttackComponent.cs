@@ -9,7 +9,7 @@ namespace BirdWarsTest.AttackComponents
 		{
 			Damage = 1;
 			IsAttacking = false;
-			attackTimer = 10;
+			attackTimer = 15;
 			attackWidth = 50;
 			attackHeight = 50;
 		}
@@ -18,12 +18,17 @@ namespace BirdWarsTest.AttackComponents
 		{
 			Damage = damageIn;
 			IsAttacking = false;
-			attackTimer = 10;
+			attackTimer = 15;
+			attackWidth = 50;
+			attackHeight = 50;
 		}
 
-		public void Attack()
+		public void DoAttack()
 		{
-			IsAttacking = true;
+			if( !IsAttacking )
+			{
+				IsAttacking = true;
+			}
 		}
 
 		public void UpdateAttackTimer()
@@ -39,7 +44,7 @@ namespace BirdWarsTest.AttackComponents
 			attackTimer -= 1;
 			if( attackTimer <= 0 )
 			{
-				attackTimer = 10;
+				attackTimer = 15;
 				IsAttacking = false;
 			}
 		}
@@ -51,7 +56,7 @@ namespace BirdWarsTest.AttackComponents
 
 		public int Damage { get; private set; }
 
-		public bool IsAttacking { get; set; }
+		public bool IsAttacking { get; private set; }
 
 		private int attackTimer;
 		protected int attackWidth;

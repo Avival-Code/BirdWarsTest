@@ -10,6 +10,7 @@ namespace BirdWarsTest.InputComponents
 		public LocalPlayerInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
+			LastActiveVelocity = new Vector2( 1.0f, 0.0f );
 			playerSpeed = 300.0f;
 			lastUpdateTime = 1.0;
 		}
@@ -27,7 +28,10 @@ namespace BirdWarsTest.InputComponents
 				{
 					handler.networkManager.SendPlayerStateChangeMessage( gameObject );
 				}
-				HandlePlayerAbilities( gameObject );
+				if( HandlePlayerAbilities( gameObject ) )
+				{
+					handler.networkManager.SendPlayerAttackMessage( gameObject.Identifier );
+				}
 			}
 		}
 
@@ -37,7 +41,7 @@ namespace BirdWarsTest.InputComponents
 
 			if( IsKeyDown( Keys.A ) && !localPlayer.Attack.IsAttacking )
 			{
-				localPlayer.Attack.Attack();
+				localPlayer.Attack.DoAttack();
 				actionPerformed = true;
 			}
 
@@ -142,6 +146,11 @@ namespace BirdWarsTest.InputComponents
 		public override Vector2 GetVelocity()
 		{
 			return velocity;
+		}
+
+		public override Vector2 GetLastActiveVelocity()
+		{
+			return LastActiveVelocity;
 		}
 
 		public override void SetVelocity( Vector2 newVelocity )

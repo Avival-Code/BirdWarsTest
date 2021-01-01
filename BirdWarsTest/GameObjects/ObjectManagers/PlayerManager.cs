@@ -32,7 +32,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					if( usernames[ i ].Equals( localUsername ) )
 					{
-						localPlayerIndex = i;
+						LocalPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
 													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 positionGenerator.GetAPosition() ) );
@@ -61,7 +61,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					if( username.Equals( localUsername ) )
 					{
-						localPlayerIndex = i;
+						LocalPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerTestGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
 													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
@@ -94,9 +94,16 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		public void HandlePlayerAttackMessage( NetIncomingMessage incomingMessage )
+		{
+			var message = new PlayerAttackMessage( incomingMessage );
+			GameObject player = GetPlayer( message.PlayerIndex );
+			player.Attack.DoAttack();
+		}
+
 		public GameObject GetLocalPlayer()
 		{
-			return Players[ localPlayerIndex ];
+			return Players[ LocalPlayerIndex ];
 		}
 
 		public GameObject GetPlayer( Identifiers id )
@@ -142,20 +149,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
 		{
-			foreach( var objects in Players )
+			foreach( var player in Players )
 			{
-				if( cameraRenderBounds.Intersects( objects.GetRectangle() ) )
+				if( cameraRenderBounds.Intersects( player.GetRectangle() ) )
 				{
-					objects.Render( ref batch, cameraBounds );
+					player.Render( ref batch, cameraBounds );
 				}
 			}
 		}
 
 		public List< GameObject > Players { get; private set; }
-
-		public bool CreatedPlayers { get; private set; }
-
 		private PositionGenerator positionGenerator;
-		private int localPlayerIndex;
+		public bool CreatedPlayers { get; private set; }
+		public int LocalPlayerIndex { get; private set; }
 	}
 }

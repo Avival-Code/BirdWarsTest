@@ -169,6 +169,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.BoxDamageMessage:
 								HandleBoxDamageMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PlayerAttackMessage:
+								HandlePlayerAttackMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -234,6 +237,11 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
 		}
 
+		public void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( incomingMessage );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -278,6 +286,11 @@ namespace BirdWarsTest.Network
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{
 			SendMessage( new BoxDamageMessage( boxIndex, damage ) );
+		}
+
+		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
+		{
+			SendMessage( new PlayerAttackMessage( localPlayerIndex ) );
 		}
 
 		public void UpdatePassword( string code, string password ) 

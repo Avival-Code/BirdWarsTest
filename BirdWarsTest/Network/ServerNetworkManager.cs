@@ -193,6 +193,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.BoxDamageMessage:
 								HandleBoxDamageMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PlayerAttackMessage:
+								HandlePlayerAttackMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -362,14 +365,19 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
 		}
 
-		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
+		}
+
+		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( incomingMessage );
 		}
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
@@ -425,6 +433,19 @@ namespace BirdWarsTest.Network
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )boxDamageMessage.messageType );
 			boxDamageMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
+		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
+		{
+			PlayerAttackMessage attackMessage = new PlayerAttackMessage( localPlayerIndex );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )attackMessage.messageType );
+			attackMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
 			{

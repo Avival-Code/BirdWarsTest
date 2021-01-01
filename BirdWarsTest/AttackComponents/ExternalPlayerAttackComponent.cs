@@ -11,9 +11,14 @@ namespace BirdWarsTest.AttackComponents
 			base()
 		{}
 
+		public ExternalPlayerAttackComponent( int damageIn )
+			:
+			base( damageIn )
+		{}
+
 		public override Rectangle GetAttackRectangle( GameObject gameObject )
 		{
-			Rectangle attackRectangle = new Rectangle(-100, -100, 1, 1);
+			Rectangle attackRectangle = new Rectangle( -100, -100, 1, 1 );
 			if( gameObject.Attack.IsAttacking &&
 				( ( ExternalPlayerInputComponent )gameObject.Input ).LastActiveVelocity == new Vector2( 0.0f, -1.0f ) )
 			{

@@ -19,6 +19,8 @@ namespace BirdWarsTest.InputComponents
 
 		public virtual void SetVelocity( Vector2 newVelocity ) {}
 
+		public virtual Vector2 GetLastActiveVelocity() { return Vector2.Zero; }
+
 		public virtual double GetLastUpdateTime() { return 0.0; }
 
 		public virtual void SetLastUpdateTime( double newTime ) {}

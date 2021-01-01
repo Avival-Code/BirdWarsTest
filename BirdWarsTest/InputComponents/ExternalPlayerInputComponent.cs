@@ -10,6 +10,7 @@ namespace BirdWarsTest.InputComponents
 		public ExternalPlayerInputComponent()
 		{
 			velocity = Vector2.Zero;
+			LastActiveVelocity = new Vector2( 1.0f, 0.0f );
 			lastUpdateTime = 1.0;
 		}
 
@@ -31,11 +32,16 @@ namespace BirdWarsTest.InputComponents
 			return velocity;
 		}
 
+		public override Vector2 GetLastActiveVelocity()
+		{
+			return LastActiveVelocity;
+		}
+
 		public override void SetVelocity( Vector2 newVelocity )
 		{
 			if( newVelocity != new Vector2( 0.0f, 0.0f ) )
 			{
-				LastActiveVelocity = velocity;
+				LastActiveVelocity = newVelocity;
 			}
 			velocity = newVelocity;
 		}

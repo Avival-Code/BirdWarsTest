@@ -1,14 +1,11 @@
-﻿using BirdWarsTest.GameObjects;
-using BirdWarsTest.GraphicComponents;
+﻿using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.Network;
-using BirdWarsTest.Network.Messages;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {

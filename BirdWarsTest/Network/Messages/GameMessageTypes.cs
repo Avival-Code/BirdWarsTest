@@ -20,6 +20,7 @@ namespace BirdWarsTest.Network.Messages
 		StartRoundMessage,
 		PlayerStateChangeMessage,
 		SpawnBoxMessage,
-		BoxDamageMessage
+		BoxDamageMessage,
+		PlayerAttackMessage
 	}
 }
