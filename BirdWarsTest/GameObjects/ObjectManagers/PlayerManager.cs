@@ -120,6 +120,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public void Update( GameState gameState, KeyboardState state, GameTime gameTime, Rectangle mapBounds )
 		{
+			HandlePlayerAttacks();
 			foreach( var player in Players )
 			{
 				player.Update( state, gameState, gameTime );
@@ -144,6 +145,21 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			if( player.GetRectangle().Bottom > mapBounds.Bottom )
 			{
 				player.Position = new Vector2( player.Position.X, mapBounds.Bottom - player.Graphics.GetTextureSize().Y );
+			}
+		}
+
+		private void HandlePlayerAttacks()
+		{
+			for( int i = 0; i < Players.Count; i++ )
+			{
+				if( i != LocalPlayerIndex )
+				{
+					if( Players[ i ].Attack.IsAttacking &&
+						Players[ i ].Attack.GetAttackRectangle( Players[ i ] ).Intersects( GetLocalPlayer().GetRectangle() ) )
+					{
+						GetLocalPlayer().Health.TakeDamage( Players[ i ].Attack.Damage );
+					}
+				}
 			}
 		}
 
