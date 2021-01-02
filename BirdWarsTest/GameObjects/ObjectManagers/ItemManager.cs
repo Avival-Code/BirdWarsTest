@@ -13,9 +13,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 	{
 		public ItemManager( Microsoft.Xna.Framework.Content.ContentManager contentIn )
 		{
-			Boxes = new List<GameObject>();
-			ConsumableItems = new List<GameObject>();
-			boxPositionGenerator = new Random();
+			Boxes = new List< GameObject >();
+			ConsumableItems = new List< GameObject >();
+			spawnedItems = new List< bool >();
+			randomNumberGenerator = new Random();
 			content = contentIn;
 			maxBoxes = 25;
 			maxBoxHealth = 3;
@@ -33,6 +34,23 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			{
 				Boxes.Add( new GameObject( new ItemBoxGraphicsComponent( content ), null, new HealthComponent( maxBoxHealth ),
 										   Identifiers.ItemBox, GetRandomMapPosition() ) );
+				spawnedItems.Add( false );
+			}
+		}
+
+		public void SpawnConsumableItems( INetworkManager networkManager )
+		{
+			if( networkManager.IsHost() )
+			{
+				for( int i = 0; i < Boxes.Count; i++ )
+				{
+					if( Boxes[ i ].Health.IsDead() && !spawnedItems[ i ] )
+					{
+						List< GameObject > newObjects = new List< GameObject >();
+						CreateRandomItems( newObjects, i );
+						networkManager.SendSpawnConsumablesMessage( newObjects );
+					}
+				}
 			}
 		}
 
@@ -43,6 +61,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				GameObject newBox = new GameObject( new ItemBoxGraphicsComponent( content ), null, 
 													new HealthComponent( maxBoxHealth ), Identifiers.ItemBox, GetRandomMapPosition() );
 				Boxes.Add( newBox );
+				spawnedItems.Add( false );
 				List< GameObject > boxes = new List< GameObject >();
 				boxes.Add( newBox );
 				networkManager.SendSpawnBoxMessage( boxes );
@@ -56,6 +75,32 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			{
 				Boxes.Add( new GameObject( new ItemBoxGraphicsComponent( content ), null, new HealthComponent( maxBoxHealth ),
 										   Identifiers.ItemBox, new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+				spawnedItems.Add( false );
+			}
+		}
+
+		public void HandleSpawnConsumablesMessage( NetIncomingMessage incomingMessage )
+		{
+			for( int i = 0; i < 4; i++ )
+			{
+				int identifier = incomingMessage.ReadInt32();
+				switch( identifier )
+				{
+					case ( int )Identifiers.Coin:
+						ConsumableItems.Add( new GameObject( new CoinGraphicsComponent( content ), null, ( Identifiers )identifier, 
+															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+						break;
+
+					case ( int )Identifiers.PigeonMilk:
+						ConsumableItems.Add( new GameObject( new PigeonMilkGraphicsComponent( content ), null, ( Identifiers )identifier,
+															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+						break;
+
+					case ( int )Identifiers.EggGrenade:
+						ConsumableItems.Add( new GameObject( new EggGrenadeGraphicsComponent( content ), null, ( Identifiers )identifier,
+															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+						break;
+				}
 			}
 		}
 
@@ -65,25 +110,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			Boxes[ index ].Health.TakeDamage( incomingMessage.ReadInt32() );
 		}
 
-		private Vector2 GetRandomMapPosition()
+		private void HandleSpawnBox( INetworkManager networkManager, GameTime gameTime )
 		{
-			return new Vector2( boxPositionGenerator.Next( mapBounds.X, mapBounds.Width - 50 ),
-								boxPositionGenerator.Next( mapBounds.Y, mapBounds.Height - 50 ) );
-		}
-
-		public void Update( INetworkManager networkManager, GameObject localPlayer, GameTime gameTime )
-		{
-			if( networkManager.IsHost() )
+			UpdateTimer( gameTime );
+			if( ( int )spawnBoxTimer >= 30 && Boxes.Count < maxBoxes )
 			{
-				HandleSpawnBox( networkManager, gameTime );
+				SpawnBox( networkManager );
+				ResetTimer();
 			}
-
-			foreach( var box in Boxes )
-			{
-				box.Update( gameTime );
-			}
-
-			HandleBoxDamage( networkManager, localPlayer );
 		}
 
 		private void HandleBoxDamage( INetworkManager networkManager, GameObject localPlayer )
@@ -97,6 +131,23 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					networkManager.SendBoxDamageMessage( i, localPlayer.Attack.Damage );
 				}
 			}
+		}
+
+		public void Update( INetworkManager networkManager, GameObject localPlayer, GameTime gameTime )
+		{
+			SpawnConsumableItems( networkManager );
+
+			if( networkManager.IsHost() )
+			{
+				HandleSpawnBox( networkManager, gameTime );
+			}
+
+			foreach( var box in Boxes )
+			{
+				box.Update( gameTime );
+			}
+
+			HandleBoxDamage( networkManager, localPlayer );
 		}
 
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
@@ -118,14 +169,53 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void HandleSpawnBox( INetworkManager networkManager, GameTime gameTime )
+		private void CreateRandomItems( List< GameObject > objectList, int boxIndex )
 		{
-			UpdateTimer( gameTime );
-			if ( ( int )spawnBoxTimer >= 30 && Boxes.Count < maxBoxes )
+			for( int i = 0; i < 4; i++ )
 			{
-				SpawnBox( networkManager );
-				ResetTimer();
+				GameObject temp;
+				switch( GetRandomItemType() )
+				{
+					case ( int )Identifiers.Coin:
+						temp = new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+
+					case ( int )Identifiers.PigeonMilk:
+						temp = new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+
+					case ( int )Identifiers.EggGrenade:
+						temp = new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+				}
 			}
+			spawnedItems[ boxIndex ] = true;
+		}
+
+		private Vector2 GetRandomMapPosition()
+		{
+			return new Vector2( randomNumberGenerator.Next( mapBounds.X, mapBounds.Width - 50 ),
+								randomNumberGenerator.Next( mapBounds.Y, mapBounds.Height - 50 ) );
+		}
+
+		private Vector2 GetRandomLocalBoxPosition( GameObject box )
+		{
+			return new Vector2( randomNumberGenerator.Next( ( int )box.Position.X, ( int )box.Position.X + box.GetRectangle().Width ),
+								randomNumberGenerator.Next( ( int )box.Position.Y, ( int )box.Position.Y + box.GetRectangle().Height ) );
+		}
+
+		private int GetRandomItemType()
+		{
+			return randomNumberGenerator.Next( ( int )Identifiers.Coin, ( int )Identifiers.EggGrenade );
 		}
 
 		private void UpdateTimer( GameTime gameTime )
@@ -146,8 +236,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public List< GameObject > Boxes { get; private set; }
 		public List< GameObject > ConsumableItems { get; private set; }
+		private List< bool > spawnedItems;
 		private Microsoft.Xna.Framework.Content.ContentManager content;
-		private Random boxPositionGenerator;
+		private Random randomNumberGenerator;
 		private Rectangle mapBounds;
 		private int maxBoxes;
 		private int maxBoxHealth;

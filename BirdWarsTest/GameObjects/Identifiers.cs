@@ -30,7 +30,9 @@
 		LifeBar,
 		Timer,
 		Floor,
-		ItemBox
-
+		ItemBox,
+		Coin,
+		PigeonMilk,
+		EggGrenade
 	}
 }

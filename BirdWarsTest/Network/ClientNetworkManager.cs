@@ -172,6 +172,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PlayerAttackMessage:
 								HandlePlayerAttackMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.SpawnConsumablesMessage:
+								HandleSpawnConsumablesMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -232,6 +235,11 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
 		}
 
+		public void HandleSpawnConsumablesMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
+		}
+
 		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
@@ -282,6 +290,8 @@ namespace BirdWarsTest.Network
 		}
 
 		public void SendSpawnBoxMessage( List< GameObject > boxes ) {}
+
+		public void SendSpawnConsumablesMessage( List< GameObject > consumables ) {}
 
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{

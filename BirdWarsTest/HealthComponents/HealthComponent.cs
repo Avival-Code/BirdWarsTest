@@ -27,6 +27,11 @@ namespace BirdWarsTest.HealthComponents
 			}
 		}
 
+		public void TakeFullDamage()
+		{
+			Health = 0;
+		}
+
 		public void Heal( int health )
 		{
 			Health += health;

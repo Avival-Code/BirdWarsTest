@@ -174,6 +174,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		public void ClearAllPlayers()
+		{
+			Players.Clear();
+		}
+
 		public List< GameObject > Players { get; private set; }
 		private PositionGenerator positionGenerator;
 		public bool CreatedPlayers { get; private set; }

@@ -24,6 +24,8 @@ namespace BirdWarsTest.Network
 
 		void SendSpawnBoxMessage( List< GameObject > boxes );
 
+		void SendSpawnConsumablesMessage( List< GameObject > consumables );
+
 		void SendBoxDamageMessage( int boxIndex, int damage );
 
 		void SendPlayerAttackMessage( Identifiers localPlayerIndex );

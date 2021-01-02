@@ -427,6 +427,19 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void SendSpawnConsumablesMessage( List< GameObject > consumables )
+		{
+			SpawnConsumablesMessage spawnConsumablesMessage = new SpawnConsumablesMessage( consumables );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )spawnConsumablesMessage.messageType );
+			spawnConsumablesMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( boxIndex, damage );
