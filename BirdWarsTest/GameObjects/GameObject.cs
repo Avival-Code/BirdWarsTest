@@ -5,6 +5,7 @@ using BirdWarsTest.InputComponents;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
+using BirdWarsTest.EffectComponents;
 using BirdWarsTest.States;
 
 namespace BirdWarsTest.GameObjects
@@ -18,6 +19,7 @@ namespace BirdWarsTest.GameObjects
 			Input = input_In;
 			Health = null;
 			Attack = null;
+			Effect = null;
 			Identifier = id_In;
 			Position = position_in;
 		}
@@ -29,6 +31,7 @@ namespace BirdWarsTest.GameObjects
 			Input = input_In;
 			Health = null;
 			Attack = null;
+			Effect = null;
 			Identifier = id_In;
 			if( Graphics != null )
 				Position = new Vector2( CenterXWidth( screenWidth, Graphics.GetTextureSize().X ),
@@ -43,6 +46,7 @@ namespace BirdWarsTest.GameObjects
 			Input = input_In;
 			Health = health_In;
 			Attack = null;
+			Effect = null;
 			Identifier = id_In;
 			Position = position_in;
 		}
@@ -54,6 +58,19 @@ namespace BirdWarsTest.GameObjects
 			Input = input_In;
 			Health = health_In;
 			Attack = attackIn;
+			Effect = null;
+			Identifier = id_In;
+			Position = position_in;
+		}
+
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, HealthComponent health_In,
+						   EffectComponent effectIn, Identifiers id_In, Vector2 position_in )
+		{
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = health_In;
+			Attack = null;
+			Effect = effectIn;
 			Identifier = id_In;
 			Position = position_in;
 		}
@@ -119,6 +136,7 @@ namespace BirdWarsTest.GameObjects
 		public InputComponent Input { get; set; }
 		public HealthComponent Health { get; set; }
 		public AttackComponent Attack { get; set; }
+		public EffectComponent Effect { get; set; }
 		public Identifiers Identifier { get; private set; }
 		public Vector2 Position { get; set; }
 	}

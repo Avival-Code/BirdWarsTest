@@ -11,27 +11,28 @@ namespace BirdWarsTest.Network.Messages
 
 		public BoxDamageMessage( int boxIndexIn, int damageIn )
 		{
-			boxIndex = boxIndexIn;
-			damage = damageIn;
+			BoxIndex = boxIndexIn;
+			Damage = damageIn;
 		}
 
 		public GameMessageTypes messageType
 		{
 			get { return GameMessageTypes.BoxDamageMessage; }
 		}
+
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			boxIndex = incomingMessage.ReadInt32();
-			damage = incomingMessage.ReadInt32();
+			BoxIndex = incomingMessage.ReadInt32();
+			Damage = incomingMessage.ReadInt32();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( boxIndex );
-			outgoingMessage.Write( damage );
+			outgoingMessage.Write( BoxIndex );
+			outgoingMessage.Write( Damage );
 		}
 
-		private int boxIndex;
-		private int damage;
+		public int BoxIndex { get; private set; }
+		public int Damage { get; private set; }
 	}
 }

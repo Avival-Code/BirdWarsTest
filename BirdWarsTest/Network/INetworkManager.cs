@@ -1,7 +1,7 @@
 ﻿using Lidgren.Network;
-using BirdWarsTest.Database;
 using BirdWarsTest.States;
 using BirdWarsTest.GameObjects;
+using BirdWarsTest.Database;
 using System;
 using System.Collections.Generic;
 
@@ -12,6 +12,8 @@ namespace BirdWarsTest.Network
 		void Login( string email, string password );
 
 		void Logout();
+
+		LoginSession GetLoginSession();
 
 		void RegisterUser( string nameIn, string lastNameIn, string usernameIn,
 						   string emailIn, string passwordIn );
@@ -30,6 +32,8 @@ namespace BirdWarsTest.Network
 
 		void SendPlayerAttackMessage( Identifiers localPlayerIndex );
 
+		void SendPickedUpItemMessage( int itemIndex );
+
 		void UpdatePassword( string code, string password );
 
 		bool IsHost();
@@ -47,8 +51,6 @@ namespace BirdWarsTest.Network
 		void ProcessMessages( StateHandler handler );
 
 		NetConnectionStatus GetConnectionState();
-
-		LoginSession GetLoginSession();
 
 		void CreateRound();
 

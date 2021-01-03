@@ -13,7 +13,7 @@ namespace BirdWarsTest.Network
 	{
 		public ClientNetworkManager()
 		{
-			userSession = new LoginSession();
+			UserSession = new LoginSession();
 			Connect();
 		}
 
@@ -24,7 +24,12 @@ namespace BirdWarsTest.Network
 
 		public void Logout()
 		{
-			userSession.Logout();
+			UserSession.Logout();
+		}
+
+		public LoginSession GetLoginSession()
+		{
+			return UserSession;
 		}
 
 		public void Connect()
@@ -188,7 +193,7 @@ namespace BirdWarsTest.Network
 			if( loginResult )
 			{
 				incomingMessage.ReadString();
-				userSession.Login( new User( incomingMessage.ReadInt32(), incomingMessage.ReadString(), incomingMessage.ReadString(),
+				UserSession.Login( new User( incomingMessage.ReadInt32(), incomingMessage.ReadString(), incomingMessage.ReadString(),
 											 incomingMessage.ReadString(), incomingMessage.ReadString(), incomingMessage.ReadString() ),
 								   new Account( incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
 												incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
@@ -215,14 +220,14 @@ namespace BirdWarsTest.Network
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.
-				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), userSession.CurrentUser.Username );
+				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), UserSession.CurrentUser.Username );
 		}
 
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			handler.ChangeState( StateTypes.PlayState );
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
-																					incomingMessage, userSession.CurrentUser.Username );
+																					incomingMessage, UserSession.CurrentUser.Username );
 		}
 
 		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -242,12 +247,19 @@ namespace BirdWarsTest.Network
 
 		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
+			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
 
 		public void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( incomingMessage );
+			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+		}
+
+		public void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( incomingMessage.ReadInt32() );
 		}
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
@@ -261,22 +273,17 @@ namespace BirdWarsTest.Network
 
 		public void JoinRound()
 		{
-			SendMessage( new JoinRoundRequestMessage( userSession.CurrentUser.Username ) );
+			SendMessage( new JoinRoundRequestMessage( UserSession.CurrentUser.Username ) );
 		}
 
 		public void LeaveRound()
 		{
-			SendMessage( new LeaveRoundMessage( userSession.CurrentUser.Username ) );
+			SendMessage( new LeaveRoundMessage( UserSession.CurrentUser.Username ) );
 		}
 
 		public void SendChatMessage( string message )
 		{
-			SendMessage( new ChatMessage( userSession.CurrentUser.Username, message ) );
-		}
-
-		public LoginSession GetLoginSession()
-		{
-			return userSession;
+			SendMessage( new ChatMessage( UserSession.CurrentUser.Username, message ) );
 		}
 
 		public void SendPasswordChangeMessage( string emailIn ) 
@@ -303,13 +310,18 @@ namespace BirdWarsTest.Network
 			SendMessage( new PlayerAttackMessage( localPlayerIndex ) );
 		}
 
+		public void SendPickedUpItemMessage( int itemIndex )
+		{
+			SendMessage( new PickedUpItemMessage( itemIndex ) );
+		}
+
 		public void UpdatePassword( string code, string password ) 
 		{
 			SendMessage( new PasswordResetMessage( code, password ) );
 		}
 
+		public LoginSession UserSession { get; private set; }
 		private NetClient netClient;
-		private LoginSession userSession;
 		private bool isDisposed;
 	}
 }

@@ -59,7 +59,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( handler.networkManager.IsHost() )
 			{
-				if( ( ( ServerNetworkManager )handler.networkManager ).userSession.IsLoggedIn )
+				if( ( ( ServerNetworkManager )handler.networkManager ).UserSession.IsLoggedIn )
 				{
 					handler.ChangeState( StateTypes.MainMenuState );
 				}

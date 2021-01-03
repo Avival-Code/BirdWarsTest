@@ -1,6 +1,8 @@
 ﻿using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.HealthComponents;
+using BirdWarsTest.EffectComponents;
 using BirdWarsTest.Network;
+using BirdWarsTest.Network.Messages;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -87,27 +89,34 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				switch( identifier )
 				{
 					case ( int )Identifiers.Coin:
-						ConsumableItems.Add( new GameObject( new CoinGraphicsComponent( content ), null, ( Identifiers )identifier, 
+						ConsumableItems.Add( new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
+															 new CoinEffectComponent( 1 ), Identifiers.Coin,
 															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						break;
 
 					case ( int )Identifiers.PigeonMilk:
-						ConsumableItems.Add( new GameObject( new PigeonMilkGraphicsComponent( content ), null, ( Identifiers )identifier,
+						ConsumableItems.Add( new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
+															 new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk, 
 															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						break;
 
 					case ( int )Identifiers.EggGrenade:
-						ConsumableItems.Add( new GameObject( new EggGrenadeGraphicsComponent( content ), null, ( Identifiers )identifier,
+						ConsumableItems.Add( new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
+														     new GrenadePickupEffectComponent(), Identifiers.EggGrenade, 
 															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						break;
 				}
 			}
 		}
 
-		public void HandleBoxDamageMessage( NetIncomingMessage incomingMessage )
+		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage )
 		{
-			int index = incomingMessage.ReadInt32();
-			Boxes[ index ].Health.TakeDamage( incomingMessage.ReadInt32() );
+			Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamage( boxDamageMessage.Damage );
+		}
+
+		public void HandlePickedUpItemMessage( int itemIndex )
+		{
+			ConsumableItems[ itemIndex ].Health.TakeFullDamage();
 		}
 
 		private void HandleSpawnBox( INetworkManager networkManager, GameTime gameTime )
@@ -133,7 +142,21 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		public void Update( INetworkManager networkManager, GameObject localPlayer, GameTime gameTime )
+		private void HandleConsumableItemPickup( INetworkManager networkManager, PlayerManager playerManager )
+		{
+			for( int i = 0; i < ConsumableItems.Count; i++ )
+			{
+				if( !ConsumableItems[ i ].Health.IsDead() && 
+					ConsumableItems[ i ].GetRectangle().Intersects( playerManager.GetLocalPlayer().GetRectangle() ) )
+				{
+					ConsumableItems[ i ].Health.TakeFullDamage();
+					ConsumableItems[ i ].Effect.DoEffect( networkManager, playerManager );
+					networkManager.SendPickedUpItemMessage( i );
+				}
+			}
+		}
+
+		public void Update( INetworkManager networkManager, PlayerManager playerManager, GameTime gameTime )
 		{
 			SpawnConsumableItems( networkManager );
 
@@ -147,7 +170,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				box.Update( gameTime );
 			}
 
-			HandleBoxDamage( networkManager, localPlayer );
+			HandleBoxDamage( networkManager, playerManager.GetLocalPlayer() );
+			HandleConsumableItemPickup( networkManager, playerManager );
 		}
 
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
@@ -162,7 +186,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 			foreach( var item in ConsumableItems )
 			{
-				if( cameraRenderBounds.Intersects( item.GetRectangle() ) )
+				if( !item.Health.IsDead() && cameraRenderBounds.Intersects( item.GetRectangle() ) )
 				{
 					item.Render( ref batch, cameraBounds );
 				}
@@ -178,21 +202,21 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					case ( int )Identifiers.Coin:
 						temp = new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+											   new CoinEffectComponent( 1 ), Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
 						ConsumableItems.Add( temp );
 						objectList.Add( temp );
 						break;
 
 					case ( int )Identifiers.PigeonMilk:
 						temp = new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+											   new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
 						ConsumableItems.Add( temp );
 						objectList.Add( temp );
 						break;
 
 					case ( int )Identifiers.EggGrenade:
 						temp = new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+											   new GrenadePickupEffectComponent(), Identifiers.EggGrenade, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
 						ConsumableItems.Add( temp );
 						objectList.Add( temp );
 						break;
@@ -215,7 +239,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		private int GetRandomItemType()
 		{
-			return randomNumberGenerator.Next( ( int )Identifiers.Coin, ( int )Identifiers.EggGrenade );
+			return randomNumberGenerator.Next( ( int )Identifiers.Coin, ( int )Identifiers.EggGrenade + 1 );
 		}
 
 		private void UpdateTimer( GameTime gameTime )

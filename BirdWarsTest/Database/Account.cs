@@ -35,6 +35,11 @@
 			Money = money_In;
 		}
 
+		public void AddMoney( int amount )
+		{
+			Money += amount;
+		}
+
 		public int AccountId { get; set; }
 		public int UserId { get; set; }
 		public int TotalMatchesPlayed { get; set; }

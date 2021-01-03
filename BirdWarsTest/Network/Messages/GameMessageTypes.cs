@@ -22,6 +22,7 @@ namespace BirdWarsTest.Network.Messages
 		SpawnBoxMessage,
 		BoxDamageMessage,
 		PlayerAttackMessage,
-		SpawnConsumablesMessage
+		SpawnConsumablesMessage,
+		PickedUpItemMessage
 	}
 }

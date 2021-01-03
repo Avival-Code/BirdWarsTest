@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace BirdWarsTest.HealthComponents
+﻿namespace BirdWarsTest.HealthComponents
 {
 	public class HealthComponent
 	{
@@ -35,6 +33,10 @@ namespace BirdWarsTest.HealthComponents
 		public void Heal( int health )
 		{
 			Health += health;
+			if( Health > maxHealth )
+			{
+				Health = maxHealth;
+			}
 		}
 
 		public bool IsDead()

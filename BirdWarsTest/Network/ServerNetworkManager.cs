@@ -18,7 +18,7 @@ namespace BirdWarsTest.Network
 			GameRound = new GameRound();
 			emailManager = new EmailManager();
 			ChangeManager = new PasswordChangeManager();
-			userSession = new LoginSession();
+			UserSession = new LoginSession();
 		}
 
 		public void Login( string email, string password )
@@ -26,7 +26,7 @@ namespace BirdWarsTest.Network
 			if( gameDatabase.Users.Read( email, password ) != null )
 			{
 				var user = gameDatabase.Users.Read( email, password );
-				userSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
+				UserSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
 				Console.WriteLine( "Login credentials approved." );
 			}
 			else
@@ -37,7 +37,12 @@ namespace BirdWarsTest.Network
 
 		public void Logout()
 		{
-			userSession.Logout();
+			UserSession.Logout();
+		}
+
+		public LoginSession GetLoginSession()
+		{
+			return UserSession;
 		}
 
 		public void Connect()
@@ -196,6 +201,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PlayerAttackMessage:
 								HandlePlayerAttackMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PickedUpItemMessage:
+								HandlePickedUpItemMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -321,7 +329,7 @@ namespace BirdWarsTest.Network
 			handler.ChangeState( StateTypes.PlayState );
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
 																					GameRound.GetPlayerUsernames(),
-																					userSession.CurrentUser.Username );
+																					UserSession.CurrentUser.Username );
 
 			StartRoundMessage startMessage = new StartRoundMessage( GameRound.GetPlayerUsernames(),
 											( ( PlayState )handler.GetCurrentState() ).PlayerManager.Players );
@@ -351,8 +359,7 @@ namespace BirdWarsTest.Network
 			string username = incomingMessage.ReadString();
 			string message = incomingMessage.ReadString();
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
-					username, message, userSession.CurrentUser.Username
-				);
+					username, message, UserSession.CurrentUser.Username );
 
 			ChatMessage newMessage = new ChatMessage( username, message );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
@@ -372,12 +379,56 @@ namespace BirdWarsTest.Network
 
 		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( incomingMessage );
+			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )boxDamageMessage.messageType );
+			boxDamageMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
 
 		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( incomingMessage );
+			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )playerAttackMessage.messageType );
+			playerAttackMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+		}
+
+		private void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )pickedUpItemMessage.messageType );
+			pickedUpItemMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( pickedUpItemMessage.ItemIndex );
 		}
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
@@ -466,6 +517,19 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void SendPickedUpItemMessage( int itemIndex )
+		{
+			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( itemIndex );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )pickedUpItemMessage.messageType );
+			pickedUpItemMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
 		public void UpdatePassword( string code, string password )
 		{
 			if( ChangeManager.PasswordChangeWasSolicited && code.Equals( ChangeManager.ChangeCode.ToString() ) )
@@ -477,7 +541,7 @@ namespace BirdWarsTest.Network
 
 		public void CreateRound()
 		{
-			GameRound.CreateRound( userSession.CurrentUser.Username );
+			GameRound.CreateRound( UserSession.CurrentUser.Username );
 			RoundCreatedMessage newRound = new RoundCreatedMessage( true, GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
 			updateMessage.Write( ( byte )newRound.messageType );
@@ -500,7 +564,7 @@ namespace BirdWarsTest.Network
 
 		public void SendChatMessage( string message )
 		{
-			ChatMessage chatMessage = new ChatMessage( userSession.CurrentUser.Username, message );
+			ChatMessage chatMessage = new ChatMessage( UserSession.CurrentUser.Username, message );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )chatMessage.messageType );
 			chatMessage.Encode( outgoingMessage );
@@ -508,20 +572,16 @@ namespace BirdWarsTest.Network
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
-		public LoginSession GetLoginSession()
-		{
-			return userSession;
-		}
-
 		public void LeaveRound() {}
+
 
 		public PasswordChangeManager ChangeManager { get; private set; }
 		public GameRound GameRound { get; set; }
+		public LoginSession UserSession { get; private set; }
 
 		private NetServer netServer;
 		private EmailManager emailManager;
 		private GameDatabase gameDatabase;
-		public LoginSession userSession;
 		private bool isDisposed;
 	}
 }

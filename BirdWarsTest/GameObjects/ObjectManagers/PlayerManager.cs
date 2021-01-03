@@ -13,13 +13,14 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
-	class PlayerManager
+	public class PlayerManager
 	{
 		public PlayerManager()
 		{
 			Players = new List< GameObject >();
 			positionGenerator = new PositionGenerator();
 			CreatedPlayers = false;
+			GrenadeAmount = 0;
 		}
 
 		public void CreatePlayers( Microsoft.Xna.Framework.Content.ContentManager content, StateHandler handler,
@@ -94,10 +95,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		public void HandlePlayerAttackMessage( NetIncomingMessage incomingMessage )
+		public void HandlePlayerAttackMessage( PlayerAttackMessage attackMessage )
 		{
-			var message = new PlayerAttackMessage( incomingMessage );
-			GameObject player = GetPlayer( message.PlayerIndex );
+			GameObject player = GetPlayer( attackMessage.PlayerIndex );
 			player.Attack.DoAttack();
 		}
 
@@ -183,5 +183,6 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		private PositionGenerator positionGenerator;
 		public bool CreatedPlayers { get; private set; }
 		public int LocalPlayerIndex { get; private set; }
+		public int GrenadeAmount { get; set; }
 	}
 }
