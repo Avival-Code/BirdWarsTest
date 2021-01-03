@@ -232,7 +232,9 @@ namespace BirdWarsTest.Network
 
 		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
+			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
+																									 stateChangeMessage );
 		}
 
 		public void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )

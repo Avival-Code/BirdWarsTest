@@ -374,7 +374,21 @@ namespace BirdWarsTest.Network
 
 		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage );
+			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )stateChangeMessage.messageType );
+			stateChangeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+
+			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage, 
+																									 stateChangeMessage );
 		}
 
 		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )

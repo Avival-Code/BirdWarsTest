@@ -80,18 +80,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			CreatedPlayers = true;
 		}
 
-		public void HandlePlayerStateChangeMessage( NetIncomingMessage incomingMessage )
+		public void HandlePlayerStateChangeMessage( NetIncomingMessage incomingMessage, 
+													PlayerStateChangeMessage stateChangeMessage )
 		{
-			var message = new PlayerStateChangeMessage( incomingMessage );
-			var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( message.MessageTime ) );
+			var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( stateChangeMessage.MessageTime ) );
 
-			GameObject player = GetPlayer( message.Id );
+			GameObject player = GetPlayer( stateChangeMessage.Id );
 
-			if( player.Input.GetLastUpdateTime() < message.MessageTime )
+			if( player.Input.GetLastUpdateTime() < stateChangeMessage.MessageTime )
 			{
-				player.Position = message.Position += message.Velocity * timeDelay;
-				player.Input.SetVelocity( message.Velocity );
-				player.Input.SetLastUpdateTime( message.MessageTime );
+				player.Position = stateChangeMessage.Position += stateChangeMessage.Velocity * timeDelay;
+				player.Input.SetVelocity( stateChangeMessage.Velocity );
+				player.Input.SetLastUpdateTime( stateChangeMessage.MessageTime );
 			}
 		}
 

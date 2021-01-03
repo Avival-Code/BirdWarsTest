@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class PlayerStateChangeMessage : IGameMessage
+	public class PlayerStateChangeMessage : IGameMessage
 	{
 		public PlayerStateChangeMessage( NetIncomingMessage incomingMessage )
 		{
