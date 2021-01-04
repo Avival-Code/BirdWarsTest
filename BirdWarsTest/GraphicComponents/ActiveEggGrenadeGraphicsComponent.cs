@@ -4,11 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	public class EggGrenadeGraphicsComponent : GraphicsComponent
+	public class ActiveEggGrenadeGraphicsComponent : GraphicsComponent
 	{
-		public EggGrenadeGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
+		public ActiveEggGrenadeGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
-			base( content.Load< Texture2D >( "Items/EggGrenade" ) )
+			base( content.Load<Texture2D>( "Items/ActiveEggGrenade" ) )
 		{}
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch ) {}

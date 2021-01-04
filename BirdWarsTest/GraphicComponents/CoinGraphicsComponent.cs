@@ -8,7 +8,7 @@ namespace BirdWarsTest.GraphicComponents
 	{
 		public CoinGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
-			base( content.Load< Texture2D >( "Items/ItemFiller" ) )
+			base( content.Load< Texture2D >( "Items/Coin" ) )
 		{}
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch ) {}

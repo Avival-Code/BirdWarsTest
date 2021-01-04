@@ -79,7 +79,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			if( !threwGrenade )
 			{
-				GameObject temp = new GameObject( new EggGrenadeGraphicsComponent( content ), 
+				GameObject temp = new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
 												  new GrenadeInputComponent( playerManager.GetLocalPlayer().Input.GetLastActiveVelocity(),
 																			 playerManager.GetLocalPlayer().Input.GetObjectSpeed() ), 
 												  new HealthComponent( 1 ),
@@ -142,7 +142,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public void HandleSpawnGrenadeMessage( Vector2 grenadePosition, Vector2 grenadeDirection, float grenadeSpeed )
 		{
-			EggGrenades.Add( new GameObject( new EggGrenadeGraphicsComponent( content ), 
+			EggGrenades.Add( new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
 											 new GrenadeInputComponent( grenadeDirection, grenadeSpeed ), new HealthComponent( 1 ),
 											 new GrenadeAttackComponent(), Identifiers.EggGrenade, grenadePosition ) );
 		}
