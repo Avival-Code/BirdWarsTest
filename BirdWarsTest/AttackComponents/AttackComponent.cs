@@ -23,6 +23,15 @@ namespace BirdWarsTest.AttackComponents
 			attackHeight = 50;
 		}
 
+		public AttackComponent( int damageIn, int attackWidthIn, int attackHeightIn )
+		{
+			Damage = damageIn;
+			IsAttacking = false;
+			attackTimer = 13;
+			attackWidth = attackWidthIn;
+			attackHeight = attackHeightIn;
+		}
+
 		public void DoAttack()
 		{
 			if( !IsAttacking )

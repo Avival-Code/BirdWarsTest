@@ -180,6 +180,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.SpawnConsumablesMessage:
 								HandleSpawnConsumablesMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.SpawnGrenadeMessage:
+								HandleSpawnGrenadeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -264,6 +267,14 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( incomingMessage.ReadInt32() );
 		}
 
+		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
+																							  grenadeMessage.Direction, 
+																							  grenadeMessage.GrenadeSpeed );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -315,6 +326,11 @@ namespace BirdWarsTest.Network
 		public void SendPickedUpItemMessage( int itemIndex )
 		{
 			SendMessage( new PickedUpItemMessage( itemIndex ) );
+		}
+
+		public void SendSpawnGrenadeMessage( GameObject grenade )
+		{
+			SendMessage( new SpawnGrenadeMessage( grenade ) );
 		}
 
 		public void UpdatePassword( string code, string password ) 

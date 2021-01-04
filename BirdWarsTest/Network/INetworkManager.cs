@@ -34,6 +34,8 @@ namespace BirdWarsTest.Network
 
 		void SendPickedUpItemMessage( int itemIndex );
 
+		void SendSpawnGrenadeMessage( GameObject grenade );
+
 		void UpdatePassword( string code, string password );
 
 		bool IsHost();

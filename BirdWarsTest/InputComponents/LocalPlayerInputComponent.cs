@@ -32,6 +32,7 @@ namespace BirdWarsTest.InputComponents
 				{
 					handler.networkManager.SendPlayerAttackMessage( gameObject.Identifier );
 				}
+				HandleGrenadeThrow( gameState );
 			}
 		}
 
@@ -46,6 +47,15 @@ namespace BirdWarsTest.InputComponents
 			}
 
 			return actionPerformed;
+		}
+
+		private void HandleGrenadeThrow( GameState gameState )
+		{
+			if( IsKeyDown( Keys.S ) )
+			{
+				( ( PlayState )gameState ).ItemManager.SpawnGrenade( ( ( PlayState )gameState ).NetWorkManager,
+																	 ( ( PlayState )gameState ).PlayerManager );
+			}
 		}
 
 		private bool HandlePlayerMovement()
@@ -148,6 +158,11 @@ namespace BirdWarsTest.InputComponents
 			return velocity;
 		}
 
+		public override float GetObjectSpeed()
+		{
+			return playerSpeed;
+		}
+
 		public override Vector2 GetLastActiveVelocity()
 		{
 			return LastActiveVelocity;
@@ -174,7 +189,7 @@ namespace BirdWarsTest.InputComponents
 		private KeyboardState currentKeyBoardState;
 		private KeyboardState lastKeyboardState;
 		private Vector2 velocity;
-		private float playerSpeed;
+		public float playerSpeed;
 		private double lastUpdateTime;
 	}
 }

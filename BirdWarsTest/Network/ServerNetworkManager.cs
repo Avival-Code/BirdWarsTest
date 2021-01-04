@@ -204,6 +204,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PickedUpItemMessage:
 								HandlePickedUpItemMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.SpawnGrenadeMessage:
+								HandleSpawnGrenadeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -445,6 +448,26 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( pickedUpItemMessage.ItemIndex );
 		}
 
+		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )grenadeMessage.messageType );
+			grenadeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+
+			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
+																							  grenadeMessage.Direction, 
+																							  grenadeMessage.GrenadeSpeed );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
@@ -544,6 +567,19 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void SendSpawnGrenadeMessage( GameObject grenade )
+		{
+			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( grenade );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )grenadeMessage.messageType );
+			grenadeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
 		public void UpdatePassword( string code, string password )
 		{
 			if( ChangeManager.PasswordChangeWasSolicited && code.Equals( ChangeManager.ChangeCode.ToString() ) )
@@ -587,7 +623,6 @@ namespace BirdWarsTest.Network
 		}
 
 		public void LeaveRound() {}
-
 
 		public PasswordChangeManager ChangeManager { get; private set; }
 		public GameRound GameRound { get; set; }

@@ -61,6 +61,11 @@ namespace BirdWarsTest.States
 			displayManager.Render( ref batch, PlayerManager.GetLocalPlayer().Health );
 		}
 
+		public INetworkManager NetWorkManager 
+		{
+			get { return networkManager; }
+		}
+
 		private Camera2D camera;
 		public PlayerManager PlayerManager { get; private set; }
 		public ItemManager ItemManager { get; private set; }
