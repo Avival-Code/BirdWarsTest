@@ -12,14 +12,13 @@ namespace BirdWarsTest.States
 {
 	class MainMenuState : GameState
 	{
-		public MainMenuState(Microsoft.Xna.Framework.Content.ContentManager newContent,
+		public MainMenuState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 							  ref GraphicsDeviceManager newGraphics, ref INetworkManager networkManagerIn,
-							  int width_in,
-							  int height_in)
+							  int width_in, int height_in )
 			:
-			base(newContent, ref newGraphics, ref networkManagerIn, width_in, height_in)
+			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
-			gameObjects = new List<GameObject>();
+			gameObjects = new List< GameObject >();
 		}
 
 		public override void Init( StateHandler handler, StringManager stringManager )
