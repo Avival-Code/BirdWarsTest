@@ -151,7 +151,7 @@ namespace BirdWarsTest.Network
 						switch( gameMessageType )
 						{
 							case GameMessageTypes.LoginResultMessage:
-								HandleLoginResultMessage( incomingMessage, handler );
+								HandleLoginResultMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.JoinRoundRequestResultMessage:
 								HandleJoinRoundRequestResultMessage( handler, incomingMessage );
@@ -190,18 +190,17 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		private void HandleLoginResultMessage( NetIncomingMessage incomingMessage, StateHandler handler )
+		private void HandleLoginResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			var loginResult = incomingMessage.ReadBoolean();
-			if( loginResult )
+			LoginResultMessage resultMessage = new LoginResultMessage( incomingMessage );
+			if( resultMessage.LoginRequestResult )
 			{
-				incomingMessage.ReadString();
-				UserSession.Login( new User( incomingMessage.ReadInt32(), incomingMessage.ReadString(), incomingMessage.ReadString(),
-											 incomingMessage.ReadString(), incomingMessage.ReadString(), incomingMessage.ReadString() ),
-								   new Account( incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
-												incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), incomingMessage.ReadInt32(), 
-												incomingMessage.ReadInt32() ) );
+				UserSession.Login( new User( resultMessage.User ), new Account( resultMessage.Account ) );
 				handler.ChangeState( StateTypes.MainMenuState );
+			}
+			else
+			{
+				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( resultMessage.Reason );
 			}
 			Console.WriteLine( incomingMessage.ReadString() );
 		}

@@ -12,6 +12,18 @@
 			MatchesSurvived = 0;
 			Money = 0;
 		}
+
+		public Account( Account accountIn )
+		{
+			AccountId = accountIn.AccountId;
+			UserId = accountIn.UserId;
+			TotalMatchesPlayed = accountIn.TotalMatchesPlayed;
+			MatchesWon = accountIn.MatchesWon;
+			MatchesLost = accountIn.MatchesLost;
+			MatchesSurvived = accountIn.MatchesSurvived;
+			Money = accountIn.Money;
+		}
+
 		public Account( int accountId_In, int userId_In )
 		{
 			AccountId = accountId_In;

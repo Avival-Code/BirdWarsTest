@@ -125,6 +125,14 @@ namespace BirdWarsTest.GameObjects
 			return ( screenWidth / 2 ) - ( textureWidth / 2 );
 		}
 
+		public void RecenterXWidth( float screenWidth )
+		{
+			if( Graphics != null )
+			{
+				Position = new Vector2( CenterXWidth( screenWidth, Graphics.GetTextureSize().X ), Position.Y );
+			}
+		}
+
 		public Rectangle GetRectangle()
 		{
 			return new Rectangle( ( int )Position.X, ( int )Position.Y, 

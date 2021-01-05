@@ -3,6 +3,7 @@ using BirdWarsTest.Database;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.GameRounds;
 using BirdWarsTest.GameObjects;
+using BirdWarsTest.Utilities;
 using Lidgren.Network;
 using System;
 using System.Collections.Generic;
@@ -172,7 +173,7 @@ namespace BirdWarsTest.Network
 						switch( gameMessageType )
 						{
 							case GameMessageTypes.LoginRequestMessage:
-								HandleLoginRequestMessages( incomingMessage );
+								HandleLoginRequestMessages( handler, incomingMessage );
 								break;
 							case GameMessageTypes.registerUserMessage:
 								HandleRegisterUserMessage( incomingMessage );
@@ -214,14 +215,14 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		private void HandleLoginRequestMessages( NetIncomingMessage incomingMessage )
+		private void HandleLoginRequestMessages( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			var user = gameDatabase.Users.Read( incomingMessage.ReadString(),
 											    incomingMessage.ReadString() );
 			if( user != null )
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( true, "Login Approved", user,
-																		 gameDatabase.Accounts.Read( user.UserId ) );
+				LoginResultMessage loginResult = new LoginResultMessage( true, handler.StringManager.GetString( StringNames.LoginApproved ),
+																		 user, gameDatabase.Accounts.Read( user.UserId ) );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );
@@ -231,8 +232,8 @@ namespace BirdWarsTest.Network
 			}
 			else
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( false, "Login credentials invalid", new User(),
-																		 new Account() );
+				LoginResultMessage loginResult = new LoginResultMessage( false, handler.StringManager.GetString( StringNames.LoginDenied ), 
+																		 new User(), new Account() );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )loginResult.messageType );
 				loginResult.Encode( outgoingMessage );

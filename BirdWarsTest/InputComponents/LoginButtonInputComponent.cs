@@ -16,12 +16,12 @@ namespace BirdWarsTest.InputComponents
 			handler = handlerIn;
 			loginEvents = new LoginEventArgs();
 			validator = new StringValidator();
-			isHovering = false;
 			click += Login;
 		}
 
 		private void Login( object sender, LoginEventArgs loginEvents )
 		{
+			CheckLoginInfo( handler, loginEvents );
 			if( !string.IsNullOrEmpty( loginEvents.Password ) && validator.AreLoginArgsValid( loginEvents ) )
 			{
 				handler.networkManager.Login( loginEvents.Email, loginEvents.Password );
@@ -41,10 +41,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
@@ -63,6 +61,32 @@ namespace BirdWarsTest.InputComponents
 				{
 					handler.ChangeState( StateTypes.MainMenuState );
 				}
+				else
+				{
+					( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.LoginDenied ) );
+				}
+			}
+		}
+
+		private void CheckLoginInfo( StateHandler handler, LoginEventArgs loginEvents )
+		{
+			CheckPassword( handler, loginEvents );
+			CheckEmail( handler, loginEvents );
+		}
+
+		private void CheckEmail( StateHandler handler, LoginEventArgs loginEvents )
+		{
+			if( !validator.IsEmailValid( loginEvents.Email ) )
+			{
+				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
+			}
+		}
+
+		private void CheckPassword( StateHandler handler, LoginEventArgs loginEvents )
+		{
+			if( !validator.IsPasswordValid( loginEvents.Password ) )
+			{
+				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
 			}
 		}
 
@@ -72,7 +96,5 @@ namespace BirdWarsTest.InputComponents
 		private StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public bool clicked;
-		private bool isHovering;
 	}
 }

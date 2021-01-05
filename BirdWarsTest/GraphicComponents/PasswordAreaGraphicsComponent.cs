@@ -28,8 +28,17 @@ namespace BirdWarsTest.GraphicComponents
 		private string HideText( string password )
 		{
 			string temp = "";
-			for (int i = 0; i < password.Length; i++)
-				temp += '*';
+			for( int i = 0; i < password.Length; i++ )
+			{
+				if( password[ i ] != '/' )
+				{
+					temp += '*';
+				}
+				else
+				{
+					temp += password[ i ];
+				}
+			}
 			return temp;
 		}
 

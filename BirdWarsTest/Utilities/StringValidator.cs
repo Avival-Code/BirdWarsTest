@@ -1,11 +1,8 @@
 ﻿using BirdWarsTest.InputComponents.EventArguments;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Utilities
 {
-	class StringValidator
+	public class StringValidator
 	{
 		public bool AreLoginArgsValid( LoginEventArgs loginEvent )
 		{
@@ -19,18 +16,18 @@ namespace BirdWarsTest.Utilities
 					 IsNewPasswordValid( registerEvents.Password, registerEvents.ConfirmPassword ) );
 		}
 
-		private bool IsNameValid( string name )
+		public bool IsNameValid( string name )
 		{
 			return ( IsStringValidSize( name, minNameCount, maxNameCount) && CheckForInvalidChar( name ) &&
 					 !HasSpaces( name ) );
 		}
 
-		private bool AreLastNamesValid( string lastNames )
+		public bool AreLastNamesValid( string lastNames )
 		{
 			return ( IsStringValidSize( lastNames, minLastNameCount, maxLastNameCount ) && CheckForInvalidChar( lastNames ) );
 		}
 
-		private bool IsUsernameValid( string username )
+		public bool IsUsernameValid( string username )
 		{
 			return ( IsStringValidSize( username, minUsernameCount, maxUsernameCount ) && CheckForInvalidChar( username ) &&
 					 !HasSpaces( username ) );
@@ -48,7 +45,7 @@ namespace BirdWarsTest.Utilities
 					 !HasSpaces( password ) );
 		}
 
-		private bool IsNewPasswordValid( string password, string confirmPassword )
+		public bool IsNewPasswordValid( string password, string confirmPassword )
 		{
 			return ( IsStringValidSize( password, minPasswordCount, maxPasswordCount ) && CheckForInvalidChar( password ) && 
 					 !HasSpaces( password ) && IsPasswordAndConfirmEqual( password, confirmPassword ) );
@@ -99,7 +96,7 @@ namespace BirdWarsTest.Utilities
 			return atCounter == 1;
 		}
 
-		private bool IsPasswordAndConfirmEqual( string password, string confirmPassword )
+		public bool IsPasswordAndConfirmEqual( string password, string confirmPassword )
 		{
 			return password.Equals( confirmPassword );
 		}

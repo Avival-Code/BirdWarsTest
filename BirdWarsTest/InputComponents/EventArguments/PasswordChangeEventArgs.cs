@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.InputComponents.EventArguments
 {
-	class PasswordChangeEventArgs : EventArgs
+	public class PasswordChangeEventArgs : EventArgs
 	{
 		public PasswordChangeEventArgs()
 		{

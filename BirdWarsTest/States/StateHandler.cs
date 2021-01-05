@@ -11,7 +11,7 @@ namespace BirdWarsTest.States
 		{
 			currentState = StateTypes.LoginState;
 			networkManager = networkManagerIn;
-			stringManager = new StringManager();
+			StringManager = new StringManager();
 			gameStates = new GameState[ maxStates ];
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, ref networkManager, loginWidth, loginHeight );
 			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
@@ -26,14 +26,14 @@ namespace BirdWarsTest.States
 
 		public void InitializeStates()
 		{
-			gameStates[ ( int )currentState ].Enter( this, stringManager );
+			gameStates[ ( int )currentState ].Enter( this, StringManager );
 		}
 
 		public void ChangeState( StateTypes state )
 		{
 			LastState = currentState;
 			currentState = state;
-			gameStates[ ( int )state ].Enter( this, stringManager );
+			gameStates[ ( int )state ].Enter( this, StringManager );
 		}
 
 		public ref GameState GetCurrentState()
@@ -41,9 +41,10 @@ namespace BirdWarsTest.States
 			return ref gameStates[ ( int )currentState ];
 		}
 
+		public StringManager StringManager { get; private set; }
 		private GameState[] gameStates;
-		private StringManager stringManager;
 		public INetworkManager networkManager;
+		public StateTypes LastState { get; private set; }
 		private StateTypes currentState;
 		private const int maxStates = 9;
 		private const int loginWidth = 388;
@@ -56,6 +57,5 @@ namespace BirdWarsTest.States
 		private const int configHeight = 400;
 		private const int stateWidth = 800;
 		private const int stateHeight = 600;
-		public StateTypes LastState { get; private set; }
 	}
 }

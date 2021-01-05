@@ -15,6 +15,8 @@ namespace BirdWarsTest.InputComponents
 
 		public virtual string GetText() { return ""; }
 
+		public virtual string GetTextWithoutVisualCharacter() { return ""; }
+
 		public virtual Vector2 GetVelocity() { return Vector2.Zero; }
 
 		public virtual float GetObjectSpeed() { return 0.0f; }

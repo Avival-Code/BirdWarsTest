@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BirdWarsTest.Utilities
+﻿namespace BirdWarsTest.Utilities
 {
 	public enum StringNames
 	{
@@ -46,6 +42,10 @@ namespace BirdWarsTest.Utilities
 		Language,
 		Accept,
 		English,
-		Spanish
+		Spanish,
+		LoginApproved,
+		LoginDenied,
+		EmailInvalid,
+		PasswordInvalid
 	}
 }

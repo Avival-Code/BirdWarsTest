@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.InputComponents.EventArguments
 {
-	class RegisterEventArgs : EventArgs
+	public class RegisterEventArgs : EventArgs
 	{
 		public RegisterEventArgs()
 		{
