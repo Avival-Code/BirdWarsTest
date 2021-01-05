@@ -5,7 +5,6 @@
 		LoginState,
 		UserRegistryState,
 		PasswordRecoveryState,
-		OpeningAnimationState,
 		MainMenuState,
 		WaitingRoomState,
 		PlayState,

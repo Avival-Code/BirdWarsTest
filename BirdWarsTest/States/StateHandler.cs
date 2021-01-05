@@ -16,12 +16,11 @@ namespace BirdWarsTest.States
 			gameStates[ 0 ] = new LoginState( content, gameWindow, ref graphics, ref networkManager, loginWidth, loginHeight );
 			gameStates[ 1 ] = new UserRegistryState( content, gameWindow, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
 			gameStates[ 2 ] = new PasswordRecoveryState( content, gameWindow, ref graphics, ref networkManagerIn, passwordWidth, passwordHeight );
-			gameStates[ 3 ] = new OpeningAnimationState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 4 ] = new MainMenuState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 5 ] = new WaitingRoomState( content, gameWindow, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 6 ] = new PlayState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 7 ] = new OptionsState( content, ref graphics, ref networkManagerIn, configWidth, configHeight );
-			gameStates[ 8 ] = new StatisticsState( content, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
+			gameStates[ 3 ] = new MainMenuState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 4 ] = new WaitingRoomState( content, gameWindow, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 5 ] = new PlayState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
+			gameStates[ 6 ] = new OptionsState( content, ref graphics, ref networkManagerIn, configWidth, configHeight );
+			gameStates[ 7 ] = new StatisticsState( content, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
 		}
 
 		public void InitializeStates()
@@ -46,7 +45,7 @@ namespace BirdWarsTest.States
 		public INetworkManager networkManager;
 		public StateTypes LastState { get; private set; }
 		private StateTypes currentState;
-		private const int maxStates = 9;
+		private const int maxStates = 8;
 		private const int loginWidth = 388;
 		private const int loginHeight = 450;
 		private const int registerWidth = 428;
