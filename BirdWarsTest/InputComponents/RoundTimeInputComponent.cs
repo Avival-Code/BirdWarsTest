@@ -7,14 +7,16 @@ namespace BirdWarsTest.InputComponents
 {
 	public class RoundTimeInputComponent : InputComponent
 	{
-		public RoundTimeInputComponent()
+		public RoundTimeInputComponent( StateHandler handlerIn )
 		{
+			handler = handlerIn;
 			RemainingRoundTime = 300.0f;
 		}
 
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) 
 		{
 			RemainingRoundTime -= ( float )gameTime.ElapsedGameTime.TotalSeconds;
+			UpdateAllGameTimers();
 		}
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
@@ -31,6 +33,23 @@ namespace BirdWarsTest.InputComponents
 			return ( int )( RemainingRoundTime % 60 );
 		}
 
+		public void SetRemainingRoundTime( float remainingTime )
+		{
+			RemainingRoundTime = remainingTime;
+		}
+
+		private void UpdateAllGameTimers()
+		{
+			if( handler.networkManager.IsHost() )
+			{
+				if( ( int )RemainingRoundTime % 30 == 0 )
+				{
+					handler.networkManager.SendUpdateRemainingTimeMessage( RemainingRoundTime );
+				}
+			}
+		}
+
+		private StateHandler handler;
 		public float RemainingRoundTime { get; private set; }
 	}
 }

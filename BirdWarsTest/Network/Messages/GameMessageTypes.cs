@@ -24,6 +24,7 @@ namespace BirdWarsTest.Network.Messages
 		PlayerAttackMessage,
 		SpawnConsumablesMessage,
 		PickedUpItemMessage,
-		SpawnGrenadeMessage
+		SpawnGrenadeMessage,
+		UpdateRoundTimeMessage
 	}
 }

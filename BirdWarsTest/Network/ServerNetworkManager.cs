@@ -576,6 +576,19 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		public void SendUpdateRemainingTimeMessage( float remainingTime )
+		{
+			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( remainingTime );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )timeMessage.messageType );
+			timeMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
 		public void UpdatePassword( string code, string password )
 		{
 			if( ChangeManager.PasswordChangeWasSolicited && code.Equals( ChangeManager.ChangeCode.ToString() ) )

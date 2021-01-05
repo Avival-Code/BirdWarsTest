@@ -16,7 +16,7 @@ namespace BirdWarsTest.States
 			:
 			base( newContent, ref newGraphics, ref networkManagerIn, width_in, height_in )
 		{
-			displayManager = new HeadsUpDisplayManager();
+			DisplayManager = new HeadsUpDisplayManager();
 			PlayerManager = new PlayerManager();
 			mapManager = new MapManager();
 			ItemManager = new ItemManager( Content );
@@ -25,7 +25,7 @@ namespace BirdWarsTest.States
 
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
-			displayManager.InitializeInterfaceComponents( Content );
+			DisplayManager.InitializeInterfaceComponents( Content, handler );
 			mapManager.InitializeMapTiles( Content );
 			ItemManager.SetMapBounds( mapManager.GetMapBounds() );
 		}
@@ -48,7 +48,7 @@ namespace BirdWarsTest.States
 			}
 
 			camera.Update( mapManager.GetMapBounds(), PlayerManager.GetLocalPlayer().GetRectangle() );
-			displayManager.Update( gameTime );
+			DisplayManager.Update( gameTime );
 			PlayerManager.Update( this, state, gameTime, mapManager.GetMapBounds() );
 			ItemManager.Update( networkManager, PlayerManager, gameTime );
 		}
@@ -58,7 +58,7 @@ namespace BirdWarsTest.States
 			mapManager.Render( ref batch, camera.GetCameraRenderBounds(), camera.GetCameraBounds() );
 			PlayerManager.Render( ref batch, camera.GetCameraRenderBounds(), camera.GetCameraBounds() );
 			ItemManager.Render( ref batch, camera.GetCameraRenderBounds(), camera.GetCameraBounds() );
-			displayManager.Render( ref batch, PlayerManager.GetLocalPlayer().Health );
+			DisplayManager.Render( ref batch, PlayerManager.GetLocalPlayer().Health );
 		}
 
 		public INetworkManager NetWorkManager 
@@ -66,10 +66,10 @@ namespace BirdWarsTest.States
 			get { return networkManager; }
 		}
 
-		private Camera2D camera;
 		public PlayerManager PlayerManager { get; private set; }
 		public ItemManager ItemManager { get; private set; }
-		private HeadsUpDisplayManager displayManager;
+		public HeadsUpDisplayManager DisplayManager { get; private set; }
 		private MapManager mapManager;
+		private Camera2D camera;
 	}
 }

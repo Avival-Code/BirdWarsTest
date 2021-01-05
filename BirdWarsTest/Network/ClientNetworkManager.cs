@@ -183,6 +183,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.SpawnGrenadeMessage:
 								HandleSpawnGrenadeMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.UpdateRoundTimeMessage:
+								HandleUpdateRemainingTimeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -274,6 +277,14 @@ namespace BirdWarsTest.Network
 																							  grenadeMessage.GrenadeSpeed );
 		}
 
+		private void HandleUpdateRemainingTimeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( incomingMessage );
+			float timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( timeMessage.MessageTime ) );
+			float newTimeWithDelay = timeMessage.RemainingRoundTime - timeDelay;
+			( ( PlayState )handler.GetCurrentState() ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -331,6 +342,8 @@ namespace BirdWarsTest.Network
 		{
 			SendMessage( new SpawnGrenadeMessage( grenade ) );
 		}
+
+		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
 
 		public void UpdatePassword( string code, string password ) 
 		{
