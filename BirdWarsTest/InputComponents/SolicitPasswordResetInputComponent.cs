@@ -15,16 +15,16 @@ namespace BirdWarsTest.InputComponents
 			handler = handlerIn;
 			codeEvents = new CodeEventArgs();
 			validator = new StringValidator();
-			isHovering = false;
 			click += SendPasswordChangeCode;
 		}
 
-		private void SendPasswordChangeCode( object sender, CodeEventArgs events )
+		private void SendPasswordChangeCode( object sender, CodeEventArgs codeEvents )
 		{
-			if( !string.IsNullOrEmpty( events.Email ) && validator.IsEmailValid( events.Email ) )
+			CheckEmail( codeEvents );
+			if( !string.IsNullOrEmpty( codeEvents.Email ) && validator.IsEmailValid( codeEvents.Email ) )
 			{
-				handler.networkManager.SendPasswordChangeMessage( events.Email );
-				events.ResetArgs();
+				handler.networkManager.SendPasswordChangeMessage( codeEvents.Email );
+				codeEvents.ResetArgs();
 			}
 		}
 
@@ -39,10 +39,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
@@ -53,13 +51,19 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		private void CheckEmail( CodeEventArgs codeEvents )
+		{
+			if( !validator.IsEmailValid( codeEvents.Email ) )
+			{
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
+			}
+		}
+
 		private StateHandler handler;
 		private event EventHandler< CodeEventArgs > click;
 		private CodeEventArgs codeEvents;
 		private StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public bool clicked;
-		private bool isHovering;
 	}
 }

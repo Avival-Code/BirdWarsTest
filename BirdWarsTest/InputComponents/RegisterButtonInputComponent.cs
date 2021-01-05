@@ -41,7 +41,7 @@ namespace BirdWarsTest.InputComponents
 		}
 		private void Register( Object sender, RegisterEventArgs registerEvents )
 		{
-			CheckRegisterInfo( handler, registerEvents );
+			CheckRegisterInfo( registerEvents );
 			if( validator.AreRegisterArgsValid( registerEvents ) )
 			{
 				handler.networkManager.RegisterUser( registerEvents.Name, registerEvents.LastNames,
@@ -60,16 +60,16 @@ namespace BirdWarsTest.InputComponents
 			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].Input.GetText();
 		}
 
-		private void CheckRegisterInfo( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckRegisterInfo( RegisterEventArgs registerEvents )
 		{
-			CheckPasswords( handler, registerEvents );
-			CheckEmail( handler, registerEvents );
-			CheckUsername( handler, registerEvents );
-			CheckLastNames( handler, registerEvents );
-			CheckName( handler, registerEvents );
+			CheckPasswords( registerEvents );
+			CheckEmail( registerEvents );
+			CheckUsername( registerEvents );
+			CheckLastNames( registerEvents );
+			CheckName( registerEvents );
 		}
 
-		private void CheckName( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckName( RegisterEventArgs registerEvents )
 		{
 			if( !validator.IsNameValid( registerEvents.Name ) )
 			{
@@ -77,7 +77,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckLastNames( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckLastNames( RegisterEventArgs registerEvents )
 		{
 			if( !validator.AreLastNamesValid( registerEvents.LastNames ) )
 			{
@@ -85,7 +85,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckUsername( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckUsername( RegisterEventArgs registerEvents )
 		{
 			if( !validator.IsUsernameValid( registerEvents.Username ) )
 			{
@@ -93,7 +93,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckEmail( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckEmail( RegisterEventArgs registerEvents )
 		{
 			if( !validator.IsEmailValid( registerEvents.Email ) )
 			{
@@ -101,7 +101,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckPasswords( StateHandler handler, RegisterEventArgs registerEvents )
+		private void CheckPasswords( RegisterEventArgs registerEvents )
 		{
 			if( !validator.IsPasswordValid( registerEvents.Name ) )
 			{

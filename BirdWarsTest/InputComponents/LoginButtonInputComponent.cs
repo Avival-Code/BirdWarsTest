@@ -21,7 +21,7 @@ namespace BirdWarsTest.InputComponents
 
 		private void Login( object sender, LoginEventArgs loginEvents )
 		{
-			CheckLoginInfo( handler, loginEvents );
+			CheckLoginInfo( loginEvents );
 			if( !string.IsNullOrEmpty( loginEvents.Password ) && validator.AreLoginArgsValid( loginEvents ) )
 			{
 				handler.networkManager.Login( loginEvents.Email, loginEvents.Password );
@@ -68,13 +68,13 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckLoginInfo( StateHandler handler, LoginEventArgs loginEvents )
+		private void CheckLoginInfo( LoginEventArgs loginEvents )
 		{
-			CheckPassword( handler, loginEvents );
-			CheckEmail( handler, loginEvents );
+			CheckPassword( loginEvents );
+			CheckEmail( loginEvents );
 		}
 
-		private void CheckEmail( StateHandler handler, LoginEventArgs loginEvents )
+		private void CheckEmail( LoginEventArgs loginEvents )
 		{
 			if( !validator.IsEmailValid( loginEvents.Email ) )
 			{
@@ -82,7 +82,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void CheckPassword( StateHandler handler, LoginEventArgs loginEvents )
+		private void CheckPassword( LoginEventArgs loginEvents )
 		{
 			if( !validator.IsPasswordValid( loginEvents.Password ) )
 			{

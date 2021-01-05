@@ -15,17 +15,17 @@ namespace BirdWarsTest.InputComponents
 			handler = handlerIn;
 			validator = new StringValidator();
 			passwordEvents = new PasswordChangeEventArgs();
-			isHovering = false;
 			click += ChangePassword;
 		}
 
-		private void ChangePassword( object sender, PasswordChangeEventArgs events )
+		private void ChangePassword( object sender, PasswordChangeEventArgs passwordEvents )
 		{
-			if( !string.IsNullOrEmpty( events.Code ) && !string.IsNullOrEmpty( events.Password ) &&
-				validator.IsPasswordValid( events.Password ) )
+			CheckPassword( passwordEvents );
+			if( !string.IsNullOrEmpty( passwordEvents.Code ) && !string.IsNullOrEmpty( passwordEvents.Password ) &&
+				validator.IsPasswordValid( passwordEvents.Password ) )
 			{
-				handler.networkManager.UpdatePassword( events.Code, events.Password );
-				events.ResetArgs();
+				handler.networkManager.UpdatePassword( passwordEvents.Code, passwordEvents.Password );
+				passwordEvents.ResetArgs();
 			}
 		}
 
@@ -40,10 +40,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
 			if (mouseRectangle.Intersects(gameObject.GetRectangle()))
 			{
-				isHovering = true;
 				if (currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed)
 				{
@@ -56,13 +54,19 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		private void CheckPassword( PasswordChangeEventArgs passwordEvents )
+		{
+			if( !validator.IsPasswordValid( passwordEvents.Password ) )
+			{
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
+			}
+		}
+
 		private StateHandler handler;
 		private event EventHandler< PasswordChangeEventArgs > click;
 		private PasswordChangeEventArgs passwordEvents;
 		private StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public bool clicked;
-		private bool isHovering;
 	}
 }
