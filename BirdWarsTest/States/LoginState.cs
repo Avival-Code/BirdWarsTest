@@ -101,7 +101,7 @@ namespace BirdWarsTest.States
 				objects.Render( ref sprites );
 		}
 
-		public void SetErrorMessage( string errorMessage )
+		public override void SetErrorMessage( string errorMessage )
 		{
 			( ( TextGraphicsComponent )GameObjects[ 11 ].Graphics ).SetText( errorMessage );
 			GameObjects[ 11 ].RecenterXWidth( stateWidth );

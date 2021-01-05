@@ -63,7 +63,7 @@ namespace BirdWarsTest.InputComponents
 				}
 				else
 				{
-					( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.LoginDenied ) );
+					handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.LoginDenied ) );
 				}
 			}
 		}
@@ -78,7 +78,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsEmailValid( loginEvents.Email ) )
 			{
-				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
 			}
 		}
 
@@ -86,7 +86,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsPasswordValid( loginEvents.Password ) )
 			{
-				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
 			}
 		}
 

@@ -43,6 +43,8 @@ namespace BirdWarsTest.States
 			stateHandler.ChangeState( state );
 		}
 
+		public virtual void SetErrorMessage( string errorMessage ) {}
+
 		public Microsoft.Xna.Framework.Content.ContentManager Content { get; }
 
 		protected GraphicsDeviceManager graphics;

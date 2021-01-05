@@ -73,8 +73,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsNameValid( registerEvents.Name ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.NameInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.NameInvalid ) );
 			}
 		}
 
@@ -82,8 +81,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.AreLastNamesValid( registerEvents.LastNames ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.LastNamesInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.LastNamesInvalid ) );
 			}
 		}
 
@@ -91,8 +89,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsUsernameValid( registerEvents.Username ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.UsernameInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.UsernameInvalid ) );
 			}
 		}
 
@@ -100,8 +97,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsEmailValid( registerEvents.Email ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.EmailInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
 			}
 		}
 
@@ -109,13 +105,11 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( !validator.IsPasswordValid( registerEvents.Name ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.PasswordInvalid ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
 			}
 			if( !validator.IsPasswordValid( registerEvents.Name ) )
 			{
-				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-					handler.StringManager.GetString( StringNames.PasswordsDoNotMatch ) );
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordsDoNotMatch ) );
 			}
 		}
 

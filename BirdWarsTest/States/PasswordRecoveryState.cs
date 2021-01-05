@@ -73,6 +73,8 @@ namespace BirdWarsTest.States
 										     Identifiers.Button1, 
 											 new Vector2( GameObjects[ 10 ].Position.X + 160.0f,
 												          GameObjects[ 9 ].Position.Y + 50.0f ) ) );
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, Color.Red, "", "Fonts/BabeFont_8" ), null,
+											 Identifiers.TextGraphics, stateWidth, GameObjects[ 9 ].Position.Y + 30 ) );
 		}
 
 		public override void Pause() {}
@@ -101,6 +103,12 @@ namespace BirdWarsTest.States
 		{
 			foreach( var objects in GameObjects )
 				objects.Render( ref sprites );
+		}
+
+		public override void SetErrorMessage( string errorMessage )
+		{
+			( ( TextGraphicsComponent )GameObjects[ 12 ].Graphics ).SetText( errorMessage );
+			GameObjects[ 12 ].RecenterXWidth( stateWidth );
 		}
 
 		public List<GameObject> GameObjects { get; set; }
