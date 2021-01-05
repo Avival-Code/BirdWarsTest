@@ -11,7 +11,6 @@ namespace BirdWarsTest.InputComponents
 		public LeaveGameInputComponent( StateHandler handlerIn, StateTypes state )
 		{
 			handler = handlerIn;
-			isHovering = false;
 			click += ToOtherScreen;
 			stateChange = state;
 		}
@@ -26,10 +25,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
@@ -49,7 +46,5 @@ namespace BirdWarsTest.InputComponents
 		private MouseState previousMouseState;
 		private event EventHandler click;
 		private StateTypes stateChange;
-		public bool clicked;
-		private bool isHovering;
 	}
 }
