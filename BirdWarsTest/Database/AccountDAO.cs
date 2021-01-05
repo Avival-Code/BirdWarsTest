@@ -145,14 +145,14 @@ namespace BirdWarsTest.Database
 				string mySqlCommandText = "UPDATE Account SET totalMatchesPlayed = @totalMatchesPlayed, matchesWon = @matchesWon" +
 										  ", matchesLost = @matchesLost, matchesSurvived = @matchesSurvived, " +
 										  "money = @money WHERE userId = @userId";
-				MySqlCommand command = new MySqlCommand(mySqlCommandText, connection.connection);
-				MySqlParameter[] parameters = new MySqlParameter[ 5 ];
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlParameter[] parameters = new MySqlParameter[ 6 ];
 				parameters[ 0 ] = new MySqlParameter( "@totalMatchesPlayed", totalMatchesPlayed );
-				parameters[ 0 ] = new MySqlParameter( "@matchesWon", matchesWon );
-				parameters[ 1 ] = new MySqlParameter( "@matchesLost", matchesLost );
-				parameters[ 2 ] = new MySqlParameter( "@matchesSurvived", matchesSurvived );
-				parameters[ 3 ] = new MySqlParameter( "@money", money );
-				parameters[ 4 ] = new MySqlParameter( "@userId", userId );
+				parameters[ 1 ] = new MySqlParameter( "@matchesWon", matchesWon );
+				parameters[ 2 ] = new MySqlParameter( "@matchesLost", matchesLost );
+				parameters[ 3 ] = new MySqlParameter( "@matchesSurvived", matchesSurvived );
+				parameters[ 4 ] = new MySqlParameter( "@money", money );
+				parameters[ 5 ] = new MySqlParameter( "@userId", userId );
 				foreach ( var parameter in parameters )
 				{
 					command.Parameters.Add( parameter );
@@ -165,6 +165,7 @@ namespace BirdWarsTest.Database
 			catch ( Exception exception )
 			{
 				Console.WriteLine( exception.Message );
+				Console.Write( exception.StackTrace );
 			}
 
 			connection.StopConnection();

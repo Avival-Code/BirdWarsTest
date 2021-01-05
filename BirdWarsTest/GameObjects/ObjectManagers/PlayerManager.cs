@@ -179,6 +179,19 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			Players.Clear();
 		}
 
+		public bool DidLocalPlayerWin()
+		{
+			bool otherPlayersAreDead = false;
+			for( int i = 0; i < Players.Count; i++ )
+			{
+				if( i != LocalPlayerIndex )
+				{
+					otherPlayersAreDead = Players[ i ].Health.IsDead();
+				}
+			}
+			return ( !GetLocalPlayer().Health.IsDead() && otherPlayersAreDead );
+		}
+
 		public List< GameObject > Players { get; private set; }
 		private PositionGenerator positionGenerator;
 		public bool CreatedPlayers { get; private set; }

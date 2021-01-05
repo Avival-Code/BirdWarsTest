@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BirdWarsTest.Database
+﻿namespace BirdWarsTest.Database
 {
 	public class GameDatabase
 	{
@@ -11,6 +7,13 @@ namespace BirdWarsTest.Database
 			Users = new UserDAO();
 			Accounts = new AccountDAO();
 			Inventories = new InventoryDAO();
+		}
+
+		public void UpdateUserInformation( User userIn, Account accountIn )
+		{
+			Users.Update( userIn.UserId, userIn.Names, userIn.LastName, userIn.Username, userIn.Email, userIn.Password );
+			Accounts.Update( userIn.UserId, accountIn.TotalMatchesPlayed, accountIn.MatchesWon, accountIn.MatchesLost,
+							 accountIn.MatchesSurvived, accountIn.Money );
 		}
 
 		public UserDAO Users { get; set; }

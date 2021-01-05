@@ -159,7 +159,10 @@ namespace BirdWarsTest.Network
 								HandleChatMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.StartRoundMessage:
-								HandleStartRoundMessage( handler, incomingMessage );
+								HandleStartRoundMessage( handler );
+								break;
+							case GameMessageTypes.RoundFinishedMessage:
+								HandleRoundFinishedMessage( handler );
 								break;
 						}
 						break;
@@ -202,6 +205,9 @@ namespace BirdWarsTest.Network
 								break;
 							case GameMessageTypes.SpawnGrenadeMessage:
 								HandleSpawnGrenadeMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.UpdateUserStatisticsMessage:
+								HandleUpdateUserInformationMessage( handler, incomingMessage );
 								break;
 						}
 						break;
@@ -323,7 +329,7 @@ namespace BirdWarsTest.Network
 			netServer.SendUnconnectedToSelf( updateMessage );
 		}
 
-		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleStartRoundMessage( StateHandler handler )
 		{
 			handler.ChangeState( StateTypes.PlayState );
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
@@ -464,6 +470,28 @@ namespace BirdWarsTest.Network
 																							  grenadeMessage.GrenadeSpeed );
 		}
 
+		private void HandleRoundFinishedMessage( StateHandler handler )
+		{
+			bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
+			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
+			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin );
+			gameDatabase.UpdateUserInformation( UserSession.CurrentUser, UserSession.CurrentAccount );
+			handler.ChangeState( StateTypes.WaitingRoomState );
+
+			RoundStateChangedMessage roundStateChanged = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )roundStateChanged.messageType );
+			roundStateChanged.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
+		}
+
+		private void HandleUpdateUserInformationMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( incomingMessage );
+			gameDatabase.UpdateUserInformation( updateMessage.User, updateMessage.Account );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
@@ -587,6 +615,26 @@ namespace BirdWarsTest.Network
 			{
 				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
 			}
+		}
+
+		public void SendRoundFinishedMessage()
+		{
+			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage();
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )endRoundMessage.messageType );
+			endRoundMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+
+			RoundFinishedMessage serverEndRoundMessage = new RoundFinishedMessage();
+			NetOutgoingMessage serverOutgoingMessage = CreateMessage();
+			serverOutgoingMessage.Write( ( byte )serverEndRoundMessage.messageType );
+			serverEndRoundMessage.Encode( serverOutgoingMessage );
+
+			netServer.SendUnconnectedToSelf( serverOutgoingMessage );
 		}
 
 		public void UpdatePassword( string code, string password )

@@ -186,6 +186,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.UpdateRoundTimeMessage:
 								HandleUpdateRemainingTimeMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.RoundFinishedMessage:
+								HandleRoundFinishedMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -285,6 +288,21 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
 		}
 
+		private void HandleRoundFinishedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
+			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
+			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin );
+			handler.ChangeState( StateTypes.WaitingRoomState );
+
+			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser, UserSession.CurrentAccount );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )updateMessage.messageType );
+			updateMessage.Encode( outgoingMessage );
+
+			netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -344,6 +362,7 @@ namespace BirdWarsTest.Network
 		}
 
 		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
+		public void SendRoundFinishedMessage() {}
 
 		public void UpdatePassword( string code, string password ) 
 		{

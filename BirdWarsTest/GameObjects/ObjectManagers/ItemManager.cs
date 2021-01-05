@@ -187,7 +187,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			for( int i = 0; i < ConsumableItems.Count; i++ )
 			{
 				if( !ConsumableItems[ i ].Health.IsDead() && 
-					ConsumableItems[ i ].GetRectangle().Intersects( playerManager.GetLocalPlayer().GetRectangle() ) )
+					 ConsumableItems[ i ].GetRectangle().Intersects( playerManager.GetLocalPlayer().GetRectangle() ) )
 				{
 					ConsumableItems[ i ].Health.TakeFullDamage();
 					ConsumableItems[ i ].Effect.DoEffect( networkManager, playerManager );

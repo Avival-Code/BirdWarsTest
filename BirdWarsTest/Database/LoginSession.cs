@@ -34,6 +34,23 @@
 			CurrentInventory = null;
 		}
 
+		public void UpdateRoundStatistics( bool isLocalPlayerDead, bool didLocalPlayerWin )
+		{
+			CurrentAccount.TotalMatchesPlayed += 1;
+			if( didLocalPlayerWin )
+			{
+				CurrentAccount.MatchesWon += 1;
+			}
+			else if( !isLocalPlayerDead && !didLocalPlayerWin )
+			{
+				CurrentAccount.MatchesSurvived += 1;
+			}
+			else if( isLocalPlayerDead && !didLocalPlayerWin )
+			{
+				CurrentAccount.MatchesLost += 1;
+			}
+		}
+
 		public bool IsLoggedIn { get; set; }
 		public User CurrentUser { get; set; }
 		public Account CurrentAccount { get; set; }

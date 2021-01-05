@@ -38,6 +38,8 @@ namespace BirdWarsTest.Network
 
 		void SendUpdateRemainingTimeMessage( float remainingTime );
 
+		void SendRoundFinishedMessage();
+
 		void UpdatePassword( string code, string password );
 
 		bool IsHost();
