@@ -15,7 +15,6 @@ namespace BirdWarsTest.InputComponents
 			registerEvents = new RegisterEventArgs();
 			validator = new StringValidator();
 			handler = handlerIn;
-			isHovering = false;
 			click += Register;
 		}
 
@@ -30,10 +29,8 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			isHovering = false;
 			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				isHovering = true;
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
@@ -44,6 +41,7 @@ namespace BirdWarsTest.InputComponents
 		}
 		private void Register( Object sender, RegisterEventArgs registerEvents )
 		{
+			CheckRegisterInfo( handler, registerEvents );
 			if( validator.AreRegisterArgsValid( registerEvents ) )
 			{
 				handler.networkManager.RegisterUser( registerEvents.Name, registerEvents.LastNames,
@@ -62,13 +60,70 @@ namespace BirdWarsTest.InputComponents
 			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].Input.GetText();
 		}
 
+		private void CheckRegisterInfo( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			CheckPasswords( handler, registerEvents );
+			CheckEmail( handler, registerEvents );
+			CheckUsername( handler, registerEvents );
+			CheckLastNames( handler, registerEvents );
+			CheckName( handler, registerEvents );
+		}
+
+		private void CheckName( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			if( !validator.IsNameValid( registerEvents.Name ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.NameInvalid ) );
+			}
+		}
+
+		private void CheckLastNames( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			if( !validator.AreLastNamesValid( registerEvents.LastNames ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.LastNamesInvalid ) );
+			}
+		}
+
+		private void CheckUsername( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			if( !validator.IsUsernameValid( registerEvents.Username ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.UsernameInvalid ) );
+			}
+		}
+
+		private void CheckEmail( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			if( !validator.IsEmailValid( registerEvents.Email ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.EmailInvalid ) );
+			}
+		}
+
+		private void CheckPasswords( StateHandler handler, RegisterEventArgs registerEvents )
+		{
+			if( !validator.IsPasswordValid( registerEvents.Name ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.PasswordInvalid ) );
+			}
+			if( !validator.IsPasswordValid( registerEvents.Name ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+					handler.StringManager.GetString( StringNames.PasswordsDoNotMatch ) );
+			}
+		}
+
 		public event EventHandler< RegisterEventArgs > click;
 		private RegisterEventArgs registerEvents;
 		private StateHandler handler;
 		private StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
-		public bool clicked;
-		private bool isHovering;
 	}
 }

@@ -28,11 +28,6 @@ namespace BirdWarsTest.Network
 			{
 				var user = gameDatabase.Users.Read( email, password );
 				UserSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
-				Console.WriteLine( "Login credentials approved." );
-			}
-			else
-			{
-				Console.WriteLine( "Invalid login credentials" );
 			}
 		}
 

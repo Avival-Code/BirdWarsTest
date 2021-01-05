@@ -46,6 +46,10 @@
 		LoginApproved,
 		LoginDenied,
 		EmailInvalid,
-		PasswordInvalid
+		PasswordInvalid,
+		NameInvalid,
+		LastNamesInvalid,
+		UsernameInvalid,
+		PasswordsDoNotMatch
 	}
 }
