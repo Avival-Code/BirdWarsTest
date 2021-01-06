@@ -183,6 +183,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.SpawnGrenadeMessage:
 								HandleSpawnGrenadeMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PickedUpItemMessage:
+								HandlePickedUpItemMessage( handler, incomingMessage );
+								break;
 							case GameMessageTypes.UpdateRoundTimeMessage:
 								HandleUpdateRemainingTimeMessage( handler, incomingMessage );
 								break;
@@ -269,8 +272,9 @@ namespace BirdWarsTest.Network
 
 		public void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
+			PickedUpItemMessage itemMessage = new PickedUpItemMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
-																					incomingMessage.ReadInt32() );
+																					itemMessage.ItemIndex );
 		}
 
 		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )

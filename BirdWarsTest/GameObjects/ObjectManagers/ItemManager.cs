@@ -104,27 +104,27 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public void HandleSpawnConsumablesMessage( NetIncomingMessage incomingMessage )
 		{
-			for( int i = 0; i < 4; i++ )
+			SpawnConsumablesMessage message = new SpawnConsumablesMessage( incomingMessage );
+			for( int i = 0; i < message.Identifiers.Length; i++ )
 			{
-				int identifier = incomingMessage.ReadInt32();
-				switch( identifier )
+				switch( message.Identifiers[ i ] )
 				{
 					case ( int )Identifiers.Coin:
 						ConsumableItems.Add( new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
 															 new CoinEffectComponent( 1 ), Identifiers.Coin,
-															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+															 message.ObjectPositions[ i ] ) );
 						break;
 
 					case ( int )Identifiers.PigeonMilk:
 						ConsumableItems.Add( new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
-															 new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk, 
-															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+															 new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk,
+															 message.ObjectPositions[ i ]) );
 						break;
 
 					case ( int )Identifiers.EggGrenade:
 						ConsumableItems.Add( new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
-														     new GrenadePickupEffectComponent(), Identifiers.EggGrenade, 
-															 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
+														     new GrenadePickupEffectComponent(), Identifiers.EggGrenade,
+															 message.ObjectPositions[ i ]) );
 						break;
 				}
 			}
