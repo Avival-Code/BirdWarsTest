@@ -38,7 +38,7 @@ namespace BirdWarsTest.Network
 
 		void SendUpdateRemainingTimeMessage( float remainingTime );
 
-		void SendRoundFinishedMessage();
+		void SendRoundFinishedMessage( int remainingRoundTime );
 
 		void UpdatePassword( string code, string password );
 

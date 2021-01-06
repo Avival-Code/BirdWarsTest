@@ -21,10 +21,12 @@ namespace BirdWarsTest.States
 			mapManager = new MapManager();
 			ItemManager = new ItemManager( Content );
 			camera = new Camera2D();
+			sentEndRoundMessage = false;
 		}
 
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
+			ClearAllGameObjects();
 			DisplayManager.InitializeInterfaceComponents( Content, handler );
 			mapManager.InitializeMapTiles( Content );
 			ItemManager.SetMapBounds( mapManager.GetMapBounds() );
@@ -42,15 +44,12 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
 			networkManager.ProcessMessages( handler );
-			if( PlayerManager.CreatedPlayers && !camera.isCameraSet )
-			{
-				camera.SetCamera( PlayerManager.GetLocalPlayer().Position );
-			}
-
-			camera.Update( mapManager.GetMapBounds(), PlayerManager.GetLocalPlayer().GetRectangle() );
+			camera.Update( PlayerManager.GetLocalPlayer().Position, mapManager.GetMapBounds(), 
+						   PlayerManager.GetLocalPlayer().GetRectangle(), PlayerManager.CreatedPlayers );
 			DisplayManager.Update( gameTime );
 			PlayerManager.Update( this, state, gameTime, mapManager.GetMapBounds() );
 			ItemManager.Update( networkManager, PlayerManager, gameTime );
+			CheckEndRound();
 		}
 
 		public override void Render( ref SpriteBatch batch )
@@ -66,10 +65,34 @@ namespace BirdWarsTest.States
 			get { return networkManager; }
 		}
 
+		private void CheckEndRound()
+		{
+			if( networkManager.IsHost() )
+			{
+				if( ( !sentEndRoundMessage && DisplayManager.IsRoundTimeOver() ) ||
+					( !sentEndRoundMessage && PlayerManager.GetNumberOfPlayersStillAlive() == 1 ) )
+				{
+					sentEndRoundMessage = true;
+					networkManager.SendRoundFinishedMessage( DisplayManager.GetRemainingRoundTime() );
+				}
+			}
+		}
+
+		private void ClearAllGameObjects()
+		{
+			mapManager.ClearAllTiles();
+			PlayerManager.ClearAllPlayers();
+			DisplayManager.ClearAllDisplayObjects();
+			ItemManager.ClearAllItems();
+			camera.ResetCamera();
+			sentEndRoundMessage = false;
+		}
+
 		public PlayerManager PlayerManager { get; private set; }
 		public ItemManager ItemManager { get; private set; }
 		public HeadsUpDisplayManager DisplayManager { get; private set; }
 		private MapManager mapManager;
 		private Camera2D camera;
+		private bool sentEndRoundMessage;
 	}
 }

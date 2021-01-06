@@ -9,8 +9,8 @@ namespace BirdWarsTest.Database
 		public bool Create( Account account );
 		public List< Account > ReadAll();
 		public Account Read( int userId );
-		public bool Update( int userId, int totalMatchesPlayed, int matchesWon, 
-							int matchesLost, int matchesSurvived, int money );
+		public bool Update( int userId, int totalMatchesPlayed, int matchesWon, int matchesLost, 
+							int matchesSurvived, int money, int seconds );
 		public bool Delete( int userId );
 	}
 }

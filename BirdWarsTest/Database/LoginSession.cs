@@ -34,7 +34,8 @@
 			CurrentInventory = null;
 		}
 
-		public void UpdateRoundStatistics( bool isLocalPlayerDead, bool didLocalPlayerWin )
+		public void UpdateRoundStatistics( bool isLocalPlayerDead, bool didLocalPlayerWin,
+										   int remainingRoundTime )
 		{
 			CurrentAccount.TotalMatchesPlayed += 1;
 			if( didLocalPlayerWin )
@@ -49,6 +50,20 @@
 			{
 				CurrentAccount.MatchesLost += 1;
 			}
+			SetShortestTime( remainingRoundTime );
+		}
+
+		private void SetShortestTime( int remainingRoundTime )
+		{
+			if( CurrentAccount.Seconds < CalculateShortestTime( remainingRoundTime ) )
+			{
+				CurrentAccount.Seconds = CalculateShortestTime( remainingRoundTime );
+			}
+		}
+
+		private int CalculateShortestTime( int remainingRoundTime )
+		{
+			return 300 - remainingRoundTime;
 		}
 
 		public bool IsLoggedIn { get; set; }

@@ -4,8 +4,10 @@ namespace BirdWarsTest.Network.Messages
 {
 	public class RoundFinishedMessage : IGameMessage
 	{
-		public RoundFinishedMessage()
-		{}
+		public RoundFinishedMessage( int remainingRoundTimeIn )
+		{
+			RemainingRoundTime = remainingRoundTimeIn;
+		}
 
 		public RoundFinishedMessage( NetIncomingMessage incomingMessage )
 		{
@@ -17,8 +19,16 @@ namespace BirdWarsTest.Network.Messages
 			get { return GameMessageTypes.RoundFinishedMessage; }
 		}
 
-		public void Decode( NetIncomingMessage incomingMessage ) {}
+		public void Decode( NetIncomingMessage incomingMessage ) 
+		{
+			RemainingRoundTime = incomingMessage.ReadInt32();
+		}
 
-		public void Encode( NetOutgoingMessage outgoingMessage ) {}
+		public void Encode( NetOutgoingMessage outgoingMessage ) 
+		{
+			outgoingMessage.Write( RemainingRoundTime );
+		}
+
+		public int RemainingRoundTime { get; private set; }
 	}
 }

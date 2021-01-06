@@ -8,22 +8,19 @@ namespace BirdWarsTest.GameRounds
 		{
 			CameraPosition = new Vector2( 0.0f, 0.0f );
 			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
+			isCameraSet = false;
 		}
+
 		public Camera2D( Vector2 cameraPosition )
 		{
 			CameraPosition = cameraPosition;
 			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
+			isCameraSet = false;
 		}
 
-		public void SetCamera( Vector2 position )
+		public void Update( Vector2 position, Rectangle mapBoundary, Rectangle objectRect, bool createdPlayers )
 		{
-			CameraPosition = new Vector2( position.X - 400.0f, position.Y - 300.0f );
-			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
-			isCameraSet = true;
-		}
-
-		public void Update( Rectangle mapBoundary, Rectangle objectRect )
-		{
+			SetCameraToLocalPlayer( position, createdPlayers );
 			if( CameraPosition.Y >= mapBoundary.Top && objectRect.Top < GetMoveEntityBounds().Top )
 			{
 				Vector2 temp = new Vector2( 0.0f, GetMoveEntityBounds().Top - objectRect.Top );
@@ -50,6 +47,21 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
+		private void SetCameraToLocalPlayer( Vector2 localPlayerPosition, bool createdPlayers )
+		{
+			if( createdPlayers && !isCameraSet )
+			{
+				SetCameraPosition( localPlayerPosition );
+			}
+		}
+
+		public void SetCameraPosition( Vector2 position )
+		{
+			CameraPosition = new Vector2( position.X - 400.0f, position.Y - 300.0f );
+			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
+			isCameraSet = true;
+		}
+
 		public Rectangle GetCameraBounds()
 		{
 			return new Rectangle( ( int )CameraPosition.X, ( int )CameraPosition.Y, CameraWidth, CameraHeight );
@@ -63,6 +75,13 @@ namespace BirdWarsTest.GameRounds
 		private Rectangle GetMoveEntityBounds()
 		{
 			return new Rectangle( ( int )moveEntityPosition.X, ( int )moveEntityPosition.Y, MoveEntityWidth, MoveEntityHeight );
+		}
+
+		public void ResetCamera()
+		{
+			CameraPosition = new Vector2( 0.0f, 0.0f );
+			moveEntityPosition = new Vector2( CameraPosition.X + 200.0f, CameraPosition.Y + 150.0f );
+			isCameraSet = false;
 		}
 
 		public Vector2 CameraPosition { get; set; }

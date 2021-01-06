@@ -203,7 +203,6 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			{
 				HandleSpawnBox( networkManager, gameTime );
 			}
-
 			UpdateBoxes( gameTime );
 			UpdateGrenades( gameTime );
 			UpdateGrenadeTimer( gameTime );
@@ -374,10 +373,15 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			localGrenadeTimer = 0.0f;
 		}
 
-		public void ClearAllObjects()
+		public void ClearAllItems()
 		{
 			Boxes.Clear();
 			ConsumableItems.Clear();
+			EggGrenades.Clear();
+			spawnedItems.Clear();
+			spawnBoxTimer = 0.0f;
+			localGrenadeTimer = 0.0f;
+			threwGrenade = false;
 		}
 
 		public List< GameObject > Boxes { get; private set; }

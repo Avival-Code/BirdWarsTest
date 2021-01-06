@@ -1,7 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Database
 {
@@ -16,17 +15,18 @@ namespace BirdWarsTest.Database
 			try
 			{
 				string mySqlCommandText = "INSERT INTO Account( userId, totalMatchesPlayed, matchesWon, matchesLost, " +
-										  "matchesSurvived, money ) VALUES ( @userId, @totalMatchesPlayed, @matchesWon, " +
-										  "@matchesLost, @matchesSurvived, @money );";
+										  "matchesSurvived, money, seconds ) VALUES ( @userId, @totalMatchesPlayed, @matchesWon, " +
+										  "@matchesLost, @matchesSurvived, @money, @seconds );";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
-				MySqlParameter[] parameters = new MySqlParameter[ 6 ];
+				MySqlParameter[] parameters = new MySqlParameter[ 7 ];
 				parameters[ 0 ] = new MySqlParameter( "@userId", account.UserId );
 				parameters[ 1 ] = new MySqlParameter( "@totalMatchesPlayed", account.TotalMatchesPlayed );
 				parameters[ 2 ] = new MySqlParameter( "@matchesWon", account.MatchesWon );
 				parameters[ 3 ] = new MySqlParameter( "@matchesLost", account.MatchesLost );
 				parameters[ 4 ] = new MySqlParameter( "@matchesSurvived", account.MatchesSurvived );
 				parameters[ 5 ] = new MySqlParameter( "@money", account.Money );
-				foreach( var parameter in parameters )
+				parameters[ 6 ] = new MySqlParameter( "@seconds", account.Seconds );
+				foreach ( var parameter in parameters )
 				{
 					command.Parameters.Add(parameter);
 				}
@@ -87,7 +87,7 @@ namespace BirdWarsTest.Database
 				if( reader.HasRows && reader.Read() )
 				{
 					temp = new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ), reader.GetInt32( 3 ),
-									    reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ) );
+									    reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ), reader.GetInt32( 7 ) );
 				}
 				else
 				{
@@ -119,7 +119,7 @@ namespace BirdWarsTest.Database
 				while( reader.HasRows && reader.Read() )
 				{
 					accounts.Add( new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ), reader.GetInt32( 3 ),
-										       reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ) ) );
+										       reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ), reader.GetInt32( 7 ) ) );
 					reader.NextResult();
 				}
 				reader.Close();
@@ -133,8 +133,8 @@ namespace BirdWarsTest.Database
 			return accounts;
 		}
 
-		public bool Update( int userId, int totalMatchesPlayed,int matchesWon, 
-							int matchesLost, int matchesSurvived, int money )
+		public bool Update( int userId, int totalMatchesPlayed,int matchesWon, int matchesLost, 
+							int matchesSurvived, int money, int seconds )
 		{
 			bool wasUpdated = false;
 			Connection connection = new Connection();
@@ -144,15 +144,16 @@ namespace BirdWarsTest.Database
 			{
 				string mySqlCommandText = "UPDATE Account SET totalMatchesPlayed = @totalMatchesPlayed, matchesWon = @matchesWon" +
 										  ", matchesLost = @matchesLost, matchesSurvived = @matchesSurvived, " +
-										  "money = @money WHERE userId = @userId";
+										  "money = @money, seconds = @seconds WHERE userId = @userId";
 				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
-				MySqlParameter[] parameters = new MySqlParameter[ 6 ];
+				MySqlParameter [] parameters = new MySqlParameter[ 7 ];
 				parameters[ 0 ] = new MySqlParameter( "@totalMatchesPlayed", totalMatchesPlayed );
 				parameters[ 1 ] = new MySqlParameter( "@matchesWon", matchesWon );
 				parameters[ 2 ] = new MySqlParameter( "@matchesLost", matchesLost );
 				parameters[ 3 ] = new MySqlParameter( "@matchesSurvived", matchesSurvived );
 				parameters[ 4 ] = new MySqlParameter( "@money", money );
-				parameters[ 5 ] = new MySqlParameter( "@userId", userId );
+				parameters[ 5 ] = new MySqlParameter( "@seconds", seconds );
+				parameters[ 6 ] = new MySqlParameter( "@userId", userId );
 				foreach ( var parameter in parameters )
 				{
 					command.Parameters.Add( parameter );

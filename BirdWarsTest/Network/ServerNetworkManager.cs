@@ -162,7 +162,7 @@ namespace BirdWarsTest.Network
 								HandleStartRoundMessage( handler );
 								break;
 							case GameMessageTypes.RoundFinishedMessage:
-								HandleRoundFinishedMessage( handler );
+								HandleRoundFinishedMessage( handler, incomingMessage );
 								break;
 						}
 						break;
@@ -251,7 +251,7 @@ namespace BirdWarsTest.Network
 								 incomingMessage.ReadString() );
 			gameDatabase.Users.Create( user );
 			var userWithId = gameDatabase.Users.Read( user.Email, user.Password );
-			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0 ) );
+			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0, 0 ) );
 			emailManager.SendEmailMessage( userWithId.Names, userWithId.Email, "Registration", 
 										   ( "Thank you for completing the registration process! Your account " +
 										   "has been created!" ) );
@@ -392,8 +392,8 @@ namespace BirdWarsTest.Network
 				}
 			}
 
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage, 
-																									 stateChangeMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( 
+																				incomingMessage, stateChangeMessage );
 		}
 
 		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -411,7 +411,7 @@ namespace BirdWarsTest.Network
 				}
 			}
 
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
 
 		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -429,7 +429,7 @@ namespace BirdWarsTest.Network
 				}
 			}
 
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
 		}
 
 		private void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -447,7 +447,8 @@ namespace BirdWarsTest.Network
 				}
 			}
 
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( pickedUpItemMessage.ItemIndex );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
+																				pickedUpItemMessage.ItemIndex );
 		}
 
 		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -465,16 +466,17 @@ namespace BirdWarsTest.Network
 				}
 			}
 
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
-																							  grenadeMessage.Direction, 
-																							  grenadeMessage.GrenadeSpeed );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
+																											 grenadeMessage.Direction, 
+																										     grenadeMessage.GrenadeSpeed );
 		}
 
-		private void HandleRoundFinishedMessage( StateHandler handler )
+		private void HandleRoundFinishedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
+			RoundFinishedMessage endMessage = new RoundFinishedMessage( incomingMessage );
 			bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
 			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
-			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin );
+			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
 			gameDatabase.UpdateUserInformation( UserSession.CurrentUser, UserSession.CurrentAccount );
 			handler.ChangeState( StateTypes.WaitingRoomState );
 
@@ -496,7 +498,7 @@ namespace BirdWarsTest.Network
 		{
 			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
 			var user = gameDatabase.Users.Read( emailIn, passwordIn );
-			gameDatabase.Accounts.Create( new Account( 0, user.UserId, 0, 0, 0, 0, 0 ) );
+			gameDatabase.Accounts.Create( new Account( 0, user.UserId, 0, 0, 0, 0, 0, 0 ) );
 			emailManager.SendEmailMessage( user.Names, user.Email, "Registration",
 										   ( "Thank you for completing the registration process! Your account " +
 										     "has been created!" ) );
@@ -617,9 +619,9 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		public void SendRoundFinishedMessage()
+		public void SendRoundFinishedMessage( int remainingRoundTime )
 		{
-			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage();
+			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage( remainingRoundTime );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )endRoundMessage.messageType );
 			endRoundMessage.Encode( outgoingMessage );
@@ -629,7 +631,7 @@ namespace BirdWarsTest.Network
 				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
 			}
 
-			RoundFinishedMessage serverEndRoundMessage = new RoundFinishedMessage();
+			RoundFinishedMessage serverEndRoundMessage = new RoundFinishedMessage( remainingRoundTime );
 			NetOutgoingMessage serverOutgoingMessage = CreateMessage();
 			serverOutgoingMessage.Write( ( byte )serverEndRoundMessage.messageType );
 			serverEndRoundMessage.Encode( serverOutgoingMessage );

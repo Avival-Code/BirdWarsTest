@@ -22,6 +22,7 @@
 			MatchesLost = accountIn.MatchesLost;
 			MatchesSurvived = accountIn.MatchesSurvived;
 			Money = accountIn.Money;
+			Seconds = accountIn.Seconds;
 		}
 
 		public Account( int accountId_In, int userId_In )
@@ -33,10 +34,11 @@
 			MatchesLost = 0;
 			MatchesSurvived = 0;
 			Money = 0;
+			Seconds = 0;
 		}
 
-		public Account( int accountId_In, int userId_In, int totalMatchesPlayedIn, 
-						int matchesWon_In, int matchesLost_In, int matchesSurvived_In, int money_In )
+		public Account( int accountId_In, int userId_In, int totalMatchesPlayedIn, int matchesWon_In, int matchesLost_In, 
+						int matchesSurvived_In, int money_In, int secondsIn )
 		{
 			AccountId = accountId_In;
 			UserId = userId_In;
@@ -45,6 +47,7 @@
 			MatchesLost = matchesLost_In;
 			MatchesSurvived = matchesSurvived_In;
 			Money = money_In;
+			Seconds = secondsIn;
 		}
 
 		public void AddMoney( int amount )
@@ -59,5 +62,6 @@
 		public int MatchesLost { get; set; }
 		public int MatchesSurvived { get; set; }
 		public int Money { get; set; }
+		public int Seconds { get; set; }
 	}
 }

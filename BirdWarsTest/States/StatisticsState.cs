@@ -7,6 +7,7 @@ using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.Utilities;
 using System.Collections.Generic;
+using System;
 
 namespace BirdWarsTest.States
 {
@@ -37,56 +38,56 @@ namespace BirdWarsTest.States
 											 new Vector2( 70.0f, gameObjects[ 2 ].Position.Y + 50 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 2 ].Position.Y + 50 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 2 ].Position.Y + 50 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesWon ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 3 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 3 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 3 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.WinRate ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 5 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 5 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 5 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesSurvived ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 7 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 7 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 7 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.SurvivalRate ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 9 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 9 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 9 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.MatchesLost ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 11 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 11 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 11 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.LoseRate ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 13 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0%", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 13 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 13 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.ShortestTime ), 
 																		"Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
 											 new Vector2( 70.0f, gameObjects[ 15 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new TextGraphicsComponent( Content, "0:00", "Fonts/BabeFont_10" ),
 											 null, Identifiers.TextGraphics,
-											 new Vector2( 334.0f, gameObjects[ 15 ].Position.Y + 40 ) ) );
+											 new Vector2( 324.0f, gameObjects[ 15 ].Position.Y + 40 ) ) );
 			gameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
 																		  stringManager.GetString( StringNames.Return ) ), 
 											 new ButtonChangeStateInputComponent( handler, StateTypes.MainMenuState ),
@@ -131,10 +132,16 @@ namespace BirdWarsTest.States
 			gameObject.Graphics.SetText( statistic.ToString() );
 		}
 
-		private void SetPercentStatistic( GameObject gameObject, float statistic )
+		private void SetPercentStatistic( GameObject gameObject, double statistic )
 		{
-			string value = statistic.ToString();
+			int result = ( int )statistic;
+			string value = result.ToString();
 			gameObject.Graphics.SetText( value + "%" );
+		}
+
+		private void SetStringStatistic( GameObject gameObject, string statistic )
+		{
+			gameObject.Graphics.SetText( statistic );
 		}
 
 		private void SetGameObjectStatistics()
@@ -146,36 +153,65 @@ namespace BirdWarsTest.States
 			SetPercentStatistic( gameObjects[ 12 ], CalculateSurvivalRate() );
 			SetStatistic( gameObjects[ 14 ], networkManager.GetLoginSession().CurrentAccount.MatchesLost );
 			SetPercentStatistic( gameObjects[ 16 ], CalculateLoseRate() );
+			SetStringStatistic( gameObjects[ 18 ], CalculateShortestRoundTime() );
 		}
 
-		private float CalculateWinRate()
+		private double CalculateWinRate()
 		{
 			if( networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed == 0 )
 			{
 				return 0.0f;
 			}
-			return networkManager.GetLoginSession().CurrentAccount.MatchesWon /
-				   networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed;
+			return ( double )networkManager.GetLoginSession().CurrentAccount.MatchesWon /
+				   ( double )networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed * 100.0;
 		}
 
-		private float CalculateSurvivalRate()
+		private double CalculateSurvivalRate()
 		{
 			if( networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed == 0 )
 			{
 				return 0.0f;
 			}
-			return networkManager.GetLoginSession().CurrentAccount.MatchesSurvived /
-				   networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed;
+			return ( double )networkManager.GetLoginSession().CurrentAccount.MatchesSurvived /
+				   ( double )networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed * 100.0;
 		}
 
-		private float CalculateLoseRate()
+		private double CalculateLoseRate()
 		{
 			if( networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed == 0 )
 			{
 				return 0.0f;
 			}
-			return networkManager.GetLoginSession().CurrentAccount.MatchesLost /
-				   networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed;
+			return ( double )networkManager.GetLoginSession().CurrentAccount.MatchesLost /
+				   ( double )networkManager.GetLoginSession().CurrentAccount.TotalMatchesPlayed * 100.0;
+		}
+
+		private string CalculateShortestRoundTime()
+		{
+			int seconds = networkManager.GetLoginSession().CurrentAccount.Seconds;
+			if( seconds == 0 )
+			{
+				return "0:00";
+			}
+			return CalculateMinutes( seconds ) + ":" + CalculateSeconds( seconds );
+		}
+
+		private string CalculateMinutes( int totalSeconds )
+		{
+			return ( totalSeconds / 60 ).ToString();
+		}
+
+		private string CalculateSeconds( int totalSeconds )
+		{
+			int seconds = totalSeconds % 60;
+			if( seconds > -1 && seconds < 10 )
+			{
+				return "0" + seconds.ToString();
+			}
+			else
+			{
+				return seconds.ToString();
+			}
 		}
 
 		private List< GameObject > gameObjects;

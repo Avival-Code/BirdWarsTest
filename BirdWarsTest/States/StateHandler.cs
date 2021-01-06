@@ -40,6 +40,11 @@ namespace BirdWarsTest.States
 			return ref gameStates[ ( int )currentState ];
 		}
 
+		public ref GameState GetState( StateTypes state )
+		{
+			return ref gameStates[ ( int )state ];
+		}
+
 		public StringManager StringManager { get; private set; }
 		private GameState[] gameStates;
 		public INetworkManager networkManager;

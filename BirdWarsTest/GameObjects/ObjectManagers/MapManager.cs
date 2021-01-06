@@ -91,6 +91,12 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		public void ClearAllTiles()
+		{
+			tileValues.Clear();
+			tiles = new GameObject[ maxTilesVertical * maxTilesHorizontal ];
+		}
+
 		private GameObject [] tiles;
 		private List< string > tileValues;
 		private Vector2 position;

@@ -227,7 +227,7 @@ namespace BirdWarsTest.Network
 
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.
+			( ( WaitingRoomState )handler.GetState( StateTypes.WaitingRoomState ) ).MessageManager.
 				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), UserSession.CurrentUser.Username );
 		}
 
@@ -241,43 +241,44 @@ namespace BirdWarsTest.Network
 		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
-																									 stateChangeMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
+																												    stateChangeMessage );
 		}
 
 		public void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
 		}
 
 		public void HandleSpawnConsumablesMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
 		}
 
 		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
 
 		public void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
 		}
 
 		public void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandlePickedUpItemMessage( incomingMessage.ReadInt32() );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
+																					incomingMessage.ReadInt32() );
 		}
 
 		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
-			( ( PlayState )handler.GetCurrentState() ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
-																							  grenadeMessage.Direction, 
-																							  grenadeMessage.GrenadeSpeed );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
+																											 grenadeMessage.Direction, 
+																										     grenadeMessage.GrenadeSpeed );
 		}
 
 		private void HandleUpdateRemainingTimeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -285,17 +286,19 @@ namespace BirdWarsTest.Network
 			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( incomingMessage );
 			float timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( timeMessage.MessageTime ) );
 			float newTimeWithDelay = timeMessage.RemainingRoundTime - timeDelay;
-			( ( PlayState )handler.GetCurrentState() ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
 		}
 
 		private void HandleRoundFinishedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
+			RoundFinishedMessage endMessage = new RoundFinishedMessage( incomingMessage );
 			bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
 			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
-			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin );
+			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
 			handler.ChangeState( StateTypes.WaitingRoomState );
 
-			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser, UserSession.CurrentAccount );
+			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser, 
+																						 UserSession.CurrentAccount );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )updateMessage.messageType );
 			updateMessage.Encode( outgoingMessage );
@@ -362,7 +365,8 @@ namespace BirdWarsTest.Network
 		}
 
 		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
-		public void SendRoundFinishedMessage() {}
+
+		public void SendRoundFinishedMessage( int remainingRoundTime ) {}
 
 		public void UpdatePassword( string code, string password ) 
 		{

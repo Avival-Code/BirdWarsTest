@@ -13,7 +13,7 @@
 		{
 			Users.Update( userIn.UserId, userIn.Names, userIn.LastName, userIn.Username, userIn.Email, userIn.Password );
 			Accounts.Update( userIn.UserId, accountIn.TotalMatchesPlayed, accountIn.MatchesWon, accountIn.MatchesLost,
-							 accountIn.MatchesSurvived, accountIn.Money );
+							 accountIn.MatchesSurvived, accountIn.Money, accountIn.Seconds );
 		}
 
 		public UserDAO Users { get; set; }

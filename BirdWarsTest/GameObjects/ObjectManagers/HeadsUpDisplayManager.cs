@@ -40,6 +40,21 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			( ( RoundTimeInputComponent )gameObjects[ 1 ].Input ).SetRemainingRoundTime( remainingTime );
 		}
 
+		public bool IsRoundTimeOver()
+		{
+			return ( ( RoundTimeInputComponent )gameObjects[ 1 ].Input ).IsRoundTimeOver();
+		}
+
+		public void ClearAllDisplayObjects()
+		{
+			gameObjects.Clear();
+		}
+
+		public int GetRemainingRoundTime()
+		{
+			return ( int )( ( RoundTimeInputComponent )gameObjects[1].Input ).RemainingRoundTime;
+		}
+
 		private List< GameObject > gameObjects;
 	}
 }
