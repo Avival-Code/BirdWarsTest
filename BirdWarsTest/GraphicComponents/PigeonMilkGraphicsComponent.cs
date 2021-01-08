@@ -8,7 +8,7 @@ namespace BirdWarsTest.GraphicComponents
 	{
 		public PigeonMilkGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
-			base( content.Load< Texture2D >( "Items/ItemFiller" ) )
+			base( content.Load< Texture2D >( "Items/PigeonMilk" ) )
 		{}
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch ) {}

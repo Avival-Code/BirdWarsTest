@@ -77,7 +77,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		public void SpawnGrenade( INetworkManager networkManager, PlayerManager playerManager )
 		{
-			if( !threwGrenade )
+			if( !threwGrenade && playerManager.GrenadeAmount > 0 )
 			{
 				GameObject temp = new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
 												  new GrenadeInputComponent( playerManager.GetLocalPlayer().Input.GetLastActiveVelocity(),
@@ -88,6 +88,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				EggGrenades.Add( temp );
 				networkManager.SendSpawnGrenadeMessage( temp );
 				threwGrenade = true;
+				playerManager.GrenadeAmount -= 1;
 			}
 		}
 
