@@ -92,6 +92,38 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		private void CreateRandomItems( List< GameObject > objectList, int boxIndex )
+		{
+			for( int i = 0; i < 4; i++ )
+			{
+				GameObject temp;
+				switch( GetRandomItemType() )
+				{
+					case ( int )Identifiers.Coin:
+						temp = new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   new CoinEffectComponent( 1 ), Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+
+					case ( int )Identifiers.PigeonMilk:
+						temp = new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+
+					case ( int )Identifiers.EggGrenade:
+						temp = new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
+											   new GrenadePickupEffectComponent(), Identifiers.EggGrenade, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+						ConsumableItems.Add( temp );
+						objectList.Add( temp );
+						break;
+				}
+			}
+			spawnedItems[ boxIndex ] = true;
+		}
+
 		public void HandleSpawnBoxMessage( NetIncomingMessage incomingMessage )
 		{
 			int boxCount = incomingMessage.ReadInt32();
@@ -197,7 +229,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		public void Update( INetworkManager networkManager, PlayerManager playerManager, GameTime gameTime )
+		public void Update( INetworkManager networkManager, PlayerManager playerManager, GameTime gameTime,
+							Rectangle mapBounds )
 		{
 			SpawnConsumableItems( networkManager );
 			if( networkManager.IsHost() )
@@ -207,6 +240,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			UpdateBoxes( gameTime );
 			UpdateGrenades( gameTime );
 			UpdateGrenadeTimer( gameTime );
+			ImposeMapBoundaryLimits( mapBounds );
 			HandleBoxDamage( networkManager, playerManager.GetLocalPlayer() );
 			HandleGrenadeDamage( playerManager.GetLocalPlayer() );
 			HandleConsumableItemPickup( networkManager, playerManager );
@@ -225,6 +259,34 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			foreach( var grenade in EggGrenades )
 			{
 				grenade.Update( gameTime );
+			}
+		}
+
+		private void ImposeMapBoundaryLimits( Rectangle MapBounds )
+		{
+			ImposeMapBoundaryGrenades( mapBounds );
+		}
+
+		private void ImposeMapBoundaryGrenades( Rectangle mapBounds )
+		{
+			foreach( var grenade in EggGrenades )
+			{
+				if( grenade.Position.X < mapBounds.Left )
+				{
+					grenade.Position = new Vector2( mapBounds.Left, grenade.Position.Y );
+				}
+				if( grenade.Position.Y < mapBounds.Top )
+				{
+					grenade.Position = new Vector2( grenade.Position.X, mapBounds.Top );
+				}
+				if( grenade.GetRectangle().Right > mapBounds.Right )
+				{
+					grenade.Position = new Vector2( mapBounds.Right - grenade.Graphics.GetTextureSize().X, grenade.Position.Y );
+				}
+				if( grenade.GetRectangle().Bottom > mapBounds.Bottom )
+				{
+					grenade.Position = new Vector2( grenade.Position.X, mapBounds.Bottom - grenade.Graphics.GetTextureSize().Y );
+				}
 			}
 		}
 
@@ -266,38 +328,6 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					grenade.Render( ref batch, cameraBounds );
 				}
 			}
-		}
-
-		private void CreateRandomItems( List< GameObject > objectList, int boxIndex )
-		{
-			for( int i = 0; i < 4; i++ )
-			{
-				GameObject temp;
-				switch( GetRandomItemType() )
-				{
-					case ( int )Identifiers.Coin:
-						temp = new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   new CoinEffectComponent( 1 ), Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
-						ConsumableItems.Add( temp );
-						objectList.Add( temp );
-						break;
-
-					case ( int )Identifiers.PigeonMilk:
-						temp = new GameObject( new PigeonMilkGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   new RecoveryEffectComponent( 2 ), Identifiers.PigeonMilk, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
-						ConsumableItems.Add( temp );
-						objectList.Add( temp );
-						break;
-
-					case ( int )Identifiers.EggGrenade:
-						temp = new GameObject( new EggGrenadeGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   new GrenadePickupEffectComponent(), Identifiers.EggGrenade, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
-						ConsumableItems.Add( temp );
-						objectList.Add( temp );
-						break;
-				}
-			}
-			spawnedItems[ boxIndex ] = true;
 		}
 
 		private Vector2 GetRandomMapPosition()
