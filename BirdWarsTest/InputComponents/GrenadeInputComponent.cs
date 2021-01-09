@@ -12,7 +12,7 @@ namespace BirdWarsTest.InputComponents
 			Direction = directionIn;
 			playerSpeed = playerSpeedIn;
 			GrenadeSpeed = playerSpeed * 2.0f;
-			grenadeTimer = 0.45f;
+			grenadeTimer = 0.55f;
 		}
 
 		public override void HandleInput( GameObject gameObject, GameTime gameTime )
@@ -20,8 +20,13 @@ namespace BirdWarsTest.InputComponents
 			if( !gameObject.Health.IsDead() )
 			{
 				gameObject.Position += GetVelocity() * ( float )gameTime.ElapsedGameTime.TotalSeconds;
-				UpdateTimer( gameTime );
+				UpdateTimer( gameObject, gameTime );
 				Explode( gameObject );
+
+				if( gameObject.Attack.IsAttacking && gameObject.Attack.AttackTimer == 1 )
+				{
+					gameObject.Health.TakeFullDamage();
+				}
 			}
 		}
 
@@ -31,14 +36,13 @@ namespace BirdWarsTest.InputComponents
 
 		private void Explode( GameObject gameObject )
 		{
-			if( ( int )grenadeTimer < 0 )
+			if( grenadeTimer < 0.00 )
 			{
 				gameObject.Attack.DoAttack();
-				gameObject.Health.TakeFullDamage();
 			}
 		}
 
-		private void UpdateTimer( GameTime gameTime )
+		private void UpdateTimer( GameObject gameObject, GameTime gameTime )
 		{
 			grenadeTimer -= ( float )gameTime.ElapsedGameTime.TotalSeconds;
 		}

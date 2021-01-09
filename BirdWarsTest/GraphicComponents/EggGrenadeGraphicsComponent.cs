@@ -11,7 +11,7 @@ namespace BirdWarsTest.GraphicComponents
 			base( content.Load< Texture2D >( "Items/EggGrenade" ) )
 		{}
 
-		public override void Render( GameObject gameObject, ref SpriteBatch batch ) {}
+		public override void Render( GameObject gameObject, ref SpriteBatch batch ) { }
 
 		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds )
 		{

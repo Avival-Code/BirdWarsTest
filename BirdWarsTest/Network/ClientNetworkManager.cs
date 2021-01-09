@@ -132,12 +132,7 @@ namespace BirdWarsTest.Network
 						switch ( ( NetConnectionStatus )incomingMessage.ReadByte() )
 						{
 							case NetConnectionStatus.Connected:
-								var message = incomingMessage.SenderConnection.RemoteHailMessage;
-								if( message != null )
-								{
-									Console.WriteLine( message.ReadString() );
-									handler.ChangeState( StateTypes.MainMenuState );
-								}
+								Console.WriteLine( "Connected to {0}", incomingMessage.SenderEndPoint );
 								break;
 							case NetConnectionStatus.Disconnected:
 								Console.WriteLine( incomingMessage.ReadString() );
