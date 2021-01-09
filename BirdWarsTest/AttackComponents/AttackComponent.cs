@@ -10,8 +10,8 @@ namespace BirdWarsTest.AttackComponents
 			Damage = 1;
 			IsAttacking = false;
 			AttackTimer = 13;
-			attackWidth = 50;
-			attackHeight = 50;
+			attackWidth = 75;
+			attackHeight = 75;
 		}
 
 		public AttackComponent( int damageIn )
@@ -19,8 +19,8 @@ namespace BirdWarsTest.AttackComponents
 			Damage = damageIn;
 			IsAttacking = false;
 			AttackTimer = 13;
-			attackWidth = 50;
-			attackHeight = 50;
+			attackWidth = 75;
+			attackHeight = 75;
 		}
 
 		public AttackComponent( int damageIn, int attackWidthIn, int attackHeightIn )

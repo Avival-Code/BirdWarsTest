@@ -190,7 +190,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void HandleBoxDamage( INetworkManager networkManager, GameObject localPlayer )
+		private void HandleObjectDamage( INetworkManager networkManager, GameObject localPlayer )
+		{
+			HandlePlayerToBoxDamage( networkManager, localPlayer );
+			HandleGrenadeToPlayerDamage( localPlayer );
+			HandleGrenadeToBoxDamage( networkManager );
+		}
+
+		private void HandlePlayerToBoxDamage( INetworkManager networkManager, GameObject localPlayer )
 		{
 			for( int i = 0; i < Boxes.Count; i++ )
 			{
@@ -203,7 +210,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void HandleGrenadeDamage( GameObject localPlayer )
+		private void HandleGrenadeToPlayerDamage( GameObject localPlayer )
 		{
 			for( int i = 0; i < EggGrenades.Count; i++ )
 			{
@@ -212,6 +219,22 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 																localPlayer.Health.GetPlayerHitBox( localPlayer ) ) )
 				{
 					localPlayer.Health.TakeDamage( EggGrenades[ i ].Attack.Damage );
+				}
+			}
+		}
+
+		private void HandleGrenadeToBoxDamage( INetworkManager networkManager )
+		{
+			for( int i = 0; i < Boxes.Count; i++ )
+			{
+				for( int j = 0; j < EggGrenades.Count; j++ )
+				{
+					if( EggGrenades[ j ].Attack.IsAttacking &&
+						EggGrenades[ j ].Attack.GetAttackRectangle( EggGrenades[ j ] ).Intersects( Boxes[ i ].GetRectangle() ) )
+					{
+						Boxes[ i ].Health.TakeDamage( EggGrenades[ i ].Attack.Damage );
+						networkManager.SendBoxDamageMessage( i, EggGrenades[ i ].Attack.Damage );
+					}
 				}
 			}
 		}
@@ -242,8 +265,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			UpdateGrenades( gameTime );
 			UpdateGrenadeTimer( gameTime );
 			ImposeMapBoundaryLimits( mapBounds );
-			HandleBoxDamage( networkManager, playerManager.GetLocalPlayer() );
-			HandleGrenadeDamage( playerManager.GetLocalPlayer() );
+			HandleObjectDamage( networkManager, playerManager.GetLocalPlayer() );
 			HandleConsumableItemPickup( networkManager, playerManager );
 		}
 

@@ -39,7 +39,7 @@ namespace BirdWarsTest.GraphicComponents
 
 		private void RenderExplosion( GameObject gameObject, Texture2D targetTexture, ref SpriteBatch batch, Rectangle cameraBounds )
 		{
-			Rectangle grenadeAttackBox = ( ( GrenadeAttackComponent )gameObject.Attack ).GetAttackRectangle( gameObject );
+			Rectangle grenadeAttackBox = gameObject.Attack.GetAttackRectangle( gameObject );
 			Vector2 position = new Vector2( grenadeAttackBox.X - cameraBounds.X, grenadeAttackBox.Y - cameraBounds.Y);
 			batch.Draw( targetTexture, position, Color.White );
 		}

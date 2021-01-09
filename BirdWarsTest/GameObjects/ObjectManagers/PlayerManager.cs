@@ -35,14 +35,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					{
 						LocalPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
-													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new PlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 positionGenerator.GetAPosition() ) );
 						playerIdentifier++;
 					}
 					else
 					{
 						Players.Add( new GameObject( new PlayerGraphicsComponent( content ), new ExternalPlayerInputComponent(),
-													 new HealthComponent(), new ExternalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new PlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 positionGenerator.GetAPosition() ) );
 						playerIdentifier++;
 					}
@@ -64,14 +64,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					{
 						LocalPlayerIndex = i;
 						Players.Add( new GameObject( new PlayerGraphicsComponent( content ), new LocalPlayerInputComponent( handler ),
-													 new HealthComponent(), new LocalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new PlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						playerIdentifier++;
 					}
 					else
 					{
 						Players.Add( new GameObject( new PlayerGraphicsComponent( content ), new ExternalPlayerInputComponent(),
-													 new HealthComponent(), new ExternalPlayerAttackComponent(), ( Identifiers )playerIdentifier,
+													 new HealthComponent(), new PlayerAttackComponent(), ( Identifiers )playerIdentifier,
 													 new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 						playerIdentifier++;
 					}

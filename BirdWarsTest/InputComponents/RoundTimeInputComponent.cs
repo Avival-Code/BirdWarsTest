@@ -10,7 +10,7 @@ namespace BirdWarsTest.InputComponents
 		public RoundTimeInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
-			RemainingRoundTime = 45.0f;
+			RemainingRoundTime = 300.0f;
 		}
 
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) 

@@ -10,7 +10,7 @@ namespace BirdWarsTest.InputComponents
 		public LocalPlayerInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
-			LastActiveVelocity = new Vector2( 1.0f, 0.0f );
+			lastActiveVelocity = new Vector2( 1.0f, 0.0f );
 			playerSpeed = 300.0f;
 			lastUpdateTime = 1.0;
 		}
@@ -66,7 +66,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Up ) )
 			{
 				velocity = new Vector2( 0.0f, -1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Up ) )
 				{
 					velocityChanged = true;
@@ -82,7 +82,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Down ) )
 			{
 				velocity = new Vector2( 0.0f, 1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Down ) )
 				{
 					velocityChanged = true;
@@ -98,7 +98,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Left ) )
 			{
 				velocity = new Vector2( -1.0f, 0.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Left ) )
 				{
 					velocityChanged = true;
@@ -114,7 +114,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Right ) )
 			{
 				velocity = new Vector2( 1.0f, 0.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Right ) )
 				{
 					velocityChanged = true;
@@ -141,7 +141,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Up ) && IsKeyDown( Keys.Right ) )
 			{
 				velocity = new Vector2( 1.0f, -1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Up ) && IsKeyPressed( Keys.Right ) )
 				{
 					velocityChanged = true;
@@ -157,7 +157,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Up ) && IsKeyDown( Keys.Left ) )
 			{
 				velocity = new Vector2( -1.0f, -1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Up ) && IsKeyPressed( Keys.Left ) )
 				{
 					velocityChanged = true;
@@ -173,7 +173,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Down ) && IsKeyDown( Keys.Right ) )
 			{
 				velocity = new Vector2( 1.0f, 1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Down ) && IsKeyPressed( Keys.Right ) )
 				{
 					velocityChanged = true;
@@ -189,7 +189,7 @@ namespace BirdWarsTest.InputComponents
 			if( IsKeyDown( Keys.Down ) && IsKeyDown( Keys.Left ) )
 			{
 				velocity = new Vector2( -1.0f, 1.0f );
-				LastActiveVelocity = velocity;
+				lastActiveVelocity = velocity;
 				if( IsKeyPressed( Keys.Down ) && IsKeyPressed( Keys.Left ) )
 				{
 					velocityChanged = true;
@@ -238,7 +238,7 @@ namespace BirdWarsTest.InputComponents
 
 		public override Vector2 GetLastActiveVelocity()
 		{
-			return LastActiveVelocity;
+			return lastActiveVelocity;
 		}
 
 		public override void SetVelocity( Vector2 newVelocity )
@@ -256,8 +256,7 @@ namespace BirdWarsTest.InputComponents
 			lastUpdateTime = newTime;
 		}
 
-		public Vector2 LastActiveVelocity { get; private set; }
-
+		private Vector2 lastActiveVelocity;
 		private StateHandler handler;
 		private KeyboardState currentKeyBoardState;
 		private KeyboardState lastKeyboardState;
