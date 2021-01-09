@@ -1,7 +1,4 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
@@ -14,8 +11,8 @@ namespace BirdWarsTest.Network.Messages
 
 		public ChatMessage( string senderUsernameIn, string messageIn )
 		{
-			senderUsername = senderUsernameIn;
-			message = messageIn;
+			SenderUsername = senderUsernameIn;
+			Message = messageIn;
 		}
 		public GameMessageTypes messageType
 		{
@@ -24,17 +21,17 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			senderUsername = incomingMessage.ReadString();
-			message = incomingMessage.ReadString();
+			SenderUsername = incomingMessage.ReadString();
+			Message = incomingMessage.ReadString();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( senderUsername );
-			outgoingMessage.Write( message );
+			outgoingMessage.Write( SenderUsername );
+			outgoingMessage.Write( Message );
 		}
 
-		private string senderUsername;
-		private string message;
+		public string SenderUsername { get; private set; }
+		public string Message { get; private set; }
 	}
 }

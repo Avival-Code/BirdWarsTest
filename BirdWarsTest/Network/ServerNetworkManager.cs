@@ -249,28 +249,23 @@ namespace BirdWarsTest.Network
 		{
 			LoginRequestMessage loginMessage = new LoginRequestMessage( incomingMessage );
 			var user = gameDatabase.Users.Read( loginMessage.Email, loginMessage.Password );
+			LoginResultMessage loginResult;
 			if( user != null && user.Password.Equals( loginMessage.Password ) )
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( true, handler.StringManager.GetString( StringNames.LoginApproved ),
+				loginResult = new LoginResultMessage( true, handler.StringManager.GetString( StringNames.LoginApproved ),
 																		 user, gameDatabase.Accounts.Read( user.UserId ) );
-				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )loginResult.messageType );
-				loginResult.Encode( outgoingMessage );
-
-				netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, 
-									   NetDeliveryMethod.ReliableUnordered );
 			}
 			else
 			{
-				LoginResultMessage loginResult = new LoginResultMessage( false, handler.StringManager.GetString( StringNames.LoginDenied ), 
+				loginResult = new LoginResultMessage( false, handler.StringManager.GetString( StringNames.LoginDenied ), 
 																		 new User(), new Account() );
-				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )loginResult.messageType );
-				loginResult.Encode( outgoingMessage );
-
-				netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection,
-									   NetDeliveryMethod.ReliableUnordered );
 			}
+
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )loginResult.messageType );
+			loginResult.Encode( outgoingMessage );
+
+			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
 		}
 
 		private void HandleSelfRegisterUserMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -297,6 +292,7 @@ namespace BirdWarsTest.Network
 		private void HandleRegisterUserMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			RegisterUserMessage registerUser = new RegisterUserMessage( incomingMessage );
+			RegistrationResultMessage resultMessage;
 			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
 			{
 				gameDatabase.Users.Create( registerUser.User );
@@ -304,24 +300,21 @@ namespace BirdWarsTest.Network
 				emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
 											   handler.StringManager.GetString( StringNames.Registration ),
 											   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
-				RegistrationResultMessage resultMessage = new RegistrationResultMessage( 
+				resultMessage = new RegistrationResultMessage( 
 												          handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
-				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )resultMessage.messageType );
-				resultMessage.Encode( outgoingMessage );
-				incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
-															  incomingMessage.SequenceChannel );
 			}
 			else
 			{
-				RegistrationResultMessage resultMessage = new RegistrationResultMessage(
+				resultMessage = new RegistrationResultMessage(
 														  handler.StringManager.GetString( StringNames.RegistrationFailed ) );
-				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )resultMessage.messageType );
-				resultMessage.Encode( outgoingMessage );
-				incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
-															  incomingMessage.SequenceChannel );
 			}
+
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			resultMessage.Encode( outgoingMessage );
+
+			incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
+														  incomingMessage.SequenceChannel );
 		}
 
 		private void HandleSelfSolicitPasswordResetMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -444,7 +437,6 @@ namespace BirdWarsTest.Network
 
 		private void HandleRoundCreatedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			Console.WriteLine( "Recieved Create round message." );
 			if( incomingMessage.ReadBoolean() )
 			{
 				handler.ChangeState( StateTypes.WaitingRoomState );
@@ -517,15 +509,13 @@ namespace BirdWarsTest.Network
 
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			string username = incomingMessage.ReadString();
-			string message = incomingMessage.ReadString();
+			ChatMessage chatMessage = new ChatMessage( incomingMessage );
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
-					username, message, UserSession.CurrentUser.Username );
+								  chatMessage.SenderUsername, chatMessage.Message, UserSession.CurrentUser.Username );
 
-			ChatMessage newMessage = new ChatMessage( username, message );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )newMessage.messageType );
-			newMessage.Encode( outgoingMessage );
+			outgoingMessage.Write( ( byte )chatMessage.messageType );
+			chatMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
 			{
