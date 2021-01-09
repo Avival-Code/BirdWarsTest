@@ -127,16 +127,16 @@ namespace BirdWarsTest.InputComponents
 				velocityChanged = true;
 			}
 
-			velocityChanged = HandleDiagonalPlayerMovement();
+			velocityChanged = HandleDiagonalPlayerMovement( velocityChanged );
 
 			velocity *= playerSpeed;
 
 			return velocityChanged;
 		}
 
-		private bool HandleDiagonalPlayerMovement()
+		private bool HandleDiagonalPlayerMovement( bool velocityChangedIn )
 		{
-			bool velocityChanged = false;
+			bool velocityChanged = velocityChangedIn;
 
 			if( IsKeyDown( Keys.Up ) && IsKeyDown( Keys.Right ) )
 			{

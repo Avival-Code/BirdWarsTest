@@ -155,7 +155,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				if( i != LocalPlayerIndex )
 				{
 					if( Players[ i ].Attack.IsAttacking &&
-						Players[ i ].Attack.GetAttackRectangle( Players[ i ] ).Intersects( GetLocalPlayer().GetRectangle() ) )
+						Players[ i ].Attack.GetAttackRectangle( Players[ i ] ).Intersects( 
+																GetLocalPlayer().Health.GetPlayerHitBox( GetLocalPlayer() ) ) )
 					{
 						GetLocalPlayer().Health.TakeDamage( Players[ i ].Attack.Damage );
 					}

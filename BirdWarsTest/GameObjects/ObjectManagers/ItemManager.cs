@@ -208,7 +208,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			for( int i = 0; i < EggGrenades.Count; i++ )
 			{
 				if( EggGrenades[ i ].Attack.IsAttacking &&
-					EggGrenades[ i ].Attack.GetAttackRectangle( EggGrenades[ i ] ).Intersects( localPlayer.GetRectangle() ) )
+					EggGrenades[ i ].Attack.GetAttackRectangle( EggGrenades[ i ] ).Intersects( 
+																localPlayer.Health.GetPlayerHitBox( localPlayer ) ) )
 				{
 					localPlayer.Health.TakeDamage( EggGrenades[ i ].Attack.Damage );
 				}
