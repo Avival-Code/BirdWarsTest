@@ -39,15 +39,7 @@ namespace BirdWarsTest.States
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, stringManager.GetString( StringNames.Players ), 
 																		"Fonts/BabeFont_22" ), 
 											 null, Identifiers.TextGraphics, new Vector2( 65.0f, 20.0f ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
-																		  stringManager.GetString( StringNames.StartRound ) ), 
-											 new StartRoundInputComponent( handler ), Identifiers.Button2, new Vector2( 25.0f, 520.0f ) ) );
-			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2", 
-																		  stringManager.GetString( StringNames.Leave ) ), 
-											 new LeaveGameInputComponent( handler, StateTypes.MainMenuState ), Identifiers.Button2,
-											 new Vector2( 25.0f, GameObjects[ GameObjects.Count - 1 ].Position.Y + 35 ) ) );
-			GameObjects.Add( new GameObject( null, new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
-											 new Vector2( 0.0f, 0.0f ) ) );
+			AddStateButtons( handler, stringManager );
 			MessageManager = new ChatMessageManager( Content, GameObjects[ 1 ].GetRectangle() );
 		}
 
@@ -71,8 +63,7 @@ namespace BirdWarsTest.States
 			{
 				objects.Update( state );
 			}
-			GameObjects[ 5 ].Update( state, this );
-			GameObjects[ 6 ].Update( state, this );
+			UpdateButtonLogic( state );
 		}
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
@@ -88,6 +79,39 @@ namespace BirdWarsTest.States
 			}
 			MessageManager.Render( ref batch );
 			UsernameManager.Render( ref batch );
+		}
+
+		private void AddStateButtons( StateHandler handler, StringManager stringManager )
+		{
+			if( networkManager.IsHost() )
+			{
+				GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2",
+																			  stringManager.GetString( StringNames.StartRound ) ),
+												 new StartRoundInputComponent( handler ), Identifiers.Button2,
+												 new Vector2( 25.0f, 520.0f ) ) );
+			}
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2",
+																		  stringManager.GetString( StringNames.Leave ) ),
+											 new LeaveGameInputComponent( handler, StateTypes.MainMenuState ), Identifiers.Button2,
+											 new Vector2( 25.0f, 555.0f ) ) );
+			GameObjects.Add( new GameObject( new ButtonGraphicsComponent( Content, "Button2",
+																		  stringManager.GetString( StringNames.SendMessage  ) ), 
+											 new SendChatMessageInputComponent( handler ), Identifiers.ChatMessageSender,
+											 new Vector2( 645.0f, 555.0f ) ) );
+		}
+
+		private void UpdateButtonLogic( KeyboardState state )
+		{
+			if( networkManager.IsHost() )
+			{
+				GameObjects[ 5 ].Update( state, this );
+				GameObjects[ 6 ].Update( state, this );
+			}
+			else
+			{
+				GameObjects[ 4 ].Update( state, this );
+				GameObjects[ 5 ].Update( state, this );
+			}
 		}
 
 		public INetworkManager NetworkManager

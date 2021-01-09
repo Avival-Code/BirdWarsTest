@@ -210,7 +210,14 @@ namespace BirdWarsTest.InputComponents
 
 		public override void ClearText()
 		{
-			Text = "";
+			if( visualCharacterIsOn )
+			{
+				Text = "/";
+			}	
+			else
+			{
+				Text = "";
+			}
 		}
 
 		public string Text { get; set; }

@@ -24,14 +24,30 @@ namespace BirdWarsTest.InputComponents
 
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
 		{
+			UpdateTimer();
 			if( !sentMessage && state.IsKeyDown( Keys.Enter ) )
 			{
 				sentMessage = !sentMessage;
-				chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.GetText();
+				chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.GetTextWithoutVisualCharacter();
 				( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.ClearText();
 				click?.Invoke( this, chatEvents );
 			}
-			UpdateTimer();
+
+			previousMouseState = currentMouseState;
+			currentMouseState = Mouse.GetState();
+
+			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
+
+			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
+			{
+				if( currentMouseState.LeftButton == ButtonState.Released &&
+					previousMouseState.LeftButton == ButtonState.Pressed )
+				{
+					chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.GetText();
+					( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.ClearText();
+					click?.Invoke( this, chatEvents );
+				}
+			}
 		}
 
 		private void SendMessage( Object sender, ChatMessageArgs chatEvents )
@@ -39,6 +55,7 @@ namespace BirdWarsTest.InputComponents
 			if( !chatEvents.Message.Equals( "" ) )
 			{
 				handler.networkManager.SendChatMessage( chatEvents.Message );
+				chatEvents.Message = "";
 			}
 		}
 
@@ -58,6 +75,8 @@ namespace BirdWarsTest.InputComponents
 		private event EventHandler< ChatMessageArgs > click;
 		private ChatMessageArgs chatEvents;
 		private StateHandler handler;
+		private MouseState currentMouseState;
+		private MouseState previousMouseState;
 		private bool sentMessage;
 		private int timer;
 	}

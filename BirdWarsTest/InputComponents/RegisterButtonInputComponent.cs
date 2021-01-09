@@ -52,12 +52,12 @@ namespace BirdWarsTest.InputComponents
 
 		private void GetRegisterValues( GameState gameState )
 		{
-			registerEvents.Name = ( ( UserRegistryState )gameState ).GameObjects[ 6 ].Input.GetText();
-			registerEvents.LastNames = ( ( UserRegistryState )gameState ).GameObjects[ 8 ].Input.GetText();
-			registerEvents.Username = ( ( UserRegistryState )gameState ).GameObjects[ 10 ].Input.GetText();
-			registerEvents.Email = ( ( UserRegistryState )gameState ).GameObjects[ 12 ].Input.GetText();
-			registerEvents.Password = ( ( UserRegistryState )gameState ).GameObjects[ 14 ].Input.GetText();
-			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].Input.GetText();
+			registerEvents.Name = ( ( UserRegistryState )gameState ).GameObjects[ 6 ].Input.GetTextWithoutVisualCharacter();
+			registerEvents.LastNames = ( ( UserRegistryState )gameState ).GameObjects[ 8 ].Input.GetTextWithoutVisualCharacter();
+			registerEvents.Username = ( ( UserRegistryState )gameState ).GameObjects[ 10 ].Input.GetTextWithoutVisualCharacter();
+			registerEvents.Email = ( ( UserRegistryState )gameState ).GameObjects[ 12 ].Input.GetTextWithoutVisualCharacter();
+			registerEvents.Password = ( ( UserRegistryState )gameState ).GameObjects[ 14 ].Input.GetTextWithoutVisualCharacter();
+			registerEvents.ConfirmPassword = ( ( UserRegistryState )gameState ).GameObjects[ 16 ].Input.GetTextWithoutVisualCharacter();
 		}
 
 		private void CheckRegisterInfo( RegisterEventArgs registerEvents )

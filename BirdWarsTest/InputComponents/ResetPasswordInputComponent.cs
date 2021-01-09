@@ -40,13 +40,13 @@ namespace BirdWarsTest.InputComponents
 
 			var mouseRectangle = new Rectangle( currentMouseState.X, currentMouseState.Y, 1, 1 );
 
-			if (mouseRectangle.Intersects(gameObject.GetRectangle()))
+			if( mouseRectangle.Intersects( gameObject.GetRectangle() ) )
 			{
-				if (currentMouseState.LeftButton == ButtonState.Released &&
-					previousMouseState.LeftButton == ButtonState.Pressed)
+				if( currentMouseState.LeftButton == ButtonState.Released &&
+					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
-					passwordEvents.Code = ( ( PasswordRecoveryState )gameState ).GameObjects[ 7 ].Input.GetText();
-					passwordEvents.Password = ( ( PasswordRecoveryState )gameState ).GameObjects[ 9 ].Input.GetText();
+					passwordEvents.Code = ( ( PasswordRecoveryState )gameState ).GameObjects[ 7 ].Input.GetTextWithoutVisualCharacter();
+					passwordEvents.Password = ( ( PasswordRecoveryState )gameState ).GameObjects[ 9 ].Input.GetTextWithoutVisualCharacter();
 					( ( PasswordRecoveryState )gameState ).GameObjects[ 7 ].Input.ClearText();
 					( ( PasswordRecoveryState )gameState ).GameObjects[ 9 ].Input.ClearText();
 					click?.Invoke( this, passwordEvents );

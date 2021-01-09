@@ -44,7 +44,7 @@ namespace BirdWarsTest.InputComponents
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
-					codeEvents.Email = ( ( PasswordRecoveryState )gameState ).GameObjects[ 4 ].Input.GetText();
+					codeEvents.Email = ( ( PasswordRecoveryState )gameState ).GameObjects[ 4 ].Input.GetTextWithoutVisualCharacter();
 					( ( PasswordRecoveryState )gameState ).GameObjects[ 4 ].Input.ClearText();
 					click?.Invoke( this, codeEvents );
 				}

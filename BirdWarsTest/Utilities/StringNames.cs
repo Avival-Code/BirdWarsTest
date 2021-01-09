@@ -50,6 +50,7 @@
 		NameInvalid,
 		LastNamesInvalid,
 		UsernameInvalid,
-		PasswordsDoNotMatch
+		PasswordsDoNotMatch,
+		SendMessage
 	}
 }
