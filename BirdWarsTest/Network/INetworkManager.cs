@@ -40,7 +40,7 @@ namespace BirdWarsTest.Network
 
 		void SendRoundFinishedMessage( int remainingRoundTime );
 
-		void UpdatePassword( string code, string password );
+		void UpdatePassword( string code, string email, string password );
 
 		bool IsHost();
 

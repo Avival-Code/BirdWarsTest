@@ -20,11 +20,11 @@ namespace BirdWarsTest.InputComponents
 
 		private void ChangePassword( object sender, PasswordChangeEventArgs passwordEvents )
 		{
-			CheckPassword( passwordEvents );
+			CheckPasswordArgs( passwordEvents );
 			if( !string.IsNullOrEmpty( passwordEvents.Code ) && !string.IsNullOrEmpty( passwordEvents.Password ) &&
-				validator.IsPasswordValid( passwordEvents.Password ) )
+				!string.IsNullOrEmpty( passwordEvents.Email ) && validator.IsPasswordValid( passwordEvents.Password ) )
 			{
-				handler.networkManager.UpdatePassword( passwordEvents.Code, passwordEvents.Password );
+				handler.networkManager.UpdatePassword( passwordEvents.Code, passwordEvents.Email, passwordEvents.Password );
 				passwordEvents.ResetArgs();
 			}
 		}
@@ -45,12 +45,25 @@ namespace BirdWarsTest.InputComponents
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
+					passwordEvents.Email = ( ( PasswordRecoveryState )gameState ).GameObjects[ 4 ].Input.GetTextWithoutVisualCharacter();
 					passwordEvents.Code = ( ( PasswordRecoveryState )gameState ).GameObjects[ 7 ].Input.GetTextWithoutVisualCharacter();
 					passwordEvents.Password = ( ( PasswordRecoveryState )gameState ).GameObjects[ 9 ].Input.GetTextWithoutVisualCharacter();
-					( ( PasswordRecoveryState )gameState ).GameObjects[ 7 ].Input.ClearText();
-					( ( PasswordRecoveryState )gameState ).GameObjects[ 9 ].Input.ClearText();
 					click?.Invoke( this, passwordEvents );
 				}
+			}
+		}
+
+		private void CheckPasswordArgs( PasswordChangeEventArgs passwordEvents )
+		{
+			CheckPassword( passwordEvents );
+			CheckEmail( passwordEvents );
+		}
+
+		private void CheckEmail( PasswordChangeEventArgs passwordEvents )
+		{
+			if( !validator.IsEmailValid( passwordEvents.Email ) )
+			{
+				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.EmailInvalid ) );
 			}
 		}
 

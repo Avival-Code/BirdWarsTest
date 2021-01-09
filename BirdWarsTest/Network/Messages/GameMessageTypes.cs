@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BirdWarsTest.Network.Messages
+﻿namespace BirdWarsTest.Network.Messages
 {
 	public enum GameMessageTypes
 	{
@@ -12,11 +8,13 @@ namespace BirdWarsTest.Network.Messages
 		LoginRequestMessage,
 		LoginResultMessage,
 		LeaveRoundMessage,
-		registerUserMessage,
+		RegisterUserMessage,
 		RoundCreatedMessage,
 		RoundStateChangedMessage,
 		PasswordResetMessage,
-		SolicitPasswordResetmessage,
+		PasswordResetResultMessage,
+		SolicitPasswordResetMessage,
+		SolicitPasswordResultMessage,
 		StartRoundMessage,
 		PlayerStateChangeMessage,
 		SpawnBoxMessage,
@@ -27,6 +25,7 @@ namespace BirdWarsTest.Network.Messages
 		SpawnGrenadeMessage,
 		UpdateRoundTimeMessage,
 		UpdateUserStatisticsMessage,
-		RoundFinishedMessage
+		RoundFinishedMessage,
+		RegistrationResultMessage
 	}
 }

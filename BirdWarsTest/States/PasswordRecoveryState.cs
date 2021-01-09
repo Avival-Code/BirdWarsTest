@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
-	class PasswordRecoveryState : GameState
+	public class PasswordRecoveryState : GameState
 	{
 		public PasswordRecoveryState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 						   GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics,
@@ -75,6 +75,8 @@ namespace BirdWarsTest.States
 												          GameObjects[ 9 ].Position.Y + 50.0f ) ) );
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, Color.Red, "", "Fonts/BabeFont_8" ), null,
 											 Identifiers.TextGraphics, stateWidth, GameObjects[ 9 ].Position.Y + 30 ) );
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, Color.Blue, "", "Fonts/BabeFont_8" ), null,
+											 Identifiers.TextGraphics, stateWidth, GameObjects[ 9 ].Position.Y + 30 ) );
 		}
 
 		public override void Pause() {}
@@ -90,6 +92,7 @@ namespace BirdWarsTest.States
 
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
+			networkManager.ProcessMessages( handler );
 			foreach( var objects in GameObjects )
 				objects.Update( state, this );
 		}
@@ -107,8 +110,23 @@ namespace BirdWarsTest.States
 
 		public override void SetErrorMessage( string errorMessage )
 		{
-			( ( TextGraphicsComponent )GameObjects[ 12 ].Graphics ).SetText( errorMessage );
+			GameObjects[ 13 ].Graphics.ClearText();
+			GameObjects[ 12 ].Graphics.SetText( errorMessage );
 			GameObjects[ 12 ].RecenterXWidth( stateWidth );
+		}
+
+		public override void SetMessage( string message )
+		{
+			GameObjects[ 12 ].Graphics.ClearText();
+			GameObjects[ 13 ].Graphics.SetText( message );
+			GameObjects[ 13 ].RecenterXWidth( stateWidth );
+		}
+
+		public override void ClearTextAreas()
+		{
+			GameObjects[ 4 ].Graphics.ClearText();
+			GameObjects[ 7 ].Graphics.ClearText();
+			GameObjects[ 9 ].Graphics.ClearText();
 		}
 
 		public List<GameObject> GameObjects { get; set; }

@@ -1,11 +1,10 @@
 ﻿using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace BirdWarsTest.GraphicComponents
 {
-	class TextGraphicsComponent : GraphicsComponent
+	public class TextGraphicsComponent : GraphicsComponent
 	{
 		public TextGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content,
 									  string textIn, string fontName )
@@ -42,6 +41,11 @@ namespace BirdWarsTest.GraphicComponents
 		public override void SetText( string newText )
 		{
 			text = newText;
+		}
+
+		public override void ClearText()
+		{
+			text = "";
 		}
 
 		private SpriteFont font;

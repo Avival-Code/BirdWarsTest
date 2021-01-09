@@ -1,6 +1,7 @@
 ﻿using BirdWarsTest.Database;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.Network.Messages;
+using BirdWarsTest.Utilities;
 using BirdWarsTest.States;
 using Lidgren.Network;
 using System;
@@ -192,6 +193,15 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.RoundFinishedMessage:
 								HandleRoundFinishedMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.RegistrationResultMessage:
+								HandleRegistrationResultMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.SolicitPasswordResultMessage:
+								HandleSolicitPasswordResultMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.PasswordResetResultMessage:
+								HandlePasswordResetResultMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -211,7 +221,47 @@ namespace BirdWarsTest.Network
 			{
 				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( resultMessage.Reason );
 			}
-			Console.WriteLine( incomingMessage.ReadString() );
+		}
+
+		private void HandleRegistrationResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			RegistrationResultMessage resultMessage = new RegistrationResultMessage( incomingMessage );
+			if( string.Equals( resultMessage.Message, handler.StringManager.GetString( StringNames.RegistrationSuccessful ) ) )
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetMessage( resultMessage.Message );
+				handler.GetCurrentState().ClearTextAreas();
+			}
+			else
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( resultMessage.Message );
+			}
+		}
+
+		private void HandleSolicitPasswordResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			SolicitPasswordResultMessage resultMessage = new SolicitPasswordResultMessage( incomingMessage );
+			if( string.Equals( resultMessage.Message, handler.StringManager.GetString( StringNames.PasswordEmailSuccess ) ) )
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetMessage( resultMessage.Message );
+			}
+			else
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetErrorMessage( resultMessage.Message );
+			}
+		}
+
+		private void HandlePasswordResetResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			PasswordResetResultMessage resultMessage = new PasswordResetResultMessage( incomingMessage );
+			if( resultMessage.Result.Equals( handler.StringManager.GetString( StringNames.PasswordResetSuccessful ) ) )
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetMessage( resultMessage.Result );
+				handler.GetCurrentState().ClearTextAreas();
+			}
+			else
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetErrorMessage( resultMessage.Result );
+			}
 		}
 
 		private void HandleJoinRoundRequestResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -372,9 +422,9 @@ namespace BirdWarsTest.Network
 
 		public void SendRoundFinishedMessage( int remainingRoundTime ) {}
 
-		public void UpdatePassword( string code, string password ) 
+		public void UpdatePassword( string code, string email, string password ) 
 		{
-			SendMessage( new PasswordResetMessage( code, password ) );
+			SendMessage( new PasswordResetMessage( code, email, password ) );
 		}
 
 		public LoginSession UserSession { get; private set; }

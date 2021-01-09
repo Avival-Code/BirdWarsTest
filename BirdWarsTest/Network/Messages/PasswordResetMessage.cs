@@ -1,21 +1,19 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class PasswordResetMessage : IGameMessage
+	public class PasswordResetMessage : IGameMessage
 	{
 		public PasswordResetMessage( NetIncomingMessage incomingMessage )
 		{
 			Decode( incomingMessage );
 		}
 
-		public PasswordResetMessage( string codeIn, string passwordIn )
+		public PasswordResetMessage( string codeIn, string emailIn, string passwordIn )
 		{
-			code = codeIn;
-			password = passwordIn;
+			Code = codeIn;
+			Email = emailIn;
+			Password = passwordIn;
 		}
 
 		public GameMessageTypes messageType
@@ -25,17 +23,20 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			code = incomingMessage.ReadString();
-			password = incomingMessage.ReadString();
+			Code = incomingMessage.ReadString();
+			Email = incomingMessage.ReadString();
+			Password = incomingMessage.ReadString();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( code );
-			outgoingMessage.Write( password );
+			outgoingMessage.Write( Code );
+			outgoingMessage.Write( Email );
+			outgoingMessage.Write( Password );
 		}
 
-		private string code;
-		private string password;
+		public string Code { get; private set; }
+		public string Email { get; private set; }
+		public string Password { get; private set; }
 	}
 }

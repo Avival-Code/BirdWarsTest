@@ -1,20 +1,19 @@
 ﻿using Lidgren.Network;
 using BirdWarsTest.Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class RegisterUserMessage : IGameMessage
+	public class RegisterUserMessage : IGameMessage
 	{
 		public RegisterUserMessage( NetIncomingMessage incomingMessage )
 		{
+			User = new User();
 			Decode( incomingMessage );
 		}
 
 		public RegisterUserMessage( User newUser )
 		{
+			User = new User( newUser );
 			name = newUser.Names;
 			lastNames = newUser.LastName;
 			username = newUser.Username;
@@ -23,7 +22,7 @@ namespace BirdWarsTest.Network.Messages
 		}
 		public GameMessageTypes messageType
 		{
-			get { return GameMessageTypes.registerUserMessage; }
+			get { return GameMessageTypes.RegisterUserMessage; }
 		}
 
 		public void Decode( NetIncomingMessage incomingMessage )
@@ -33,6 +32,7 @@ namespace BirdWarsTest.Network.Messages
 			username = incomingMessage.ReadString();
 			email = incomingMessage.ReadString();
 			password = incomingMessage.ReadString();
+			User = new User( name, lastNames, username, email, password );
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
@@ -44,6 +44,7 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( password );
 		}
 
+		public User User { get; private set; }
 		private string name;
 		private string lastNames;
 		private string username;

@@ -84,6 +84,8 @@ namespace BirdWarsTest.States
 										     ( GameObjects[ 15 ].Position.Y + 20 ) ) );
 			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, Color.Red, "", "Fonts/BabeFont_8" ), null,
 											 Identifiers.TextGraphics, stateWidth, GameObjects[ 16 ].Position.Y + 30 ) );
+			GameObjects.Add( new GameObject( new TextGraphicsComponent( Content, Color.Blue, "", "Fonts/BabeFont_8" ), null,
+											 Identifiers.TextGraphics, stateWidth, GameObjects[ 16 ].Position.Y + 30 ) );
 		}
 
 		public override void Pause() {}
@@ -100,7 +102,6 @@ namespace BirdWarsTest.States
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			networkManager.ProcessMessages( handler );
-
 			foreach( var objects in GameObjects )
 				objects.Update( state, this );
 		}
@@ -120,6 +121,22 @@ namespace BirdWarsTest.States
 		{
 			( ( TextGraphicsComponent )GameObjects[ 17 ].Graphics ).SetText( errorMessage );
 			GameObjects[ 17 ].RecenterXWidth( stateWidth );
+		}
+
+		public override void SetMessage( string message )
+		{
+			( ( TextGraphicsComponent )GameObjects[ 18 ].Graphics ).SetText( message );
+			GameObjects[ 18 ].RecenterXWidth( stateWidth );
+		}
+
+		public override void ClearTextAreas()
+		{
+			GameObjects[ 6 ].Input.ClearText();
+			GameObjects[ 8 ].Input.ClearText();
+			GameObjects[ 10 ].Input.ClearText();
+			GameObjects[ 12 ].Input.ClearText();
+			GameObjects[ 14 ].Input.ClearText();
+			GameObjects[ 16 ].Input.ClearText();
 		}
 
 		public List<GameObject> GameObjects { get; set; }

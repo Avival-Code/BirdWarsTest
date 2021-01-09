@@ -101,13 +101,13 @@ namespace BirdWarsTest.Utilities
 			return password.Equals( confirmPassword );
 		}
 
-		private const int minNameCount = 5;
-		private const int maxNameCount = 15;
-		private const int minLastNameCount = 8;
+		private const int minNameCount = 3;
+		private const int maxNameCount = 20;
+		private const int minLastNameCount = 3;
 		private const int maxLastNameCount = 25;
-		private const int minUsernameCount = 5;
+		private const int minUsernameCount = 3;
 		private const int maxUsernameCount = 25;
-		private const int minEmailCount = 10;
+		private const int minEmailCount = 4;
 		private const int maxEmailCount = 40;
 		private const int minPasswordCount = 8;
 		private const int maxPasswordCount = 20;

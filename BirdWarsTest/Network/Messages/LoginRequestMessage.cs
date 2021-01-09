@@ -1,11 +1,8 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class LoginRequestMessage : IGameMessage
+	public class LoginRequestMessage : IGameMessage
 	{
 		public LoginRequestMessage( NetIncomingMessage incomingMessage )
 		{
@@ -14,8 +11,8 @@ namespace BirdWarsTest.Network.Messages
 
 		public LoginRequestMessage( string emailIn, string passwordIn )
 		{
-			email = emailIn;
-			password = passwordIn;
+			Email = emailIn;
+			Password = passwordIn;
 		}
 
 		public GameMessageTypes messageType
@@ -25,17 +22,17 @@ namespace BirdWarsTest.Network.Messages
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			email = incomingMessage.ReadString();
-			password = incomingMessage.ReadString();
+			Email = incomingMessage.ReadString();
+			Password = incomingMessage.ReadString();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( email );
-			outgoingMessage.Write( password );
+			outgoingMessage.Write( Email );
+			outgoingMessage.Write( Password );
 		}
 
-		private string email;
-		private string password;
+		public string Email { get; private set; }
+		public string Password { get; private set; }
 	}
 }

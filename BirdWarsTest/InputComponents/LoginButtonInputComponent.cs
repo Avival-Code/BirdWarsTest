@@ -26,7 +26,6 @@ namespace BirdWarsTest.InputComponents
 			{
 				handler.networkManager.Login( loginEvents.Email, loginEvents.Password );
 				loginEvents.ResetArgs();
-				HostChangeState();
 			}
 		}
 
@@ -49,21 +48,6 @@ namespace BirdWarsTest.InputComponents
 					loginEvents.Email = ( ( LoginState ) gameState ).GameObjects[ 7 ].Input.GetTextWithoutVisualCharacter();
 					loginEvents.Password = ( ( LoginState ) gameState ).GameObjects[ 9 ].Input.GetTextWithoutVisualCharacter();
 					click?.Invoke( this, loginEvents );
-				}
-			}
-		}
-
-		private void HostChangeState()
-		{
-			if( handler.networkManager.IsHost() )
-			{
-				if( ( ( ServerNetworkManager )handler.networkManager ).UserSession.IsLoggedIn )
-				{
-					handler.ChangeState( StateTypes.MainMenuState );
-				}
-				else
-				{
-					handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.LoginDenied ) );
 				}
 			}
 		}

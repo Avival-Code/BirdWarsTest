@@ -51,6 +51,16 @@
 		LastNamesInvalid,
 		UsernameInvalid,
 		PasswordsDoNotMatch,
-		SendMessage
+		SendMessage,
+		EmailBodyMessage,
+		RegistrationSuccessful,
+		RegistrationFailed,
+		PasswordReset,
+		PasswordResetEmailBody,
+		PasswordEmailSuccess,
+		PasswordEmailFailure,
+		PasswordResetSuccessful,
+		PasswordCodesDoNotMatch,
+		PasswordChangeNotAsked
 	}
 }

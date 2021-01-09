@@ -1,11 +1,8 @@
 ﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class SolicitPasswordResetMessage : IGameMessage
+	public class SolicitPasswordResetMessage : IGameMessage
 	{
 		public SolicitPasswordResetMessage( NetIncomingMessage incomingMessage )
 		{
@@ -14,24 +11,24 @@ namespace BirdWarsTest.Network.Messages
 
 		public SolicitPasswordResetMessage( string emailIn )
 		{
-			email = emailIn;
+			Email = emailIn;
 		}
 
 		public GameMessageTypes messageType 
 		{ 
-			get { return GameMessageTypes.SolicitPasswordResetmessage; }
+			get { return GameMessageTypes.SolicitPasswordResetMessage; }
 		}
 
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			email = incomingMessage.ReadString();
+			Email = incomingMessage.ReadString();
 		}
 
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( email );
+			outgoingMessage.Write( Email );
 		}
 
-		private string email;
+		public string Email { get; private set; }
 	}
 }

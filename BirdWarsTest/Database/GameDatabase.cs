@@ -9,6 +9,15 @@
 			Inventories = new InventoryDAO();
 		}
 
+		public void UpdateUserPassword( string email, string newPassword )
+		{
+			var user = Users.Read( email );
+			if( user != null )
+			{
+				Users.Update( user.UserId, user.Names, user.LastName, user.Username, user.Email, newPassword );
+			}
+		}
+
 		public void UpdateUserInformation( User userIn, Account accountIn )
 		{
 			Users.Update( userIn.UserId, userIn.Names, userIn.LastName, userIn.Username, userIn.Email, userIn.Password );

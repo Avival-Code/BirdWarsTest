@@ -24,11 +24,12 @@ namespace BirdWarsTest.Network
 
 		public void Login( string email, string password )
 		{
-			if( gameDatabase.Users.Read( email, password ) != null )
-			{
-				var user = gameDatabase.Users.Read( email, password );
-				UserSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
-			}
+			LoginRequestMessage loginMessage = new LoginRequestMessage( email, password );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )loginMessage.messageType );
+			loginMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
 		public void Logout()
@@ -164,6 +165,18 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.RoundFinishedMessage:
 								HandleRoundFinishedMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.RegisterUserMessage:
+								HandleSelfRegisterUserMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.LoginRequestMessage:
+								HandleSelfLoginMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.SolicitPasswordResetMessage:
+								HandleSelfSolicitPasswordResetMessage( handler, incomingMessage );
+								break;
+							case GameMessageTypes.PasswordResetMessage:
+								HandleSelfPasswordResetMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 					case NetIncomingMessageType.Data:
@@ -173,8 +186,8 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.LoginRequestMessage:
 								HandleLoginRequestMessages( handler, incomingMessage );
 								break;
-							case GameMessageTypes.registerUserMessage:
-								HandleRegisterUserMessage( incomingMessage );
+							case GameMessageTypes.RegisterUserMessage:
+								HandleRegisterUserMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.JoinRoundRequestMessage:
 								HandleJoinRoundRequestMessage( incomingMessage );
@@ -182,11 +195,11 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.ChatMessage:
 								HandleChatMessage( handler, incomingMessage );
 								break;
-							case GameMessageTypes.SolicitPasswordResetmessage:
-								HandleSolicitPasswordResetMessage( incomingMessage );
+							case GameMessageTypes.SolicitPasswordResetMessage:
+								HandleSolicitPasswordResetMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.PasswordResetMessage:
-								HandlePasswordResetMessage( incomingMessage );
+								HandlePasswordResetMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.PlayerStateChangeMessage:
 								HandlePlayerStateChangeMessage( handler, incomingMessage );
@@ -216,11 +229,27 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private void HandleSelfLoginMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			LoginRequestMessage loginMessage = new LoginRequestMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( loginMessage.Email, loginMessage.Password );
+			if( user != null && user.Password.Equals( loginMessage.Password ) )
+			{
+				UserSession.Login( user, gameDatabase.Accounts.Read( user.UserId ) );
+				handler.ChangeState( StateTypes.MainMenuState );
+			}
+			else
+			{
+				( ( LoginState )handler.GetCurrentState() ).SetErrorMessage( 
+							    handler.StringManager.GetString( StringNames.LoginDenied ) );
+			}
+		}
+
 		private void HandleLoginRequestMessages( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			var user = gameDatabase.Users.Read( incomingMessage.ReadString(),
-											    incomingMessage.ReadString() );
-			if( user != null )
+			LoginRequestMessage loginMessage = new LoginRequestMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( loginMessage.Email, loginMessage.Password );
+			if( user != null && user.Password.Equals( loginMessage.Password ) )
 			{
 				LoginResultMessage loginResult = new LoginResultMessage( true, handler.StringManager.GetString( StringNames.LoginApproved ),
 																		 user, gameDatabase.Accounts.Read( user.UserId ) );
@@ -244,31 +273,158 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		private void HandleRegisterUserMessage( NetIncomingMessage incomingMessage )
+		private void HandleSelfRegisterUserMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			var user = new User( incomingMessage.ReadString(), incomingMessage.ReadString(),
-								 incomingMessage.ReadString(), incomingMessage.ReadString(),
-								 incomingMessage.ReadString() );
-			gameDatabase.Users.Create( user );
-			var userWithId = gameDatabase.Users.Read( user.Email, user.Password );
-			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0, 300 ) );
-			emailManager.SendEmailMessage( userWithId.Names, userWithId.Email, "Registration", 
-										   ( "Thank you for completing the registration process! Your account " +
-										   "has been created!" ) );
+			RegisterUserMessage registerUser = new RegisterUserMessage( incomingMessage );
+			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
+			{
+				gameDatabase.Users.Create( registerUser.User );
+				gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+				emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
+											   handler.StringManager.GetString( StringNames.Registration),
+											   handler.StringManager.GetString( StringNames.EmailBodyMessage) );
+				( ( UserRegistryState )handler.GetCurrentState() ).SetMessage( 
+									   handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
+				handler.GetCurrentState().ClearTextAreas();
+			}
+			else
+			{
+				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
+									   handler.StringManager.GetString( StringNames.RegistrationFailed ) );
+			}
+		}
+
+		private void HandleRegisterUserMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			RegisterUserMessage registerUser = new RegisterUserMessage( incomingMessage );
+			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
+			{
+				gameDatabase.Users.Create( registerUser.User );
+				gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+				emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
+											   handler.StringManager.GetString( StringNames.Registration ),
+											   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
+				RegistrationResultMessage resultMessage = new RegistrationResultMessage( 
+												          handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
+				NetOutgoingMessage outgoingMessage = CreateMessage();
+				outgoingMessage.Write( ( byte )resultMessage.messageType );
+				resultMessage.Encode( outgoingMessage );
+				incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
+															  incomingMessage.SequenceChannel );
+			}
+			else
+			{
+				RegistrationResultMessage resultMessage = new RegistrationResultMessage(
+														  handler.StringManager.GetString( StringNames.RegistrationFailed ) );
+				NetOutgoingMessage outgoingMessage = CreateMessage();
+				outgoingMessage.Write( ( byte )resultMessage.messageType );
+				resultMessage.Encode( outgoingMessage );
+				incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
+															  incomingMessage.SequenceChannel );
+			}
+		}
+
+		private void HandleSelfSolicitPasswordResetMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			SolicitPasswordResetMessage solicitMessage = new SolicitPasswordResetMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( solicitMessage.Email );
+			if( user != null )
+			{
+				ChangeManager.SetChangeCode( solicitMessage.Email );
+				emailManager.SendEmailMessage( user.Names, user.Email, handler.StringManager.GetString( StringNames.PasswordReset ),
+											   handler.StringManager.GetString( StringNames.PasswordResetEmailBody ) +
+											   ChangeManager.GetResetCode( user.Email ) + "." );
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetMessage( 
+										   handler.StringManager.GetString( StringNames.PasswordEmailSuccess ) );
+			}
+			else
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetErrorMessage(
+										   handler.StringManager.GetString( StringNames.PasswordEmailFailure ) );
+			}
+		}
+
+		private void HandleSolicitPasswordResetMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			SolicitPasswordResetMessage solicitMessage = new SolicitPasswordResetMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( solicitMessage.Email );
+			SolicitPasswordResultMessage resultMessage;
+			if( user != null )
+			{
+				ChangeManager.SetChangeCode( solicitMessage.Email );
+				emailManager.SendEmailMessage( user.Names, user.Email, handler.StringManager.GetString( StringNames.PasswordReset ),
+											   handler.StringManager.GetString( StringNames.PasswordResetEmailBody ) +
+											   ChangeManager.GetResetCode( user.Email ) + "." );
+				resultMessage = new SolicitPasswordResultMessage(
+											 handler.StringManager.GetString( StringNames.PasswordEmailSuccess ) );
+			}
+			else
+			{
+				resultMessage = new SolicitPasswordResultMessage(
+											 handler.StringManager.GetString( StringNames.PasswordEmailFailure ) );
+			}
+
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( "Registration successfull." );
-			incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered, 
-														  incomingMessage.SequenceChannel );
+			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			resultMessage.Encode( outgoingMessage );
+
+			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
 		}
 
-		private void HandleSolicitPasswordResetMessage( NetIncomingMessage incomingMessage )
+		private void HandleSelfPasswordResetMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			SendPasswordChangeMessage( incomingMessage.ReadString() );
+			PasswordResetMessage resetMessage = new PasswordResetMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( resetMessage.Email );
+			if (user != null && ChangeManager.PasswordChangeWasSolicited(resetMessage.Email))
+			{
+				if (ChangeManager.ResetPassword(gameDatabase, resetMessage.Email, resetMessage.Password, resetMessage.Code))
+				{
+					( ( PasswordRecoveryState )handler.GetCurrentState() ).SetMessage(
+									handler.StringManager.GetString( StringNames.PasswordResetSuccessful ) );
+					handler.GetCurrentState().ClearTextAreas();
+				}
+				else
+				{
+					( ( PasswordRecoveryState )handler.GetCurrentState() ).SetErrorMessage(
+									handler.StringManager.GetString( StringNames.PasswordCodesDoNotMatch ) );
+				}
+			}
+			else
+			{
+				( ( PasswordRecoveryState )handler.GetCurrentState() ).SetErrorMessage(
+									handler.StringManager.GetString( StringNames.PasswordChangeNotAsked ) );
+			}
 		}
 
-		private void HandlePasswordResetMessage( NetIncomingMessage incomingMessage )
+		private void HandlePasswordResetMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			UpdatePassword( incomingMessage.ReadString(), incomingMessage.ReadString() );
+			PasswordResetMessage resetMessage = new PasswordResetMessage( incomingMessage );
+			var user = gameDatabase.Users.Read( resetMessage.Email );
+			PasswordResetResultMessage resultMessage;
+			if( user != null && ChangeManager.PasswordChangeWasSolicited( resetMessage.Email ) )
+			{
+				if( ChangeManager.ResetPassword( gameDatabase, resetMessage.Email, resetMessage.Password, resetMessage.Code ) )
+				{
+					resultMessage = new PasswordResetResultMessage( 
+									handler.StringManager.GetString( StringNames.PasswordResetSuccessful ) );
+				}
+				else
+				{
+					resultMessage = new PasswordResetResultMessage(
+									handler.StringManager.GetString( StringNames.PasswordCodesDoNotMatch ) );
+				}
+			}
+			else
+			{
+				resultMessage = new PasswordResetResultMessage(
+									handler.StringManager.GetString( StringNames.PasswordChangeNotAsked ) );
+			}
+
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			resultMessage.Encode( outgoingMessage );
+
+			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -496,23 +652,23 @@ namespace BirdWarsTest.Network
 
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
-			gameDatabase.Users.Create( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) );
-			var user = gameDatabase.Users.Read( emailIn, passwordIn );
-			gameDatabase.Accounts.Create( new Account( 0, user.UserId, 0, 0, 0, 0, 0, 0 ) );
-			emailManager.SendEmailMessage( user.Names, user.Email, "Registration",
-										   ( "Thank you for completing the registration process! Your account " +
-										     "has been created!" ) );
+			var user = new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn );
+			RegisterUserMessage registerUserMessage = new RegisterUserMessage( user );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )registerUserMessage.messageType );
+			registerUserMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
 		public void SendPasswordChangeMessage( string emailIn )
 		{
-			var user = gameDatabase.Users.Read( emailIn );
-			if( user != null )
-			{
-				ChangeManager.SetChangeCode( emailIn );
-				emailManager.SendEmailMessage( user.Names, user.Email, "Password Reset", 
-											   "Your password reset code is: " + ChangeManager.ChangeCode + "." );
-			}
+			SolicitPasswordResetMessage solicitMessage = new SolicitPasswordResetMessage( emailIn );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )solicitMessage.messageType );
+			solicitMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
 		public void SendPlayerStateChangeMessage( GameObject player )
@@ -639,13 +795,14 @@ namespace BirdWarsTest.Network
 			netServer.SendUnconnectedToSelf( serverOutgoingMessage );
 		}
 
-		public void UpdatePassword( string code, string password )
+		public void UpdatePassword( string code, string email, string password )
 		{
-			if( ChangeManager.PasswordChangeWasSolicited && code.Equals( ChangeManager.ChangeCode.ToString() ) )
-			{
-				var user = gameDatabase.Users.Read( ChangeManager.TargetUserEmail );
-				gameDatabase.Users.Update( user.UserId, user.Names, user.LastName, user.Username, user.Email, password );
-			}
+			PasswordResetMessage resetMessage = new PasswordResetMessage( code, email, password );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )resetMessage.messageType );
+			resetMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
 		public void CreateRound()

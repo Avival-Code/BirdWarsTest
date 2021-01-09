@@ -24,6 +24,8 @@ namespace BirdWarsTest.GraphicComponents
 
 		virtual public void SetText( string newText ) {}
 
+		virtual public void ClearText() {}
+
 		protected Texture2D texture;
 	}
 }

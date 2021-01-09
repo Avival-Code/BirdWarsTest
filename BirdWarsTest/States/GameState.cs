@@ -45,6 +45,10 @@ namespace BirdWarsTest.States
 
 		public virtual void SetErrorMessage( string errorMessage ) {}
 
+		public virtual void SetMessage( string message ) {}
+
+		public virtual void ClearTextAreas() {}
+
 		public Microsoft.Xna.Framework.Content.ContentManager Content { get; }
 
 		protected GraphicsDeviceManager graphics;
