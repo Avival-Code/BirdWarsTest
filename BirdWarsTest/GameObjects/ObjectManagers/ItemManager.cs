@@ -302,8 +302,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		private Vector2 GetRandomMapPosition()
 		{
-			return new Vector2( randomNumberGenerator.Next( mapBounds.X, mapBounds.Width - 50 ),
-								randomNumberGenerator.Next( mapBounds.Y, mapBounds.Height - 50 ) );
+			return new Vector2( randomNumberGenerator.Next( mapBounds.X, mapBounds.Width - 66 ),
+								randomNumberGenerator.Next( mapBounds.Y, mapBounds.Height - 56 ) );
 		}
 
 		private Vector2 GetRandomLocalBoxPosition( GameObject box )

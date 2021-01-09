@@ -12,7 +12,7 @@ namespace BirdWarsTest.InputComponents
 			Direction = directionIn;
 			playerSpeed = playerSpeedIn;
 			GrenadeSpeed = playerSpeed * 2.0f;
-			grenadeTimer = 0.75f;
+			grenadeTimer = 0.45f;
 		}
 
 		public override void HandleInput( GameObject gameObject, GameTime gameTime )
