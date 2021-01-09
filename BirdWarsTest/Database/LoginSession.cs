@@ -38,7 +38,7 @@
 										   int remainingRoundTime )
 		{
 			CurrentAccount.TotalMatchesPlayed += 1;
-			if( didLocalPlayerWin )
+			if( didLocalPlayerWin && !isLocalPlayerDead )
 			{
 				CurrentAccount.MatchesWon += 1;
 			}
@@ -55,13 +55,14 @@
 
 		private void SetShortestTime( int remainingRoundTime )
 		{
-			if( CurrentAccount.Seconds < CalculateShortestTime( remainingRoundTime ) )
+			int roundTime = CalculateRoundTime( remainingRoundTime );
+			if ( CurrentAccount.Seconds <= roundTime )
 			{
-				CurrentAccount.Seconds = CalculateShortestTime( remainingRoundTime );
+				CurrentAccount.Seconds = roundTime;
 			}
 		}
 
-		private int CalculateShortestTime( int remainingRoundTime )
+		private int CalculateRoundTime( int remainingRoundTime )
 		{
 			return 300 - remainingRoundTime;
 		}

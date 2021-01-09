@@ -251,13 +251,13 @@ namespace BirdWarsTest.Network
 								 incomingMessage.ReadString() );
 			gameDatabase.Users.Create( user );
 			var userWithId = gameDatabase.Users.Read( user.Email, user.Password );
-			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0, 0 ) );
+			gameDatabase.Accounts.Create( new Account( 0, userWithId.UserId, 0, 0, 0, 0, 0, 300 ) );
 			emailManager.SendEmailMessage( userWithId.Names, userWithId.Email, "Registration", 
 										   ( "Thank you for completing the registration process! Your account " +
 										   "has been created!" ) );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( "Registration successfull." );
-			incomingMessage.SenderConnection.SendMessage( outgoingMessage,  NetDeliveryMethod.ReliableUnordered, 
+			incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered, 
 														  incomingMessage.SequenceChannel );
 		}
 
