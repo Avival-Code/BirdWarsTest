@@ -66,21 +66,49 @@ namespace BirdWarsTest.GraphicComponents
 				( int )gameObject.Input.GetLastActiveVelocity().Y > 0 )
 			{
 				batch.Draw( texture, new Vector2( gameObject.Position.X - cameraBounds.Left,
-														gameObject.Position.Y - cameraBounds.Top ), Color.White );
+												  gameObject.Position.Y - cameraBounds.Top ), Color.White );
 			}
 
 			if( ( int )gameObject.Input.GetLastActiveVelocity().X < 0 &&
 				( int )gameObject.Input.GetLastActiveVelocity().Y == 0 )
 			{
 				batch.Draw( leftTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
-														gameObject.Position.Y - cameraBounds.Top ), Color.White );
+													  gameObject.Position.Y - cameraBounds.Top ), Color.White );
 			}
 
 			if( ( int )gameObject.Input.GetLastActiveVelocity().X > 0 &&
 				( int )gameObject.Input.GetLastActiveVelocity().Y == 0 )
 			{
 				batch.Draw( rightTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
-														gameObject.Position.Y - cameraBounds.Top ), Color.White );
+													   gameObject.Position.Y - cameraBounds.Top ), Color.White );
+			}
+
+			if( ( int )gameObject.Input.GetLastActiveVelocity().X < 0 &&
+				( int )gameObject.Input.GetLastActiveVelocity().Y < 0 )
+			{
+				batch.Draw( leftTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
+													  gameObject.Position.Y - cameraBounds.Top ), Color.White );
+			}
+
+			if( ( int )gameObject.Input.GetLastActiveVelocity().X > 0 &&
+				( int )gameObject.Input.GetLastActiveVelocity().Y < 0 )
+			{
+				batch.Draw( rightTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
+													   gameObject.Position.Y - cameraBounds.Top ), Color.White );
+			}
+
+			if( ( int )gameObject.Input.GetLastActiveVelocity().X < 0 &&
+				( int )gameObject.Input.GetLastActiveVelocity().Y > 0 )
+			{
+				batch.Draw( leftTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
+													  gameObject.Position.Y - cameraBounds.Top ), Color.White );
+			}
+
+			if( ( int )gameObject.Input.GetLastActiveVelocity().X > 0 &&
+				( int )gameObject.Input.GetLastActiveVelocity().Y > 0 )
+			{
+				batch.Draw( rightTexture, new Vector2( gameObject.Position.X - cameraBounds.Left,
+													   gameObject.Position.Y - cameraBounds.Top ), Color.White );
 			}
 		}
 

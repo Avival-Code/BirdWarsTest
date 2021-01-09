@@ -1,4 +1,7 @@
-﻿namespace BirdWarsTest.HealthComponents
+﻿using BirdWarsTest.GameObjects;
+using Microsoft.Xna.Framework;
+
+namespace BirdWarsTest.HealthComponents
 {
 	public class HealthComponent
 	{
@@ -60,6 +63,12 @@
 					TookDamage = false;
 				}
 			}
+		}
+
+		public Rectangle GetPlayerHitBox( GameObject gameObject )
+		{
+			Rectangle playerHitBox = new Rectangle( 0, 0, 0, 0 );
+			return playerHitBox;
 		}
 
 		public int Health { get; private set; }

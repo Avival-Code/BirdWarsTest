@@ -127,7 +127,80 @@ namespace BirdWarsTest.InputComponents
 				velocityChanged = true;
 			}
 
+			velocityChanged = HandleDiagonalPlayerMovement();
+
 			velocity *= playerSpeed;
+
+			return velocityChanged;
+		}
+
+		private bool HandleDiagonalPlayerMovement()
+		{
+			bool velocityChanged = false;
+
+			if( IsKeyDown( Keys.Up ) && IsKeyDown( Keys.Right ) )
+			{
+				velocity = new Vector2( 1.0f, -1.0f );
+				LastActiveVelocity = velocity;
+				if( IsKeyPressed( Keys.Up ) && IsKeyPressed( Keys.Right ) )
+				{
+					velocityChanged = true;
+				}
+			}
+
+			if( IsKeyReleased( Keys.Up ) && IsKeyReleased( Keys.Right ) )
+			{
+				velocity = new Vector2( 0.0f, 0.0f );
+				velocityChanged = true;
+			}
+
+			if( IsKeyDown( Keys.Up ) && IsKeyDown( Keys.Left ) )
+			{
+				velocity = new Vector2( -1.0f, -1.0f );
+				LastActiveVelocity = velocity;
+				if( IsKeyPressed( Keys.Up ) && IsKeyPressed( Keys.Left ) )
+				{
+					velocityChanged = true;
+				}
+			}
+
+			if( IsKeyReleased( Keys.Up ) && IsKeyReleased( Keys.Left ) )
+			{
+				velocity = new Vector2( 0.0f, 0.0f );
+				velocityChanged = true;
+			}
+
+			if( IsKeyDown( Keys.Down ) && IsKeyDown( Keys.Right ) )
+			{
+				velocity = new Vector2( 1.0f, 1.0f );
+				LastActiveVelocity = velocity;
+				if( IsKeyPressed( Keys.Down ) && IsKeyPressed( Keys.Right ) )
+				{
+					velocityChanged = true;
+				}
+			}
+
+			if( IsKeyReleased( Keys.Down ) && IsKeyReleased( Keys.Right ) )
+			{
+				velocity = new Vector2( 0.0f, 0.0f );
+				velocityChanged = true;
+			}
+
+			if( IsKeyDown( Keys.Down ) && IsKeyDown( Keys.Left ) )
+			{
+				velocity = new Vector2( -1.0f, 1.0f );
+				LastActiveVelocity = velocity;
+				if( IsKeyPressed( Keys.Down ) && IsKeyPressed( Keys.Left ) )
+				{
+					velocityChanged = true;
+				}
+			}
+
+			if( IsKeyReleased( Keys.Down ) && IsKeyReleased( Keys.Left ) )
+			{
+				velocity = new Vector2( 0.0f, 0.0f );
+				velocityChanged = true;
+			}
 
 			return velocityChanged;
 		}
