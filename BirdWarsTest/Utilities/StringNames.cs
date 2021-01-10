@@ -62,6 +62,13 @@
 		PasswordEmailFailure,
 		PasswordResetSuccessful,
 		PasswordCodesDoNotMatch,
-		PasswordChangeNotAsked
+		PasswordChangeNotAsked,
+		IpAddress,
+		Port,
+		Connect,
+		IAmTheServer,
+		ConnectionSuccessful,
+		AddressInvalid,
+		PortInvalid
 	}
 }

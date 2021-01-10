@@ -13,6 +13,8 @@ namespace BirdWarsTest.Network
 
 		void Logout();
 
+		void ConnectToSpecificServer( StateHandler handler, string address, string port );
+
 		LoginSession GetLoginSession();
 
 		void RegisterUser( string nameIn, string lastNameIn, string usernameIn,

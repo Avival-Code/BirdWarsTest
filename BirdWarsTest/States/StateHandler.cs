@@ -19,7 +19,7 @@ namespace BirdWarsTest.States
 			gameStates[ 3 ] = new MainMenuState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
 			gameStates[ 4 ] = new WaitingRoomState( content, gameWindow, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
 			gameStates[ 5 ] = new PlayState( content, ref graphics, ref networkManagerIn, stateWidth, stateHeight );
-			gameStates[ 6 ] = new OptionsState( content, ref graphics, ref networkManagerIn, configWidth, configHeight );
+			gameStates[ 6 ] = new OptionsState( content, gameWindow, ref graphics, ref networkManagerIn, configWidth, configHeight );
 			gameStates[ 7 ] = new StatisticsState( content, ref graphics, ref networkManagerIn, registerWidth, registerHeight );
 		}
 

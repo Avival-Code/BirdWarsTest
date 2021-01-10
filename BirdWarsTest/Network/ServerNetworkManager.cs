@@ -37,6 +37,12 @@ namespace BirdWarsTest.Network
 			UserSession.Logout();
 		}
 
+		public void ConnectToSpecificServer( StateHandler handler, string address, string port )
+		{
+			( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).SetMessage( 
+							  handler.StringManager.GetString( StringNames.IAmTheServer ) );
+		}
+
 		public LoginSession GetLoginSession()
 		{
 			return UserSession;
@@ -186,6 +192,9 @@ namespace BirdWarsTest.Network
 						var gameMessageType = ( GameMessageTypes )incomingMessage.ReadByte();
 						switch( gameMessageType )
 						{
+							case GameMessageTypes.TestConnectionMessage:
+								HandleTestConnectionMessage( handler, incomingMessage );
+								break;
 							case GameMessageTypes.LoginRequestMessage:
 								HandleLoginRequestMessages( handler, incomingMessage );
 								break;
@@ -235,6 +244,17 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private void HandleTestConnectionMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			TestConnectionMessage testMessage = new TestConnectionMessage( 
+												handler.StringManager.GetString( StringNames.ConnectionSuccessful ) );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )testMessage.messageType );
+			testMessage.Encode( outgoingMessage );
+
+			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
+		}
+
 		private void HandleSelfLoginMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			LoginRequestMessage loginMessage = new LoginRequestMessage( incomingMessage );
@@ -279,7 +299,7 @@ namespace BirdWarsTest.Network
 			RegisterUserMessage registerUser = new RegisterUserMessage( incomingMessage );
 			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
 			{
-				if( gameDatabase.Users.Read( registerUser.User.Username ) == null )
+				if( !gameDatabase.DoesUsernameExist( registerUser.User.Username ) )
 				{
 					gameDatabase.Users.Create( registerUser.User );
 					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
@@ -309,7 +329,7 @@ namespace BirdWarsTest.Network
 			RegistrationResultMessage resultMessage;
 			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
 			{
-				if( gameDatabase.Users.Read( registerUser.User.Username ) == null )
+				if( !gameDatabase.DoesUsernameExist( registerUser.User.Username ) )
 				{
 					gameDatabase.Users.Create( registerUser.User );
 					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
@@ -322,7 +342,7 @@ namespace BirdWarsTest.Network
 				else
 				{
 					resultMessage = new RegistrationResultMessage(
-															  handler.StringManager.GetString( StringNames.UsernameAlreadyExists ) )
+															  handler.StringManager.GetString( StringNames.UsernameAlreadyExists ) );
 				}
 			}
 			else

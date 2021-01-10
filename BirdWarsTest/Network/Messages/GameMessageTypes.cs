@@ -28,6 +28,7 @@
 		RoundFinishedMessage,
 		RegistrationResultMessage,
 		PlayerIsDeadMessage,
-		ExitWaitingRoomMessage
+		ExitWaitingRoomMessage,
+		TestConnectionMessage
 	}
 }

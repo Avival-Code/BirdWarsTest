@@ -1,4 +1,6 @@
-﻿namespace BirdWarsTest.Database
+﻿using System.Collections.Generic;
+
+namespace BirdWarsTest.Database
 {
 	public class GameDatabase
 	{
@@ -23,6 +25,20 @@
 			Users.Update( userIn.UserId, userIn.Names, userIn.LastName, userIn.Username, userIn.Email, userIn.Password );
 			Accounts.Update( userIn.UserId, accountIn.TotalMatchesPlayed, accountIn.MatchesWon, accountIn.MatchesLost,
 							 accountIn.MatchesSurvived, accountIn.Money, accountIn.Seconds );
+		}
+
+		public bool DoesUsernameExist( string username )
+		{
+			bool usernameExists = false;
+			List< User > listOfUsers = Users.ReadAll();
+			foreach( var user in listOfUsers )
+			{
+				if( user.Username.Equals( username ) )
+				{
+					usernameExists = true;
+				}
+			}
+			return usernameExists;
 		}
 
 		public UserDAO Users { get; set; }

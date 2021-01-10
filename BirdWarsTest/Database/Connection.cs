@@ -33,7 +33,7 @@ namespace BirdWarsTest.Database
 				connection.Open();
 				Console.WriteLine( "Database Connection Successfull!" );
 			}
-			catch( Exception exception)
+			catch( MySqlException exception)
 			{
 				Console.WriteLine( "Database Connection Failed!" );
 				Console.WriteLine( exception.Message );
@@ -47,7 +47,7 @@ namespace BirdWarsTest.Database
 				connection.Close();
 				Console.WriteLine( "Database Connection closed!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}

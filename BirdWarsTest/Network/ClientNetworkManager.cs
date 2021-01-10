@@ -28,6 +28,12 @@ namespace BirdWarsTest.Network
 			UserSession.Logout();
 		}
 
+		public void ConnectToSpecificServer( StateHandler handler, string address, string port )
+		{
+			netClient.Disconnect( "" );
+			netClient.Connect( new IPEndPoint( NetUtility.Resolve( address ), Convert.ToInt32( port ) ) );
+		}
+
 		public LoginSession GetLoginSession()
 		{
 			return UserSession;
@@ -49,7 +55,7 @@ namespace BirdWarsTest.Network
 			config.EnableMessageType( NetIncomingMessageType.ConnectionApproval );
 			config.EnableMessageType( NetIncomingMessageType.StatusChanged );
 
-			netClient = new NetClient(config);
+			netClient = new NetClient( config );
 			netClient.Start();
 
 			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ) );
@@ -103,8 +109,6 @@ namespace BirdWarsTest.Network
 			}
 		}
 
-		public User GetUser( string email, string password ) { return null; }
-
 		public NetConnectionStatus GetConnectionState()
 		{
 			return netClient.ConnectionStatus;
@@ -133,6 +137,7 @@ namespace BirdWarsTest.Network
 						{
 							case NetConnectionStatus.Connected:
 								Console.WriteLine( "Connected to {0}", incomingMessage.SenderEndPoint );
+								SendMessage( new TestConnectionMessage( "" ) );
 								break;
 							case NetConnectionStatus.Disconnected:
 								Console.WriteLine( incomingMessage.ReadString() );
@@ -146,6 +151,9 @@ namespace BirdWarsTest.Network
 						var gameMessageType = ( GameMessageTypes )incomingMessage.ReadByte();
 						switch( gameMessageType )
 						{
+							case GameMessageTypes.TestConnectionMessage:
+								HandleTestConnectionMessage( handler, incomingMessage );
+								break;
 							case GameMessageTypes.LoginResultMessage:
 								HandleLoginResultMessage( handler, incomingMessage );
 								break;
@@ -208,6 +216,12 @@ namespace BirdWarsTest.Network
 				}
 				Recycle( incomingMessage );
 			}
+		}
+
+		private void HandleTestConnectionMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			TestConnectionMessage testMessage = new TestConnectionMessage( incomingMessage );
+			( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).SetMessage( testMessage.Result );
 		}
 
 		private void HandleLoginResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )

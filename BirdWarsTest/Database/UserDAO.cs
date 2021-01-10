@@ -97,36 +97,6 @@ namespace BirdWarsTest.Database
 			return temp;
 		}
 
-		public User Read( string username )
-		{
-			User temp = null;
-			Connection connection = new Connection();
-			connection.StartConnection();
-
-			try
-			{
-				string MySqlCommandText = "SELECT * FROM Users WHERE username = @username";
-				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
-				MySqlParameter parameter = new MySqlParameter( "@username", username );
-				command.Parameters.Add( parameter );
-				MySqlDataReader reader = command.ExecuteReader();
-
-				if( reader.HasRows && reader.Read() )
-				{
-					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
-									 reader.GetString( 4 ), reader.GetString( 5 ) );
-				}
-				reader.Close();
-			}
-			catch( MySqlException exception )
-			{
-				Console.WriteLine( exception.Message );
-			}
-
-			connection.StopConnection();
-			return temp;
-		}
-
 		public User Read( string email, string password )
 		{
 			User temp = null;

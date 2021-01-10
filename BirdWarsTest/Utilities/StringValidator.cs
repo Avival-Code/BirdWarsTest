@@ -51,6 +51,55 @@ namespace BirdWarsTest.Utilities
 					 !HasSpaces( password ) && IsPasswordAndConfirmEqual( password, confirmPassword ) );
 		}
 
+		public bool IsAddressValid( string address )
+		{
+			return ( IsAddressValidSize( address ) && IsValidAddress( address ) && HasValidAddressOrPortValues( address ) );
+		}
+
+		public bool IsPortValid( string port )
+		{
+			return HasValidAddressOrPortValues( port );
+		}
+
+		private bool IsAddressValidSize( string address )
+		{
+			return ( address.Length >= minAddressSize && address.Length <= maxAddressSize );
+		}
+
+		private bool IsValidAddress( string address )
+		{
+			bool isValidAddress = false;
+			int totalPeriods = 0;
+			foreach( var letter in address )
+			{
+				if( letter == '.' )
+				{
+					totalPeriods += 1;
+				}
+			}
+
+			if( totalPeriods == 3 )
+			{
+				isValidAddress = true;
+			}
+
+			return isValidAddress;
+		}
+
+		private bool HasValidAddressOrPortValues( string addressOrPort )
+		{
+			bool hasValidValues = true;
+			foreach( var letter in addressOrPort )
+			{
+				if( letter != '.' && letter < '0' && letter > '9' )
+				{
+					hasValidValues = false;
+				}
+			}
+
+			return hasValidValues;
+		}
+
 		private bool IsStringValidSize( string input, int minSize, int maxSize )
 		{
 			return ( input.Length >= minSize && input.Length <= maxSize );
@@ -111,5 +160,7 @@ namespace BirdWarsTest.Utilities
 		private const int maxEmailCount = 40;
 		private const int minPasswordCount = 8;
 		private const int maxPasswordCount = 20;
+		private const int minAddressSize = 7;
+		private const int maxAddressSize = 15;
 	}
 }
