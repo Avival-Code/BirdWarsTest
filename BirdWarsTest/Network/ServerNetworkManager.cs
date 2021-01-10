@@ -222,6 +222,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.UpdateUserStatisticsMessage:
 								HandleUpdateUserInformationMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PlayerIsDeadMessage:
+								HandlePlayerIsDeadMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -640,6 +643,24 @@ namespace BirdWarsTest.Network
 			gameDatabase.UpdateUserInformation( updateMessage.User, updateMessage.Account );
 		}
 
+		private void HandlePlayerIsDeadMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( incomingMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
+
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )deathMessage.messageType );
+			deathMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				if( connection != incomingMessage.SenderConnection )
+				{
+					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+				}
+			}
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			var user = new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn );
@@ -783,6 +804,19 @@ namespace BirdWarsTest.Network
 			serverEndRoundMessage.Encode( serverOutgoingMessage );
 
 			netServer.SendUnconnectedToSelf( serverOutgoingMessage );
+		}
+
+		public void SendPlayerDiedMessage( Identifiers playerId )
+		{
+			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( playerId );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )deathMessage.messageType );
+			deathMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
 		}
 
 		public void UpdatePassword( string code, string email, string password )

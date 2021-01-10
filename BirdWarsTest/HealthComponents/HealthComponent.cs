@@ -67,21 +67,19 @@ namespace BirdWarsTest.HealthComponents
 
 		public Rectangle GetPlayerHitBox( GameObject gameObject )
 		{
-			Rectangle playerHitBox = new Rectangle( 0, 0, 0, 0 );
+			Rectangle playerHitBox = new Rectangle( -1000, -1000, 1, 1 );
 			if( gameObject.Input.GetLastActiveVelocity().X == 0 &&
 				gameObject.Input.GetLastActiveVelocity().Y > 0 )
 			{
 				Vector2 placeholder = new Vector2( gameObject.Position.X + 10, gameObject.Position.Y + 10 );
-				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, ( int )placeholder.X + 44, 
-											  ( int )placeholder.Y + 70 );
+				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, 44, 70 );
 			}
 
 			if( gameObject.Input.GetLastActiveVelocity().X == 0 &&
 				gameObject.Input.GetLastActiveVelocity().Y < 0 )
 			{
 				Vector2 placeholder = new Vector2( gameObject.Position.X + 10, gameObject.Position.Y + 10 );
-				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, ( int )placeholder.X + 44,
-											  ( int )placeholder.Y + 70 );
+				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, 44, 70 );
 			}
 
 			if( ( gameObject.Input.GetLastActiveVelocity().X > 0 &&
@@ -92,8 +90,7 @@ namespace BirdWarsTest.HealthComponents
 				  gameObject.Input.GetLastActiveVelocity().Y > 0 ) )
 			{
 				Vector2 placeholder = new Vector2( gameObject.Position.X + 25, gameObject.Position.Y + 11 );
-				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, ( int )placeholder.X + 60,
-											  ( int )placeholder.Y + 71 );
+				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, 60, 71 );
 			}
 
 			if( ( gameObject.Input.GetLastActiveVelocity().X < 0 &&
@@ -104,8 +101,7 @@ namespace BirdWarsTest.HealthComponents
 				  gameObject.Input.GetLastActiveVelocity().Y > 0 ) )
 			{
 				Vector2 placeholder = new Vector2( gameObject.Position.X + 5, gameObject.Position.Y + 11 );
-				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, ( int )placeholder.X + 60,
-											  ( int )placeholder.Y + 71 );
+				playerHitBox = new Rectangle( ( int )placeholder.X, ( int )placeholder.Y, 60, 71 );
 			}
 			return playerHitBox;
 		}

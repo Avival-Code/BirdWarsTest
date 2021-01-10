@@ -197,6 +197,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PasswordResetResultMessage:
 								HandlePasswordResetResultMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.PlayerIsDeadMessage:
+								HandlePlayerDiedMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -355,6 +358,12 @@ namespace BirdWarsTest.Network
 			netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
 		}
 
+		private void HandlePlayerDiedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( incomingMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
@@ -416,6 +425,11 @@ namespace BirdWarsTest.Network
 		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
 
 		public void SendRoundFinishedMessage( int remainingRoundTime ) {}
+
+		public void SendPlayerDiedMessage( Identifiers playerId )
+		{
+			SendMessage( new PlayerIsDeadMessage( playerId ) );
+		}
 
 		public void UpdatePassword( string code, string email, string password ) 
 		{

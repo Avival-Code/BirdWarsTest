@@ -23,33 +23,9 @@ namespace BirdWarsTest.GraphicComponents
 			RenderDependingOnDirection( gameObject, ref batch, cameraBounds );
 			if( gameObject.Attack.IsAttacking )
 			{
-				if( ( int )gameObject.Input.GetLastActiveVelocity().X == 0 &&
-					( int )gameObject.Input.GetLastActiveVelocity().Y < 0 )
-				{
-					batch.Draw( attackTexture, new Vector2( gameObject.Position.X - cameraBounds.Left, 
-															gameObject.Position.Y - 32.0f - cameraBounds.Top ), Color.White );
-				}
-
-				if( ( int )gameObject.Input.GetLastActiveVelocity().X == 0 &&
-					( int )gameObject.Input.GetLastActiveVelocity().Y > 0 )
-				{
-					batch.Draw( attackTexture, new Vector2( gameObject.Position.X - cameraBounds.Left, 
-															gameObject.Position.Y + texture.Height - cameraBounds.Top ), Color.White );
-				}
-
-				if( ( int )gameObject.Input.GetLastActiveVelocity().X < 0 &&
-					( int )gameObject.Input.GetLastActiveVelocity().Y == 0 )
-				{
-					batch.Draw( attackTexture, new Vector2( gameObject.Position.X - 50.0f - cameraBounds.Left, 
-															gameObject.Position.Y - cameraBounds.Top ), Color.White );
-				}
-
-				if( ( int )gameObject.Input.GetLastActiveVelocity().X > 0 &&
-					( int )gameObject.Input.GetLastActiveVelocity().Y == 0 )
-				{
-					batch.Draw( attackTexture, new Vector2( gameObject.Position.X + texture.Width - cameraBounds.Left, 
-															gameObject.Position.Y - cameraBounds.Top ), Color.White );
-				}
+				Rectangle AttackPosition = gameObject.Attack.GetAttackRectangle( gameObject );
+				batch.Draw( attackTexture, new Vector2( AttackPosition.X - cameraBounds.Left, 
+														AttackPosition.Y - cameraBounds.Top ), Color.White );
 			}
 		}
 

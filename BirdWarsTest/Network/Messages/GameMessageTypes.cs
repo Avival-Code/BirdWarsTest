@@ -26,6 +26,7 @@
 		UpdateRoundTimeMessage,
 		UpdateUserStatisticsMessage,
 		RoundFinishedMessage,
-		RegistrationResultMessage
+		RegistrationResultMessage,
+		PlayerIsDeadMessage
 	}
 }

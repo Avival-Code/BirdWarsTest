@@ -3,6 +3,7 @@ using BirdWarsTest.InputComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
 using BirdWarsTest.Utilities;
+using BirdWarsTest.Network;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.States;
 using Lidgren.Network;
@@ -21,6 +22,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			positionGenerator = new PositionGenerator();
 			CreatedPlayers = false;
 			GrenadeAmount = 0;
+			sentLocalPlayerIsDeadMessage = false;
 		}
 
 		public void CreatePlayers( Microsoft.Xna.Framework.Content.ContentManager content, StateHandler handler,
@@ -101,6 +103,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			player.Attack.DoAttack();
 		}
 
+		public void HandlePlayerDiedMessage( Identifiers playerId )
+		{
+			GetPlayer( playerId ).Health.TakeFullDamage();
+		}
+
 		public GameObject GetLocalPlayer()
 		{
 			return Players[ LocalPlayerIndex ];
@@ -118,7 +125,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			return null;
 		}
 
-		public void Update( GameState gameState, KeyboardState state, GameTime gameTime, Rectangle mapBounds )
+		public void Update( GameState gameState, GameTime gameTime, KeyboardState state, Rectangle mapBounds,
+							INetworkManager networkManager )
 		{
 			HandlePlayerAttacks();
 			foreach( var player in Players )
@@ -126,6 +134,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				player.Update( state, gameState, gameTime );
 				ImposeMapBoundaryLimits( player, mapBounds );
 			}
+			CheckIfLocalPlayerDied( networkManager );
 		}
 
 		private void ImposeMapBoundaryLimits( GameObject player, Rectangle mapBounds )
@@ -196,6 +205,15 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			return ( !GetLocalPlayer().Health.IsDead() && otherPlayersAreDead );
 		}
 
+		private void CheckIfLocalPlayerDied( INetworkManager networkManager )
+		{
+			if( !sentLocalPlayerIsDeadMessage && GetLocalPlayer().Health.IsDead() )
+			{
+				sentLocalPlayerIsDeadMessage = true;
+				networkManager.SendPlayerDiedMessage( GetLocalPlayer().Identifier );
+			}
+		}
+
 		public int GetNumberOfPlayersStillAlive()
 		{
 			int playersStillAlive = 0;
@@ -214,5 +232,6 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		public bool CreatedPlayers { get; private set; }
 		public int LocalPlayerIndex { get; private set; }
 		public int GrenadeAmount { get; set; }
+		private bool sentLocalPlayerIsDeadMessage;
 	}
 }

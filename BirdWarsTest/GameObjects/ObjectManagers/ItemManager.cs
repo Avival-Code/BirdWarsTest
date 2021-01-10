@@ -232,8 +232,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					if( EggGrenades[ j ].Attack.IsAttacking &&
 						EggGrenades[ j ].Attack.GetAttackRectangle( EggGrenades[ j ] ).Intersects( Boxes[ i ].GetRectangle() ) )
 					{
-						Boxes[ i ].Health.TakeDamage( EggGrenades[ i ].Attack.Damage );
-						networkManager.SendBoxDamageMessage( i, EggGrenades[ i ].Attack.Damage );
+						Boxes[ i ].Health.TakeDamage( EggGrenades[ j ].Attack.Damage );
+						networkManager.SendBoxDamageMessage( i, EggGrenades[ j ].Attack.Damage );
 					}
 				}
 			}
@@ -409,7 +409,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			if( threwGrenade )
 			{
 				localGrenadeTimer += ( float )gameTime.ElapsedGameTime.TotalSeconds;
-				if( ( int )localGrenadeTimer > 3 )
+				if( localGrenadeTimer > 2.25 )
 				{
 					ResetGrenadeTimer();
 					threwGrenade = false;
