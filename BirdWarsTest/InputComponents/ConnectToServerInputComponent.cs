@@ -21,7 +21,8 @@ namespace BirdWarsTest.InputComponents
 		private void ConnectToServer( object sender, ServerChangeArgs serverEvents )
 		{
 			CheckServerArgs( serverEvents );
-			if( !string.IsNullOrEmpty( serverEvents.Address ) && !string.IsNullOrEmpty( serverEvents.Port ) )
+			if( !string.IsNullOrEmpty( serverEvents.Address ) && !string.IsNullOrEmpty( serverEvents.Port ) &&
+				validator.IsAddressValid( serverEvents.Address ) && validator.IsPortValid( serverEvents.Port ) )
 			{
 				handler.networkManager.ConnectToSpecificServer( handler, serverEvents.Address, serverEvents.Port );
 			}

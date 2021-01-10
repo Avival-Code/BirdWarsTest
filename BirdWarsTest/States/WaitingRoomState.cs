@@ -40,7 +40,7 @@ namespace BirdWarsTest.States
 																		"Fonts/BabeFont_22" ), 
 											 null, Identifiers.TextGraphics, new Vector2( 65.0f, 20.0f ) ) );
 			AddStateButtons( handler, stringManager );
-			MessageManager = new ChatMessageManager( Content, GameObjects[ 1 ].GetRectangle() );
+			MessageManager = new ChatMessageManager( Content, stringManager, GameObjects[ 1 ].GetRectangle() );
 		}
 
 		public override void Pause() {}

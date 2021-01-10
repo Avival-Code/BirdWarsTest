@@ -69,6 +69,9 @@
 		IAmTheServer,
 		ConnectionSuccessful,
 		AddressInvalid,
-		PortInvalid
+		PortInvalid,
+		BanMessage,
+		ServerUsername,
+		ServerMessage
 	}
 }

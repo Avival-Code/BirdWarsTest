@@ -103,12 +103,14 @@ namespace BirdWarsTest.States
 
 		public override void SetErrorMessage( string errorMessage )
 		{
+			GameObjects[ 13 ].Graphics.ClearText();
 			( ( TextGraphicsComponent )GameObjects[ 12 ].Graphics ).SetText( errorMessage );
 			GameObjects[ 12 ].RecenterXWidth( stateWidth );
 		}
 
 		public override void SetMessage( string message )
 		{
+			GameObjects[ 12 ].Graphics.ClearText();
 			( ( TextGraphicsComponent )GameObjects[ 13 ].Graphics ).SetText( message );
 			GameObjects[ 13 ].RecenterXWidth( stateWidth );
 		}

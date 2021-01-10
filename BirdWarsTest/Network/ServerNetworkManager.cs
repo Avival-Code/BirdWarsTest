@@ -186,6 +186,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.ExitWaitingRoomMessage:
 								HandleSelfExitWaitingRomMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.BanPlayerMessage:
+								HandleBanMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 					case NetIncomingMessageType.Data:
@@ -555,6 +558,17 @@ namespace BirdWarsTest.Network
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
 								  chatMessage.SenderUsername, chatMessage.Message, UserSession.CurrentUser.Username );
 
+			string playerToBan = GameRound.DoBanRequest( chatMessage.Message, handler.StringManager.GetString( StringNames.BanMessage ) );
+			if ( !string.IsNullOrEmpty( playerToBan ) )
+			{
+				BanPlayerMessage banMessage = new BanPlayerMessage( playerToBan );
+				NetOutgoingMessage outgoingBanMessage = CreateMessage();
+				outgoingBanMessage.Write( ( byte )banMessage.messageType );
+				banMessage.Encode( outgoingBanMessage );
+
+				netServer.SendUnconnectedToSelf( outgoingBanMessage );
+			}
+
 			NetOutgoingMessage outgoingMessage = CreateMessage();
 			outgoingMessage.Write( ( byte )chatMessage.messageType );
 			chatMessage.Encode( outgoingMessage );
@@ -562,6 +576,32 @@ namespace BirdWarsTest.Network
 			foreach( var connection in GameRound.PlayerConnections )
 			{
 				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+		}
+
+		private void HandleBanMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			BanPlayerMessage banMessage = new BanPlayerMessage( incomingMessage );
+			if( !banMessage.Username.Equals( UserSession.CurrentUser.Username ) )
+			{
+				ExitWaitingRoomMessage leaveMessage = new ExitWaitingRoomMessage();
+				NetOutgoingMessage outgoingMessage = CreateMessage();
+				outgoingMessage.Write( ( byte )leaveMessage.messageType );
+
+				netServer.SendMessage( outgoingMessage, GameRound.GetPlayerConnection( banMessage.Username ),
+									   NetDeliveryMethod.ReliableUnordered );
+
+				GameRound.RemovePlayer( banMessage.Username );
+				RoundStateChangedMessage roundChangedMessage = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
+				NetOutgoingMessage outgoingStateMessage = CreateMessage();
+				outgoingStateMessage.Write( ( byte )roundChangedMessage.messageType );
+				roundChangedMessage.Encode( outgoingStateMessage );
+
+				netServer.SendUnconnectedToSelf( outgoingStateMessage );
+			}
+			else
+			{
+				GameRound.ResetBanPetitions();
 			}
 		}
 

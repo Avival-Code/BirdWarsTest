@@ -29,6 +29,7 @@
 		RegistrationResultMessage,
 		PlayerIsDeadMessage,
 		ExitWaitingRoomMessage,
-		TestConnectionMessage
+		TestConnectionMessage,
+		BanPlayerMessage
 	}
 }

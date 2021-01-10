@@ -1,20 +1,21 @@
-﻿using BirdWarsTest.GameObjects;
+﻿using BirdWarsTest.Utilities;
 using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
-using Lidgren.Network;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
 	class ChatMessageManager
 	{
 		public ChatMessageManager( Microsoft.Xna.Framework.Content.ContentManager contentIn, 
-								   Rectangle chatBoardBoundariesIn )
+								   StringManager stringManager, Rectangle chatBoardBoundariesIn )
 		{
 			content = contentIn;
 			gameObjects = new List< GameObject >();
 			chatBoardBoundaries = chatBoardBoundariesIn;
+			AddMessage( true, stringManager.GetString( StringNames.ServerUsername ), 
+						stringManager.GetString( StringNames.ServerMessage ) );
 		}
 
 		public void HandleChatMessage( string incomingUsername, string message, string currentUsername )
