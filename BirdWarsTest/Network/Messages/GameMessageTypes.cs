@@ -27,6 +27,7 @@
 		UpdateUserStatisticsMessage,
 		RoundFinishedMessage,
 		RegistrationResultMessage,
-		PlayerIsDeadMessage
+		PlayerIsDeadMessage,
+		ExitWaitingRoomMessage
 	}
 }

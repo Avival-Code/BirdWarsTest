@@ -177,6 +177,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PasswordResetMessage:
 								HandleSelfPasswordResetMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.ExitWaitingRoomMessage:
+								HandleSelfExitWaitingRomMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 					case NetIncomingMessageType.Data:
@@ -276,19 +279,27 @@ namespace BirdWarsTest.Network
 			RegisterUserMessage registerUser = new RegisterUserMessage( incomingMessage );
 			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
 			{
-				gameDatabase.Users.Create( registerUser.User );
-				gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
-				emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
-											   handler.StringManager.GetString( StringNames.Registration),
-											   handler.StringManager.GetString( StringNames.EmailBodyMessage) );
-				( ( UserRegistryState )handler.GetCurrentState() ).SetMessage( 
-									   handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
-				handler.GetCurrentState().ClearTextAreas();
+				if( gameDatabase.Users.Read( registerUser.User.Username ) == null )
+				{
+					gameDatabase.Users.Create( registerUser.User );
+					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+					emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
+												   handler.StringManager.GetString( StringNames.Registration ),
+												   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
+					( ( UserRegistryState )handler.GetCurrentState() ).SetMessage(
+										   handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
+					handler.GetCurrentState().ClearTextAreas();
+				}
+				else
+				{
+					( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage(
+									   handler.StringManager.GetString( StringNames.UsernameAlreadyExists ) );
+				}
 			}
 			else
 			{
 				( ( UserRegistryState )handler.GetCurrentState() ).SetErrorMessage( 
-									   handler.StringManager.GetString( StringNames.RegistrationFailed ) );
+									   handler.StringManager.GetString( StringNames.EmailAlreadyExists ) );
 			}
 		}
 
@@ -298,18 +309,26 @@ namespace BirdWarsTest.Network
 			RegistrationResultMessage resultMessage;
 			if( gameDatabase.Users.Read( registerUser.User.Email ) == null )
 			{
-				gameDatabase.Users.Create( registerUser.User );
-				gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
-				emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
-											   handler.StringManager.GetString( StringNames.Registration ),
-											   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
-				resultMessage = new RegistrationResultMessage( 
-												          handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
+				if( gameDatabase.Users.Read( registerUser.User.Username ) == null )
+				{
+					gameDatabase.Users.Create( registerUser.User );
+					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+					emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
+												   handler.StringManager.GetString( StringNames.Registration ),
+												   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
+					resultMessage = new RegistrationResultMessage(
+															  handler.StringManager.GetString( StringNames.RegistrationSuccessful ) );
+				}
+				else
+				{
+					resultMessage = new RegistrationResultMessage(
+															  handler.StringManager.GetString( StringNames.UsernameAlreadyExists ) )
+				}
 			}
 			else
 			{
 				resultMessage = new RegistrationResultMessage(
-														  handler.StringManager.GetString( StringNames.RegistrationFailed ) );
+														  handler.StringManager.GetString( StringNames.EmailAlreadyExists ) );
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
@@ -661,6 +680,21 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		private void HandleSelfExitWaitingRomMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			ExitWaitingRoomMessage exitMessage = new ExitWaitingRoomMessage( incomingMessage );
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )exitMessage.messageType );
+			exitMessage.Encode( outgoingMessage );
+
+			foreach( var connection in GameRound.PlayerConnections )
+			{
+				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
+			}
+
+			GameRound.DestroyRound();
+		}
+
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			var user = new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn );
@@ -862,7 +896,15 @@ namespace BirdWarsTest.Network
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
-		public void LeaveRound() {}
+		public void LeaveRound() 
+		{
+			ExitWaitingRoomMessage exitMessage = new ExitWaitingRoomMessage();
+			NetOutgoingMessage outgoingMessage = CreateMessage();
+			outgoingMessage.Write( ( byte )exitMessage.messageType );
+			exitMessage.Encode( outgoingMessage );
+
+			netServer.SendUnconnectedToSelf( outgoingMessage );
+		}
 
 		public PasswordChangeManager ChangeManager { get; private set; }
 		public GameRound GameRound { get; set; }

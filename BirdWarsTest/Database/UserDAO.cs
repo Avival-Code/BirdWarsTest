@@ -31,9 +31,8 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasCreated = true;
-				Console.WriteLine( "User created succesfully!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -59,7 +58,7 @@ namespace BirdWarsTest.Database
 				wasDeleted = true;
 				Console.WriteLine( "User deleted succesfully!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -87,13 +86,39 @@ namespace BirdWarsTest.Database
 					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
 									 reader.GetString( 4 ), reader.GetString( 5 ) );
 				}
-				else
+				reader.Close();
+			}
+			catch( MySqlException exception )
+			{
+				Console.WriteLine( exception.Message );
+			}
+
+			connection.StopConnection();
+			return temp;
+		}
+
+		public User Read( string username )
+		{
+			User temp = null;
+			Connection connection = new Connection();
+			connection.StartConnection();
+
+			try
+			{
+				string MySqlCommandText = "SELECT * FROM Users WHERE username = @username";
+				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
+				MySqlParameter parameter = new MySqlParameter( "@username", username );
+				command.Parameters.Add( parameter );
+				MySqlDataReader reader = command.ExecuteReader();
+
+				if( reader.HasRows && reader.Read() )
 				{
-					Console.WriteLine( "No users found." );
+					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
+									 reader.GetString( 4 ), reader.GetString( 5 ) );
 				}
 				reader.Close();
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -124,13 +149,9 @@ namespace BirdWarsTest.Database
 					temp = new User( reader.GetInt32( 0 ), reader.GetString( 1 ), reader.GetString( 2 ), reader.GetString( 3 ),
 									 reader.GetString( 4 ), reader.GetString( 5 ) );
 				}
-				else
-				{
-					Console.WriteLine( "No users found." );
-				}
 				reader.Close();
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -159,7 +180,7 @@ namespace BirdWarsTest.Database
 				}
 				reader.Close();
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -194,9 +215,8 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasUpdated = true;
-				Console.WriteLine( "User Updated Successfully!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}

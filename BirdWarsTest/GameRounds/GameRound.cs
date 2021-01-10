@@ -1,7 +1,5 @@
 ﻿using Lidgren.Network;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GameRounds
 {
@@ -18,6 +16,13 @@ namespace BirdWarsTest.GameRounds
 			playerUsernames = new List< string >();
 			Created = true;
 			playerUsernames.Add( serverUsername );
+		}
+
+		public void DestroyRound()
+		{
+			PlayerConnections = null;
+			playerUsernames = null;
+			Created = false;
 		}
 
 		public void AddPlayer( string username, NetConnection playerConnection )

@@ -200,6 +200,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.PlayerIsDeadMessage:
 								HandlePlayerDiedMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.ExitWaitingRoomMessage:
+								HandleExitWaitingRoomMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -269,6 +272,11 @@ namespace BirdWarsTest.Network
 				handler.ChangeState( StateTypes.WaitingRoomState );
 				( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
 			}
+		}
+
+		private void HandleExitWaitingRoomMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			handler.ChangeState( StateTypes.MainMenuState );
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
