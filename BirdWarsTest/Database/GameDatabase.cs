@@ -8,7 +8,6 @@ namespace BirdWarsTest.Database
 		{
 			Users = new UserDAO();
 			Accounts = new AccountDAO();
-			Inventories = new InventoryDAO();
 		}
 
 		public void UpdateUserPassword( string email, string newPassword )
@@ -43,6 +42,5 @@ namespace BirdWarsTest.Database
 
 		public UserDAO Users { get; set; }
 		public AccountDAO Accounts { get; set; }
-		public InventoryDAO Inventories { get; set; }
 	}
 }
