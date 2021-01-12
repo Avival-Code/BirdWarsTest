@@ -8,6 +8,8 @@ Handles the creation and sending of email messages.
 using MailKit.Net.Smtp;
 using MimeKit;
 using System;
+using System.IO;
+using System.Reflection;
 
 namespace BirdWarsTest.Network.Messages
 {
@@ -23,12 +25,33 @@ namespace BirdWarsTest.Network.Messages
 		public EmailManager()
 		{
 			senderName = "BirdWarsAdmin";
-			senderEmail = "NoReply.BirdwarsAdmn@gmail.com";
-			senderPassword = "1362No?Test23";
 			server = "smtp.gmail.com";
+			LoadLoginInformation();
 			port = 465;
 		}
 
+		private void LoadLoginInformation()
+		{
+			string fileName;
+			string filePath;
+			string[] tempStrings;
+
+			try
+			{
+				fileName = @"Email.txt";
+				filePath = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location ), fileName );
+				tempStrings = File.ReadAllLines( filePath );
+				if( !string.IsNullOrEmpty( tempStrings[ 0 ] ) )
+				{
+					senderEmail = tempStrings[ 0 ];
+					senderPassword = tempStrings[ 1 ];
+				}
+			}
+			catch( FileNotFoundException e )
+			{
+				Console.WriteLine( e.Message );
+			}
+		}
 
 		private MimeMessage CreateMessage( string recipientName, string recipientEmail, string subject,
 										  string body )
@@ -81,8 +104,8 @@ namespace BirdWarsTest.Network.Messages
 		}
 
 		private readonly string senderName;
-		private readonly string senderEmail;
-		private readonly string senderPassword;
+		private string senderEmail;
+		private string senderPassword;
 		private readonly string server;
 		private readonly int port;
 	}

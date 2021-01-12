@@ -6,6 +6,8 @@ File Description:
 Class that handles connecting to the MySqlServer.
 *********************************************/
 using System;
+using System.IO;
+using System.Reflection;
 using MySql.Data.MySqlClient;
 
 namespace BirdWarsTest.Database
@@ -16,15 +18,11 @@ namespace BirdWarsTest.Database
 	public class Connection
 	{
 		/// <summary>
-		/// Default constructor.
+		/// Loads required login variables from file.
 		/// </summary>
 		public Connection()
 		{
-			server = "server=localhost;";
-			user = "user=root;";
-			database = "database=BirdWars;";
-			port = "port=3306;";
-			password = "password=Pollito12Con23Papas4512345;";
+			LoadLoginInformation();
 		}
 
 		/// <summary>
@@ -43,6 +41,33 @@ namespace BirdWarsTest.Database
 			database = "database=" + database_In + ";";
 			port = "port=" + port_In + ";";
 			password = "password=" + password_In + ";";
+		}
+
+		private void LoadLoginInformation()
+		{
+			string fileName;
+			string filePath;
+			string[] tempStrings;
+
+			try
+			{
+				fileName = @"Connection.txt";
+				filePath = Path.Combine( Path.GetDirectoryName( Assembly.GetExecutingAssembly().Location), fileName );
+				tempStrings = File.ReadAllLines( filePath );
+
+				if( !string.IsNullOrEmpty( tempStrings[ 0 ] ) )
+				{
+					server = tempStrings[ 0 ];
+					user = tempStrings[ 1 ];
+					database = tempStrings[ 2 ];
+					port = tempStrings[ 3 ];
+					password = tempStrings[ 4 ];
+				}
+			}
+			catch( FileNotFoundException e )
+			{
+				Console.WriteLine(e.Message);
+			}
 		}
 
 		/// <summary>

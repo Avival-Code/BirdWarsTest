@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Client</name>
+    </assembly>
+    <members>
+        <member name="T:Client.Program">
+            <summary>
+            The client application entry point.
+            </summary>
+        </member>
+    </members>
+</doc>
