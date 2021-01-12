@@ -139,11 +139,11 @@ namespace BirdWarsTest.InputComponents
 
 		private void CheckPasswords( RegisterEventArgs registerEvents )
 		{
-			if( !validator.IsPasswordValid( registerEvents.Name ) )
+			if( !validator.IsPasswordValid( registerEvents.Password ) )
 			{
 				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordInvalid ) );
 			}
-			if( !validator.IsPasswordValid( registerEvents.Name ) )
+			if( !validator.IsPasswordAndConfirmEqual( registerEvents.Password, registerEvents.ConfirmPassword  ) )
 			{
 				handler.GetCurrentState().SetErrorMessage( handler.StringManager.GetString( StringNames.PasswordsDoNotMatch ) );
 			}

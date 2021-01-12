@@ -83,7 +83,6 @@ namespace BirdWarsTest.Network.Messages
 
 		private void ConfigureSMTPAndSend( MimeMessage message )
 		{
-			Console.WriteLine( "Sending email..." );
 			try
 			{
 				using (var smtpClient = new SmtpClient())

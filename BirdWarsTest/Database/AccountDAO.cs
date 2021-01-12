@@ -50,7 +50,6 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasCreated = true;
-				Console.WriteLine( "Account created succesfully!" );
 			}
 			catch( MySqlException exception )
 			{
@@ -81,7 +80,6 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasDeleted = true;
-				Console.WriteLine( "Account deleted succesfully!" );
 			}
 			catch( MySqlException exception )
 			{
@@ -116,10 +114,6 @@ namespace BirdWarsTest.Database
 				{
 					temp = new Account( reader.GetInt32( 0 ), reader.GetInt32( 1 ), reader.GetInt32( 2 ), reader.GetInt32( 3 ),
 									    reader.GetInt32( 4 ), reader.GetInt32( 5 ), reader.GetInt32( 6 ), reader.GetInt32( 7 ) );
-				}
-				else
-				{
-					Console.WriteLine( "No accounts found." );
 				}
 				reader.Close();
 			}

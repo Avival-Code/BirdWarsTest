@@ -164,6 +164,7 @@ namespace BirdWarsTest.States
 		/// <param name="errorMessage">Error message</param>
 		public override void SetErrorMessage( string errorMessage )
 		{
+			GameObjects[ 18 ].Graphics.ClearText();
 			( ( TextGraphicsComponent )GameObjects[ 17 ].Graphics ).SetText( errorMessage );
 			GameObjects[ 17 ].RecenterXWidth( stateWidth );
 		}
@@ -174,6 +175,7 @@ namespace BirdWarsTest.States
 		/// <param name="message">The message</param>
 		public override void SetMessage( string message )
 		{
+			GameObjects[ 17 ].Graphics.ClearText();
 			( ( TextGraphicsComponent )GameObjects[ 18 ].Graphics ).SetText( message );
 			GameObjects[ 18 ].RecenterXWidth( stateWidth );
 		}

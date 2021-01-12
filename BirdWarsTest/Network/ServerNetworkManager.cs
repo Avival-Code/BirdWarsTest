@@ -92,7 +92,7 @@ namespace BirdWarsTest.Network
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
-				Port = Convert.ToInt32( "14242" ),
+				Port = Convert.ToInt32( "80" ),
 				//SimulatedMinimumLatency = 0.2f,
 				//SimulatedLoss = 0.1f
 			};
@@ -379,7 +379,8 @@ namespace BirdWarsTest.Network
 				if( !gameDatabase.DoesUsernameExist( registerUser.User.Username ) )
 				{
 					gameDatabase.Users.Create( registerUser.User );
-					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+					User tempUser = gameDatabase.Users.Read( registerUser.User.Email );
+					gameDatabase.Accounts.Create( new Account( 0, tempUser.UserId, 0, 0, 0, 0, 0, 300 ) );
 					emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
 												   handler.StringManager.GetString( StringNames.Registration ),
 												   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
@@ -409,7 +410,8 @@ namespace BirdWarsTest.Network
 				if( !gameDatabase.DoesUsernameExist( registerUser.User.Username ) )
 				{
 					gameDatabase.Users.Create( registerUser.User );
-					gameDatabase.Accounts.Create( new Account( 0, registerUser.User.UserId, 0, 0, 0, 0, 0, 300 ) );
+					User tempUser = gameDatabase.Users.Read( registerUser.User.Email );
+					gameDatabase.Accounts.Create( new Account( 0, tempUser.UserId, 0, 0, 0, 0, 0, 300 ) );
 					emailManager.SendEmailMessage( registerUser.User.Names, registerUser.User.Email,
 												   handler.StringManager.GetString( StringNames.Registration ),
 												   handler.StringManager.GetString( StringNames.EmailBodyMessage ) );
