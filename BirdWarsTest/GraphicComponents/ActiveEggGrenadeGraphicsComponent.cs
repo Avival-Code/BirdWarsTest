@@ -1,12 +1,25 @@
-﻿using BirdWarsTest.GameObjects;
-using BirdWarsTest.AttackComponents;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Graphics component for an active egg grenade object.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace BirdWarsTest.GraphicComponents
 {
+	/// <summary>
+	/// Graphics component for an active egg grenade object.
+	/// </summary>
 	public class ActiveEggGrenadeGraphicsComponent : GraphicsComponent
 	{
+		/// <summary>
+		/// Creates an isntance of the graphics component.
+		/// </summary>
+		/// <param name="content">Game content manager.</param>
 		public ActiveEggGrenadeGraphicsComponent( Microsoft.Xna.Framework.Content.ContentManager content )
 			:
 			base( content.Load<Texture2D>( "Items/ActiveEggGrenade" ) )
@@ -15,8 +28,20 @@ namespace BirdWarsTest.GraphicComponents
 			explosionEnd = content.Load< Texture2D >( "Effects/ExplosionEnd" );
 		}
 
+		/// <summary>
+		/// Draws the texture to the screen at the object's position.
+		/// </summary>
+		/// <param name="gameObject">The game object</param>
+		/// <param name="batch">Game Spritebatch</param>
 		public override void Render( GameObject gameObject, ref SpriteBatch batch ) {}
-	
+
+		/// <summary>
+		/// Draws the texture to the screen if it's within
+		/// the cameraBounds rectangle.
+		/// </summary>
+		/// <param name="gameObject">GameObject.</param>
+		/// <param name="batch">Game spritebatch</param>
+		/// <param name="cameraBounds">Current camera area rectangle.</param>
 		public override void Render( GameObject gameObject, ref SpriteBatch batch, Rectangle cameraBounds )
 		{
 			if( !gameObject.Attack.IsAttacking )
@@ -44,7 +69,7 @@ namespace BirdWarsTest.GraphicComponents
 			batch.Draw( targetTexture, position, Color.White );
 		}
 
-		private Texture2D explosionBegin;
-		private Texture2D explosionEnd;
+		private readonly Texture2D explosionBegin;
+		private readonly Texture2D explosionEnd;
 	}
 }

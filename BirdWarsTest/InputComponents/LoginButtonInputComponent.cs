@@ -1,7 +1,13 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component used to login to a user account.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.InputComponents.EventArguments;
 using BirdWarsTest.Utilities;
-using BirdWarsTest.Network;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using System;
@@ -9,14 +15,22 @@ using BirdWarsTest.States;
 
 namespace BirdWarsTest.InputComponents
 {
-	class LoginButtonInputComponent : InputComponent
+	/// <summary>
+	/// Input component used to login to a user account.
+	/// </summary>
+	public class LoginButtonInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Sets the statehandler reference, creates the default login
+		/// event arguments and string validator.
+		/// </summary>
+		/// <param name="handlerIn">Game statehandler</param>
 		public LoginButtonInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
 			loginEvents = new LoginEventArgs();
 			validator = new StringValidator();
-			click += Login;
+			Click += Login;
 		}
 
 		private void Login( object sender, LoginEventArgs loginEvents )
@@ -29,10 +43,30 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and game time.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="gameTime">Current game time.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and keyboard state.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="state">Current keyboard state.</param>
 		public override void HandleInput(GameObject gameObject, KeyboardState state) {}
 
+		/// <summary>
+		/// Checks if the user clicked on the object's button texture and if so
+		/// gets the login arguments from their respective objects and calls the network
+		/// manager Login method.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			previousMouseState = currentMouseState;
@@ -47,7 +81,7 @@ namespace BirdWarsTest.InputComponents
 				{
 					loginEvents.Email = ( ( LoginState ) gameState ).GameObjects[ 7 ].Input.GetTextWithoutVisualCharacter();
 					loginEvents.Password = ( ( LoginState ) gameState ).GameObjects[ 9 ].Input.GetTextWithoutVisualCharacter();
-					click?.Invoke( this, loginEvents );
+					Click?.Invoke( this, loginEvents );
 				}
 			}
 		}
@@ -74,10 +108,10 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private StateHandler handler;
-		private event EventHandler< LoginEventArgs > click;
+		private readonly StateHandler handler;
+		private event EventHandler< LoginEventArgs > Click;
 		private LoginEventArgs loginEvents;
-		private StringValidator validator;
+		private readonly StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 	}

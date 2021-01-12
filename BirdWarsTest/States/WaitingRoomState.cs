@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles drawing and updating of all gameObjects 
+necessary for WaitingRoomState.
+*********************************************/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
@@ -11,8 +19,22 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
-	class WaitingRoomState : GameState
+	/// <summary>
+	/// Handles drawing and updating of all gameObjects 
+	///necessary for WaitingRoomState.
+	/// </summary>
+	public class WaitingRoomState : GameState
 	{
+		/// <summary>
+		/// Creates empty MainMenuState. Sets gamewindow reference and initializes
+		/// gameObjects List.
+		/// </summary>
+		/// <param name="newContent">Game contentManager</param>
+		/// <param name="gameWindowIn">Game window reference</param>
+		/// <param name="newGraphics">Graphics device reference</param>
+		/// <param name="networkManagerIn">Game network manager</param>
+		/// <param name="width_in">State width</param>
+		/// <param name="height_in">State height</param>
 		public WaitingRoomState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 								 GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics, 
 								 ref INetworkManager networkManagerIn, int width_in, int height_in )
@@ -25,6 +47,11 @@ namespace BirdWarsTest.States
 			MessageManager = null;
 		}
 
+		/// <summary>
+		/// Creates all state gameObjects.
+		/// </summary>
+		/// <param name="handler">Game state</param>
+		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
 			ClearContents();
@@ -43,10 +70,9 @@ namespace BirdWarsTest.States
 			MessageManager = new ChatMessageManager( Content, stringManager, GameObjects[ 1 ].GetRectangle() );
 		}
 
-		public override void Pause() {}
-
-		public override void Resume() {}
-
+		/// <summary>
+		/// Removes all gameObjects from state list.
+		/// </summary>
 		public override void ClearContents()
 		{
 			UsernameManager.ClearObjects();
@@ -54,8 +80,12 @@ namespace BirdWarsTest.States
 			MessageManager = null;
 		}
 
-		public override void HandleInput( KeyboardState state ) {}
-
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			networkManager.ProcessMessages( handler );
@@ -66,11 +96,22 @@ namespace BirdWarsTest.States
 			UpdateButtonLogic( state );
 		}
 
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameTime">GAme time</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
 			UpdateLogic( handler, state );
 		}
 
+		/// <summary>
+		/// Draws all gameObjects on the screen.
+		/// </summary>
+		/// <param name="batch">Game Spritebatch</param>
 		public override void Render( ref SpriteBatch batch ) 
 		{
 			foreach( var objects in GameObjects )
@@ -114,13 +155,21 @@ namespace BirdWarsTest.States
 			}
 		}
 
+		/// <summary>
+		/// Exposes the state's protected networkmanager.
+		/// </summary>
 		public INetworkManager NetworkManager
 		{
 			get{ return networkManager; }
 		}
 
-		public List<GameObject> GameObjects { get; set; }
+		///<value>The list of state gameObjects</value>
+		public List< GameObject > GameObjects { get; set; }
+
+		///<value>ChatUsername manager</value>
 		public ChatUsernameManager UsernameManager { get; set; }
+
+		///<value>ChatMessage manager</value>
 		public ChatMessageManager MessageManager { get; set; }
 
 		private GameWindow gameWindow;

@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.GraphicComponents;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the item game objects creationg, destruction,
+update, and display.
+*********************************************/
+using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
@@ -13,8 +21,16 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
+	/// <summary>
+	/// Handles the item game objects creationg, destruction,
+    /// update, and display.
+	/// </summary>
 	public class ItemManager
 	{
+		/// <summary>
+		/// Initializes a new instance of itemManager.
+		/// </summary>
+		/// <param name="contentIn">Game contentManager.</param>
 		public ItemManager( Microsoft.Xna.Framework.Content.ContentManager contentIn )
 		{
 			Boxes = new List< GameObject >();
@@ -30,11 +46,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			threwGrenade = false;
 		}
 
+		/// <summary>
+		/// Sets the area limit of the game world.
+		/// </summary>
+		/// <param name="mapBoundsIn">Game world area rectangle.</param>
 		public void SetMapBounds( Rectangle mapBoundsIn )
 		{
 			mapBounds = mapBoundsIn;
 		}
 
+		/// <summary>
+		/// Spawns the first 10 boxes of the game round at random positions.
+		/// </summary>
 		public void SpawnBoxes()
 		{
 			for( int i = 0; i < 10; i++ )
@@ -45,6 +68,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Sends a SpawnConsumablesMessage to server.
+		/// </summary>
+		/// <param name="networkManager">Game networkmanager.</param>
 		public void SpawnConsumableItems( INetworkManager networkManager )
 		{
 			if( networkManager.IsHost() )
@@ -61,6 +88,12 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// If the networkManager is the server, spawns a box at 
+		/// a random position then sends a SpawnBoxMessage to all
+		/// clients.
+		/// </summary>
+		/// <param name="networkManager">game networkManager.</param>
 		private void SpawnBox( INetworkManager networkManager )
 		{
 			if( networkManager.IsHost() )
@@ -75,6 +108,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Sends a spawnGrenadeMessage to server.
+		/// </summary>
+		/// <param name="networkManager">Game networkManager.</param>
+		/// <param name="playerManager">Player manager.</param>
 		public void SpawnGrenade( INetworkManager networkManager, PlayerManager playerManager )
 		{
 			if( !threwGrenade && playerManager.GrenadeAmount > 0 )
@@ -124,6 +162,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			spawnedItems[ boxIndex ] = true;
 		}
 
+		/// <summary>
+		/// Creates a box at the location written in the message.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming spawn box message.</param>
 		public void HandleSpawnBoxMessage( NetIncomingMessage incomingMessage )
 		{
 			int boxCount = incomingMessage.ReadInt32();
@@ -135,6 +177,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Spawns the amount adn type of consumable items written 
+		/// in the message.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming SpawnConsumablesMessage.</param>
 		public void HandleSpawnConsumablesMessage( NetIncomingMessage incomingMessage )
 		{
 			SpawnConsumablesMessage message = new SpawnConsumablesMessage( incomingMessage );
@@ -163,16 +210,33 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Damages the box written in the message to match the boxes in
+		/// other game clients and server.
+		/// </summary>
+		/// <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
 		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage )
 		{
 			Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamage( boxDamageMessage.Damage );
 		}
-
+		
+		/// <summary>
+		/// Removes any items from hte game that have already been picked up
+		/// by other players.
+		/// </summary>
+		/// <param name="itemIndex">The incoming PickedUpItemmessage.</param>
 		public void HandlePickedUpItemMessage( int itemIndex )
 		{
 			ConsumableItems[ itemIndex ].Health.TakeFullDamage();
 		}
 
+		/// <summary>
+		/// Spawns a grenade at the position and with the velocity and speed
+		/// written in the message.
+		/// </summary>
+		/// <param name="grenadePosition">The grenade position.</param>
+		/// <param name="grenadeDirection">The grenade direction.</param>
+		/// <param name="grenadeSpeed">The grenade speed.</param>
 		public void HandleSpawnGrenadeMessage( Vector2 grenadePosition, Vector2 grenadeDirection, float grenadeSpeed )
 		{
 			EggGrenades.Add( new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
@@ -253,6 +317,14 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Updates all gameObjects, imposes map boundaries, and handles
+		/// damage.
+		/// </summary>
+		/// <param name="networkManager">Game network manager.</param>
+		/// <param name="playerManager">Player manager.</param>
+		/// <param name="gameTime">The amount of elapsed game time.</param>
+		/// <param name="mapBounds">Game world area rectangle.</param>
 		public void Update( INetworkManager networkManager, PlayerManager playerManager, GameTime gameTime,
 							Rectangle mapBounds )
 		{
@@ -313,6 +385,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Draws all objects that are within the camera render 
+		/// bounds on the screen.
+		/// </summary>
+		/// <param name="batch">Game spritebatch.</param>
+		/// <param name="cameraRenderBounds">The current camera render area rectangle.</param>
+		/// <param name="cameraBounds">The current area that is seen by the user.</param>
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
 		{
 			RenderBoxes( ref batch, cameraRenderBounds, cameraBounds );
@@ -427,6 +506,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			localGrenadeTimer = 0.0f;
 		}
 
+		/// <summary>
+		/// Removes all gameObjects from the manager and
+		/// reset values.
+		/// </summary>
 		public void ClearAllItems()
 		{
 			Boxes.Clear();
@@ -438,15 +521,20 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			threwGrenade = false;
 		}
 
+		/// <value>The list game boxes.</value>
 		public List< GameObject > Boxes { get; private set; }
+
+		/// <value>The list of game consumable items.</value>
 		public List< GameObject > ConsumableItems { get; private set; }
+
+		/// <value>The list game egg grenades.</value>
 		public List< GameObject > EggGrenades { get; private set; }
 		private List< bool > spawnedItems;
 		private Microsoft.Xna.Framework.Content.ContentManager content;
 		private Random randomNumberGenerator;
 		private Rectangle mapBounds;
-		private int maxBoxes;
-		private int maxBoxHealth;
+		private readonly int maxBoxes;
+		private readonly int maxBoxHealth;
 		private float spawnBoxTimer;
 		private float localGrenadeTimer;
 		private bool threwGrenade;

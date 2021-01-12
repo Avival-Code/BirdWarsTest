@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component starts the process to change the applications
+current confuiguration when clicked on.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using BirdWarsTest.Utilities;
 using Microsoft.Xna.Framework;
@@ -7,17 +15,32 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class ButtonChangeConfigurationInputComponent : InputComponent
+	/// <summary>
+	/// Input component starts the process to change the applications
+	/// current confuiguration when clicked on.
+	/// </summary>
+	public class ButtonChangeConfigurationInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Sets the selector Object.
+		/// </summary>
+		/// <param name="handlerIn"></param>
+		/// <param name="selectorInputIn"></param>
+		/// <param name="stringManagerIn"></param>
 		public ButtonChangeConfigurationInputComponent( StateHandler handlerIn, GameObject selectorInputIn, 
 														StringManager stringManagerIn )
 		{
 			handler = handlerIn;
 			selectorInput = selectorInputIn;
 			stringManager = stringManagerIn;
-			click += ToOtherScreen;
+			Click += ToOtherScreen;
 		}
 
+		/// <summary>
+		/// Activates the change process when clicked on.
+		/// </summary>
+		/// <param name="gameObject">The gameObject</param>
+		/// <param name="state">current keyboard state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
 			previousMouseState = currentMouseState;
@@ -30,13 +53,24 @@ namespace BirdWarsTest.InputComponents
 				if( currentMouseState.LeftButton == ButtonState.Released &&
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
-					click?.Invoke( this, new EventArgs() );
+					Click?.Invoke( this, new EventArgs() );
 				}
 			}
 		}
 
+		/// <summary>
+		/// Handles the current input on every frame.
+		/// </summary>
+		/// <param name="gameObject">the GameObject</param>
+		/// <param name="gameTime">Game time</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the current input on every frame.
+		/// </summary>
+		/// <param name="gameObject">the GameObject</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			HandleInput( gameObject, state );
@@ -56,10 +90,10 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private StateHandler handler;
-		private StringManager stringManager;
-		public event EventHandler click;
-		private GameObject selectorInput;
+		private readonly StateHandler handler;
+		private readonly StringManager stringManager;
+		private event EventHandler Click;
+		private readonly GameObject selectorInput;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 	}

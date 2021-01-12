@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component used to change the MainMenu menu options
+state.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
@@ -7,8 +15,17 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.InputComponents
 {
-	class SelectorInputComponent : InputComponent
+	/// <summary>
+	/// Input component used to change the MainMenu menu options
+	/// state.
+	/// </summary>
+	public class SelectorInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Default constructor, creates the possible menu options
+		/// from a list of possible selections.
+		/// </summary>
+		/// <param name="selectionsIn"></param>
 		public SelectorInputComponent( List< GameObject > selectionsIn )
 		{
 			selections = selectionsIn;
@@ -21,10 +38,29 @@ namespace BirdWarsTest.InputComponents
 			( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and game time.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="gameTime">Current game time.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and keyboard state.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="state">Current keyboard state.</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
+		/// <summary>
+		/// Checks user input for keyboard keys and changed the selector state
+		/// based on that input.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			ChangeSelection( state );
@@ -52,7 +88,7 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		public void HandleUpKeyInput()
+		private void HandleUpKeyInput()
 		{
 			if( !changedSelection && currentSelection > minSelectorValue )
 			{

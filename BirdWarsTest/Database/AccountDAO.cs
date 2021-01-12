@@ -1,11 +1,28 @@
-﻿using MySql.Data.MySqlClient;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Account Data Access Object used to retrieve accounts
+from the MySql Database.
+*********************************************/
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 
 namespace BirdWarsTest.Database
 {
+	/// <summary>
+	/// Account Data Access Object used to retrieve accounts
+	/// from the MySql Database.
+	/// </summary>
 	public class AccountDAO : IAccountDAO
 	{
+		/// <summary>
+		/// Creates a new instance of Account in the database.
+		/// </summary>
+		/// <param name="account">An existing account instance.</param>
+		/// <returns>Bool indicating method success or failure.</returns>
 		public bool Create( Account account )
 		{
 			bool wasCreated = false;
@@ -17,7 +34,7 @@ namespace BirdWarsTest.Database
 				string mySqlCommandText = "INSERT INTO Account( userId, totalMatchesPlayed, matchesWon, matchesLost, " +
 										  "matchesSurvived, money, seconds ) VALUES ( @userId, @totalMatchesPlayed, @matchesWon, " +
 										  "@matchesLost, @matchesSurvived, @money, @seconds );";
-				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.DatabaseConnection );
 				MySqlParameter[] parameters = new MySqlParameter[ 7 ];
 				parameters[ 0 ] = new MySqlParameter( "@userId", account.UserId );
 				parameters[ 1 ] = new MySqlParameter( "@totalMatchesPlayed", account.TotalMatchesPlayed );
@@ -35,7 +52,7 @@ namespace BirdWarsTest.Database
 				wasCreated = true;
 				Console.WriteLine( "Account created succesfully!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -44,6 +61,11 @@ namespace BirdWarsTest.Database
 			return wasCreated;
 		}
 
+		/// <summary>
+		/// Deletes an account from the database.
+		/// </summary>
+		/// <param name="userId">An integer value representing a userId.</param>
+		/// <returns>Bool indicating methos success or failure.</returns>
 		public bool Delete( int userId )
 		{
 			bool wasDeleted = false;
@@ -53,7 +75,7 @@ namespace BirdWarsTest.Database
 			try
 			{
 				string mySqlCommandText = "DELETE FROM Account WHERE userId = @userId";
-				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.DatabaseConnection );
 				MySqlParameter parameter = new MySqlParameter( "@userId", userId );
 				command.Parameters.Add( parameter );
 
@@ -61,7 +83,7 @@ namespace BirdWarsTest.Database
 				wasDeleted = true;
 				Console.WriteLine( "Account deleted succesfully!" );
 			}
-			catch( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -70,6 +92,12 @@ namespace BirdWarsTest.Database
 			return wasDeleted;
 		}
 
+		/// <summary>
+		/// Gets account information that matches the userId
+		/// entered as a parameter.
+		/// </summary>
+		/// <param name="userId">An integer value representing a userId.</param>
+		/// <returns>An account instance.</returns>
 		public Account Read( int userId )
 		{
 			Account temp = null;
@@ -79,7 +107,7 @@ namespace BirdWarsTest.Database
 			try
 			{
 				string MySqlCommandText = "SELECT * FROM Account WHERE userId = @userId";
-				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.connection );
+				MySqlCommand command = new MySqlCommand( MySqlCommandText, connection.DatabaseConnection );
 				MySqlParameter parameter = new MySqlParameter( "@userId", userId );
 				command.Parameters.Add( parameter );
 				MySqlDataReader reader = command.ExecuteReader();
@@ -95,7 +123,7 @@ namespace BirdWarsTest.Database
 				}
 				reader.Close();
 			}
-			catch ( Exception exception )
+			catch( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 			}
@@ -104,6 +132,10 @@ namespace BirdWarsTest.Database
 			return temp;
 		}
 
+		/// <summary>
+		/// Gets a list of all accounts in the database.
+		/// </summary>
+		/// <returns>A list with all accounts.</returns>
 		public List< Account > ReadAll()
 		{
 			List< Account > accounts = new List< Account >();
@@ -113,7 +145,7 @@ namespace BirdWarsTest.Database
 			try
 			{
 				string mySqlCommandText = "SELECT * FROM Account";
-				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.DatabaseConnection );
 				MySqlDataReader reader = command.ExecuteReader();
 
 				while( reader.HasRows && reader.Read() )
@@ -133,6 +165,17 @@ namespace BirdWarsTest.Database
 			return accounts;
 		}
 
+		/// <summary>
+		/// Updates a specific account that matches the userId parameter.
+		/// </summary>
+		/// <param name="userId">An integer value representing a userId.</param>
+		/// <param name="totalMatchesPlayed">An integer value.</param>
+		/// <param name="matchesWon">An integer value.</param>
+		/// <param name="matchesLost">An integer value.</param>
+		/// <param name="matchesSurvived">An integer value.</param>
+		/// <param name="money">An integer value.</param>
+		/// <param name="seconds">An integer value.</param>
+		/// <returns>Bool indicating method success or failure/</returns>
 		public bool Update( int userId, int totalMatchesPlayed,int matchesWon, int matchesLost, 
 							int matchesSurvived, int money, int seconds )
 		{
@@ -145,7 +188,7 @@ namespace BirdWarsTest.Database
 				string mySqlCommandText = "UPDATE Account SET totalMatchesPlayed = @totalMatchesPlayed, matchesWon = @matchesWon" +
 										  ", matchesLost = @matchesLost, matchesSurvived = @matchesSurvived, " +
 										  "money = @money, seconds = @seconds WHERE userId = @userId";
-				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.connection );
+				MySqlCommand command = new MySqlCommand( mySqlCommandText, connection.DatabaseConnection );
 				MySqlParameter [] parameters = new MySqlParameter[ 7 ];
 				parameters[ 0 ] = new MySqlParameter( "@totalMatchesPlayed", totalMatchesPlayed );
 				parameters[ 1 ] = new MySqlParameter( "@matchesWon", matchesWon );
@@ -163,7 +206,7 @@ namespace BirdWarsTest.Database
 				wasUpdated = true;
 				Console.WriteLine( "User Updated Successfully!" );
 			}
-			catch ( Exception exception )
+			catch ( MySqlException exception )
 			{
 				Console.WriteLine( exception.Message );
 				Console.Write( exception.StackTrace );

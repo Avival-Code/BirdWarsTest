@@ -1,21 +1,36 @@
-﻿using MailKit.Net.Smtp;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the creation and sending of email messages.
+*********************************************/
+using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 
 namespace BirdWarsTest.Network.Messages
 {
+	/// <summary>
+	/// Handles the creation and sending of email messages.
+	/// </summary>
 	public class EmailManager
 	{
+		/// <summary>
+		/// Creates an instance of the email maanger with the default
+		/// values.
+		/// </summary>
 		public EmailManager()
 		{
 			senderName = "BirdWarsAdmin";
 			senderEmail = "NoReply.BirdwarsAdmn@gmail.com";
-			senderPassword = "12@testEmail?";
+			senderPassword = "1362No?Test23";
 			server = "smtp.gmail.com";
 			port = 465;
 		}
 
-		public MimeMessage CreateMessage( string recipientName, string recipientEmail, string subject,
+
+		private MimeMessage CreateMessage( string recipientName, string recipientEmail, string subject,
 										  string body )
 		{
 			var mailMessage = new MimeMessage();
@@ -29,13 +44,21 @@ namespace BirdWarsTest.Network.Messages
 			return mailMessage;
 		}
 
+		/// <summary>
+		/// Sends an email message to the specified email with the input 
+		/// subject, body and recipient name.
+		/// </summary>
+		/// <param name="recipientName">Recipient</param>
+		/// <param name="recipientEmail">Recipient email</param>
+		/// <param name="subject">Email subject</param>
+		/// <param name="body">Email message body</param>
 		public void SendEmailMessage( string recipientName, string recipientEmail, string subject,
 									  string body )
 		{
 			ConfigureSMTPAndSend( CreateMessage( recipientName, recipientEmail, subject, body ) );
 		}
 
-		public void ConfigureSMTPAndSend( MimeMessage message )
+		private void ConfigureSMTPAndSend( MimeMessage message )
 		{
 			Console.WriteLine( "Sending email..." );
 			try
@@ -57,10 +80,10 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
-		private string senderName;
-		private string senderEmail;
-		private string senderPassword;
-		private string server;
-		private int port;
+		private readonly string senderName;
+		private readonly string senderEmail;
+		private readonly string senderPassword;
+		private readonly string server;
+		private readonly int port;
 	}
 }

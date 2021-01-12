@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.Utilities;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the creation, organization, display and removal
+of chat messages used in WaitingRoomState.
+*********************************************/
+using BirdWarsTest.Utilities;
 using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -6,8 +14,18 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
-	class ChatMessageManager
+	/// <summary>
+	/// Handles the creation, organization, display and removal
+	///of chat messages used in WaitingRoomState.
+	/// </summary>
+	public class ChatMessageManager
 	{
+		/// <summary>
+		/// Creates an isntance of ChatMessageManager.
+		/// </summary>
+		/// <param name="contentIn">Game contentManager</param>
+		/// <param name="stringManager">Game string manager.</param>
+		/// <param name="chatBoardBoundariesIn">Chat box area rectangle.</param>
 		public ChatMessageManager( Microsoft.Xna.Framework.Content.ContentManager contentIn, 
 								   StringManager stringManager, Rectangle chatBoardBoundariesIn )
 		{
@@ -18,6 +36,12 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 						stringManager.GetString( StringNames.ServerMessage ) );
 		}
 
+		/// <summary>
+		/// Handles the values from an incoming chatMessage.
+		/// </summary>
+		/// <param name="incomingUsername">The username of the user that sent the message.</param>
+		/// <param name="message">The message body.</param>
+		/// <param name="currentUsername">The username if the current user.</param>
 		public void HandleChatMessage( string incomingUsername, string message, string currentUsername )
 		{
 			ManageMessages();
@@ -26,7 +50,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		private void AddMessage( bool isFromOtherUser, string username, string message )
 		{
-			var yPosition = ( chatMessageTextureHeight + 5 );
+			var yPosition = ( ChatMessageTextureHeight + 5 );
 			MoveMessagePositionsUp( yPosition );
 			gameObjects.Add( 
 				new GameObject( new ChatMessageGraphicsComponent( content, "TextAreas/ChatMessage500x68", 
@@ -36,7 +60,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 
 		private void ManageMessages()
 		{
-			if( gameObjects.Count > maxMessages )
+			if( gameObjects.Count > MaxMessages )
 			{
 				gameObjects.RemoveAt( 0 );
 			}
@@ -50,6 +74,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Draws the chat message game objects on the screen.
+		/// </summary>
+		/// <param name="batch">Game spritebatch.</param>
 		public void Render( ref SpriteBatch batch )
 		{
 			foreach( var objects in gameObjects )
@@ -61,7 +89,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		private Microsoft.Xna.Framework.Content.ContentManager content;
 		private List< GameObject > gameObjects;
 		private Rectangle chatBoardBoundaries;
-		private const int maxMessages = 5;
-		private const int chatMessageTextureHeight = 68;
+		private const int MaxMessages = 5;
+		private const int ChatMessageTextureHeight = 68;
 	}
 }

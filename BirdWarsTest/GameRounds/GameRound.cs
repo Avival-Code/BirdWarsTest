@@ -1,10 +1,25 @@
-﻿using Lidgren.Network;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Stores the players connected to the server, their usernames, 
+list of banned players.
+*********************************************/
+using Lidgren.Network;
 using System.Collections.Generic;
 
 namespace BirdWarsTest.GameRounds
 {
+	/// <summary>
+	/// Stores the players connected to the server, their usernames, 
+	/// list of banned players.
+	/// </summary>
 	public class GameRound
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public GameRound()
 		{
 			PlayerConnections = new List< NetConnection >();
@@ -14,6 +29,11 @@ namespace BirdWarsTest.GameRounds
 			Created = false;
 		}
 
+		/// <summary>
+		/// Starts a gameRound. Clears all objects and adds the
+		/// server username the playersUsernames list.
+		/// </summary>
+		/// <param name="serverUsername">Server username</param>
 		public void CreateRound( string serverUsername )
 		{
 			PlayerConnections.Clear();
@@ -23,11 +43,19 @@ namespace BirdWarsTest.GameRounds
 			playerUsernames.Add( serverUsername );
 		}
 
+		/// <summary>
+		/// Destroys round.
+		/// </summary>
 		public void DestroyRound()
 		{
 			Created = false;
 		}
 
+		/// <summary>
+		/// Adds a player to the game round.
+		/// </summary>
+		/// <param name="username">Player username</param>
+		/// <param name="playerConnection">Player connection</param>
 		public void AddPlayer( string username, NetConnection playerConnection )
 		{
 			if( Created && RoomAvailable() && !IsBanned( username ) )
@@ -38,6 +66,10 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
+		/// <summary>
+		/// Removes a player from the game round.
+		/// </summary>
+		/// <param name="username">Player username</param>
 		public void RemovePlayer( string username )
 		{
 			for( int i = 0; i < playerUsernames.Count; i++ )
@@ -52,6 +84,11 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
+		/// <summary>
+		/// Removes a player from the gameRound.
+		/// </summary>
+		/// <param name="playerConnection">Player connection</param>
+		/// <param name="username">Player username</param>
 		public void RemovePlayer( NetConnection playerConnection, string username )
 		{
 			PlayerConnections.Remove( playerConnection );
@@ -66,6 +103,13 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
+		/// <summary>
+		/// Processes a chat message, checks if ban
+		/// request was made and adds ban to list of bans.
+		/// </summary>
+		/// <param name="chatMessage">The chat message to parse</param>
+		/// <param name="banMessage">The ban message.</param>
+		/// <returns>Returns the name of the player to ban.</returns>
 		public string DoBanRequest( string chatMessage, string banMessage )
 		{
 			if( IsBanRequestInChatMessage( chatMessage, banMessage ) )
@@ -117,6 +161,9 @@ namespace BirdWarsTest.GameRounds
 			return isBanned;
 		}
 
+		/// <summary>
+		/// Resets the number of bans in the gameRound.
+		/// </summary>
 		public void ResetBanPetitions()
 		{
 			for( int i = 0; i < playerBanPetitions.Count; i++ )
@@ -125,16 +172,20 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
-		public int GetPlayerCount()
-		{
-			return PlayerConnections.Count;
-		}
-
+		/// <summary>
+		/// Checks if there is room available in the game round.
+		/// </summary>
+		/// <returns></returns>
 		public bool RoomAvailable()
 		{
-			return ( maxPlayers - playerUsernames.Count ) > 0;
+			return ( MaxPlayers - playerUsernames.Count ) > 0;
 		}
 
+		/// <summary>
+		/// Gets the connection of the player that matches the username.
+		/// </summary>
+		/// <param name="username">Desired player username.</param>
+		/// <returns>The connection of the player client.</returns>
 		public NetConnection GetPlayerConnection( string username )
 		{
 			NetConnection temp = null;
@@ -148,6 +199,10 @@ namespace BirdWarsTest.GameRounds
 			return temp;
 		}
 
+		/// <summary>
+		/// Returns a list of player usernames.
+		/// </summary>
+		/// <returns>Returns a list of player usernames.</returns>
 		public string [] GetPlayerUsernames()
 		{
 			string [] temp = new string[ 8 ];
@@ -165,13 +220,15 @@ namespace BirdWarsTest.GameRounds
 			return temp;
 		}
 
+		/// <value>The list of player conenctions.</value>
 		public List< NetConnection > PlayerConnections { get; private set; }
 
+		/// <value>bool indicating if the round has been created..</value>
 		public bool Created { get; private set; }
 
 		private List< string > playerUsernames;
 		private List< string > bannedPlayers;
 		private List< int > playerBanPetitions;
-		private const int maxPlayers = 8;
+		private const int MaxPlayers = 8;
 	}
 }

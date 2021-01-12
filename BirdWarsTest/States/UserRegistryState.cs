@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles drawing and updating of all gameObjects 
+necessary for UserRegistryState.
+*********************************************/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.GameObjects;
@@ -10,8 +18,22 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
-	class UserRegistryState : GameState
+	/// <summary>
+	/// Handles drawing and updating of all gameObjects 
+	/// necessary for UserRegistryState.
+	/// </summary>
+	public class UserRegistryState : GameState
 	{
+		/// <summary>
+		/// Creates empty MainMenuState. Sets gamewindow reference and initializes
+		/// gameObjects List.
+		/// </summary>
+		/// <param name="newContent">Game contentManager</param>
+		/// <param name="gameWindowIn">Game window reference</param>
+		/// <param name="newGraphics">Graphics device reference</param>
+		/// <param name="networkManagerIn">Game network manager</param>
+		/// <param name="width_in">State width</param>
+		/// <param name="height_in">State height</param>
 		public UserRegistryState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 								  GameWindow gameWindowIn, ref GraphicsDeviceManager newGraphics,
 								  ref INetworkManager networkManagerIn, int width_in, int height_in )
@@ -21,7 +43,12 @@ namespace BirdWarsTest.States
 			gameWindow = gameWindowIn;
 			GameObjects = new List< GameObject >();
 		}
-		
+
+		/// <summary>
+		/// Creates all state gameObjects.
+		/// </summary>
+		/// <param name="handler">Game state</param>
+		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
 			ClearContents();
@@ -88,17 +115,20 @@ namespace BirdWarsTest.States
 											 Identifiers.TextGraphics, stateWidth, GameObjects[ 16 ].Position.Y + 30 ) );
 		}
 
-		public override void Pause() {}
-
-		public override void Resume() {}
-
+		/// <summary>
+		/// Removes all gameObjects from state list.
+		/// </summary>
 		public override void ClearContents()
 		{
 			GameObjects.Clear();
 		}
 
-		public override void HandleInput( KeyboardState state ) {}
-
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			networkManager.ProcessMessages( handler );
@@ -106,29 +136,52 @@ namespace BirdWarsTest.States
 				objects.Update( state, this );
 		}
 
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameTime">GAme time</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
 			UpdateLogic( handler, state );
 		}
 
+		/// <summary>
+		/// Draws all gameObjects on the screen.
+		/// </summary>
+		/// <param name="batch">Game Spritebatch</param>
 		public override void Render( ref SpriteBatch batch ) 
 		{
 			foreach( var objects in GameObjects )
 				objects.Render( ref batch );
 		}
 
+		/// <summary>
+		/// Sets the error message on the error message object.
+		/// </summary>
+		/// <param name="errorMessage">Error message</param>
 		public override void SetErrorMessage( string errorMessage )
 		{
 			( ( TextGraphicsComponent )GameObjects[ 17 ].Graphics ).SetText( errorMessage );
 			GameObjects[ 17 ].RecenterXWidth( stateWidth );
 		}
 
+		/// <summary>
+		/// Sets the message on the message object.
+		/// </summary>
+		/// <param name="message">The message</param>
 		public override void SetMessage( string message )
 		{
 			( ( TextGraphicsComponent )GameObjects[ 18 ].Graphics ).SetText( message );
 			GameObjects[ 18 ].RecenterXWidth( stateWidth );
 		}
 
+		/// <summary>
+		/// Clear the text aras un objects at indices 6, 8, 10, 12, 14
+		/// and 16.
+		/// </summary>
 		public override void ClearTextAreas()
 		{
 			GameObjects[ 6 ].Input.ClearText();
@@ -139,6 +192,7 @@ namespace BirdWarsTest.States
 			GameObjects[ 16 ].Input.ClearText();
 		}
 
+		///<value>The list of state gameObjects</value>
 		public List<GameObject> GameObjects { get; set; }
 
 		private GameWindow gameWindow;

@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component that handles the displayed user
+input text.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -6,8 +14,16 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class TextAreaInputComponent : InputComponent
+	/// <summary>
+	/// Input component that handles the displayed user
+	/// input text.
+	/// </summary>
+	public class TextAreaInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Sets the game window reference, and default values.
+		/// </summary>
+		/// <param name="gameWindowIn"></param>
 		public TextAreaInputComponent( GameWindow gameWindowIn )
 		{
 			gameWindow = gameWindowIn;
@@ -18,8 +34,21 @@ namespace BirdWarsTest.InputComponents
 			visualCharacterTimer = 0;
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and game time.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="gameTime">Current game time.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Checks if the user clicked on the objects text area texture and if so,
+		/// sets focus on text area and allows user to type. If user clicks outside of
+		/// the text area texture bounds and focus is on, it sets focus off.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="state">Current keyboard state.</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state )
 		{
 			MouseState mouseState = Mouse.GetState();
@@ -28,6 +57,13 @@ namespace BirdWarsTest.InputComponents
 			UpdateTimers();
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state,
+		/// current keyboard state and current game state.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
 		{
 			HandleInput( gameObject, state );
@@ -136,9 +172,13 @@ namespace BirdWarsTest.InputComponents
 				AddCharacter( character );
 		}
 
+		/// <summary>
+		/// Adds character to the user input string.
+		/// </summary>
+		/// <param name="newChar">The character to be added</param>
 		public void AddCharacter( char newChar )
 		{
-			if( Text.Length < maxCharacters && IsValidChar( newChar ) )
+			if( Text.Length < MaxCharacters && IsValidChar( newChar ) )
 			{
 				if( visualCharacterIsOn )
 				{
@@ -161,6 +201,9 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		/// <summary>
+		/// Removes a character from the text string.
+		/// </summary>
 		public void RemoveCharacter()
 		{
 			if( Text.Length >= 1 )
@@ -191,11 +234,19 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		/// <summary>
+		/// Returns the user input text with visual characters.
+		/// </summary>
+		/// <returns>Returns the user input text with visual characters.</returns>
 		public override string GetText()
 		{
 			return Text;
 		}
 
+		/// <summary>
+		/// Returns the user input text without the visual characters.
+		/// </summary>
+		/// <returns>Returns the user input text without the visual characters.</returns>
 		public override string GetTextWithoutVisualCharacter()
 		{
 			if( visualCharacterIsOn )
@@ -208,6 +259,9 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		/// <summary>
+		/// Clears the user input text.
+		/// </summary>
 		public override void ClearText()
 		{
 			if( visualCharacterIsOn )
@@ -220,10 +274,11 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		///<value>The user input text.</value>
 		public string Text { get; set; }
 
-		private GameWindow gameWindow;
-		private const int maxCharacters = 40;
+		private readonly GameWindow gameWindow;
+		private const int MaxCharacters = 40;
 		private bool hasFocus;
 		private bool clickedBox;
 		private bool visualCharacterIsOn;

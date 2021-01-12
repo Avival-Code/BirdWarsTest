@@ -1,12 +1,25 @@
-﻿using Lidgren.Network;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Message sent to server to indicating it that the game round 
+has been created.
+*********************************************/
+using Lidgren.Network;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class RoundCreatedMessage : IGameMessage
+	/// <summary>
+	/// Message sent to server to indicating it that the game round 
+	/// has been created.
+	/// </summary>
+	public class RoundCreatedMessage : IGameMessage
 	{
+		/// <summary>
+		/// Creates the game message from an incoming message
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public RoundCreatedMessage( NetIncomingMessage incomingMessage )
 		{
 			playerUsernameList = new string[ 8 ];
@@ -14,6 +27,12 @@ namespace BirdWarsTest.Network.Messages
 			Decode( incomingMessage );
 		}
 
+		/// <summary>
+		/// Creates a message with input bool and list of
+		/// usernames in player round.
+		/// </summary>
+		/// <param name="roundCreatedIn"></param>
+		/// <param name="usernames"></param>
 		public RoundCreatedMessage( bool roundCreatedIn, string [] usernames )
 		{
 			playerUsernameList = new string[ 8 ];
@@ -24,11 +43,19 @@ namespace BirdWarsTest.Network.Messages
 				playerUsernameList[ i ] = usernames[ i ];
 			}
 		}
-		public GameMessageTypes messageType
+
+		/// <summary>
+		/// Returns the message type
+		/// </summary>
+		public GameMessageTypes MessageType
 		{
 			get{ return GameMessageTypes.RoundCreatedMessage; }
 		}
 
+		/// <summary>
+		/// Decodes the incoming message data.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
 			RoundCreated = incomingMessage.ReadBoolean();
@@ -38,6 +65,10 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
+		/// <summary>
+		/// Writes the current message data to an outgoing message.
+		/// </summary>
+		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
 			outgoingMessage.Write( RoundCreated );
@@ -47,7 +78,7 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
-		public void EmptyFill()
+		private void EmptyFill()
 		{
 			for( int i = 0; i < 8; i++ )
 			{
@@ -55,8 +86,8 @@ namespace BirdWarsTest.Network.Messages
 			}
 		}
 
+		///<value>Boo indicating that the round has been created</value>
 		public bool RoundCreated { get; private set; }
-
 		private string [] playerUsernameList;
 	}
 }

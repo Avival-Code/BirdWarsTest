@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.Database;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+The client network manager handles all messages and matters 
+relating to the server and it's connection.
+*********************************************/
+using BirdWarsTest.Database;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.Network.Messages;
 using BirdWarsTest.Utilities;
@@ -10,35 +18,66 @@ using System.Net;
 
 namespace BirdWarsTest.Network
 {
+	/// <summary>
+	/// The client network manager handles all messages and matters 
+	/// relating to the server and it's connection.
+	/// </summary>
 	public class ClientNetworkManager : INetworkManager
 	{
+		/// <summary>
+		/// Creates an instance of the client manager which tries
+		/// to connect to the server at a local location.
+		/// </summary>
 		public ClientNetworkManager()
 		{
 			UserSession = new LoginSession();
 			Connect();
 		}
 
+		/// <summary>
+		/// Sends a LoginRequestMessage to the server.
+		/// </summary>
+		/// <param name="email">User email</param>
+		/// <param name="password">User password</param>
 		public void Login( string email, string password )
 		{
 			SendMessage( new LoginRequestMessage( email, password ) );
 		}
 
+		/// <summary>
+		/// Closes the current user session.
+		/// </summary>
 		public void Logout()
 		{
 			UserSession.Logout();
 		}
 
+		/// <summary>
+		/// The client tries to connect to the server at the specified
+		/// ip address and port.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="address">Ip addres</param>
+		/// <param name="port">Port</param>
 		public void ConnectToSpecificServer( StateHandler handler, string address, string port )
 		{
 			netClient.Disconnect( "" );
 			netClient.Connect( new IPEndPoint( NetUtility.Resolve( address ), Convert.ToInt32( port ) ) );
 		}
 
+		/// <summary>
+		/// Return the current user session.
+		/// </summary>
+		/// <returns></returns>
 		public LoginSession GetLoginSession()
 		{
 			return UserSession;
 		}
 
+		/// <summary>
+		/// Configures the netclient and attempts to connect to the server
+		/// on a local address.
+		/// </summary>
 		public void Connect()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
@@ -61,37 +100,57 @@ namespace BirdWarsTest.Network
 			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ) );
 		}
 
-		public void Connect( string email, string password ) { }
-
+		/// <summary>
+		/// Creates and returns a Netoutgoing message.
+		/// </summary>
+		/// <returns>Creates and returns a Netoutgoing message.</returns>
 		public NetOutgoingMessage CreateMessage()
 		{
 			return netClient.CreateMessage();
 		}
 
+		/// <summary>
+		/// Client disconnects from the server.
+		/// </summary>
 		public void Disconnect()
 		{
-			netClient.Disconnect( "Bye" );
+			netClient.Disconnect( "" );
 		}
 
+		/// <summary>
+		/// Method included in framework
+		/// </summary>
 		public void Dispose()
 		{
 			Dispose( true );
 		}
 
+		/// <summary>
+		/// Reads an incoming message sent by the server.
+		/// </summary>
+		/// <returns></returns>
 		public NetIncomingMessage ReadMessage()
 		{
 			return netClient.ReadMessage();
 		}
 
+		/// <summary>
+		/// Recycles the incoming messages that are consumed.
+		/// </summary>
+		/// <param name="im"></param>
 		public void Recycle( NetIncomingMessage im )
 		{
 			netClient.Recycle( im );
 		}
 
+		/// <summary>
+		/// Sends a message to the server.
+		/// </summary>
+		/// <param name="gameMessage"></param>
 		public void SendMessage( IGameMessage gameMessage )
 		{
 			NetOutgoingMessage outgoingMessage = netClient.CreateMessage();
-			outgoingMessage.Write( ( byte )gameMessage.messageType );
+			outgoingMessage.Write( ( byte )gameMessage.MessageType );
 			gameMessage.Encode( outgoingMessage );
 
 			netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
@@ -109,16 +168,28 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Return the network manager connection status.
+		/// </summary>
+		/// <returns></returns>
 		public NetConnectionStatus GetConnectionState()
 		{
 			return netClient.ConnectionStatus;
 		}
 
+		/// <summary>
+		/// Checks if this instance on network manager is the server
+		/// </summary>
+		/// <returns></returns>
 		public bool IsHost()
 		{
 			return false;
 		}
 
+		/// <summary>
+		/// Method processes the incoming messages sent by the server.
+		/// </summary>
+		/// <param name="handler">Game statehandler.</param>
 		public void ProcessMessages( StateHandler handler )
 		{
 			NetIncomingMessage incomingMessage;
@@ -311,36 +382,36 @@ namespace BirdWarsTest.Network
 																					incomingMessage, UserSession.CurrentUser.Username );
 		}
 
-		public void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
 																												    stateChangeMessage );
 		}
 
-		public void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
 		}
 
-		public void HandleSpawnConsumablesMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleSpawnConsumablesMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
 		}
 
-		public void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
 
-		public void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
 		}
 
-		public void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PickedUpItemMessage itemMessage = new PickedUpItemMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
@@ -374,7 +445,7 @@ namespace BirdWarsTest.Network
 			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser, 
 																						 UserSession.CurrentAccount );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )updateMessage.messageType );
+			outgoingMessage.Write( ( byte )updateMessage.MessageType );
 			updateMessage.Encode( outgoingMessage );
 
 			netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
@@ -386,78 +457,155 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
 		}
 
+		/// <summary>
+		/// Sends a RegisterUserMessage to server to create a new user
+		/// in the database.
+		/// </summary>
+		/// <param name="nameIn">User name</param>
+		/// <param name="lastNameIn">User last names</param>
+		/// <param name="usernameIn"> User username</param>
+		/// <param name="emailIn">User email</param>
+		/// <param name="passwordIn">User password</param>
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			SendMessage( new RegisterUserMessage( new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn ) ) );
 		}
 
+		/// <summary>
+		/// Method unused by client.
+		/// </summary>
 		public void CreateRound() {}
 
+		/// <summary>
+		/// Method unused by client.
+		/// </summary>
 		public void StartRound() {}
 
+		/// <summary>
+		/// Sends a JoinRoundRequestMessage to server.
+		/// </summary>
 		public void JoinRound()
 		{
 			SendMessage( new JoinRoundRequestMessage( UserSession.CurrentUser.Username ) );
 		}
 
+		/// <summary>
+		/// Sends a LeaveRoundMessage to the server
+		/// </summary>
 		public void LeaveRound()
 		{
 			SendMessage( new LeaveRoundMessage( UserSession.CurrentUser.Username ) );
 		}
 
+		/// <summary>
+		/// Sends a chat message to the server
+		/// </summary>
+		/// <param name="message"></param>
 		public void SendChatMessage( string message )
 		{
 			SendMessage( new ChatMessage( UserSession.CurrentUser.Username, message ) );
 		}
 
+		/// <summary>
+		/// Sends a SolicitPasswordResetMessage to the server.
+		/// </summary>
+		/// <param name="emailIn"></param>
 		public void SendPasswordChangeMessage( string emailIn ) 
 		{
 			SendMessage( new SolicitPasswordResetMessage( emailIn ) );
 		}
 
+		/// <summary>
+		/// Sends a PlayerStateChangedMessage to the server
+		/// </summary>
+		/// <param name="player"></param>
 		public void SendPlayerStateChangeMessage( GameObject player )
 		{
 			SendMessage( new PlayerStateChangeMessage( player ) );
 		}
 
+		/// <summary>
+		/// Method unused by client
+		/// </summary>
+		/// <param name="boxes"></param>
 		public void SendSpawnBoxMessage( List< GameObject > boxes ) {}
 
+		/// <summary>
+		/// Method unused by client
+		/// </summary>
+		/// <param name="consumables"></param>
 		public void SendSpawnConsumablesMessage( List< GameObject > consumables ) {}
 
+		/// <summary>
+		/// Sends a BoxDamageMessage to server.
+		/// </summary>
+		/// <param name="boxIndex">Target box index</param>
+		/// <param name="damage">Damage sustained</param>
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{
 			SendMessage( new BoxDamageMessage( boxIndex, damage ) );
 		}
 
+		/// <summary>
+		/// Sends a PlayerAttackMessage to server
+		/// </summary>
+		/// <param name="localPlayerIndex">local player index</param>
 		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
 		{
 			SendMessage( new PlayerAttackMessage( localPlayerIndex ) );
 		}
 
+		/// <summary>
+		/// Sends a PickedUpIte message to server
+		/// </summary>
+		/// <param name="itemIndex">Item index</param>
 		public void SendPickedUpItemMessage( int itemIndex )
 		{
 			SendMessage( new PickedUpItemMessage( itemIndex ) );
 		}
 
+		/// <summary>
+		/// Sends s SpawnGrenadeMessage to server
+		/// </summary>
+		/// <param name="grenade"></param>
 		public void SendSpawnGrenadeMessage( GameObject grenade )
 		{
 			SendMessage( new SpawnGrenadeMessage( grenade ) );
 		}
 
+		/// <summary>
+		/// Method unused by client
+		/// </summary>
+		/// <param name="remainingTime"></param>
 		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
 
+		/// <summary>
+		/// Method unused by client
+		/// </summary>
+		/// <param name="remainingRoundTime"></param>
 		public void SendRoundFinishedMessage( int remainingRoundTime ) {}
 
+		/// <summary>
+		/// Sends a PlayerIsDeadMessage to server.
+		/// </summary>
+		/// <param name="playerId"></param>
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
 			SendMessage( new PlayerIsDeadMessage( playerId ) );
 		}
 
+		/// <summary>
+		/// Sends a PasswordReset message to server.
+		/// </summary>
+		/// <param name="code">Generated code</param>
+		/// <param name="email">user email</param>
+		/// <param name="password">new password</param>
 		public void UpdatePassword( string code, string email, string password ) 
 		{
 			SendMessage( new PasswordResetMessage( code, email, password ) );
 		}
 
+		///<value>The current user session.</value>
 		public LoginSession UserSession { get; private set; }
 		private NetClient netClient;
 		private bool isDisposed;

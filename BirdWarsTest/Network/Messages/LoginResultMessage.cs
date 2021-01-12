@@ -1,10 +1,26 @@
-﻿using Lidgren.Network;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Message sent to the client by the server telling it if
+login was approved or denied.
+*********************************************/
+using Lidgren.Network;
 using BirdWarsTest.Database;
 
 namespace BirdWarsTest.Network.Messages
 {
+	/// <summary>
+	/// Message sent to the client by the server telling it if
+	/// login was approved or denied.
+	/// </summary>
 	public class LoginResultMessage : IGameMessage
 	{
+		/// <summary>
+		/// Creates the game message from an incoming message
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public LoginResultMessage( NetIncomingMessage incomingMessage )
 		{
 			User = new User();
@@ -12,6 +28,14 @@ namespace BirdWarsTest.Network.Messages
 			Decode( incomingMessage );
 		}
 
+		/// <summary>
+		/// Creates the message from the login result bool, the reason of 
+		/// failed login, the user and account of the approved login credentials.
+		/// </summary>
+		/// <param name="result">Approved or denied bool</param>
+		/// <param name="reasonIn">The reason why request was denied</param>
+		/// <param name="userIn">User</param>
+		/// <param name="userAccountIn">Account</param>
 		public LoginResultMessage( bool result, string reasonIn, User userIn, Account userAccountIn )
 		{
 			User = new User();
@@ -22,11 +46,18 @@ namespace BirdWarsTest.Network.Messages
 			Account = userAccountIn;
 		}
 
-		public GameMessageTypes messageType
+		/// <summary>
+		/// Returns the message type
+		/// </summary>
+		public GameMessageTypes MessageType
 		{
 			get{ return GameMessageTypes.LoginResultMessage; }
 		}
 
+		/// <summary>
+		/// Decodes the incoming message data.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
 			LoginRequestResult = incomingMessage.ReadBoolean();
@@ -56,6 +87,10 @@ namespace BirdWarsTest.Network.Messages
 			Account.Money = incomingMessage.ReadInt32();
 		}
 
+		/// <summary>
+		/// Writes the current message data to an outgoing message.
+		/// </summary>
+		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
 			outgoingMessage.Write( LoginRequestResult );
@@ -85,9 +120,16 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( Account.Money );
 		}
 
+		///<value>The result of the login request</value>
 		public bool LoginRequestResult { get; private set; }
+
+		///<value>The reason for denial (if denied)</value>
 		public string Reason { get; private set; }
+
+		///<value>The user of the login credentials</value>
 		public User User { get; private set; }
+
+		///<value>The account of the login credentials</value>
 		public Account Account { get; private set; }
 	}
 }

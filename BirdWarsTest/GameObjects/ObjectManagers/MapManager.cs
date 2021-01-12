@@ -1,4 +1,11 @@
-﻿using BirdWarsTest.GraphicComponents;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the creation, and display of the game map.
+*********************************************/
+using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -8,8 +15,14 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
+	/// <summary>
+	/// Handles the creation, and display of the game map.
+	/// </summary>
 	public class MapManager
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public MapManager()
 		{
 			tileValues = new List< string >();
@@ -21,6 +34,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			tileHeight = 64.0f;
 		}
 
+		/// <summary>
+		/// Creates the map from the list of tile textures.
+		/// </summary>
+		/// <param name="content">game contentManager.</param>
 		public void InitializeMapTiles( Microsoft.Xna.Framework.Content.ContentManager content )
 		{
 			string tileTextureName = "";
@@ -62,6 +79,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Calculates the map area rectangle with the game Tiles.
+		/// </summary>
+		/// <returns>A rectangle of the map area.</returns>
 		public Rectangle GetMapBounds()
 		{
 			return new Rectangle( ( int )position.X, ( int )position.Y, 
@@ -69,6 +90,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 								  tiles[ ( maxTilesHorizontal * maxTilesVertical ) - 1 ].GetRectangle().Bottom );
 		}
 
+		/// <summary>
+		/// Draws the game tiles to the screen.
+		/// </summary>
+		/// <param name="batch">Game spritebatch.</param>
 		public void Render( ref SpriteBatch batch )
 		{
 			foreach( GameObject tile in tiles )
@@ -77,6 +102,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Draws the objects that are withing the camera render
+		/// bounds to the screen.
+		/// </summary>
+		/// <param name="batch"></param>
+		/// <param name="cameraRenderBounds"></param>
+		/// <param name="cameraBounds"></param>
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
 		{
 			for( int y = 0; y < maxTilesVertical; y++ )
@@ -91,6 +123,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Removes al gameObjects from tile list and resets tile values.
+		/// </summary>
 		public void ClearAllTiles()
 		{
 			tileValues.Clear();
@@ -100,9 +135,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		private GameObject [] tiles;
 		private List< string > tileValues;
 		private Vector2 position;
-		private int maxTilesHorizontal;
-		private int maxTilesVertical;
-		private float tileWidth;
-		private float tileHeight;
+		private readonly int maxTilesHorizontal;
+		private readonly int maxTilesVertical;
+		private readonly float tileWidth;
+		private readonly float tileHeight;
 	}
 }

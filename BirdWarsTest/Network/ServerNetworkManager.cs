@@ -1,6 +1,15 @@
 ﻿using BirdWarsTest.States;
 using BirdWarsTest.Database;
 using BirdWarsTest.Network.Messages;
+/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+The server network manager handles distributing messages
+to all clients, their messages, and user login, registration and
+update.
+*********************************************/
 using BirdWarsTest.GameRounds;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.Utilities;
@@ -10,8 +19,17 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.Network
 {
+	/// <summary>
+	/// The server network manager handles distributing messages
+	/// to all clients, their messages, and user login, registration and
+	/// update.
+	/// </summary>
 	public class ServerNetworkManager : INetworkManager
 	{
+		/// <summary>
+		/// Configures the server network manager and instanciates
+		/// all necessary classes.
+		/// </summary>
 		public ServerNetworkManager()
 		{
 			Connect();
@@ -22,32 +40,54 @@ namespace BirdWarsTest.Network
 			UserSession = new LoginSession();
 		}
 
+		/// <summary>
+		/// Sends a loginRequest Message to self for processing.
+		/// </summary>
+		/// <param name="email">User email</param>
+		/// <param name="password">User password</param>
 		public void Login( string email, string password )
 		{
 			LoginRequestMessage loginMessage = new LoginRequestMessage( email, password );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )loginMessage.messageType );
+			outgoingMessage.Write( ( byte )loginMessage.MessageType );
 			loginMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		/// <summary>
+		/// Closes the current user session.
+		/// </summary>
 		public void Logout()
 		{
 			UserSession.Logout();
 		}
 
+		/// <summary>
+		/// Method unused by setver network manager.
+		/// This IS the server.
+		/// </summary>
+		/// <param name="handler"></param>
+		/// <param name="address"></param>
+		/// <param name="port"></param>
 		public void ConnectToSpecificServer( StateHandler handler, string address, string port )
 		{
 			( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).SetMessage( 
 							  handler.StringManager.GetString( StringNames.IAmTheServer ) );
 		}
 
+		/// <summary>
+		/// Returns current user session.
+		/// </summary>
+		/// <returns>Returns current user session.</returns>
 		public LoginSession GetLoginSession()
 		{
 			return UserSession;
 		}
 
+		/// <summary>
+		/// Configures the server network manager and starts it.
+		/// </summary>
 		public void Connect()
 		{
 			var config = new NetPeerConfiguration( "BirdWars" )
@@ -69,35 +109,57 @@ namespace BirdWarsTest.Network
 			netServer.Start();
 		}
 
+		/// <summary>
+		/// Creates and return a NetOutgoingMessage
+		/// </summary>
+		/// <returns></returns>
 		public NetOutgoingMessage CreateMessage()
 		{
 			return netServer.CreateMessage();
 		}
 
+		/// <summary>
+		/// Disconnects the server.
+		/// </summary>
 		public void Disconnect()
 		{
 			netServer.Shutdown( "Bye" );
 		}
 
+		/// <summary>
+		/// Framework method.
+		/// </summary>
 		public void Dispose()
 		{
 			this.Dispose( true );
 		}
 
+		/// <summary>
+		/// Reads and returns any incoming messages.
+		/// </summary>
+		/// <returns></returns>
 		public NetIncomingMessage ReadMessage()
 		{
 			return netServer.ReadMessage();
 		}
 
+		/// <summary>
+		/// Recycles any consumed incoming Messages.
+		/// </summary>
+		/// <param name="im">The incoming message</param>
 		public void Recycle( NetIncomingMessage im )
 		{
 			netServer.Recycle( im );
 		}
 
+		/// <summary>
+		/// Sends a message to all client connections.
+		/// </summary>
+		/// <param name="gameMessage"></param>
 		public void SendMessage( IGameMessage gameMessage )
 		{
 			NetOutgoingMessage outgoingMessage = netServer.CreateMessage();
-			outgoingMessage.Write( ( byte )gameMessage.messageType );
+			outgoingMessage.Write( ( byte )gameMessage.MessageType );
 			gameMessage.Encode( outgoingMessage );
 
 			netServer.SendToAll( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
@@ -115,16 +177,28 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Returns the netconnection status.
+		/// </summary>
+		/// <returns></returns>
 		public NetConnectionStatus GetConnectionState()
 		{
 			return NetConnectionStatus.None;
 		}
 
+		/// <summary>
+		/// Checks if the current instance is the host/server.
+		/// </summary>
+		/// <returns></returns>
 		public bool IsHost()
 		{
 			return true;
 		}
 
+		/// <summary>
+		/// Processes any incoming client or server messages.
+		/// </summary>
+		/// <param name="handler"></param>
 		public void ProcessMessages( StateHandler handler )
 		{
 			NetIncomingMessage incomingMessage;
@@ -252,7 +326,7 @@ namespace BirdWarsTest.Network
 			TestConnectionMessage testMessage = new TestConnectionMessage( 
 												handler.StringManager.GetString( StringNames.ConnectionSuccessful ) );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )testMessage.messageType );
+			outgoingMessage.Write( ( byte )testMessage.MessageType );
 			testMessage.Encode( outgoingMessage );
 
 			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
@@ -291,7 +365,7 @@ namespace BirdWarsTest.Network
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )loginResult.messageType );
+			outgoingMessage.Write( ( byte )loginResult.MessageType );
 			loginResult.Encode( outgoingMessage );
 
 			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
@@ -355,7 +429,7 @@ namespace BirdWarsTest.Network
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			outgoingMessage.Write( ( byte )resultMessage.MessageType );
 			resultMessage.Encode( outgoingMessage );
 
 			incomingMessage.SenderConnection.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered,
@@ -403,7 +477,7 @@ namespace BirdWarsTest.Network
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			outgoingMessage.Write( ( byte )resultMessage.MessageType );
 			resultMessage.Encode( outgoingMessage );
 
 			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
@@ -459,7 +533,7 @@ namespace BirdWarsTest.Network
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )resultMessage.messageType );
+			outgoingMessage.Write( ( byte )resultMessage.MessageType );
 			resultMessage.Encode( outgoingMessage );
 
 			netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, NetDeliveryMethod.ReliableUnordered );
@@ -471,7 +545,7 @@ namespace BirdWarsTest.Network
 
 			RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
-			updateMessage.Write( ( byte )newRoundState.messageType );
+			updateMessage.Write( ( byte )newRoundState.MessageType );
 			newRoundState.Encode( updateMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -496,14 +570,14 @@ namespace BirdWarsTest.Network
 				GameRound.AddPlayer( incomingMessage.ReadString(), incomingMessage.SenderConnection );
 				RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 				NetOutgoingMessage updateMessage = CreateMessage();
-				updateMessage.Write( ( byte )newRoundState.messageType );
+				updateMessage.Write( ( byte )newRoundState.MessageType );
 				newRoundState.Encode( updateMessage );
 
 				netServer.SendUnconnectedToSelf( updateMessage );
 
 				JoinRoundRequestResultMessage resultMessage = new JoinRoundRequestResultMessage( true, GameRound.GetPlayerUsernames() );
 				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )resultMessage.messageType );
+				outgoingMessage.Write( ( byte )resultMessage.MessageType );
 				resultMessage.Encode( outgoingMessage );
 
 				netServer.SendMessage( outgoingMessage, incomingMessage.SenderConnection, 
@@ -516,7 +590,7 @@ namespace BirdWarsTest.Network
 			GameRound.RemovePlayer( incomingMessage.SenderConnection, incomingMessage.ReadString() );
 			RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
-			updateMessage.Write( ( byte )newRoundState.messageType );
+			updateMessage.Write( ( byte )newRoundState.MessageType );
 			newRoundState.Encode( updateMessage );
 
 			netServer.SendUnconnectedToSelf( updateMessage );
@@ -532,7 +606,7 @@ namespace BirdWarsTest.Network
 			StartRoundMessage startMessage = new StartRoundMessage( GameRound.GetPlayerUsernames(),
 											( ( PlayState )handler.GetCurrentState() ).PlayerManager.Players );
 			NetOutgoingMessage outgoingStartMessage = CreateMessage();
-			outgoingStartMessage.Write( ( byte )startMessage.messageType );
+			outgoingStartMessage.Write( ( byte )startMessage.MessageType );
 			startMessage.Encode( outgoingStartMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -543,7 +617,7 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.SpawnBoxes();
 			SpawnBoxMessage spawnBoxesMessage = new SpawnBoxMessage( ( ( PlayState )handler.GetCurrentState() ).ItemManager.Boxes );
 			NetOutgoingMessage outgoingBoxMessage = CreateMessage();
-			outgoingBoxMessage.Write( ( byte )spawnBoxesMessage.messageType );
+			outgoingBoxMessage.Write( ( byte )spawnBoxesMessage.MessageType );
 			spawnBoxesMessage.Encode( outgoingBoxMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -563,14 +637,14 @@ namespace BirdWarsTest.Network
 			{
 				BanPlayerMessage banMessage = new BanPlayerMessage( playerToBan );
 				NetOutgoingMessage outgoingBanMessage = CreateMessage();
-				outgoingBanMessage.Write( ( byte )banMessage.messageType );
+				outgoingBanMessage.Write( ( byte )banMessage.MessageType );
 				banMessage.Encode( outgoingBanMessage );
 
 				netServer.SendUnconnectedToSelf( outgoingBanMessage );
 			}
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )chatMessage.messageType );
+			outgoingMessage.Write( ( byte )chatMessage.MessageType );
 			chatMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -586,7 +660,7 @@ namespace BirdWarsTest.Network
 			{
 				ExitWaitingRoomMessage leaveMessage = new ExitWaitingRoomMessage();
 				NetOutgoingMessage outgoingMessage = CreateMessage();
-				outgoingMessage.Write( ( byte )leaveMessage.messageType );
+				outgoingMessage.Write( ( byte )leaveMessage.MessageType );
 
 				netServer.SendMessage( outgoingMessage, GameRound.GetPlayerConnection( banMessage.Username ),
 									   NetDeliveryMethod.ReliableUnordered );
@@ -594,7 +668,7 @@ namespace BirdWarsTest.Network
 				GameRound.RemovePlayer( banMessage.Username );
 				RoundStateChangedMessage roundChangedMessage = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 				NetOutgoingMessage outgoingStateMessage = CreateMessage();
-				outgoingStateMessage.Write( ( byte )roundChangedMessage.messageType );
+				outgoingStateMessage.Write( ( byte )roundChangedMessage.MessageType );
 				roundChangedMessage.Encode( outgoingStateMessage );
 
 				netServer.SendUnconnectedToSelf( outgoingStateMessage );
@@ -609,7 +683,7 @@ namespace BirdWarsTest.Network
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )stateChangeMessage.messageType );
+			outgoingMessage.Write( ( byte )stateChangeMessage.MessageType );
 			stateChangeMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -628,7 +702,7 @@ namespace BirdWarsTest.Network
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )boxDamageMessage.messageType );
+			outgoingMessage.Write( ( byte )boxDamageMessage.MessageType );
 			boxDamageMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -646,7 +720,7 @@ namespace BirdWarsTest.Network
 		{
 			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )playerAttackMessage.messageType );
+			outgoingMessage.Write( ( byte )playerAttackMessage.MessageType );
 			playerAttackMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -664,7 +738,7 @@ namespace BirdWarsTest.Network
 		{
 			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )pickedUpItemMessage.messageType );
+			outgoingMessage.Write( ( byte )pickedUpItemMessage.MessageType );
 			pickedUpItemMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -683,7 +757,7 @@ namespace BirdWarsTest.Network
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )grenadeMessage.messageType );
+			outgoingMessage.Write( ( byte )grenadeMessage.MessageType );
 			grenadeMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -710,7 +784,7 @@ namespace BirdWarsTest.Network
 
 			RoundStateChangedMessage roundStateChanged = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )roundStateChanged.messageType );
+			outgoingMessage.Write( ( byte )roundStateChanged.MessageType );
 			roundStateChanged.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
@@ -728,7 +802,7 @@ namespace BirdWarsTest.Network
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
 
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )deathMessage.messageType );
+			outgoingMessage.Write( ( byte )deathMessage.MessageType );
 			deathMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -744,7 +818,7 @@ namespace BirdWarsTest.Network
 		{
 			ExitWaitingRoomMessage exitMessage = new ExitWaitingRoomMessage( incomingMessage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )exitMessage.messageType );
+			outgoingMessage.Write( ( byte )exitMessage.MessageType );
 			exitMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -755,32 +829,49 @@ namespace BirdWarsTest.Network
 			GameRound.DestroyRound();
 		}
 
+		/// <summary>
+		/// Sends a RegisterUserMessage to self for processing.
+		/// </summary>
+		/// <param name="nameIn">User name</param>
+		/// <param name="lastNameIn">User last name</param>
+		/// <param name="usernameIn">User username</param>
+		/// <param name="emailIn">User email</param>
+		/// <param name="passwordIn">User password</param>
 		public void RegisterUser( string nameIn, string lastNameIn, string usernameIn, string emailIn, string passwordIn )
 		{
 			var user = new User( nameIn, lastNameIn, usernameIn, emailIn, passwordIn );
 			RegisterUserMessage registerUserMessage = new RegisterUserMessage( user );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )registerUserMessage.messageType );
+			outgoingMessage.Write( ( byte )registerUserMessage.MessageType );
 			registerUserMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		/// <summary>
+		/// Sends a PasswordSOlicitMessage to self for processing
+		/// </summary>
+		/// <param name="emailIn">User email.</param>
 		public void SendPasswordChangeMessage( string emailIn )
 		{
 			SolicitPasswordResetMessage solicitMessage = new SolicitPasswordResetMessage( emailIn );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )solicitMessage.messageType );
+			outgoingMessage.Write( ( byte )solicitMessage.MessageType );
 			solicitMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		/// <summary>
+		/// Sends a PlayerStateChangeMessage to al clients with updated player
+		/// state.
+		/// </summary>
+		/// <param name="player">The target player</param>
 		public void SendPlayerStateChangeMessage( GameObject player )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( player );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )stateChangeMessage.messageType );
+			outgoingMessage.Write( ( byte )stateChangeMessage.MessageType );
 			stateChangeMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -789,11 +880,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a SpawnBoxMessage to all clients.
+		/// </summary>
+		/// <param name="boxes">List of boxes.</param>
 		public void SendSpawnBoxMessage( List< GameObject > boxes )
 		{
 			SpawnBoxMessage spawnBoxMessage = new SpawnBoxMessage( boxes );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )spawnBoxMessage.messageType );
+			outgoingMessage.Write( ( byte )spawnBoxMessage.MessageType );
 			spawnBoxMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -802,11 +897,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a SpawnConsumableMessage to all clients.
+		/// </summary>
+		/// <param name="consumables"></param>
 		public void SendSpawnConsumablesMessage( List< GameObject > consumables )
 		{
 			SpawnConsumablesMessage spawnConsumablesMessage = new SpawnConsumablesMessage( consumables );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )spawnConsumablesMessage.messageType );
+			outgoingMessage.Write( ( byte )spawnConsumablesMessage.MessageType );
 			spawnConsumablesMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -815,11 +914,16 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a BoxDamage message to all clients.
+		/// </summary>
+		/// <param name="boxIndex"></param>
+		/// <param name="damage"></param>
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( boxIndex, damage );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )boxDamageMessage.messageType );
+			outgoingMessage.Write( ( byte )boxDamageMessage.MessageType );
 			boxDamageMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -828,11 +932,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a PlayerAttackMessage to all clients.
+		/// </summary>
+		/// <param name="localPlayerIndex"></param>
 		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
 		{
 			PlayerAttackMessage attackMessage = new PlayerAttackMessage( localPlayerIndex );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )attackMessage.messageType );
+			outgoingMessage.Write( ( byte )attackMessage.MessageType );
 			attackMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -841,11 +949,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a pickuedUpItemMessage to all clients.
+		/// </summary>
+		/// <param name="itemIndex"></param>
 		public void SendPickedUpItemMessage( int itemIndex )
 		{
 			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( itemIndex );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )pickedUpItemMessage.messageType );
+			outgoingMessage.Write( ( byte )pickedUpItemMessage.MessageType );
 			pickedUpItemMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -854,11 +966,16 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+
+		/// <summary>
+		/// Sends a SpawnGrenadeMessage to all clients.
+		/// </summary>
+		/// <param name="grenade"></param>
 		public void SendSpawnGrenadeMessage( GameObject grenade )
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( grenade );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )grenadeMessage.messageType );
+			outgoingMessage.Write( ( byte )grenadeMessage.MessageType );
 			grenadeMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -867,11 +984,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends an UpdateRemainingTimeMessage to all clients
+		/// </summary>
+		/// <param name="remainingTime"></param>
 		public void SendUpdateRemainingTimeMessage( float remainingTime )
 		{
 			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( remainingTime );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )timeMessage.messageType );
+			outgoingMessage.Write( ( byte )timeMessage.MessageType );
 			timeMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -880,11 +1001,15 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a RoundFinishedMessage to all clients.
+		/// </summary>
+		/// <param name="remainingRoundTime"></param>
 		public void SendRoundFinishedMessage( int remainingRoundTime )
 		{
 			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage( remainingRoundTime );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )endRoundMessage.messageType );
+			outgoingMessage.Write( ( byte )endRoundMessage.MessageType );
 			endRoundMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -894,17 +1019,21 @@ namespace BirdWarsTest.Network
 
 			RoundFinishedMessage serverEndRoundMessage = new RoundFinishedMessage( remainingRoundTime );
 			NetOutgoingMessage serverOutgoingMessage = CreateMessage();
-			serverOutgoingMessage.Write( ( byte )serverEndRoundMessage.messageType );
+			serverOutgoingMessage.Write( ( byte )serverEndRoundMessage.MessageType );
 			serverEndRoundMessage.Encode( serverOutgoingMessage );
 
 			netServer.SendUnconnectedToSelf( serverOutgoingMessage );
 		}
 
+		/// <summary>
+		/// Sends a PlayerDiedMessage to all clients.
+		/// </summary>
+		/// <param name="playerId"></param>
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
 			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( playerId );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )deathMessage.messageType );
+			outgoingMessage.Write( ( byte )deathMessage.MessageType );
 			deathMessage.Encode( outgoingMessage );
 
 			foreach( var connection in GameRound.PlayerConnections )
@@ -913,63 +1042,90 @@ namespace BirdWarsTest.Network
 			}
 		}
 
+		/// <summary>
+		/// Sends a PasswordResetMessage to self for processing.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="email"></param>
+		/// <param name="password"></param>
 		public void UpdatePassword( string code, string email, string password )
 		{
 			PasswordResetMessage resetMessage = new PasswordResetMessage( code, email, password );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )resetMessage.messageType );
+			outgoingMessage.Write( ( byte )resetMessage.MessageType );
 			resetMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		/// <summary>
+		/// Creates a game round and sends a RoundCreatedMessage to self for
+		/// processing.
+		/// </summary>
 		public void CreateRound()
 		{
 			GameRound.CreateRound( UserSession.CurrentUser.Username );
 			RoundCreatedMessage newRound = new RoundCreatedMessage( true, GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage updateMessage = CreateMessage();
-			updateMessage.Write( ( byte )newRound.messageType );
+			updateMessage.Write( ( byte )newRound.MessageType );
 			newRound.Encode( updateMessage );
 
 			netServer.SendUnconnectedToSelf( updateMessage );
 		}
 
+		/// <summary>
+		/// Sends a StartRoundMessage to all clients.
+		/// </summary>
 		public void StartRound()
 		{
 			StartRoundMessage startMessage = new StartRoundMessage( GameRound.GetPlayerUsernames() );
 			NetOutgoingMessage outgoingStartMessage = CreateMessage();
-			outgoingStartMessage.Write( ( byte )startMessage.messageType );
+			outgoingStartMessage.Write( ( byte )startMessage.MessageType );
 			startMessage.Encode( outgoingStartMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingStartMessage );
 		}
 
+		/// <summary>
+		/// Method unused by servernetwork manager.
+		/// </summary>
 		public void JoinRound() {}
 
+		/// <summary>
+		/// Sends a ChatMessage to self for processing.
+		/// </summary>
+		/// <param name="message"></param>
 		public void SendChatMessage( string message )
 		{
 			ChatMessage chatMessage = new ChatMessage( UserSession.CurrentUser.Username, message );
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )chatMessage.messageType );
+			outgoingMessage.Write( ( byte )chatMessage.MessageType );
 			chatMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		/// <summary>
+		/// Sends en ExitWaitingRoomMessage to all clients and self for processing.
+		/// </summary>
 		public void LeaveRound() 
 		{
 			ExitWaitingRoomMessage exitMessage = new ExitWaitingRoomMessage();
 			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )exitMessage.messageType );
+			outgoingMessage.Write( ( byte )exitMessage.MessageType );
 			exitMessage.Encode( outgoingMessage );
 
 			netServer.SendUnconnectedToSelf( outgoingMessage );
 		}
 
+		///<value>Manager that handles password resets</value>
 		public PasswordChangeManager ChangeManager { get; private set; }
-		public GameRound GameRound { get; set; }
-		public LoginSession UserSession { get; private set; }
 
+		///<value>The current gameRound.</value>
+		public GameRound GameRound { get; set; }
+
+		///<value>The current usersession.</value>
+		public LoginSession UserSession { get; private set; }
 		private NetServer netServer;
 		private EmailManager emailManager;
 		private GameDatabase gameDatabase;

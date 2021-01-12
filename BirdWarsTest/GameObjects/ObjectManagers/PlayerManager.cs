@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.GraphicComponents;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the creation, update and display of player
+game objects.
+*********************************************/
+using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
@@ -14,8 +22,15 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
+	/// <summary>
+	/// Handles the creation, update and display of player
+	/// game objects.
+	/// </summary>
 	public class PlayerManager
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public PlayerManager()
 		{
 			Players = new List< GameObject >();
@@ -25,6 +40,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			sentLocalPlayerIsDeadMessage = false;
 		}
 
+		/// <summary>
+		/// Creates the players that are in the game round.
+		/// </summary>
+		/// <param name="content">Game content manager.</param>
+		/// <param name="handler">game statehandler.</param>
+		/// <param name="usernames">The list of player usernames.</param>
+		/// <param name="localUsername">The local player username.</param>
 		public void CreatePlayers( Microsoft.Xna.Framework.Content.ContentManager content, StateHandler handler,
 								   string [] usernames, string localUsername )
 		{
@@ -53,6 +75,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			CreatedPlayers = true;
 		}
 
+		/// <summary>
+		/// Creates the players written in the incoming game message.
+		/// </summary>
+		/// <param name="content">Game content manager.</param>
+		/// <param name="handler">Game state handler.</param>
+		/// <param name="incomingMessage">THe incoming message.</param>
+		/// <param name="localUsername">The local player username.</param>
 		public void CreatePlayers( Microsoft.Xna.Framework.Content.ContentManager content, StateHandler handler,
 								   NetIncomingMessage incomingMessage, string localUsername )
 		{
@@ -82,6 +111,12 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			CreatedPlayers = true;
 		}
 
+		/// <summary>
+		/// Updates remote player positions using incoming
+		/// player state change messages.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming PlayerStateChangeMessage.</param>
+		/// <param name="stateChangeMessage">The incoming PlayerStateChangeMessage.</param>
 		public void HandlePlayerStateChangeMessage( NetIncomingMessage incomingMessage, 
 													PlayerStateChangeMessage stateChangeMessage )
 		{
@@ -97,22 +132,40 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Does player attack.
+		/// </summary>
+		/// <param name="attackMessage">The incoming PlayerAttackMessage.</param>
 		public void HandlePlayerAttackMessage( PlayerAttackMessage attackMessage )
 		{
 			GameObject player = GetPlayer( attackMessage.PlayerIndex );
 			player.Attack.DoAttack();
 		}
 
+		/// <summary>
+		/// Kills the player in the message.
+		/// </summary>
+		/// <param name="playerId">The incoming PlayerDiedMessage.</param>
 		public void HandlePlayerDiedMessage( Identifiers playerId )
 		{
 			GetPlayer( playerId ).Health.TakeFullDamage();
 		}
 
+		/// <summary>
+		/// Returns the gameObject that corresponds to
+		/// the current user.
+		/// </summary>
+		/// <returns>The local player gameObject.</returns>
 		public GameObject GetLocalPlayer()
 		{
 			return Players[ LocalPlayerIndex ];
 		}
 
+		/// <summary>
+		/// Get a player from the list of players.
+		/// </summary>
+		/// <param name="id">The id of the player object.</param>
+		/// <returns>The player gameObject.</returns>
 		public GameObject GetPlayer( Identifiers id )
 		{
 			foreach( var player in Players )
@@ -125,6 +178,15 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			return null;
 		}
 
+		/// <summary>
+		/// Updates the gameobjects, handles player attacks and checks
+		/// if the local player is dead.
+		/// </summary>
+		/// <param name="gameState">The current game state.</param>
+		/// <param name="gameTime">Elapsed game time.</param>
+		/// <param name="state">The keyboard state.</param>
+		/// <param name="mapBounds">The game world area rectangle.</param>
+		/// <param name="networkManager">Game network manager.</param>
 		public void Update( GameState gameState, GameTime gameTime, KeyboardState state, Rectangle mapBounds,
 							INetworkManager networkManager )
 		{
@@ -173,6 +235,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Draws the objects that are within the camera render
+		/// bounds to the screen.
+		/// </summary>
+		/// <param name="batch">Game spritebatch.</param>
+		/// <param name="cameraRenderBounds">The camera render area rectangle.</param>
+		/// <param name="cameraBounds">The camera area rectangle.</param>
 		public void Render( ref SpriteBatch batch, Rectangle cameraRenderBounds, Rectangle cameraBounds )
 		{
 			foreach( var player in Players )
@@ -184,6 +253,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Removes all gameobjects and resets manager.
+		/// </summary>
 		public void ClearAllPlayers()
 		{
 			Players.Clear();
@@ -192,6 +264,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			GrenadeAmount = 0;
 		}
 
+		/// <summary>
+		/// Checks if the local player is alive and all other
+		/// players are not.
+		/// </summary>
+		/// <returns>bool indicating if player won or not.</returns>
 		public bool DidLocalPlayerWin()
 		{
 			bool otherPlayersAreDead = false;
@@ -214,6 +291,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Returns the number of players whose health > 0.
+		/// </summary>
+		/// <returns></returns>
 		public int GetNumberOfPlayersStillAlive()
 		{
 			int playersStillAlive = 0;
@@ -227,10 +308,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			return playersStillAlive;
 		}
 
+		/// <value>The list of player objects.</value>
 		public List< GameObject > Players { get; private set; }
+
 		private PositionGenerator positionGenerator;
+
+		/// <value>bool indicating if players have been created.</value>
 		public bool CreatedPlayers { get; private set; }
+
+		/// <value>The index of the object that corresponds to the current user.</value>
 		public int LocalPlayerIndex { get; private set; }
+
+		/// <value>The number of grenades in inventory.</value>
 		public int GrenadeAmount { get; set; }
 		private bool sentLocalPlayerIsDeadMessage;
 	}

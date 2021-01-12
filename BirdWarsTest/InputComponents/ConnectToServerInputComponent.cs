@@ -1,4 +1,11 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Starts the process connect to a remote server.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using BirdWarsTest.InputComponents.EventArguments;
 using BirdWarsTest.Utilities;
@@ -8,14 +15,21 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
+	/// <summary>
+	/// Starts the process connect to a remote server.
+	/// </summary>
 	public class ConnectToServerInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Sets the statehandler and creates empty server arguments.
+		/// </summary>
+		/// <param name="handlerIn"></param>
 		public ConnectToServerInputComponent( StateHandler handlerIn )
 		{
 			handler = handlerIn;
 			serverEvents = new ServerChangeArgs();
 			validator = new StringValidator();
-			click += ConnectToServer;
+			Click += ConnectToServer;
 		}
 
 		private void ConnectToServer( object sender, ServerChangeArgs serverEvents )
@@ -28,10 +42,27 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
+		/// <summary>
+		/// Handles the current input on every frame.
+		/// </summary>
+		/// <param name="gameObject">the GameObject</param>
+		/// <param name="gameTime">Game time</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the current input on every frame.
+		/// </summary>
+		/// <param name="gameObject">the GameObject</param>
+		/// <param name="state">current keyboard state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
+		/// <summary>
+		/// Handles the necessary information to determine if the 
+		/// user has clicked on the button.
+		/// </summary>
+		/// <param name="gameObject">The gameObject</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
 		{
 			previousMouseState = currentMouseState;
@@ -46,7 +77,7 @@ namespace BirdWarsTest.InputComponents
 				{
 					serverEvents.Address = ( ( OptionsState )gameState ).GameObjects[ 4 ].Input.GetTextWithoutVisualCharacter();
 					serverEvents.Port = ( ( OptionsState )gameState ).GameObjects[ 6 ].Input.GetTextWithoutVisualCharacter();
-					click?.Invoke( this, serverEvents );
+					Click?.Invoke( this, serverEvents );
 				}
 			}
 		}
@@ -75,10 +106,10 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private StateHandler handler;
-		private event EventHandler< ServerChangeArgs > click;
+		private readonly StateHandler handler;
+		private event EventHandler< ServerChangeArgs > Click;
 		private ServerChangeArgs serverEvents;
-		private StringValidator validator;
+		private readonly StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 	}

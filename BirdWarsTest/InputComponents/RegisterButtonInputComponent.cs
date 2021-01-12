@@ -1,4 +1,12 @@
-﻿using BirdWarsTest.States;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component used to send user information to the server
+so that a new user and account can be created.
+*********************************************/
+using BirdWarsTest.States;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.InputComponents.EventArguments;
 using BirdWarsTest.Utilities;
@@ -8,20 +16,48 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
-	class RegisterButtonInputComponent : InputComponent
+	/// <summary>
+	/// Input component used to send user information to the server
+	/// so that a new user and account can be created.
+	/// </summary>
+	public class RegisterButtonInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Sets the statehandler reference and creates default register
+		/// event arguments.
+		/// </summary>
+		/// <param name="handlerIn"></param>
 		public RegisterButtonInputComponent( StateHandler handlerIn )
 		{
 			registerEvents = new RegisterEventArgs();
 			validator = new StringValidator();
 			handler = handlerIn;
-			click += Register;
+			Click += Register;
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and game time.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="gameTime">Current game time.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and keyboard state.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="state">Current keyboard state.</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
+		/// <summary>
+		/// Checks if the user clicked on the gameObjects texture and if so
+		/// calls the network manager's RegisterUser method.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
 			previousMouseState = currentMouseState;
@@ -35,7 +71,7 @@ namespace BirdWarsTest.InputComponents
 					previousMouseState.LeftButton == ButtonState.Pressed )
 				{
 					GetRegisterValues( gameState );
-					click?.Invoke( this, registerEvents );
+					Click?.Invoke( this, registerEvents );
 				}
 			}
 		}
@@ -113,10 +149,11 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		public event EventHandler< RegisterEventArgs > click;
+		///<value>Input component event handler</value>
+		public event EventHandler< RegisterEventArgs > Click;
 		private RegisterEventArgs registerEvents;
-		private StateHandler handler;
-		private StringValidator validator;
+		private readonly StateHandler handler;
+		private readonly StringValidator validator;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 	}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Server</name>
+    </assembly>
+    <members>
+        <member name="T:Server.Program">
+            <summary>
+            The server application entry point.
+            </summary>
+        </member>
+    </members>
+</doc>

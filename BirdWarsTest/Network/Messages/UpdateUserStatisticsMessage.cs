@@ -1,10 +1,24 @@
-﻿using BirdWarsTest.Database;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Message sent to server to update the user account information.
+*********************************************/
+using BirdWarsTest.Database;
 using Lidgren.Network;
 
 namespace BirdWarsTest.Network.Messages
 {
-	class UpdateUserStatisticsMessage : IGameMessage
+	/// <summary>
+	/// Message sent to server to update the user account information.
+	/// </summary>
+	public class UpdateUserStatisticsMessage : IGameMessage
 	{
+		/// <summary>
+		/// Creates the game message from an incoming message
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public UpdateUserStatisticsMessage( NetIncomingMessage incomingMessage )
 		{
 			User = new User();
@@ -12,17 +26,29 @@ namespace BirdWarsTest.Network.Messages
 			Decode( incomingMessage );
 		}
 
+		/// <summary>
+		/// Creates a essage from a user and their associated account.
+		/// </summary>
+		/// <param name="userIn">User</param>
+		/// <param name="accountIn">Account</param>
 		public UpdateUserStatisticsMessage( User userIn, Account accountIn )
 		{
 			User = new User( userIn );
 			Account = new Account( accountIn );
 		}
 
-		public GameMessageTypes messageType
+		/// <summary>
+		/// Returns the message type
+		/// </summary>
+		public GameMessageTypes MessageType
 		{
 			get { return GameMessageTypes.UpdateUserStatisticsMessage; }
 		}
 
+		/// <summary>
+		/// Decodes the incoming message data.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
 			GetUserInfo( incomingMessage );
@@ -50,6 +76,10 @@ namespace BirdWarsTest.Network.Messages
 			Account.Money = incomingMessage.ReadInt32();
 		}
 
+		/// <summary>
+		/// Writes the current message data to an outgoing message.
+		/// </summary>
+		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
 			SetUserInfo( outgoingMessage );
@@ -77,7 +107,10 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( Account.Money );
 		}
 
+		///<value>The target user</value>
 		public User User { get; private set; }
+
+		///<value>The user's associated account</value>
 		public Account Account { get; private set; }
 	}
 }

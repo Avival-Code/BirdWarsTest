@@ -1,12 +1,29 @@
-﻿using System;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the loading and retrieval of strings for user interface 
+and language changes in application.
+*********************************************/
+using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Reflection;
 
 namespace BirdWarsTest.Utilities
 {
+	/// <summary>
+	/// Handles the loading and retrieval of strings for user interface 
+	///and language changes in application.
+	/// </summary>
 	public class StringManager
 	{
+		/// <summary>
+		/// Creates an instance of string Manager.
+		/// Instantialtes string list, sets current language
+		/// and retrieves strings pertaining to current language.
+		/// </summary>
 		public StringManager()
 		{
 			Strings = new List< string >();
@@ -16,8 +33,8 @@ namespace BirdWarsTest.Utilities
 
 		private void LoadStrings( Languages currentLanguage )
 		{
-			string fileName = "";
-			string filePath = "";
+			string fileName;
+			string filePath;
 			string[] tempStrings;
 
 			try
@@ -51,6 +68,11 @@ namespace BirdWarsTest.Utilities
 			}
 		}
 
+		/// <summary>
+		/// Changes the currently selected language to
+		/// the specified input language.
+		/// </summary>
+		/// <param name="newLanguage">Specified input language.</param>
 		public void ChangeLanguage( Languages newLanguage )
 		{
 			Strings.Clear();
@@ -58,12 +80,21 @@ namespace BirdWarsTest.Utilities
 			LoadStrings( CurrentLanguage );
 		}
 
+		/// <summary>
+		/// Returns a string from the list of game strings
+		/// at the specified intex.
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
 		public string GetString( StringNames name )
 		{
 			return Strings[ ( int )name ];
 		}
 
+		///<value>The list of game strings</value>
 		public List< string > Strings { get; private set; }
+
+		///<value>Current selected language</value>
 		public Languages CurrentLanguage { get; private set; }
 	}
 }

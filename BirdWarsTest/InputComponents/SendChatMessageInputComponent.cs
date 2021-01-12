@@ -1,4 +1,11 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Input component that sends a chat message to the server.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using BirdWarsTest.States;
 using BirdWarsTest.InputComponents.EventArguments;
 using Microsoft.Xna.Framework;
@@ -7,21 +14,48 @@ using System;
 
 namespace BirdWarsTest.InputComponents
 {
+	/// <summary>
+	/// Input component that sends a chat message to the server.
+	/// </summary>
 	public class SendChatMessageInputComponent : InputComponent
 	{
+		/// <summary>
+		/// Creates default chat event arguments and data.
+		/// </summary>
+		/// <param name="handlerIn"></param>
 		public SendChatMessageInputComponent( StateHandler handlerIn )
 		{
 			chatEvents = new ChatMessageArgs();
 			handler = handlerIn;
 			sentMessage = false;
 			timer = 0;
-			click += SendMessage;
+			Click += SendMessage;
 		}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and game time.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="gameTime">Current game time.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
+		/// <summary>
+		/// Handles the input recieved based on the current game object state
+		/// and keyboard state.
+		/// </summary>
+		/// <param name="gameObject">Current game object.</param>
+		/// <param name="state">Current keyboard state.</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state ) {}
 
+		/// <summary>
+		/// Updates the message timer if a message has been sent and checks whether
+		/// the user clicked on the objects button texture or pressed enter. If so, it gets the message
+		/// information from it's respective game object and sends it to the server.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) 
 		{
 			UpdateTimer();
@@ -30,7 +64,7 @@ namespace BirdWarsTest.InputComponents
 				sentMessage = !sentMessage;
 				chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.GetTextWithoutVisualCharacter();
 				( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.ClearText();
-				click?.Invoke( this, chatEvents );
+				Click?.Invoke( this, chatEvents );
 			}
 
 			previousMouseState = currentMouseState;
@@ -45,7 +79,7 @@ namespace BirdWarsTest.InputComponents
 				{
 					chatEvents.Message = ( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.GetText();
 					( ( WaitingRoomState )gameState ).GameObjects[ 2 ].Input.ClearText();
-					click?.Invoke( this, chatEvents );
+					Click?.Invoke( this, chatEvents );
 				}
 			}
 		}
@@ -72,9 +106,9 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private event EventHandler< ChatMessageArgs > click;
+		private event EventHandler< ChatMessageArgs > Click;
 		private ChatMessageArgs chatEvents;
-		private StateHandler handler;
+		private readonly StateHandler handler;
 		private MouseState currentMouseState;
 		private MouseState previousMouseState;
 		private bool sentMessage;

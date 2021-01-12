@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles drawing and updating of all gameObjects 
+necessary for Main menu state.
+*********************************************/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
@@ -10,8 +18,21 @@ using System.Collections.Generic;
 
 namespace BirdWarsTest.States
 {
-	class MainMenuState : GameState
+	/// <summary>
+	/// Handles drawing and updating of all gameObjects 
+	/// necessary for Main menu state.
+	/// </summary>
+	public class MainMenuState : GameState
 	{
+		/// <summary>
+		/// Creates empty MainMenuState. Sets gamewindow reference and initializes
+		/// gameObjects List.
+		/// </summary>
+		/// <param name="newContent">Game contentManager</param>
+		/// <param name="newGraphics">Graphics device reference</param>
+		/// <param name="networkManagerIn">Game network manager</param>
+		/// <param name="width_in">State width</param>
+		/// <param name="height_in">State height</param>
 		public MainMenuState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 							  ref GraphicsDeviceManager newGraphics, ref INetworkManager networkManagerIn,
 							  int width_in, int height_in )
@@ -21,6 +42,11 @@ namespace BirdWarsTest.States
 			gameObjects = new List< GameObject >();
 		}
 
+		/// <summary>
+		/// Creates all state gameObjects.
+		/// </summary>
+		/// <param name="handler">Game state</param>
+		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager )
 		{
 			ClearContents();
@@ -33,28 +59,42 @@ namespace BirdWarsTest.States
 			InitializeMenuOptions( handler, stringManager );
 		}
 
-		public override void Pause() { }
-
-		public override void Resume() { }
-
+		/// <summary>
+		/// Removes all gameObjects from state list.
+		/// </summary>
 		public override void ClearContents()
 		{
 			gameObjects.Clear();
 		}
 
-		public override void HandleInput( KeyboardState state ) { }
-
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state )
 		{
 			networkManager.ProcessMessages( handler );
 			gameObjects[ 7 ].Update( state, this );
 		}
 
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameTime">GAme time</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
 			UpdateLogic( handler, state );
 		}
 
+		/// <summary>
+		/// Draws all gameObjects on the screen.
+		/// </summary>
+		/// <param name="sprites"></param>
 		public override void Render( ref SpriteBatch sprites )
 		{
 			foreach( var objects in gameObjects )
@@ -124,6 +164,9 @@ namespace BirdWarsTest.States
 			return menuOptions;
 		}
 
+		/// <summary>
+		/// Exposes the state's protected network manager.
+		/// </summary>
 		public INetworkManager NetworkManager
 		{
 			get{ return networkManager; }

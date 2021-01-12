@@ -1,20 +1,37 @@
-﻿using BirdWarsTest.GraphicComponents;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles the username boxes and displays the rounds players
+usernames.
+*********************************************/
+using BirdWarsTest.GraphicComponents;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Lidgren.Network;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
-	class ChatUsernameManager
+	/// <summary>
+	/// Handles the username boxes and displays the rounds players
+	/// usernames.
+	/// </summary>
+	public class ChatUsernameManager
 	{
+		/// <summary>
+		/// Default constructor.
+		/// </summary>
 		public ChatUsernameManager()
 		{
 			gameObjects = new List< GameObject >();
 		}
 
+		/// <summary>
+		/// Creates username box game objects.
+		/// </summary>
+		/// <param name="content">Game contentManager.</param>
 		public void AddObjects( Microsoft.Xna.Framework.Content.ContentManager content )
 		{
 			for( int i = 0; i < 8; i++ )
@@ -25,11 +42,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Clears the username box game objects.
+		/// </summary>
 		public void ClearObjects()
 		{
 			gameObjects.Clear();
 		}
 
+		/// <summary>
+		/// Handles the incoming RoundStateChangedMessage.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message.</param>
 		public void HandleRoundStateChangeMessage( NetIncomingMessage incomingMessage )
 		{
 			for( int i = 0; i < 8; i++ )
@@ -38,6 +62,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Sets the usernames in each chat username box.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming round created message.</param>
 		public void HandleRoundCreatedMessage( NetIncomingMessage incomingMessage )
 		{
 			for( int i = 0; i < 8; i++ )
@@ -46,6 +74,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Draws the chat box gameobjects and player usernames.
+		/// </summary>
+		/// <param name="batch">Game spritebatch</param>
 		public void Render( ref SpriteBatch batch )
 		{
 			foreach( var objects in gameObjects )
@@ -54,6 +86,6 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		public List< GameObject > gameObjects;
+		private List<GameObject> gameObjects;
 	}
 }

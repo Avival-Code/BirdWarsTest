@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Handles drawing and updating of all gameObjects 
+necessary for StatisticsState.
+*********************************************/
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
@@ -11,8 +19,21 @@ using System;
 
 namespace BirdWarsTest.States
 {
-	class StatisticsState : GameState
+	/// <summary>
+	/// Handles drawing and updating of all gameObjects 
+	/// necessary for StatisticsState.
+	/// </summary>
+	public class StatisticsState : GameState
 	{
+		/// <summary>
+		/// Creates empty MainMenuState. Sets gamewindow reference and initializes
+		/// gameObjects List.
+		/// </summary>
+		/// <param name="newContent">Game contentManager</param>
+		/// <param name="newGraphics">Graphics device reference</param>
+		/// <param name="networkManagerIn">Game network manager</param>
+		/// <param name="width_in">State width</param>
+		/// <param name="height_in">State height</param>
 		public StatisticsState( Microsoft.Xna.Framework.Content.ContentManager newContent,
 								ref GraphicsDeviceManager newGraphics, ref INetworkManager networkManagerIn,
 								int width_in, int height_in )
@@ -22,6 +43,11 @@ namespace BirdWarsTest.States
 			gameObjects = new List< GameObject >();
 		}
 
+		/// <summary>
+		/// Creates all state gameObjects.
+		/// </summary>
+		/// <param name="handler">Game state</param>
+		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
 			ClearContents();
@@ -95,17 +121,20 @@ namespace BirdWarsTest.States
 			SetGameObjectStatistics();
 		}
 
-		public override void Pause() {}
-
-		public override void Resume() {}
-
+		/// <summary>
+		/// Removes all gameObjects from state list.
+		/// </summary>
 		public override void ClearContents()
 		{
 			gameObjects.Clear();
 		}
 
-		public override void HandleInput( KeyboardState state ) {}
-
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state ) 
 		{
 			foreach( var objects in gameObjects )
@@ -114,11 +143,22 @@ namespace BirdWarsTest.States
 			}
 		}
 
+		/// <summary>
+		/// Handles network incoming messages. Updates all gameObjects
+		/// in state.
+		/// </summary>
+		/// <param name="handler">Game statehandler</param>
+		/// <param name="state">current keyboard state</param>
+		/// <param name="gameTime">GAme time</param>
 		public override void UpdateLogic( StateHandler handler, KeyboardState state, GameTime gameTime )
 		{
 			UpdateLogic( handler, state );
 		}
 
+		/// <summary>
+		/// Draws all gameObjects on the screen.
+		/// </summary>
+		/// <param name="batch">Game Spritebatch</param>
 		public override void Render( ref SpriteBatch batch ) 
 		{
 			foreach( var objects in gameObjects )
