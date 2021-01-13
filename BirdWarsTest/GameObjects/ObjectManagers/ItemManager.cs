@@ -211,8 +211,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		}
 
 		/// <summary>
-		/// Damages the box written in the message to match the boxes in
-		/// other game clients and server.
+		/// Uses the box index contained in the incoming message and damages
+		/// the box that has the same index. Used to keep item box health
+		/// syncronized on all applications.
 		/// </summary>
 		/// <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
 		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage )
@@ -221,7 +222,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		}
 		
 		/// <summary>
-		/// Removes any items from hte game that have already been picked up
+		/// Removes any items from the game that have already been picked up
 		/// by other players.
 		/// </summary>
 		/// <param name="itemIndex">The incoming PickedUpItemmessage.</param>

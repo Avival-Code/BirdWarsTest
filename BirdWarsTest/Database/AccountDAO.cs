@@ -198,7 +198,6 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasUpdated = true;
-				Console.WriteLine( "User Updated Successfully!" );
 			}
 			catch ( MySqlException exception )
 			{

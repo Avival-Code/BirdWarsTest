@@ -75,7 +75,6 @@ namespace BirdWarsTest.Database
 
 				command.ExecuteNonQuery();
 				wasDeleted = true;
-				Console.WriteLine( "User deleted succesfully!" );
 			}
 			catch( MySqlException exception )
 			{
