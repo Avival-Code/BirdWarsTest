@@ -777,14 +777,7 @@ namespace BirdWarsTest.Network
 		public void SendPlayerStateChangeMessage( GameObject player )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( player );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )stateChangeMessage.MessageType );
-			stateChangeMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( stateChangeMessage );
 		}
 
 		/// <summary>
@@ -794,14 +787,7 @@ namespace BirdWarsTest.Network
 		public void SendSpawnBoxMessage( List< GameObject > boxes )
 		{
 			SpawnBoxMessage spawnBoxMessage = new SpawnBoxMessage( boxes );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )spawnBoxMessage.MessageType );
-			spawnBoxMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( spawnBoxMessage );
 		}
 
 		/// <summary>
@@ -811,14 +797,7 @@ namespace BirdWarsTest.Network
 		public void SendSpawnConsumablesMessage( List< GameObject > consumables )
 		{
 			SpawnConsumablesMessage spawnConsumablesMessage = new SpawnConsumablesMessage( consumables );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )spawnConsumablesMessage.MessageType );
-			spawnConsumablesMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( spawnConsumablesMessage );
 		}
 
 		/// <summary>
@@ -829,14 +808,7 @@ namespace BirdWarsTest.Network
 		public void SendBoxDamageMessage( int boxIndex, int damage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( boxIndex, damage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )boxDamageMessage.MessageType );
-			boxDamageMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( boxDamageMessage );
 		}
 
 		/// <summary>
@@ -846,14 +818,7 @@ namespace BirdWarsTest.Network
 		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
 		{
 			PlayerAttackMessage attackMessage = new PlayerAttackMessage( localPlayerIndex );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )attackMessage.MessageType );
-			attackMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( attackMessage );
 		}
 
 		/// <summary>
@@ -863,14 +828,7 @@ namespace BirdWarsTest.Network
 		public void SendPickedUpItemMessage( int itemIndex )
 		{
 			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( itemIndex );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )pickedUpItemMessage.MessageType );
-			pickedUpItemMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( pickedUpItemMessage );
 		}
 
 
@@ -881,14 +839,7 @@ namespace BirdWarsTest.Network
 		public void SendSpawnGrenadeMessage( GameObject grenade )
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( grenade );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )grenadeMessage.MessageType );
-			grenadeMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( grenadeMessage );
 		}
 
 		/// <summary>
@@ -898,14 +849,7 @@ namespace BirdWarsTest.Network
 		public void SendUpdateRemainingTimeMessage( float remainingTime )
 		{
 			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( remainingTime );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )timeMessage.MessageType );
-			timeMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( timeMessage );
 		}
 
 		/// <summary>
@@ -915,14 +859,7 @@ namespace BirdWarsTest.Network
 		public void SendRoundFinishedMessage( int remainingRoundTime )
 		{
 			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage( remainingRoundTime );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )endRoundMessage.MessageType );
-			endRoundMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( endRoundMessage );
 
 			RoundFinishedMessage serverEndRoundMessage = new RoundFinishedMessage( remainingRoundTime );
 			NetOutgoingMessage serverOutgoingMessage = CreateMessage();
@@ -939,14 +876,7 @@ namespace BirdWarsTest.Network
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
 			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( playerId );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )deathMessage.MessageType );
-			deathMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( deathMessage );
 		}
 
 		/// <summary>
