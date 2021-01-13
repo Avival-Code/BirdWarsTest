@@ -120,15 +120,18 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		public void HandlePlayerStateChangeMessage( NetIncomingMessage incomingMessage, 
 													PlayerStateChangeMessage stateChangeMessage )
 		{
-			var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( stateChangeMessage.MessageTime ) );
-
-			GameObject player = GetPlayer( stateChangeMessage.Id );
-
-			if( player.Input.GetLastUpdateTime() < stateChangeMessage.MessageTime )
+			if( GetLocalPlayer().Identifier != stateChangeMessage.Id )
 			{
-				player.Position = stateChangeMessage.Position += stateChangeMessage.Velocity * timeDelay;
-				player.Input.SetVelocity( stateChangeMessage.Velocity );
-				player.Input.SetLastUpdateTime( stateChangeMessage.MessageTime );
+				var timeDelay = (float)(NetTime.Now - incomingMessage.SenderConnection.GetLocalTime(stateChangeMessage.MessageTime));
+
+				GameObject player = GetPlayer(stateChangeMessage.Id);
+
+				if (player.Input.GetLastUpdateTime() < stateChangeMessage.MessageTime)
+				{
+					player.Position = stateChangeMessage.Position += stateChangeMessage.Velocity * timeDelay;
+					player.Input.SetVelocity(stateChangeMessage.Velocity);
+					player.Input.SetLastUpdateTime(stateChangeMessage.MessageTime);
+				}
 			}
 		}
 
@@ -138,8 +141,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <param name="attackMessage">The incoming PlayerAttackMessage.</param>
 		public void HandlePlayerAttackMessage( PlayerAttackMessage attackMessage )
 		{
-			GameObject player = GetPlayer( attackMessage.PlayerIndex );
-			player.Attack.DoAttack();
+			if( GetLocalPlayer().Identifier != attackMessage.PlayerIndex )
+			{
+				GameObject player = GetPlayer( attackMessage.PlayerIndex );
+				player.Attack.DoAttack();
+			}
 		}
 
 		/// <summary>
@@ -148,7 +154,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <param name="playerId">The incoming PlayerDiedMessage.</param>
 		public void HandlePlayerDiedMessage( Identifiers playerId )
 		{
-			GetPlayer( playerId ).Health.TakeFullDamage();
+			if( GetLocalPlayer().Identifier != playerId )
+			{
+				GetPlayer( playerId ).Health.TakeFullDamage();
+			}
 		}
 
 		/// <summary>
