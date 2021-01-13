@@ -19,6 +19,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System;
 
 namespace BirdWarsTest.GameObjects.ObjectManagers
 {
@@ -122,15 +123,34 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			if( GetLocalPlayer().Identifier != stateChangeMessage.Id )
 			{
-				var timeDelay = (float)(NetTime.Now - incomingMessage.SenderConnection.GetLocalTime(stateChangeMessage.MessageTime));
+				var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( stateChangeMessage.MessageTime ) );
 
-				GameObject player = GetPlayer(stateChangeMessage.Id);
+				GameObject player = GetPlayer( stateChangeMessage.Id );
 
-				if (player.Input.GetLastUpdateTime() < stateChangeMessage.MessageTime)
+				if( player.Input.GetLastUpdateTime() < stateChangeMessage.MessageTime )
 				{
 					player.Position = stateChangeMessage.Position += stateChangeMessage.Velocity * timeDelay;
-					player.Input.SetVelocity(stateChangeMessage.Velocity);
-					player.Input.SetLastUpdateTime(stateChangeMessage.MessageTime);
+					player.Input.SetVelocity( stateChangeMessage.Velocity );
+					player.Input.SetLastUpdateTime( stateChangeMessage.MessageTime );
+				}
+			}
+		}
+
+		public void HandleAdjustedPlayerStateChangeMessage( NetIncomingMessage incomingMessage, 
+													AdjustedPlayerStateChangeMessage adjustedMessage )
+		{
+			if( GetLocalPlayer().Identifier != adjustedMessage.Id )
+			{
+				var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( adjustedMessage.MessageTime ) );
+				timeDelay += adjustedMessage.ClientDelayTime;
+
+				GameObject player = GetPlayer( adjustedMessage.Id );
+
+				if( player.Input.GetLastUpdateTime() < adjustedMessage.MessageTime )
+				{
+					player.Position = adjustedMessage.Position += adjustedMessage.Velocity * timeDelay;
+					player.Input.SetVelocity( adjustedMessage.Velocity );
+					player.Input.SetLastUpdateTime( adjustedMessage.MessageTime );
 				}
 			}
 		}

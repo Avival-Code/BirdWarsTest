@@ -283,6 +283,9 @@ namespace BirdWarsTest.Network
 							case GameMessageTypes.ExitWaitingRoomMessage:
 								HandleExitWaitingRoomMessage( handler, incomingMessage );
 								break;
+							case GameMessageTypes.AdjustedPlayerStateChangeMessage:
+								HandleAdjustedPlayerStateChangeMessage( handler, incomingMessage );
+								break;
 						}
 						break;
 				}
@@ -408,6 +411,16 @@ namespace BirdWarsTest.Network
 				PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
 				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
 																													stateChangeMessage );
+			}
+		}
+
+		private void HandleAdjustedPlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		{
+			if( IsInGameRound )
+			{
+				AdjustedPlayerStateChangeMessage adjustedMessage = new AdjustedPlayerStateChangeMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandleAdjustedPlayerStateChangeMessage(
+																					incomingMessage, adjustedMessage );
 			}
 		}
 

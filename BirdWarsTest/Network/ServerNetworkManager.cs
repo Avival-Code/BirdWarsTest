@@ -656,7 +656,11 @@ namespace BirdWarsTest.Network
 		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
-			SendMessage( stateChangeMessage );
+			var timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( stateChangeMessage.MessageTime ) );
+
+			AdjustedPlayerStateChangeMessage adjustedMessage = new AdjustedPlayerStateChangeMessage(
+				stateChangeMessage.Id, stateChangeMessage.Position, stateChangeMessage.Velocity, timeDelay );
+			SendMessage( adjustedMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( 
 																				incomingMessage, stateChangeMessage );
