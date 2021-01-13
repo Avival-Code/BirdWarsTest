@@ -31,6 +31,7 @@ namespace BirdWarsTest.Network
 		public ClientNetworkManager()
 		{
 			UserSession = new LoginSession();
+			IsInGameRound = false;
 			Connect();
 		}
 
@@ -97,7 +98,7 @@ namespace BirdWarsTest.Network
 			netClient = new NetClient( config );
 			netClient.Start();
 
-			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "14242" ) ) );
+			netClient.Connect( new IPEndPoint( NetUtility.Resolve( "127.0.0.1" ), Convert.ToInt32( "80" ) ) );
 		}
 
 		/// <summary>
@@ -291,8 +292,11 @@ namespace BirdWarsTest.Network
 
 		private void HandleTestConnectionMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			TestConnectionMessage testMessage = new TestConnectionMessage( incomingMessage );
-			( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).SetMessage( testMessage.Result );
+			if( ( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).IsInitialized )
+			{
+				TestConnectionMessage testMessage = new TestConnectionMessage( incomingMessage );
+				( ( OptionsState )handler.GetState( StateTypes.OptionsState ) ).SetMessage( testMessage.Result );
+			}
 		}
 
 		private void HandleLoginResultMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -355,106 +359,150 @@ namespace BirdWarsTest.Network
 			if( incomingMessage.ReadBoolean() )
 			{
 				handler.ChangeState( StateTypes.WaitingRoomState );
+				IsInGameRound = true;
 				( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
 			}
 		}
 
 		private void HandleExitWaitingRoomMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			handler.ChangeState( StateTypes.MainMenuState );
+			if( IsInGameRound )
+			{
+				IsInGameRound = false;
+				handler.ChangeState( StateTypes.MainMenuState );
+			}
 		}
 
 		private void HandleRoundStateChangedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
+			if( IsInGameRound )
+			{
+				( ( WaitingRoomState )handler.GetState( StateTypes.WaitingRoomState ) ).UsernameManager.
+										  HandleRoundStateChangeMessage( incomingMessage );
+			}
 		}
 
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( WaitingRoomState )handler.GetState( StateTypes.WaitingRoomState ) ).MessageManager.
+			if( IsInGameRound )
+			{
+				( ( WaitingRoomState )handler.GetState( StateTypes.WaitingRoomState ) ).MessageManager.
 				HandleChatMessage( incomingMessage.ReadString(), incomingMessage.ReadString(), UserSession.CurrentUser.Username );
+			}
 		}
 
 		private void HandleStartRoundMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			handler.ChangeState( StateTypes.PlayState );
-			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
+			if( IsInGameRound )
+			{
+				handler.ChangeState( StateTypes.PlayState );
+				( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
 																					incomingMessage, UserSession.CurrentUser.Username );
+			}
 		}
 
 		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
-																												    stateChangeMessage );
+			if( IsInGameRound )
+			{
+				PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( incomingMessage,
+																													stateChangeMessage );
+			}
 		}
 
 		private void HandleSpawnBoxMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
+			if( IsInGameRound )
+			{
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnBoxMessage( incomingMessage );
+			}
 		}
 
 		private void HandleSpawnConsumablesMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
+			if( IsInGameRound )
+			{
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnConsumablesMessage( incomingMessage );
+			}
 		}
 
 		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+			if( IsInGameRound )
+			{
+				BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+			}
 		}
 
 		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+			if( IsInGameRound )
+			{
+				PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
+			}
 		}
 
 		private void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			PickedUpItemMessage itemMessage = new PickedUpItemMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
-																					itemMessage.ItemIndex );
+			if( IsInGameRound )
+			{
+				PickedUpItemMessage itemMessage = new PickedUpItemMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage(
+																					itemMessage.ItemIndex);
+			}
 		}
 
 		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
-																											 grenadeMessage.Direction, 
-																										     grenadeMessage.GrenadeSpeed );
+			if( IsInGameRound )
+			{
+				SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( 
+											  grenadeMessage.Position, grenadeMessage.Direction, grenadeMessage.GrenadeSpeed );
+			}
 		}
 
 		private void HandleUpdateRemainingTimeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( incomingMessage );
-			float timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( timeMessage.MessageTime ) );
-			float newTimeWithDelay = timeMessage.RemainingRoundTime - timeDelay;
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
+			if( IsInGameRound )
+			{
+				UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( incomingMessage );
+				float timeDelay = ( float )( NetTime.Now - incomingMessage.SenderConnection.GetLocalTime( timeMessage.MessageTime ) );
+				float newTimeWithDelay = timeMessage.RemainingRoundTime - timeDelay;
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).DisplayManager.HandleUpdateRoundTimeMessage( newTimeWithDelay );
+			}
 		}
 
 		private void HandleRoundFinishedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			RoundFinishedMessage endMessage = new RoundFinishedMessage( incomingMessage );
-			bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
-			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
-			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
-			handler.ChangeState( StateTypes.WaitingRoomState );
+			if( IsInGameRound )
+			{
+				RoundFinishedMessage endMessage = new RoundFinishedMessage( incomingMessage );
+				bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
+				bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
+				UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
+				handler.ChangeState( StateTypes.WaitingRoomState );
 
-			UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser, 
-																						 UserSession.CurrentAccount );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )updateMessage.MessageType );
-			updateMessage.Encode( outgoingMessage );
+				UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser,
+																							 UserSession.CurrentAccount );
+				NetOutgoingMessage outgoingMessage = CreateMessage();
+				outgoingMessage.Write( ( byte )updateMessage.MessageType );
+				updateMessage.Encode( outgoingMessage );
 
-			netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
+				netClient.SendMessage( outgoingMessage, NetDeliveryMethod.ReliableUnordered );
+			}
 		}
 
 		private void HandlePlayerDiedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
-			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( incomingMessage );
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
+			if( IsInGameRound )
+			{
+				PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( incomingMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
+			}
 		}
 
 		/// <summary>
@@ -609,5 +657,6 @@ namespace BirdWarsTest.Network
 		public LoginSession UserSession { get; private set; }
 		private NetClient netClient;
 		private bool isDisposed;
+		public bool IsInGameRound { get; set; }
 	}
 }

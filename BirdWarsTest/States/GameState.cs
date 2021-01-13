@@ -36,6 +36,7 @@ namespace BirdWarsTest.States
 			networkManager = networkManagerIn;
 			stateWidth = stateWidth_in;
 			stateHeight = stateHeight_in;
+			isInitialized = false;
 		}
 
 		/// <summary>
@@ -110,6 +111,9 @@ namespace BirdWarsTest.States
 
 		///<value>Game networkManager reference</value>
 		protected INetworkManager networkManager;
+
+		///<value>Becomes true if Init method has been called at least once.</value>
+		protected bool isInitialized;
 
 		///<value>State width</value>
 		protected int stateWidth;

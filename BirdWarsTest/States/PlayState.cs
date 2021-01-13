@@ -52,6 +52,7 @@ namespace BirdWarsTest.States
 		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
+			isInitialized = true;
 			ClearContents();
 			DisplayManager.InitializeInterfaceComponents( Content, handler );
 			mapManager.InitializeMapTiles( Content );
@@ -139,5 +140,10 @@ namespace BirdWarsTest.States
 		private readonly MapManager mapManager;
 		private readonly Camera2D camera;
 		private bool sentEndRoundMessage;
+		public bool IsInitialized
+		{
+			get { return isInitialized; }
+			private set {}
+		}
 	}
 }

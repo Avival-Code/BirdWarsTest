@@ -27,6 +27,7 @@ namespace BirdWarsTest.GameRounds
 			bannedPlayers = new List< string >();
 			playerBanPetitions = new List< int >();
 			Created = false;
+			GameRoundStarted = false;
 		}
 
 		/// <summary>
@@ -49,6 +50,7 @@ namespace BirdWarsTest.GameRounds
 		public void DestroyRound()
 		{
 			Created = false;
+			GameRoundStarted = false;
 		}
 
 		/// <summary>
@@ -222,13 +224,14 @@ namespace BirdWarsTest.GameRounds
 
 		/// <value>The list of player conenctions.</value>
 		public List< NetConnection > PlayerConnections { get; private set; }
+		private List< string > playerUsernames;
+		private List< string > bannedPlayers;
+		private List< int > playerBanPetitions;
 
 		/// <value>bool indicating if the round has been created..</value>
 		public bool Created { get; private set; }
 
-		private List< string > playerUsernames;
-		private List< string > bannedPlayers;
-		private List< int > playerBanPetitions;
+		public bool GameRoundStarted { get; set; }
 		private const int MaxPlayers = 8;
 	}
 }

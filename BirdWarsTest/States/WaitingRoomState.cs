@@ -54,6 +54,7 @@ namespace BirdWarsTest.States
 		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager ) 
 		{
+			isInitialized = true;
 			ClearContents();
 			UsernameManager.AddObjects( Content );
 			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null, 
@@ -173,5 +174,11 @@ namespace BirdWarsTest.States
 		public ChatMessageManager MessageManager { get; set; }
 
 		private GameWindow gameWindow;
+
+		public bool IsInitialized
+		{
+			get { return isInitialized; }
+			private set {}
+		}
 	}
 }

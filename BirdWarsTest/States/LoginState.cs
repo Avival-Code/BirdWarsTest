@@ -52,6 +52,7 @@ namespace BirdWarsTest.States
 		/// <param name="stringManager">Game string manager</param>
 		public override void Init( StateHandler handler, StringManager stringManager )
 		{
+			IsInitialized = true;
 			ClearContents();
 			GameObjects.Add( new GameObject( new SolidRectGraphicsComponent( Content ), null,
 										     Identifiers.Background, new Vector2( 0.0f, 0.0f ) ) );
@@ -150,11 +151,15 @@ namespace BirdWarsTest.States
 			GameObjects[ 11 ].RecenterXWidth( stateWidth );
 		}
 
-		/// <summary>
-		/// List of all state gameObjects.
-		/// </summary>
+		///<value>List of all game objects in state.</value>
 		public List< GameObject > GameObjects { get; set; }
 
 		private GameWindow gameWindow;
+
+		public bool IsInitialized 
+		{
+			get { return isInitialized; }
+			private set {}
+		}
 	}
 }

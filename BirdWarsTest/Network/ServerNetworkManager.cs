@@ -546,14 +546,7 @@ namespace BirdWarsTest.Network
 			( ( WaitingRoomState )handler.GetCurrentState() ).UsernameManager.HandleRoundStateChangeMessage( incomingMessage );
 
 			RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
-			NetOutgoingMessage updateMessage = CreateMessage();
-			updateMessage.Write( ( byte )newRoundState.MessageType );
-			newRoundState.Encode( updateMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( updateMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( newRoundState );
 		}
 
 		private void HandleRoundCreatedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -567,7 +560,7 @@ namespace BirdWarsTest.Network
 
 		private void HandleJoinRoundRequestMessage( NetIncomingMessage incomingMessage )
 		{
-			if( GameRound.Created && GameRound.RoomAvailable() )
+			if( GameRound.Created && !GameRound.GameRoundStarted && GameRound.RoomAvailable() )
 			{
 				GameRound.AddPlayer( incomingMessage.ReadString(), incomingMessage.SenderConnection );
 				RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
@@ -600,6 +593,7 @@ namespace BirdWarsTest.Network
 
 		private void HandleStartRoundMessage( StateHandler handler )
 		{
+			GameRound.GameRoundStarted = true;
 			handler.ChangeState( StateTypes.PlayState );
 			( ( PlayState )handler.GetCurrentState() ).PlayerManager.CreatePlayers( handler.GetCurrentState().Content, handler,
 																					GameRound.GetPlayerUsernames(),
@@ -607,25 +601,11 @@ namespace BirdWarsTest.Network
 
 			StartRoundMessage startMessage = new StartRoundMessage( GameRound.GetPlayerUsernames(),
 											( ( PlayState )handler.GetCurrentState() ).PlayerManager.Players );
-			NetOutgoingMessage outgoingStartMessage = CreateMessage();
-			outgoingStartMessage.Write( ( byte )startMessage.MessageType );
-			startMessage.Encode( outgoingStartMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingStartMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( startMessage );
 
 			( ( PlayState )handler.GetCurrentState() ).ItemManager.SpawnBoxes();
 			SpawnBoxMessage spawnBoxesMessage = new SpawnBoxMessage( ( ( PlayState )handler.GetCurrentState() ).ItemManager.Boxes );
-			NetOutgoingMessage outgoingBoxMessage = CreateMessage();
-			outgoingBoxMessage.Write( ( byte )spawnBoxesMessage.MessageType );
-			spawnBoxesMessage.Encode( outgoingBoxMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingBoxMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( spawnBoxesMessage );
 		}
 
 		private void HandleChatMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -644,15 +624,7 @@ namespace BirdWarsTest.Network
 
 				netServer.SendUnconnectedToSelf( outgoingBanMessage );
 			}
-
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )chatMessage.MessageType );
-			chatMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( chatMessage );
 		}
 
 		private void HandleBanMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -684,17 +656,7 @@ namespace BirdWarsTest.Network
 		private void HandlePlayerStateChangeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )stateChangeMessage.MessageType );
-			stateChangeMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( stateChangeMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerStateChangeMessage( 
 																				incomingMessage, stateChangeMessage );
@@ -703,17 +665,7 @@ namespace BirdWarsTest.Network
 		private void HandleBoxDamageMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )boxDamageMessage.MessageType );
-			boxDamageMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( boxDamageMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
 		}
@@ -721,17 +673,7 @@ namespace BirdWarsTest.Network
 		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PlayerAttackMessage playerAttackMessage = new PlayerAttackMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )playerAttackMessage.MessageType );
-			playerAttackMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( playerAttackMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerAttackMessage( playerAttackMessage );
 		}
@@ -739,17 +681,7 @@ namespace BirdWarsTest.Network
 		private void HandlePickedUpItemMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )pickedUpItemMessage.MessageType );
-			pickedUpItemMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( pickedUpItemMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandlePickedUpItemMessage( 
 																				pickedUpItemMessage.ItemIndex );
@@ -758,17 +690,7 @@ namespace BirdWarsTest.Network
 		private void HandleSpawnGrenadeMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )grenadeMessage.MessageType );
-			grenadeMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( grenadeMessage );
 
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
 																											 grenadeMessage.Direction, 
@@ -782,6 +704,7 @@ namespace BirdWarsTest.Network
 			bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
 			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
 			gameDatabase.UpdateUserInformation( UserSession.CurrentUser, UserSession.CurrentAccount );
+			GameRound.GameRoundStarted = false;
 			handler.ChangeState( StateTypes.WaitingRoomState );
 
 			RoundStateChangedMessage roundStateChanged = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
@@ -802,31 +725,13 @@ namespace BirdWarsTest.Network
 		{
 			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( incomingMessage );
 			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager.HandlePlayerDiedMessage( deathMessage.PlayerId );
-
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )deathMessage.MessageType );
-			deathMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				if( connection != incomingMessage.SenderConnection )
-				{
-					netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-				}
-			}
+			SendMessage( deathMessage );
 		}
 
 		private void HandleSelfExitWaitingRomMessage( StateHandler handler, NetIncomingMessage incomingMessage )
 		{
 			ExitWaitingRoomMessage exitMessage = new ExitWaitingRoomMessage( incomingMessage );
-			NetOutgoingMessage outgoingMessage = CreateMessage();
-			outgoingMessage.Write( ( byte )exitMessage.MessageType );
-			exitMessage.Encode( outgoingMessage );
-
-			foreach( var connection in GameRound.PlayerConnections )
-			{
-				netServer.SendMessage( outgoingMessage, connection, NetDeliveryMethod.ReliableUnordered );
-			}
+			SendMessage( exitMessage );
 
 			GameRound.DestroyRound();
 		}

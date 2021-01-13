@@ -8,6 +8,7 @@ saying the client will leave the game round, then changes
 state to the target state.
 *********************************************/
 using BirdWarsTest.GameObjects;
+using BirdWarsTest.Network;
 using BirdWarsTest.States;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -79,6 +80,10 @@ namespace BirdWarsTest.InputComponents
 
 		private void ToOtherScreen( Object sender, System.EventArgs e )
 		{
+			if( !handler.networkManager.IsHost() )
+			{
+				( ( ClientNetworkManager )handler.networkManager).IsInGameRound = false;
+			}
 			handler.ChangeState( stateChange );
 		}
 
