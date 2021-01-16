@@ -25,7 +25,7 @@ namespace BirdWarsTest.Network
 	public class ClientNetworkManager : INetworkManager
 	{
 		/// <summary>
-		/// Creates an instance of the client manager which tries
+		/// Creates an instance of the client manager which attempts
 		/// to connect to the server at a local location.
 		/// </summary>
 		public ClientNetworkManager()
@@ -102,9 +102,9 @@ namespace BirdWarsTest.Network
 		}
 
 		/// <summary>
-		/// Creates and returns a Netoutgoing message.
+		/// Creates and returns a NetOutgoing message.
 		/// </summary>
-		/// <returns>Creates and returns a Netoutgoing message.</returns>
+		/// <returns>A NetOutgoing message.</returns>
 		public NetOutgoingMessage CreateMessage()
 		{
 			return netClient.CreateMessage();
@@ -129,7 +129,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Reads an incoming message sent by the server.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>A NetIncoming Message</returns>
 		public NetIncomingMessage ReadMessage()
 		{
 			return netClient.ReadMessage();
@@ -138,7 +138,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Recycles the incoming messages that are consumed.
 		/// </summary>
-		/// <param name="im"></param>
+		/// <param name="im">The NetIncomingMessage</param>
 		public void Recycle( NetIncomingMessage im )
 		{
 			netClient.Recycle( im );
@@ -147,7 +147,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a message to the server.
 		/// </summary>
-		/// <param name="gameMessage"></param>
+		/// <param name="gameMessage">THe GameMessage to send</param>
 		public void SendMessage( IGameMessage gameMessage )
 		{
 			NetOutgoingMessage outgoingMessage = netClient.CreateMessage();
@@ -172,7 +172,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Return the network manager connection status.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>NetConnectionStatus</returns>
 		public NetConnectionStatus GetConnectionState()
 		{
 			return netClient.ConnectionStatus;
@@ -181,7 +181,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Checks if this instance on network manager is the server
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Bool</returns>
 		public bool IsHost()
 		{
 			return false;
@@ -190,7 +190,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Method processes the incoming messages sent by the server.
 		/// </summary>
-		/// <param name="handler">Game statehandler.</param>
+		/// <param name="handler">Game statehandler</param>
 		public void ProcessMessages( StateHandler handler )
 		{
 			NetIncomingMessage incomingMessage;
@@ -561,7 +561,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a chat message to the server
 		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="message">String containing the message body.</param>
 		public void SendChatMessage( string message )
 		{
 			SendMessage( new ChatMessage( UserSession.CurrentUser.Username, message ) );
@@ -570,7 +570,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a SolicitPasswordResetMessage to the server.
 		/// </summary>
-		/// <param name="emailIn"></param>
+		/// <param name="emailIn">The User email</param>
 		public void SendPasswordChangeMessage( string emailIn ) 
 		{
 			SendMessage( new SolicitPasswordResetMessage( emailIn ) );
@@ -579,7 +579,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a PlayerStateChangedMessage to the server
 		/// </summary>
-		/// <param name="player"></param>
+		/// <param name="player">The Local player gameObject</param>
 		public void SendPlayerStateChangeMessage( GameObject player )
 		{
 			SendMessage( new PlayerStateChangeMessage( player ) );
@@ -588,13 +588,13 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Method unused by client
 		/// </summary>
-		/// <param name="boxes"></param>
+		/// <param name="boxes">List of Item Boxes.</param>
 		public void SendSpawnBoxMessage( List< GameObject > boxes ) {}
 
 		/// <summary>
 		/// Method unused by client
 		/// </summary>
-		/// <param name="consumables"></param>
+		/// <param name="consumables">List of consumable items</param>
 		public void SendSpawnConsumablesMessage( List< GameObject > consumables ) {}
 
 		/// <summary>
@@ -610,7 +610,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a PlayerAttackMessage to server
 		/// </summary>
-		/// <param name="localPlayerIndex">local player index</param>
+		/// <param name="localPlayerIndex">The local player index</param>
 		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
 		{
 			SendMessage( new PlayerAttackMessage( localPlayerIndex ) );
@@ -626,9 +626,9 @@ namespace BirdWarsTest.Network
 		}
 
 		/// <summary>
-		/// Sends s SpawnGrenadeMessage to server
+		/// Sends a SpawnGrenadeMessage to server
 		/// </summary>
-		/// <param name="grenade"></param>
+		/// <param name="grenade">The grenade game Object.</param>
 		public void SendSpawnGrenadeMessage( GameObject grenade )
 		{
 			SendMessage( new SpawnGrenadeMessage( grenade ) );
@@ -637,19 +637,19 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Method unused by client
 		/// </summary>
-		/// <param name="remainingTime"></param>
+		/// <param name="remainingTime">The remaining round time.</param>
 		public void SendUpdateRemainingTimeMessage( float remainingTime ) {}
 
 		/// <summary>
 		/// Method unused by client
 		/// </summary>
-		/// <param name="remainingRoundTime"></param>
+		/// <param name="remainingRoundTime">The remaining round time.</param>
 		public void SendRoundFinishedMessage( int remainingRoundTime ) {}
 
 		/// <summary>
 		/// Sends a PlayerIsDeadMessage to server.
 		/// </summary>
-		/// <param name="playerId"></param>
+		/// <param name="playerId">The local player Identifier.</param>
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
 			SendMessage( new PlayerIsDeadMessage( playerId ) );

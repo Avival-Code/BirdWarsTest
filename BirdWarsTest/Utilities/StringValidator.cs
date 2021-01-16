@@ -46,7 +46,7 @@ namespace BirdWarsTest.Utilities
 		public bool IsNameValid( string name )
 		{
 			return ( IsStringValidSize( name, MinNameCount, MaxNameCount ) && CheckForInvalidChar( name ) &&
-					 !HasSpaces( name ) );
+					 !HasSpaces( name ) && !HasNumbers( name ) );
 		}
 
 		/// <summary>
@@ -56,7 +56,8 @@ namespace BirdWarsTest.Utilities
 		/// <returns>bool indicating if string is valid.</returns>
 		public bool AreLastNamesValid( string lastNames )
 		{
-			return ( IsStringValidSize( lastNames, MinLastNameCount, MaxLastNameCount ) && CheckForInvalidChar( lastNames ) );
+			return ( IsStringValidSize( lastNames, MinLastNameCount, MaxLastNameCount ) && CheckForInvalidChar( lastNames ) &&
+					 !HasNumbers( lastNames ) );
 		}
 
 		/// <summary>
@@ -180,6 +181,19 @@ namespace BirdWarsTest.Utilities
 				}
 			}
 			return isValid;
+		}
+
+		private bool HasNumbers( string input )
+		{
+			bool hasNumbers = false;
+			foreach( var character in input )
+			{
+				if( character >= '0' && character <= '9' )
+				{
+					hasNumbers = true;
+				}
+			}
+			return hasNumbers;
 		}
 
 		private bool HasSpaces( string input)

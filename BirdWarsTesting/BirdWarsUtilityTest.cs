@@ -12,6 +12,7 @@ namespace BirdWarsTesting
 		{
 			Assert.IsTrue( stringValidator.IsNameValid( "Christian" ) );
 			Assert.IsFalse( stringValidator.IsNameValid( "T" ) );
+			Assert.IsFalse( stringValidator.IsNameValid( "123dsadsa" ) );
 			Assert.IsFalse( stringValidator.IsNameValid( "ThisIsAReallyLongNameToodsadsadsa" ) );
 		}
 
@@ -20,6 +21,7 @@ namespace BirdWarsTesting
 		{
 			Assert.IsTrue( stringValidator.AreLastNamesValid( "Avila Valdes" ) );
 			Assert.IsFalse( stringValidator.AreLastNamesValid( "T" ) );
+			Assert.IsFalse( stringValidator.AreLastNamesValid( "Rupert12" ) );
 			Assert.IsFalse( stringValidator.AreLastNamesValid( "ThisIsAReallyLongNameToodsdsdsadsads" ) );
 		}
 

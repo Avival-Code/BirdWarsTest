@@ -49,7 +49,7 @@ namespace BirdWarsTest.AttackComponents
 
 		/// <summary>
 		/// Constructor that takes a damage, width and height parameter.
-		/// AttackTimer is set to 13. Remainig properties are set to their
+		/// AttackTimer is set to 13. Remaining properties are set to their
 		/// respective input values.
 		/// </summary>
 		/// <param name="damageIn">An integer value</param>

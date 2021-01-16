@@ -128,6 +128,9 @@ namespace BirdWarsTest.Network.Messages
 		/// 
 		/// </summary>
 		BanPlayerMessage,
+		/// <summary>
+		/// 
+		/// </summary>
 		AdjustedPlayerStateChangeMessage
 	}
 }
