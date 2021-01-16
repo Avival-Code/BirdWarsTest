@@ -275,7 +275,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			foreach( var player in Players )
 			{
-				if( cameraRenderBounds.Intersects( player.GetRectangle() ) )
+				if( !player.Health.IsDead() && cameraRenderBounds.Intersects( player.GetRectangle() ) )
 				{
 					player.Render( ref batch, cameraBounds );
 				}
