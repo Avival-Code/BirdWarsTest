@@ -31,7 +31,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="usernameIn">Player username</param>
 		public JoinRoundRequestMessage( string usernameIn )
 		{
-			username = usernameIn;
+			Username = usernameIn;
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
-			username = incomingMessage.ReadString();
+			Username = incomingMessage.ReadString();
 		}
 
 		/// <summary>
@@ -57,9 +57,9 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
-			outgoingMessage.Write( username );
+			outgoingMessage.Write( Username );
 		}
 
-		private string username;
+		public string Username { get; private set; }
 	}
 }

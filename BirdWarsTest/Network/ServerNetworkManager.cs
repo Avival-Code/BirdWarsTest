@@ -560,9 +560,11 @@ namespace BirdWarsTest.Network
 
 		private void HandleJoinRoundRequestMessage( NetIncomingMessage incomingMessage )
 		{
-			if( GameRound.Created && !GameRound.GameRoundStarted && GameRound.RoomAvailable() )
+			JoinRoundRequestMessage joinRequest = new JoinRoundRequestMessage( incomingMessage );
+			if( GameRound.Created && !GameRound.GameRoundStarted && GameRound.RoomAvailable() &&
+				!GameRound.IsBanned( joinRequest.Username ) )
 			{
-				GameRound.AddPlayer( incomingMessage.ReadString(), incomingMessage.SenderConnection );
+				GameRound.AddPlayer( joinRequest.Username, incomingMessage.SenderConnection );
 				RoundStateChangedMessage newRoundState = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );
 				NetOutgoingMessage updateMessage = CreateMessage();
 				updateMessage.Write( ( byte )newRoundState.MessageType );
@@ -632,6 +634,7 @@ namespace BirdWarsTest.Network
 			BanPlayerMessage banMessage = new BanPlayerMessage( incomingMessage );
 			if( !banMessage.Username.Equals( UserSession.CurrentUser.Username ) )
 			{
+				GameRound.Ban( banMessage.Username );
 				ExitWaitingRoomMessage leaveMessage = new ExitWaitingRoomMessage();
 				NetOutgoingMessage outgoingMessage = CreateMessage();
 				outgoingMessage.Write( ( byte )leaveMessage.MessageType );
