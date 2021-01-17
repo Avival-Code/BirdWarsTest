@@ -39,20 +39,7 @@ namespace BirdWarsTest.InputComponents
 		/// </summary>
 		/// <param name="gameObject">Current game object.</param>
 		/// <param name="gameTime">Current game time.</param>
-		public override void HandleInput( GameObject gameObject, GameTime gameTime )
-		{
-			if( !gameObject.Health.IsDead() )
-			{
-				gameObject.Position += GetVelocity() * ( float )gameTime.ElapsedGameTime.TotalSeconds;
-				UpdateTimer( gameObject, gameTime );
-				Explode( gameObject );
-
-				if( gameObject.Attack.IsAttacking && gameObject.Attack.AttackTimer == 1 )
-				{
-					gameObject.Health.TakeFullDamage();
-				}
-			}
-		}
+		public override void HandleInput( GameObject gameObject, GameTime gameTime ) {}
 
 		/// <summary>
 		/// Handles the input recieved based on the current game object state
@@ -71,16 +58,34 @@ namespace BirdWarsTest.InputComponents
 		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) {}
 
-		private void Explode( GameObject gameObject )
+		public override void HandleInput( GameObject gameObject, GameTime gameTime, Rectangle cameraRenderBounds )
+		{
+			if( !gameObject.Health.IsDead() )
+			{
+				gameObject.Position += GetVelocity() * ( float )gameTime.ElapsedGameTime.TotalSeconds;
+				UpdateTimer( gameTime );
+				Explode( gameObject, cameraRenderBounds );
+
+				if( gameObject.Attack.IsAttacking && gameObject.Attack.AttackTimer == 1 )
+				{
+					gameObject.Health.TakeFullDamage();
+				}
+			}
+		}
+
+		private void Explode( GameObject gameObject, Rectangle cameraRenderBounds )
 		{
 			if( grenadeTimer < 0.00 )
 			{
-				gameObject.Audio.Play();
+				if( cameraRenderBounds.Intersects( gameObject.GetRectangle() ) )
+				{
+					gameObject.Audio.Play();
+				}
 				gameObject.Attack.DoAttack();
 			}
 		}
 
-		private void UpdateTimer( GameObject gameObject, GameTime gameTime )
+		private void UpdateTimer( GameTime gameTime )
 		{
 			grenadeTimer -= ( float )gameTime.ElapsedGameTime.TotalSeconds;
 		}

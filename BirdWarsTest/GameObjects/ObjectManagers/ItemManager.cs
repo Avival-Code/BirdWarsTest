@@ -127,7 +127,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 												  new AudioComponent( content, "SoundEffects/ExplosionSound" ), Identifiers.EggGrenade,
 												  GetGrenadePosition( playerManager.GetLocalPlayer() ) );
 				EggGrenades.Add( temp );
-				networkManager.SendSpawnGrenadeMessage( temp );
+				networkManager.SendSpawnGrenadeMessage( playerManager.GetLocalPlayer().Identifier, temp );
 				threwGrenade = true;
 				playerManager.GrenadeAmount -= 1;
 			}
@@ -243,12 +243,16 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <param name="grenadePosition">The grenade position.</param>
 		/// <param name="grenadeDirection">The grenade direction.</param>
 		/// <param name="grenadeSpeed">The grenade speed.</param>
-		public void HandleSpawnGrenadeMessage( Vector2 grenadePosition, Vector2 grenadeDirection, float grenadeSpeed )
+		public void HandleSpawnGrenadeMessage( PlayerManager playerManager, SpawnGrenadeMessage grenadeMessage )
 		{
-			EggGrenades.Add( new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
-											 new GrenadeInputComponent( grenadeDirection, grenadeSpeed ), new HealthComponent( 1 ),
-											 new GrenadeAttackComponent(), new AudioComponent( content, "SoundEffects/ExplosionSound" ),
-											 Identifiers.EggGrenade, grenadePosition ) );
+			if( playerManager.GetLocalPlayer().Identifier != grenadeMessage.LocalPlayerId )
+			{
+				EggGrenades.Add( new GameObject( new ActiveEggGrenadeGraphicsComponent( content ),
+												 new GrenadeInputComponent( grenadeMessage.Direction, grenadeMessage.GrenadeSpeed ),
+												 new HealthComponent( 1 ), new GrenadeAttackComponent(),
+												 new AudioComponent( content, "SoundEffects/ExplosionSound" ),
+												 Identifiers.EggGrenade, grenadeMessage.Position ) );
+			}
 		}
 
 		private void HandleSpawnBox( INetworkManager networkManager, GameTime gameTime )
@@ -353,7 +357,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				HandleSpawnBox( networkManager, gameTime );
 			}
 			UpdateBoxes( gameTime );
-			UpdateGrenades( gameTime );
+			UpdateGrenades( gameTime, cameraRenderBounds );
 			UpdateGrenadeTimer( gameTime );
 			ImposeMapBoundaryLimits( mapBounds );
 			HandleObjectDamage( networkManager, playerManager.GetLocalPlayer(), cameraRenderBounds );
@@ -368,11 +372,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void UpdateGrenades( GameTime gameTime )
+		private void UpdateGrenades( GameTime gameTime, Rectangle cameraRenderBounds )
 		{
 			foreach( var grenade in EggGrenades )
 			{
-				grenade.Update( gameTime );
+				grenade.Update( gameTime, cameraRenderBounds );
 			}
 		}
 
@@ -488,6 +492,31 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				( int )localPlayer.Input.GetLastActiveVelocity().Y == 0 )
 			{
 				position = new Vector2( localPlayer.Position.X + localPlayer.GetRectangle().Width, localPlayer.Position.Y + 20 );
+			}
+
+			if( ( int )localPlayer.Input.GetLastActiveVelocity().X < 0 &&
+				( int )localPlayer.Input.GetLastActiveVelocity().Y < 0 )
+			{
+				position = localPlayer.Position;
+			}
+
+			if( ( int )localPlayer.Input.GetLastActiveVelocity().X > 0 &&
+				( int )localPlayer.Input.GetLastActiveVelocity().Y < 0 )
+			{
+				position = new Vector2( localPlayer.Position.X + localPlayer.GetRectangle().Width, localPlayer.Position.Y );
+			}
+
+			if( ( int )localPlayer.Input.GetLastActiveVelocity().X < 0 &&
+				( int )localPlayer.Input.GetLastActiveVelocity().Y > 0 )
+			{
+				position = new Vector2( localPlayer.Position.X, localPlayer.Position.Y + localPlayer.GetRectangle().Height );
+			}
+
+			if( ( int )localPlayer.Input.GetLastActiveVelocity().X > 0 &&
+				( int )localPlayer.Input.GetLastActiveVelocity().Y > 0 )
+			{
+				position = new Vector2( localPlayer.Position.X + localPlayer.GetRectangle().Width, 
+									    localPlayer.Position.Y + localPlayer.GetRectangle().Height );
 			}
 			return position;
 		}

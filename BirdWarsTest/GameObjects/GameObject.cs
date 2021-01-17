@@ -256,6 +256,13 @@ namespace BirdWarsTest.GameObjects
 			Position += Input.GetVelocity() * elapsedGameTime;
 		}
 
+		public void Update( GameTime gameTime, Rectangle cameraRenderBounds )
+		{
+			Input?.HandleInput( this, gameTime, cameraRenderBounds );
+			Health?.UpdateCoolDownTimer();
+			Attack?.UpdateAttackTimer();
+		}
+
 		/// <summary>
 		/// Checks if the graphics component is null and renders the gameObejct
 		/// if it is not.

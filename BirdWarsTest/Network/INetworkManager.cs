@@ -109,7 +109,7 @@ namespace BirdWarsTest.Network
 		/// Sends a SpawnGrenadeMessage to self or clients.
 		/// </summary>
 		/// <param name="grenade"></param>
-		void SendSpawnGrenadeMessage( GameObject grenade );
+		void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade );
 
 		/// <summary>
 		/// Sends an UpdateRemainingTimeMessage to self or clients.

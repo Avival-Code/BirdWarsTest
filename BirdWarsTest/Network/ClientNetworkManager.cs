@@ -474,7 +474,8 @@ namespace BirdWarsTest.Network
 			{
 				SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
 				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( 
-											  grenadeMessage.Position, grenadeMessage.Direction, grenadeMessage.GrenadeSpeed );
+											  ( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager,
+											  grenadeMessage );
 			}
 		}
 
@@ -630,9 +631,9 @@ namespace BirdWarsTest.Network
 		/// Sends a SpawnGrenadeMessage to server
 		/// </summary>
 		/// <param name="grenade">The grenade game Object.</param>
-		public void SendSpawnGrenadeMessage( GameObject grenade )
+		public void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade )
 		{
-			SendMessage( new SpawnGrenadeMessage( grenade ) );
+			SendMessage( new SpawnGrenadeMessage( localPlayerId, grenade ) );
 		}
 
 		/// <summary>

@@ -699,9 +699,8 @@ namespace BirdWarsTest.Network
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( incomingMessage );
 			SendMessage( grenadeMessage );
 
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( grenadeMessage.Position, 
-																											 grenadeMessage.Direction, 
-																										     grenadeMessage.GrenadeSpeed );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleSpawnGrenadeMessage( 
+						   ( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager, grenadeMessage );
 		}
 
 		private void HandleRoundFinishedMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -844,9 +843,9 @@ namespace BirdWarsTest.Network
 		/// Sends a SpawnGrenadeMessage to all clients.
 		/// </summary>
 		/// <param name="grenade"></param>
-		public void SendSpawnGrenadeMessage( GameObject grenade )
+		public void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade )
 		{
-			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( grenade );
+			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( localPlayerId, grenade );
 			SendMessage( grenadeMessage );
 		}
 

@@ -32,8 +32,9 @@ namespace BirdWarsTest.Network.Messages
 		/// Creates a message from the grenade object.
 		/// </summary>
 		/// <param name="gameObject"></param>
-		public SpawnGrenadeMessage( GameObject gameObject )
+		public SpawnGrenadeMessage( Identifiers localPlayerIdIn, GameObject gameObject )
 		{
+			LocalPlayerId = localPlayerIdIn;
 			Position = gameObject.Position;
 			Direction = ResetDirectionValues( ( ( GrenadeInputComponent )gameObject.Input ).Direction );
 			GrenadeSpeed = gameObject.Input.GetObjectSpeed();
@@ -53,6 +54,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
+			LocalPlayerId = ( Identifiers )incomingMessage.ReadInt32();
 			Position = new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() );
 			Direction = new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() );
 			GrenadeSpeed = incomingMessage.ReadFloat();
@@ -64,6 +66,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
+			outgoingMessage.Write( ( int )LocalPlayerId );
 			outgoingMessage.Write( Position.X );
 			outgoingMessage.Write( Position.Y );
 			outgoingMessage.Write( Direction.X );
@@ -95,6 +98,26 @@ namespace BirdWarsTest.Network.Messages
 				resetDirection = new Vector2( 1.0f, 0.0f );
 			}
 
+			if( direction.X < 0 && direction.Y < 0 )
+			{
+				resetDirection = new Vector2( -1.0f, -1.0f );
+			}
+
+			if( direction.X > 0 && direction.Y < 0 )
+			{
+				resetDirection = new Vector2( 1.0f, -1.0f );
+			}
+
+			if( direction.X < 0 && direction.Y > 0 )
+			{
+				resetDirection = new Vector2( -1.0f, 1.0f );
+			}
+
+			if( direction.X > 0 && direction.Y > 0 )
+			{
+				resetDirection = new Vector2( 1.0f, 1.0f );
+			}
+
 			return resetDirection;
 		}
 
@@ -103,6 +126,8 @@ namespace BirdWarsTest.Network.Messages
 
 		///<value>The grenade object direction</value>
 		public Vector2 Direction { get; private set; }
+
+		public Identifiers LocalPlayerId { get; private set; }
 
 		///<value>The grenade object speed</value>
 		public float GrenadeSpeed { get; private set; }
