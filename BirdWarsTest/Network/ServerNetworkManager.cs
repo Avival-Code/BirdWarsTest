@@ -261,7 +261,7 @@ namespace BirdWarsTest.Network
 								HandleSelfExitWaitingRomMessage( handler, incomingMessage );
 								break;
 							case GameMessageTypes.BanPlayerMessage:
-								HandleBanMessage( handler, incomingMessage );
+								HandleBanMessage( incomingMessage );
 								break;
 						}
 						break;
@@ -629,7 +629,7 @@ namespace BirdWarsTest.Network
 			SendMessage( chatMessage );
 		}
 
-		private void HandleBanMessage( StateHandler handler, NetIncomingMessage incomingMessage )
+		private void HandleBanMessage( NetIncomingMessage incomingMessage )
 		{
 			BanPlayerMessage banMessage = new BanPlayerMessage( incomingMessage );
 			if( !banMessage.Username.Equals( UserSession.CurrentUser.Username ) )

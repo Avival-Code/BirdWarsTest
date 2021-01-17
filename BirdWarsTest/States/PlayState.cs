@@ -94,7 +94,7 @@ namespace BirdWarsTest.States
 						   PlayerManager.GetLocalPlayer().GetRectangle(), PlayerManager.CreatedPlayers );
 			DisplayManager.Update( gameTime );
 			PlayerManager.Update( this, gameTime, state, mapManager.GetMapBounds(), networkManager );
-			ItemManager.Update( networkManager, PlayerManager, gameTime, mapManager.GetMapBounds() );
+			ItemManager.Update( networkManager, PlayerManager, gameTime, mapManager.GetMapBounds(), camera.GetCameraRenderBounds() );
 			CheckEndRound();
 		}
 

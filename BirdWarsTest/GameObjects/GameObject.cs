@@ -13,6 +13,7 @@ using BirdWarsTest.InputComponents;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
+using BirdWarsTest.AudioComponents;
 using BirdWarsTest.EffectComponents;
 using BirdWarsTest.States;
 
@@ -25,7 +26,8 @@ namespace BirdWarsTest.GameObjects
 	public class GameObject
 	{
 		/// <summary>
-		/// Creates a gameObject with null Health, Attack and effect componentes.
+		/// Creates a gameObject with null Health, Attack, Audio 
+		/// and effect componentes.
 		/// </summary>
 		/// <param name="graphics_In">Graphics component</param>
 		/// <param name="input_In">Input component</param>
@@ -39,13 +41,14 @@ namespace BirdWarsTest.GameObjects
 			Health = null;
 			Attack = null;
 			Effect = null;
+			Audio = null;
 			Identifier = id_In;
 			Position = position_in;
 		}
 
 		/// <summary>
 		/// Creates a gameobject at the center of the gamewindow horizontal axis.
-		/// Also has null Health, Attack and Effect components.
+		/// Also has null Health, Attack, Audio and Effect components.
 		/// </summary>
 		/// <param name="graphics_In">Graphics component</param>
 		/// <param name="input_In">Input component</param>
@@ -60,6 +63,7 @@ namespace BirdWarsTest.GameObjects
 			Health = null;
 			Attack = null;
 			Effect = null;
+			Audio = null;
 			Identifier = id_In;
 			if( Graphics != null )
 				Position = new Vector2( CenterXWidth( screenWidth, Graphics.GetTextureSize().X ),
@@ -68,7 +72,7 @@ namespace BirdWarsTest.GameObjects
 		}
 
 		/// <summary>
-		/// Creates a gameObject with a null Attack and effect component.
+		/// Creates a gameObject with a null Attack, Audio and effect component.
 		/// </summary>
 		/// <param name="graphics_In">Graphics component</param>
 		/// <param name="input_In">Input component</param>
@@ -83,12 +87,13 @@ namespace BirdWarsTest.GameObjects
 			Health = health_In;
 			Attack = null;
 			Effect = null;
+			Audio = null;
 			Identifier = id_In;
 			Position = position_in;
 		}
 
 		/// <summary>
-		/// Creates a gameObject with a null effect component.
+		/// Creates a gameObject with a null Audio and Effect component.
 		/// </summary>
 		/// <param name="graphics_In">Graphics component</param>
 		/// <param name="input_In">Input Component</param>
@@ -104,12 +109,36 @@ namespace BirdWarsTest.GameObjects
 			Health = health_In;
 			Attack = attackIn;
 			Effect = null;
+			Audio = null;
 			Identifier = id_In;
 			Position = position_in;
 		}
 
 		/// <summary>
-		/// Creates a gameObejct with a null Attack component.
+		/// Creates a gameObject with a null Effect Component;
+		/// </summary>
+		/// <param name="graphics_In">The game's graphics component.</param>
+		/// <param name="input_In">The game's input component.</param>
+		/// <param name="health_In">The game's Health component.</param>
+		/// <param name="attackIn">The game's attack component.</param>
+		/// <param name="audioIn">The game's audio component.</param>
+		/// <param name="id_In">The game's identifier.</param>
+		/// <param name="position_in">The game's position.</param>
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, HealthComponent health_In,
+						   AttackComponent attackIn, AudioComponent audioIn, Identifiers id_In, Vector2 position_in )
+		{
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = health_In;
+			Attack = attackIn;
+			Effect = null;
+			Audio = audioIn;
+			Identifier = id_In;
+			Position = position_in;
+		}
+
+		/// <summary>
+		/// Creates a gameObejct with a null Attack and Audio component.
 		/// </summary>
 		/// <param name="graphics_In">Graphics component</param>
 		/// <param name="input_In">Input component</param>
@@ -125,6 +154,55 @@ namespace BirdWarsTest.GameObjects
 			Health = health_In;
 			Attack = null;
 			Effect = effectIn;
+			Audio = null;
+			Identifier = id_In;
+			Position = position_in;
+		}
+
+		/// <summary>
+		/// Creates a gameObject with a null attack component.
+		/// </summary>
+		/// <param name="graphics_In">The game object's graphics component.</param>
+		/// <param name="input_In">The game object's input component.</param>
+		/// <param name="health_In">The game object's health component.</param>
+		/// <param name="effectIn">The game object's effect component.</param>
+		/// <param name="audioIn">The game object's audio component.</param>
+		/// <param name="id_In">The game object's identifier.</param>
+		/// <param name="position_in">The game object's position.</param>
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, HealthComponent health_In,
+						   EffectComponent effectIn, AudioComponent audioIn, Identifiers id_In, Vector2 position_in )
+		{
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = health_In;
+			Attack = null;
+			Effect = effectIn;
+			Audio = audioIn;
+			Identifier = id_In;
+			Position = position_in;
+		}
+
+		/// <summary>
+		/// Creates a complete game object with the entered component values.
+		/// </summary>
+		/// <param name="graphics_In">The game object's graphics component.</param>
+		/// <param name="input_In">The game object's input component.</param>
+		/// <param name="health_In">The game object's health component.</param>
+		/// <param name="effectIn">The game object's effect component.</param>
+		/// <param name="attackIn">The game object's attack component.</param>
+		/// <param name="audioIn">The game object's audio component.</param>
+		/// <param name="id_In">The game object's identifier.</param>
+		/// <param name="position_in">The game object's position.</param>
+		public GameObject( GraphicsComponent graphics_In, InputComponent input_In, HealthComponent health_In,
+						   EffectComponent effectIn, AttackComponent attackIn, AudioComponent audioIn, 
+						   Identifiers id_In, Vector2 position_in )
+		{
+			Graphics = graphics_In;
+			Input = input_In;
+			Health = health_In;
+			Attack = attackIn;
+			Effect = effectIn;
+			Audio = audioIn;
 			Identifier = id_In;
 			Position = position_in;
 		}
@@ -254,6 +332,9 @@ namespace BirdWarsTest.GameObjects
 
 		/// <value>The object attack component.</value>
 		public AttackComponent Attack { get; set; }
+
+		/// <value>The object audio component.</value>
+		public AudioComponent Audio { get; set; }
 
 		/// <value>The object effect component.</value>
 		public EffectComponent Effect { get; set; }

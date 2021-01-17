@@ -422,6 +422,21 @@
 /processorParam:TextureFormat=Color
 /build:Logos/BirdWarsLogo_440x246.png
 
+#begin Music/AnythingButTangerines.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:Music/AnythingButTangerines.mp4
+
+#begin Music/For Pete's Sake.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:Music/For Pete's Sake.mp4
+
+#begin Music/What The Heck.mp4
+/importer:H264Importer
+/processor:VideoProcessor
+/build:Music/What The Heck.mp4
+
 #begin PasswordBox.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -505,6 +520,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:RegisterBox.png
+
+#begin SoundEffects/CoinSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/CoinSound.wav
+
+#begin SoundEffects/ExplosionSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/ExplosionSound.wav
+
+#begin SoundEffects/HittingWoodSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/HittingWoodSound.wav
+
+#begin SoundEffects/MenuSound.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/MenuSound.wav
 
 #begin TextArea1.png
 /importer:TextureImporter

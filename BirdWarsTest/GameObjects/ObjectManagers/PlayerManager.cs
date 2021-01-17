@@ -136,6 +136,11 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
+		/// <summary>
+		/// Handles incoming AdjustedPlayerStateChange messages.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
+		/// <param name="adjustedMessage">The incoming adjusted message</param>
 		public void HandleAdjustedPlayerStateChangeMessage( NetIncomingMessage incomingMessage, 
 													AdjustedPlayerStateChangeMessage adjustedMessage )
 		{
@@ -340,7 +345,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <value>The list of player objects.</value>
 		public List< GameObject > Players { get; private set; }
 
-		private PositionGenerator positionGenerator;
+		private readonly PositionGenerator positionGenerator;
 
 		/// <value>bool indicating if players have been created.</value>
 		public bool CreatedPlayers { get; private set; }

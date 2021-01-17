@@ -670,6 +670,8 @@ namespace BirdWarsTest.Network
 		public LoginSession UserSession { get; private set; }
 		private NetClient netClient;
 		private bool isDisposed;
+
+		/// <value>bool indicating if client is currently in a game round.</value>
 		public bool IsInGameRound { get; set; }
 	}
 }

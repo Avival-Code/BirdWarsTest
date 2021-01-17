@@ -122,6 +122,10 @@ namespace BirdWarsTest.GameRounds
 			return GetBannedPlayer();
 		}
 
+		/// <summary>
+		/// Adds username to ban list.
+		/// </summary>
+		/// <param name="username">The banned player username</param>
 		public void Ban( string username )
 		{
 			bannedPlayers.Add( username );
@@ -156,6 +160,11 @@ namespace BirdWarsTest.GameRounds
 			return ( !string.IsNullOrEmpty( chatMessage ) && chatMessage.Contains( banMessage ) );
 		}
 
+		/// <summary>
+		/// Checks if player username is in banned list.
+		/// </summary>
+		/// <param name="username">The player username</param>
+		/// <returns>bool</returns>
 		public bool IsBanned( string username )
 		{
 			bool isBanned = false;
@@ -237,6 +246,7 @@ namespace BirdWarsTest.GameRounds
 		/// <value>bool indicating if the round has been created.</value>
 		public bool Created { get; private set; }
 
+		/// <value>bool indicating if the game round has started.</value>
 		public bool GameRoundStarted { get; set; }
 		private const int MaxPlayers = 8;
 	}

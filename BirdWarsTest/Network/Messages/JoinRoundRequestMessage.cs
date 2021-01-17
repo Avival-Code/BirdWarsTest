@@ -60,6 +60,7 @@ namespace BirdWarsTest.Network.Messages
 			outgoingMessage.Write( Username );
 		}
 
+		/// <value>The player username</value>
 		public string Username { get; private set; }
 	}
 }

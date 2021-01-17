@@ -10,6 +10,7 @@ using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
 using BirdWarsTest.HealthComponents;
 using BirdWarsTest.AttackComponents;
+using BirdWarsTest.AudioComponents;
 using BirdWarsTest.EffectComponents;
 using BirdWarsTest.Network;
 using BirdWarsTest.Network.Messages;
@@ -98,8 +99,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			if( networkManager.IsHost() )
 			{
-				GameObject newBox = new GameObject( new ItemBoxGraphicsComponent( content ), null, 
-													new HealthComponent( maxBoxHealth ), Identifiers.ItemBox, GetRandomMapPosition() );
+				GameObject newBox = new GameObject( new ItemBoxGraphicsComponent( content ), null, new HealthComponent( maxBoxHealth ), 
+													null, null, new AudioComponent( content, "SoundEffects/HittingWoodSound"), 
+													Identifiers.ItemBox, GetRandomMapPosition() );
 				Boxes.Add( newBox );
 				spawnedItems.Add( false );
 				List< GameObject > boxes = new List< GameObject >();
@@ -120,8 +122,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				GameObject temp = new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
 												  new GrenadeInputComponent( playerManager.GetLocalPlayer().Input.GetLastActiveVelocity(),
 																			 playerManager.GetLocalPlayer().Input.GetObjectSpeed() ), 
-												  new HealthComponent( 1 ),
-												  new GrenadeAttackComponent(), Identifiers.EggGrenade,
+												  new HealthComponent( 1 ), new GrenadeAttackComponent(),
+												  new AudioComponent( content, "SoundEffects/ExplosionSound" ), Identifiers.EggGrenade,
 												  GetGrenadePosition( playerManager.GetLocalPlayer() ) );
 				EggGrenades.Add( temp );
 				networkManager.SendSpawnGrenadeMessage( temp );
@@ -139,7 +141,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					case ( int )Identifiers.Coin:
 						temp = new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
-											   new CoinEffectComponent( 1 ), Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
+											   new CoinEffectComponent( 1 ), new AudioComponent( content, "SoundEffects/CoinSound" ),
+											   Identifiers.Coin, GetRandomLocalBoxPosition( Boxes[ boxIndex ] ) );
 						ConsumableItems.Add( temp );
 						objectList.Add( temp );
 						break;
@@ -172,6 +175,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			for( int i = 0; i < boxCount; i++ )
 			{
 				Boxes.Add( new GameObject( new ItemBoxGraphicsComponent( content ), null, new HealthComponent( maxBoxHealth ),
+										   null, null, new AudioComponent( content, "SoundEffects/HittingWoodSound" ),
 										   Identifiers.ItemBox, new Vector2( incomingMessage.ReadFloat(), incomingMessage.ReadFloat() ) ) );
 				spawnedItems.Add( false );
 			}
@@ -191,8 +195,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					case ( int )Identifiers.Coin:
 						ConsumableItems.Add( new GameObject( new CoinGraphicsComponent( content ), null, new HealthComponent( 1 ),
-															 new CoinEffectComponent( 1 ), Identifiers.Coin,
-															 message.ObjectPositions[ i ] ) );
+															 new CoinEffectComponent( 1 ), new AudioComponent( content, "SoundEffects/CoinSound" ), 
+															 Identifiers.Coin, message.ObjectPositions[ i ] ) );
 						break;
 
 					case ( int )Identifiers.PigeonMilk:
@@ -242,7 +246,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		{
 			EggGrenades.Add( new GameObject( new ActiveEggGrenadeGraphicsComponent( content ), 
 											 new GrenadeInputComponent( grenadeDirection, grenadeSpeed ), new HealthComponent( 1 ),
-											 new GrenadeAttackComponent(), Identifiers.EggGrenade, grenadePosition ) );
+											 new GrenadeAttackComponent(), new AudioComponent( content, "SoundEffects/ExplosionSound" ),
+											 Identifiers.EggGrenade, grenadePosition ) );
 		}
 
 		private void HandleSpawnBox( INetworkManager networkManager, GameTime gameTime )
@@ -255,14 +260,16 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void HandleObjectDamage( INetworkManager networkManager, GameObject localPlayer )
+		private void HandleObjectDamage( INetworkManager networkManager, GameObject localPlayer,
+										 Rectangle cameraRenderBounds )
 		{
-			HandlePlayerToBoxDamage( networkManager, localPlayer );
+			HandlePlayerToBoxDamage( networkManager, localPlayer, cameraRenderBounds );
 			HandleGrenadeToPlayerDamage( localPlayer );
-			HandleGrenadeToBoxDamage( networkManager );
+			HandleGrenadeToBoxDamage( networkManager, cameraRenderBounds );
 		}
 
-		private void HandlePlayerToBoxDamage( INetworkManager networkManager, GameObject localPlayer )
+		private void HandlePlayerToBoxDamage( INetworkManager networkManager, GameObject localPlayer,
+											  Rectangle cameraRenderBounds )
 		{
 			for( int i = 0; i < Boxes.Count; i++ )
 			{
@@ -270,6 +277,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					localPlayer.Attack.GetAttackRectangle( localPlayer ).Intersects( Boxes[ i ].GetRectangle() ) )
 				{
 					Boxes[ i ].Health.TakeDamage( localPlayer.Attack.Damage );
+					if( cameraRenderBounds.Intersects( Boxes[ i ].GetRectangle() ) )
+					{
+						Boxes[ i ].Audio.Play();
+					}
 					networkManager.SendBoxDamageMessage( i, localPlayer.Attack.Damage );
 				}
 			}
@@ -288,7 +299,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			}
 		}
 
-		private void HandleGrenadeToBoxDamage( INetworkManager networkManager )
+		private void HandleGrenadeToBoxDamage( INetworkManager networkManager, Rectangle cameraRenderBounds )
 		{
 			for( int i = 0; i < Boxes.Count; i++ )
 			{
@@ -298,6 +309,10 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 						EggGrenades[ j ].Attack.GetAttackRectangle( EggGrenades[ j ] ).Intersects( Boxes[ i ].GetRectangle() ) )
 					{
 						Boxes[ i ].Health.TakeDamage( EggGrenades[ j ].Attack.Damage );
+						if( cameraRenderBounds.Intersects( Boxes[ i ].GetRectangle() ) )
+						{
+							Boxes[ i ].Audio.Play();
+						}
 						networkManager.SendBoxDamageMessage( i, EggGrenades[ j ].Attack.Damage );
 					}
 				}
@@ -313,6 +328,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					ConsumableItems[ i ].Health.TakeFullDamage();
 					ConsumableItems[ i ].Effect.DoEffect( networkManager, playerManager );
+					ConsumableItems[ i ]?.Audio.Play();
 					networkManager.SendPickedUpItemMessage( i );
 				}
 			}
@@ -326,8 +342,9 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <param name="playerManager">Player manager.</param>
 		/// <param name="gameTime">The amount of elapsed game time.</param>
 		/// <param name="mapBounds">Game world area rectangle.</param>
+		/// <param name="cameraRenderBounds">Camera render area rectangle.</param>
 		public void Update( INetworkManager networkManager, PlayerManager playerManager, GameTime gameTime,
-							Rectangle mapBounds )
+							Rectangle mapBounds, Rectangle cameraRenderBounds )
 		{
 			SpawnConsumableItems( networkManager );
 			if( networkManager.IsHost() )
@@ -338,7 +355,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			UpdateGrenades( gameTime );
 			UpdateGrenadeTimer( gameTime );
 			ImposeMapBoundaryLimits( mapBounds );
-			HandleObjectDamage( networkManager, playerManager.GetLocalPlayer() );
+			HandleObjectDamage( networkManager, playerManager.GetLocalPlayer(), cameraRenderBounds );
 			HandleConsumableItemPickup( networkManager, playerManager );
 		}
 

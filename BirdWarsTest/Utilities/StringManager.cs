@@ -84,7 +84,7 @@ namespace BirdWarsTest.Utilities
 		/// Returns a string from the list of game strings
 		/// at the specified intex.
 		/// </summary>
-		/// <param name="name"></param>
+		/// <param name="name">The Stringname enumerator</param>
 		/// <returns></returns>
 		public string GetString( StringNames name )
 		{
