@@ -13,6 +13,7 @@ using BirdWarsTest.Network;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.GraphicComponents;
 using BirdWarsTest.InputComponents;
+using BirdWarsTest.AudioComponents;
 using BirdWarsTest.Utilities;
 using System.Collections.Generic;
 
@@ -130,7 +131,8 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent(Content, stringManager.GetString( StringNames.Logout ) ),
 											 new LogoutInputComponent( handler ), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,
+			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), null, null, null,
+											 new AudioComponent( Content, "SoundEffects/MenuSound" ), Identifiers.Selector,
 											 new Vector2( 0.0f, 0.0f ) ) );
 		}
 

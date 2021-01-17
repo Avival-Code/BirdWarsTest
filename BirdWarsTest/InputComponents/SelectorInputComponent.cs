@@ -63,7 +63,7 @@ namespace BirdWarsTest.InputComponents
 		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState )
 		{
-			ChangeSelection( state );
+			ChangeSelection( state, gameObject );
 			InvokeSelectionInput( state, gameState );
 			UpdateTimer();
 		}
@@ -76,19 +76,19 @@ namespace BirdWarsTest.InputComponents
 			}
 		}
 
-		private void ChangeSelection( KeyboardState state )
+		private void ChangeSelection( KeyboardState state, GameObject gameObject )
 		{
 			if( state.IsKeyDown( Keys.Up ) )
 			{
-				HandleUpKeyInput();
+				HandleUpKeyInput( gameObject );
 			}
 			if( state.IsKeyDown( Keys.Down ) )
 			{
-				HandleDownKeyInput();
+				HandleDownKeyInput( gameObject );
 			}
 		}
 
-		private void HandleUpKeyInput()
+		private void HandleUpKeyInput( GameObject gameObject )
 		{
 			if( !changedSelection && currentSelection > minSelectorValue )
 			{
@@ -96,10 +96,11 @@ namespace BirdWarsTest.InputComponents
 				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
 				currentSelection -= 1;
 				( ( MenuOptionGraphicsComponent )selections[ currentSelection ].Graphics ).ToggleSelect();
+				gameObject.Audio.Play();
 			}
 		}
 
-		private void HandleDownKeyInput()
+		private void HandleDownKeyInput( GameObject gameObject )
 		{
 			if( !changedSelection && currentSelection < maxSelectorValue )
 			{
@@ -107,6 +108,7 @@ namespace BirdWarsTest.InputComponents
 				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].Graphics ).ToggleSelect();
 				currentSelection += 1;
 				( ( MenuOptionGraphicsComponent)selections[ currentSelection ].Graphics ).ToggleSelect();
+				gameObject.Audio.Play();
 			}
 		}
 
