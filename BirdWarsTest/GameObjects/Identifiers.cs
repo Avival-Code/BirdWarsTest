@@ -139,6 +139,10 @@ namespace BirdWarsTest.GameObjects
 		/// <summary>
 		/// The GameObject that holds the egg grenade components.
 		/// </summary>
-		EggGrenade
+		EggGrenade,
+		/// <summary>
+		/// The GameObject that plays music in each round.
+		/// </summary>
+		MusicPlayer
 	}
 }

@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework.Audio;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Stores, controls and modifies sound for a game object.
+*********************************************/
+using Microsoft.Xna.Framework.Audio;
 
 namespace BirdWarsTest.AudioComponents
 {

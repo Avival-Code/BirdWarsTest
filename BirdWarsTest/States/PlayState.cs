@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using BirdWarsTest.Network;
+using BirdWarsTest.GameObjects;
+using BirdWarsTest.AudioComponents;
 using BirdWarsTest.GameObjects.ObjectManagers;
 using BirdWarsTest.GameRounds;
 using BirdWarsTest.Utilities;
@@ -57,6 +59,8 @@ namespace BirdWarsTest.States
 			DisplayManager.InitializeInterfaceComponents( Content, handler );
 			mapManager.InitializeMapTiles( Content );
 			ItemManager.SetMapBounds( mapManager.GetMapBounds() );
+			musicObject = new GameObject( null, null, null, null, null, new MusicplayerAudioComponent( Content ), 
+										  Identifiers.MusicPlayer, new Vector2() );
 		}
 
 		/// <summary>
@@ -129,6 +133,14 @@ namespace BirdWarsTest.States
 			}
 		}
 
+		/// <summary>
+		/// Stops the round music.
+		/// </summary>
+		public void StopMusic()
+		{
+			( ( MusicplayerAudioComponent )musicObject.Audio ).Stop();
+		}
+
 		///<value>The state's Player manager.</value>
 		public PlayerManager PlayerManager { get; private set; }
 
@@ -139,7 +151,10 @@ namespace BirdWarsTest.States
 		public HeadsUpDisplayManager DisplayManager { get; private set; }
 		private readonly MapManager mapManager;
 		private readonly Camera2D camera;
+		private GameObject musicObject;
 		private bool sentEndRoundMessage;
+
+		///<value>Bool indicated if state has been initialized.</value>
 		public bool IsInitialized
 		{
 			get { return isInitialized; }

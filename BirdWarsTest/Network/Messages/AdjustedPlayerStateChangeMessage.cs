@@ -1,16 +1,38 @@
-﻿using BirdWarsTest.GameObjects;
+﻿/********************************************
+Programmer: Christian Felipe de Jesus Avila Valdes
+Date: January 10, 2021
+
+File Description:
+Stores the player ID, position, velocity and adjusted player lag time value.
+*********************************************/
+using BirdWarsTest.GameObjects;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 
 namespace BirdWarsTest.Network.Messages
 {
+	/// <summary>
+	/// Stores the player ID, position, velocity and adjusted player lag time value.
+	/// </summary>
 	public class AdjustedPlayerStateChangeMessage : IGameMessage
 	{
+		/// <summary>
+		/// Creates an AdjustedPlayerStateChange message from a 
+		/// NetIncomingMessage.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message.</param>
 		public AdjustedPlayerStateChangeMessage( NetIncomingMessage incomingMessage )
 		{
 			Decode( incomingMessage );
 		}
 
+		/// <summary>
+		/// Creates an AdjustedPlayerStateChange message from gameObject values.
+		/// </summary>
+		/// <param name="idIn">The Game object's Id</param>
+		/// <param name="positionIn">The Game object's position</param>
+		/// <param name="velocityIn">The Game object's velocity</param>
+		/// <param name="clientDelayIn">The Game object's delayTime</param>
 		public AdjustedPlayerStateChangeMessage( Identifiers idIn, Vector2 positionIn, Vector2 velocityIn,
 												 float clientDelayIn )
 		{
@@ -21,11 +43,18 @@ namespace BirdWarsTest.Network.Messages
 			MessageTime = NetTime.Now;
 		}
 
+		/// <summary>
+		/// Returns the type of Game message.
+		/// </summary>
 		public GameMessageTypes MessageType
 		{
 			get { return GameMessageTypes.AdjustedPlayerStateChangeMessage; }
 		}
 
+		/// <summary>
+		/// Decodes the information stored in a NetIncoming message.
+		/// </summary>
+		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
 			Id = ( Identifiers )incomingMessage.ReadInt32();
@@ -35,6 +64,10 @@ namespace BirdWarsTest.Network.Messages
 			MessageTime = incomingMessage.ReadDouble();
 		}
 
+		/// <summary>
+		/// Encodes this message's values to a NetOutgoing message.
+		/// </summary>
+		/// <param name="outgoingMessage">The outgoing message.</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
 			outgoingMessage.Write( ( int )Id );

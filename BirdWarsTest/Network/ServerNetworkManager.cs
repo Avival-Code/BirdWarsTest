@@ -1,7 +1,4 @@
-﻿using BirdWarsTest.States;
-using BirdWarsTest.Database;
-using BirdWarsTest.Network.Messages;
-/********************************************
+﻿/********************************************
 Programmer: Christian Felipe de Jesus Avila Valdes
 Date: January 10, 2021
 
@@ -10,6 +7,9 @@ The server network manager handles distributing messages
 to all clients, their messages, and user login, registration and
 update.
 *********************************************/
+using BirdWarsTest.States;
+using BirdWarsTest.Database;
+using BirdWarsTest.Network.Messages;
 using BirdWarsTest.GameRounds;
 using BirdWarsTest.GameObjects;
 using BirdWarsTest.Utilities;
@@ -712,6 +712,7 @@ namespace BirdWarsTest.Network
 			UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
 			gameDatabase.UpdateUserInformation( UserSession.CurrentUser, UserSession.CurrentAccount );
 			GameRound.GameRoundStarted = false;
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).StopMusic();
 			handler.ChangeState( StateTypes.WaitingRoomState );
 
 			RoundStateChangedMessage roundStateChanged = new RoundStateChangedMessage( GameRound.GetPlayerUsernames() );

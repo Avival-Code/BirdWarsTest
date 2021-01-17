@@ -28,7 +28,7 @@
         <member name="M:BirdWarsTest.AttackComponents.AttackComponent.#ctor(System.Int32,System.Int32,System.Int32)">
             <summary>
             Constructor that takes a damage, width and height parameter.
-            AttackTimer is set to 13. Remainig properties are set to their
+            AttackTimer is set to 13. Remaining properties are set to their
             respective input values.
             </summary>
             <param name="damageIn">An integer value</param>
@@ -141,6 +141,46 @@
             </summary>
             <param name="gameObject">The gameObject that is attacking.</param>
             <returns></returns>
+        </member>
+        <member name="T:BirdWarsTest.AudioComponents.AudioComponent">
+            <summary>
+            Stores, controls and modifies sound for a game object.
+            </summary>
+        </member>
+        <member name="M:BirdWarsTest.AudioComponents.AudioComponent.#ctor">
+            <summary>
+            Default constructor. Sets sound to null.
+            </summary>
+        </member>
+        <member name="M:BirdWarsTest.AudioComponents.AudioComponent.#ctor(Microsoft.Xna.Framework.Content.ContentManager,System.String)">
+            <summary>
+            Sets the sound to the audio file that matches the string input value.
+            </summary>
+            <param name="content">Game content manager.</param>
+            <param name="audioName">Audio file name.</param>
+        </member>
+        <member name="M:BirdWarsTest.AudioComponents.AudioComponent.Play">
+            <summary>
+            Plays the loaded audio file.
+            </summary>
+        </member>
+        <member name="T:BirdWarsTest.AudioComponents.MusicplayerAudioComponent">
+            <summary>
+            Audio component used for the play state music player. 
+            It stores the songs used for each game round.
+            </summary>
+        </member>
+        <member name="M:BirdWarsTest.AudioComponents.MusicplayerAudioComponent.#ctor(Microsoft.Xna.Framework.Content.ContentManager)">
+            <summary>
+            Initializes the songs available per game round. Configures the
+            mediaplayer and plays a random song.
+            </summary>
+            <param name="content"></param>
+        </member>
+        <member name="M:BirdWarsTest.AudioComponents.MusicplayerAudioComponent.Stop">
+            <summary>
+            Stops playing the current song.
+            </summary>
         </member>
         <member name="T:BirdWarsTest.Database.Account">
             <summary>
@@ -264,7 +304,7 @@
         </member>
         <member name="M:BirdWarsTest.Database.Connection.#ctor">
             <summary>
-            Default constructor.
+            Loads required login variables from file.
             </summary>
         </member>
         <member name="M:BirdWarsTest.Database.Connection.#ctor(System.String,System.String,System.String,System.String,System.String)">
@@ -745,7 +785,8 @@
         </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
             <summary>
-            Creates a gameObject with null Health, Attack and effect componentes.
+            Creates a gameObject with null Health, Attack, Audio 
+            and effect componentes.
             </summary>
             <param name="graphics_In">Graphics component</param>
             <param name="input_In">Input component</param>
@@ -755,7 +796,7 @@
         <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.GameObjects.Identifiers,System.Single,System.Single)">
             <summary>
             Creates a gameobject at the center of the gamewindow horizontal axis.
-            Also has null Health, Attack and Effect components.
+            Also has null Health, Attack, Audio and Effect components.
             </summary>
             <param name="graphics_In">Graphics component</param>
             <param name="input_In">Input component</param>
@@ -765,7 +806,7 @@
         </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
             <summary>
-            Creates a gameObject with a null Attack and effect component.
+            Creates a gameObject with a null Attack, Audio and effect component.
             </summary>
             <param name="graphics_In">Graphics component</param>
             <param name="input_In">Input component</param>
@@ -775,7 +816,7 @@
         </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.AttackComponents.AttackComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
             <summary>
-            Creates a gameObject with a null effect component.
+            Creates a gameObject with a null Audio and Effect component.
             </summary>
             <param name="graphics_In">Graphics component</param>
             <param name="input_In">Input Component</param>
@@ -784,9 +825,21 @@
             <param name="id_In">Object identifier</param>
             <param name="position_in">Object position</param>
         </member>
+        <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.AttackComponents.AttackComponent,BirdWarsTest.AudioComponents.AudioComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Creates a gameObject with a null Effect Component;
+            </summary>
+            <param name="graphics_In">The game's graphics component.</param>
+            <param name="input_In">The game's input component.</param>
+            <param name="health_In">The game's Health component.</param>
+            <param name="attackIn">The game's attack component.</param>
+            <param name="audioIn">The game's audio component.</param>
+            <param name="id_In">The game's identifier.</param>
+            <param name="position_in">The game's position.</param>
+        </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.EffectComponents.EffectComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
             <summary>
-            Creates a gameObejct with a null Attack component.
+            Creates a gameObejct with a null Attack and Audio component.
             </summary>
             <param name="graphics_In">Graphics component</param>
             <param name="input_In">Input component</param>
@@ -794,6 +847,31 @@
             <param name="effectIn">Effect component</param>
             <param name="id_In">Object identifier</param>
             <param name="position_in">Object position</param>
+        </member>
+        <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.EffectComponents.EffectComponent,BirdWarsTest.AudioComponents.AudioComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Creates a gameObject with a null attack component.
+            </summary>
+            <param name="graphics_In">The game object's graphics component.</param>
+            <param name="input_In">The game object's input component.</param>
+            <param name="health_In">The game object's health component.</param>
+            <param name="effectIn">The game object's effect component.</param>
+            <param name="audioIn">The game object's audio component.</param>
+            <param name="id_In">The game object's identifier.</param>
+            <param name="position_in">The game object's position.</param>
+        </member>
+        <member name="M:BirdWarsTest.GameObjects.GameObject.#ctor(BirdWarsTest.GraphicComponents.GraphicsComponent,BirdWarsTest.InputComponents.InputComponent,BirdWarsTest.HealthComponents.HealthComponent,BirdWarsTest.EffectComponents.EffectComponent,BirdWarsTest.AttackComponents.AttackComponent,BirdWarsTest.AudioComponents.AudioComponent,BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2)">
+            <summary>
+            Creates a complete game object with the entered component values.
+            </summary>
+            <param name="graphics_In">The game object's graphics component.</param>
+            <param name="input_In">The game object's input component.</param>
+            <param name="health_In">The game object's health component.</param>
+            <param name="effectIn">The game object's effect component.</param>
+            <param name="attackIn">The game object's attack component.</param>
+            <param name="audioIn">The game object's audio component.</param>
+            <param name="id_In">The game object's identifier.</param>
+            <param name="position_in">The game object's position.</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.Update(Microsoft.Xna.Framework.GameTime)">
             <summary>
@@ -877,6 +955,9 @@
         <member name="P:BirdWarsTest.GameObjects.GameObject.Attack">
             <value>The object attack component.</value>
         </member>
+        <member name="P:BirdWarsTest.GameObjects.GameObject.Audio">
+            <value>The object audio component.</value>
+        </member>
         <member name="P:BirdWarsTest.GameObjects.GameObject.Effect">
             <value>The object effect component.</value>
         </member>
@@ -888,167 +969,172 @@
         </member>
         <member name="T:BirdWarsTest.GameObjects.Identifiers">
             <summary>
-            Holds all possible gameObject values.
+            Holds all possible gameObject types.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.LoginLogo">
             <summary>
-            
+            The GameObject that holds the LoginLogo components
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.LoginBox1">
             <summary>
-            
+            The GameObject that golds the loginBox components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.RegisterBox">
             <summary>
-            
+            The GameObject that holds the regiserBx components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.PasswordBox">
             <summary>
-            
+            THe GameObject that holds the passwordBox components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.ConfigurationBox">
             <summary>
-            
+            The GameObject that holds the configurationBoxComponents.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Background">
             <summary>
-            
+            The GameObject that holds the Background components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.TextGraphics">
             <summary>
-            
+            The GameObject that holds the textGraphics components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.TextArea">
             <summary>
-            
+            The GameObject that holds the textArea components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.PasswordArea">
             <summary>
-            
+            The GameObject that holds the passwordArea components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Button1">
             <summary>
-            
+            The GameObject that holds the button1 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Button2">
             <summary>
-            
+            The GameObject that holds the button2 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Decoration">
             <summary>
-            
+            The GameObject that holds the decoration components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.MenuOption">
             <summary>
-            
+            The GameObject that holds the menuOption components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Selector">
             <summary>
-            
+            The GameObject that holds the main menu selector components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.LanguageSelector">
             <summary>
-            
+            The GameObject that holds the laguage selector components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.ChatMessageSender">
             <summary>
-            
+            The GameObject that holds the chatMessage sender components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.ChatMessage">
             <summary>
-            
+            The GameObject that holds the chatMessage components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player1">
             <summary>
-            
+            The GameObject that holds player1 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player2">
             <summary>
-            
+            The GameObject that holds player2 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player3">
             <summary>
-            
+            The GameObject that holds player3 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player4">
             <summary>
-            
+            The GameObject that holds player4 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player5">
             <summary>
-            
+            The GameObject that holds player5 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player6">
             <summary>
-            
+            The GameObject that holds player6 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player7">
             <summary>
-            
+            The GameObject that holds player7 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Player8">
             <summary>
-            
+            The GameObject that holds player8 components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.LifeBar">
             <summary>
-            
+            The GameObject that holds the lifebar components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Timer">
             <summary>
-            
+            The GameObject that holds the timer components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Floor">
             <summary>
-            
+            The GameObject that holds the floor components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.ItemBox">
             <summary>
-            
+            The GameObject that holds the item box components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.Coin">
             <summary>
-            
+            The GameObject that holds the coin components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.PigeonMilk">
             <summary>
-            
+            The GameObject that holds the pigeon mil components.
             </summary>
         </member>
         <member name="F:BirdWarsTest.GameObjects.Identifiers.EggGrenade">
             <summary>
-            
+            The GameObject that holds the egg grenade components.
+            </summary>
+        </member>
+        <member name="F:BirdWarsTest.GameObjects.Identifiers.MusicPlayer">
+            <summary>
+            The GameObject that plays music in each round.
             </summary>
         </member>
         <member name="T:BirdWarsTest.GameObjects.ObjectManagers.ChatMessageManager">
@@ -1232,14 +1318,15 @@
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandleBoxDamageMessage(BirdWarsTest.Network.Messages.BoxDamageMessage)">
             <summary>
-            Damages the box written in the message to match the boxes in
-            other game clients and server.
+            Uses the box index contained in the incoming message and damages
+            the box that has the same index. Used to keep item box health
+            syncronized on all applications.
             </summary>
             <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandlePickedUpItemMessage(System.Int32)">
             <summary>
-            Removes any items from hte game that have already been picked up
+            Removes any items from the game that have already been picked up
             by other players.
             </summary>
             <param name="itemIndex">The incoming PickedUpItemmessage.</param>
@@ -1253,7 +1340,7 @@
             <param name="grenadeDirection">The grenade direction.</param>
             <param name="grenadeSpeed">The grenade speed.</param>
         </member>
-        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.Update(BirdWarsTest.Network.INetworkManager,BirdWarsTest.GameObjects.ObjectManagers.PlayerManager,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle)">
+        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.Update(BirdWarsTest.Network.INetworkManager,BirdWarsTest.GameObjects.ObjectManagers.PlayerManager,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Rectangle)">
             <summary>
             Updates all gameObjects, imposes map boundaries, and handles
             damage.
@@ -1262,6 +1349,7 @@
             <param name="playerManager">Player manager.</param>
             <param name="gameTime">The amount of elapsed game time.</param>
             <param name="mapBounds">Game world area rectangle.</param>
+            <param name="cameraRenderBounds">Camera render area rectangle.</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.Render(Microsoft.Xna.Framework.Graphics.SpriteBatch@,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Rectangle)">
             <summary>
@@ -1365,6 +1453,13 @@
             </summary>
             <param name="incomingMessage">The incoming PlayerStateChangeMessage.</param>
             <param name="stateChangeMessage">The incoming PlayerStateChangeMessage.</param>
+        </member>
+        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.PlayerManager.HandleAdjustedPlayerStateChangeMessage(Lidgren.Network.NetIncomingMessage,BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage)">
+            <summary>
+            Handles incoming AdjustedPlayerStateChange messages.
+            </summary>
+            <param name="incomingMessage">The incoming message</param>
+            <param name="adjustedMessage">The incoming adjusted message</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.PlayerManager.HandlePlayerAttackMessage(BirdWarsTest.Network.Messages.PlayerAttackMessage)">
             <summary>
@@ -1549,6 +1644,19 @@
             <param name="banMessage">The ban message.</param>
             <returns>Returns the name of the player to ban.</returns>
         </member>
+        <member name="M:BirdWarsTest.GameRounds.GameRound.Ban(System.String)">
+            <summary>
+            Adds username to ban list.
+            </summary>
+            <param name="username">The banned player username</param>
+        </member>
+        <member name="M:BirdWarsTest.GameRounds.GameRound.IsBanned(System.String)">
+            <summary>
+            Checks if player username is in banned list.
+            </summary>
+            <param name="username">The player username</param>
+            <returns>bool</returns>
+        </member>
         <member name="M:BirdWarsTest.GameRounds.GameRound.ResetBanPetitions">
             <summary>
             Resets the number of bans in the gameRound.
@@ -1577,7 +1685,10 @@
             <value>The list of player conenctions.</value>
         </member>
         <member name="P:BirdWarsTest.GameRounds.GameRound.Created">
-            <value>bool indicating if the round has been created..</value>
+            <value>bool indicating if the round has been created.</value>
+        </member>
+        <member name="P:BirdWarsTest.GameRounds.GameRound.GameRoundStarted">
+            <value>bool indicating if the game round has started.</value>
         </member>
         <member name="T:BirdWarsTest.GraphicComponents.ActiveEggGrenadeGraphicsComponent">
             <summary>
@@ -3558,7 +3669,7 @@
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.#ctor">
             <summary>
-            Creates an instance of the client manager which tries
+            Creates an instance of the client manager which attempts
             to connect to the server at a local location.
             </summary>
         </member>
@@ -3597,9 +3708,9 @@
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.CreateMessage">
             <summary>
-            Creates and returns a Netoutgoing message.
+            Creates and returns a NetOutgoing message.
             </summary>
-            <returns>Creates and returns a Netoutgoing message.</returns>
+            <returns>A NetOutgoing message.</returns>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.Disconnect">
             <summary>
@@ -3615,37 +3726,37 @@
             <summary>
             Reads an incoming message sent by the server.
             </summary>
-            <returns></returns>
+            <returns>A NetIncoming Message</returns>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.Recycle(Lidgren.Network.NetIncomingMessage)">
             <summary>
             Recycles the incoming messages that are consumed.
             </summary>
-            <param name="im"></param>
+            <param name="im">The NetIncomingMessage</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendMessage(BirdWarsTest.Network.Messages.IGameMessage)">
             <summary>
             Sends a message to the server.
             </summary>
-            <param name="gameMessage"></param>
+            <param name="gameMessage">THe GameMessage to send</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.GetConnectionState">
             <summary>
             Return the network manager connection status.
             </summary>
-            <returns></returns>
+            <returns>NetConnectionStatus</returns>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.IsHost">
             <summary>
             Checks if this instance on network manager is the server
             </summary>
-            <returns></returns>
+            <returns>Bool</returns>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.ProcessMessages(BirdWarsTest.States.StateHandler)">
             <summary>
             Method processes the incoming messages sent by the server.
             </summary>
-            <param name="handler">Game statehandler.</param>
+            <param name="handler">Game statehandler</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.RegisterUser(System.String,System.String,System.String,System.String,System.String)">
             <summary>
@@ -3682,31 +3793,31 @@
             <summary>
             Sends a chat message to the server
             </summary>
-            <param name="message"></param>
+            <param name="message">String containing the message body.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendPasswordChangeMessage(System.String)">
             <summary>
             Sends a SolicitPasswordResetMessage to the server.
             </summary>
-            <param name="emailIn"></param>
+            <param name="emailIn">The User email</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendPlayerStateChangeMessage(BirdWarsTest.GameObjects.GameObject)">
             <summary>
             Sends a PlayerStateChangedMessage to the server
             </summary>
-            <param name="player"></param>
+            <param name="player">The Local player gameObject</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendSpawnBoxMessage(System.Collections.Generic.List{BirdWarsTest.GameObjects.GameObject})">
             <summary>
             Method unused by client
             </summary>
-            <param name="boxes"></param>
+            <param name="boxes">List of Item Boxes.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendSpawnConsumablesMessage(System.Collections.Generic.List{BirdWarsTest.GameObjects.GameObject})">
             <summary>
             Method unused by client
             </summary>
-            <param name="consumables"></param>
+            <param name="consumables">List of consumable items</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendBoxDamageMessage(System.Int32,System.Int32)">
             <summary>
@@ -3719,7 +3830,7 @@
             <summary>
             Sends a PlayerAttackMessage to server
             </summary>
-            <param name="localPlayerIndex">local player index</param>
+            <param name="localPlayerIndex">The local player index</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendPickedUpItemMessage(System.Int32)">
             <summary>
@@ -3729,27 +3840,27 @@
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.GameObject)">
             <summary>
-            Sends s SpawnGrenadeMessage to server
+            Sends a SpawnGrenadeMessage to server
             </summary>
-            <param name="grenade"></param>
+            <param name="grenade">The grenade game Object.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendUpdateRemainingTimeMessage(System.Single)">
             <summary>
             Method unused by client
             </summary>
-            <param name="remainingTime"></param>
+            <param name="remainingTime">The remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendRoundFinishedMessage(System.Int32)">
             <summary>
             Method unused by client
             </summary>
-            <param name="remainingRoundTime"></param>
+            <param name="remainingRoundTime">The remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendPlayerDiedMessage(BirdWarsTest.GameObjects.Identifiers)">
             <summary>
             Sends a PlayerIsDeadMessage to server.
             </summary>
-            <param name="playerId"></param>
+            <param name="playerId">The local player Identifier.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.UpdatePassword(System.String,System.String,System.String)">
             <summary>
@@ -3761,6 +3872,9 @@
         </member>
         <member name="P:BirdWarsTest.Network.ClientNetworkManager.UserSession">
             <value>The current user session.</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.ClientNetworkManager.IsInGameRound">
+            <value>bool indicating if client is currently in a game round.</value>
         </member>
         <member name="T:BirdWarsTest.Network.Messages.EmailManager">
             <summary>
@@ -3782,6 +3896,59 @@
             <param name="recipientEmail">Recipient email</param>
             <param name="subject">Email subject</param>
             <param name="body">Email message body</param>
+        </member>
+        <member name="T:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage">
+            <summary>
+            Stores the player ID, position, velocity and adjusted player lag time value.
+            </summary>
+        </member>
+        <member name="M:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.#ctor(Lidgren.Network.NetIncomingMessage)">
+            <summary>
+            Creates an AdjustedPlayerStateChange message from a 
+            NetIncomingMessage.
+            </summary>
+            <param name="incomingMessage">The incoming message.</param>
+        </member>
+        <member name="M:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.#ctor(BirdWarsTest.GameObjects.Identifiers,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)">
+            <summary>
+            Creates an AdjustedPlayerStateChange message from gameObject values.
+            </summary>
+            <param name="idIn">The Game object's Id</param>
+            <param name="positionIn">The Game object's position</param>
+            <param name="velocityIn">The Game object's velocity</param>
+            <param name="clientDelayIn">The Game object's delayTime</param>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.MessageType">
+            <summary>
+            Returns the type of Game message.
+            </summary>
+        </member>
+        <member name="M:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.Decode(Lidgren.Network.NetIncomingMessage)">
+            <summary>
+            Decodes the information stored in a NetIncoming message.
+            </summary>
+            <param name="incomingMessage">The incoming message</param>
+        </member>
+        <member name="M:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.Encode(Lidgren.Network.NetOutgoingMessage)">
+            <summary>
+            Encodes this message's values to a NetOutgoing message.
+            </summary>
+            <param name="outgoingMessage">The outgoing message.</param>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.Id">
+            <value>Target player Id</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.Position">
+            <value>The player position</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.Velocity">
+            <value>The player velocity</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.MessageTime">
+            <value>The time message was created</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.AdjustedPlayerStateChangeMessage.ClientDelayTime">
+            <value>Calculated client delay time</value>
         </member>
         <member name="T:BirdWarsTest.Network.Messages.BanPlayerMessage">
             <summary>
@@ -4087,6 +4254,11 @@
             
             </summary>
         </member>
+        <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.AdjustedPlayerStateChangeMessage">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:BirdWarsTest.Network.Messages.IGameMessage">
             <summary>
             The Game message interface
@@ -4143,6 +4315,9 @@
             Writes the current message data to an outgoing message.
             </summary>
             <param name="outgoingMessage">The target outgoing message</param>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.JoinRoundRequestMessage.Username">
+            <value>The player username</value>
         </member>
         <member name="T:BirdWarsTest.Network.Messages.JoinRoundRequestResultMessage">
             <summary>
@@ -5598,6 +5773,9 @@
         <member name="F:BirdWarsTest.States.GameState.networkManager">
             <value>Game networkManager reference</value>
         </member>
+        <member name="F:BirdWarsTest.States.GameState.isInitialized">
+            <value>Becomes true if Init method has been called at least once.</value>
+        </member>
         <member name="F:BirdWarsTest.States.GameState.stateWidth">
             <value>State width</value>
         </member>
@@ -5664,9 +5842,10 @@
             <param name="errorMessage">Error message</param>
         </member>
         <member name="P:BirdWarsTest.States.LoginState.GameObjects">
-            <summary>
-            List of all state gameObjects.
-            </summary>
+            <value>List of all game objects in state.</value>
+        </member>
+        <member name="P:BirdWarsTest.States.LoginState.IsInitialized">
+            <value>Bool indicating if the state has been initialized.</value>
         </member>
         <member name="T:BirdWarsTest.States.MainMenuState">
             <summary>
@@ -5793,6 +5972,9 @@
         <member name="P:BirdWarsTest.States.OptionsState.GameObjects">
             <value>The list of state gameObjects</value>
         </member>
+        <member name="P:BirdWarsTest.States.OptionsState.IsInitialized">
+            <value>Bool indicating if the state has been initialized.</value>
+        </member>
         <member name="T:BirdWarsTest.States.PasswordRecoveryState">
             <summary>
             Handles drawing and updating of all gameObjects 
@@ -5866,6 +6048,9 @@
         <member name="P:BirdWarsTest.States.PasswordRecoveryState.GameObjects">
             <value>The list of state gameObjects</value>
         </member>
+        <member name="P:BirdWarsTest.States.PasswordRecoveryState.Isinitialized">
+            <value>Bool indicating if the state has been initialized.</value>
+        </member>
         <member name="T:BirdWarsTest.States.PlayState">
              <summary>
              Handles drawing and updating of all gameObjects 
@@ -5921,6 +6106,11 @@
         <member name="P:BirdWarsTest.States.PlayState.NetWorkManager">
             <value>Exposes the state's protected network manager.</value>
         </member>
+        <member name="M:BirdWarsTest.States.PlayState.StopMusic">
+            <summary>
+            Stops the round music.
+            </summary>
+        </member>
         <member name="P:BirdWarsTest.States.PlayState.PlayerManager">
             <value>The state's Player manager.</value>
         </member>
@@ -5929,6 +6119,9 @@
         </member>
         <member name="P:BirdWarsTest.States.PlayState.DisplayManager">
             <value>The state's Display manager.</value>
+        </member>
+        <member name="P:BirdWarsTest.States.PlayState.IsInitialized">
+            <value>Bool indicated if state has been initialized.</value>
         </member>
         <member name="T:BirdWarsTest.States.StateHandler">
              <summary>
@@ -6079,6 +6272,9 @@
             </summary>
             <param name="batch">Game Spritebatch</param>
         </member>
+        <member name="P:BirdWarsTest.States.StatisticsState.IsInitialized">
+            <value>Bool indicating if the state has been initialized.</value>
+        </member>
         <member name="T:BirdWarsTest.States.UserRegistryState">
             <summary>
             Handles drawing and updating of all gameObjects 
@@ -6153,6 +6349,9 @@
         <member name="P:BirdWarsTest.States.UserRegistryState.GameObjects">
             <value>The list of state gameObjects</value>
         </member>
+        <member name="P:BirdWarsTest.States.UserRegistryState.IsInitialized">
+            <value>Bool indicating if the state has been initialized.</value>
+        </member>
         <member name="T:BirdWarsTest.States.WaitingRoomState">
              <summary>
              Handles drawing and updating of all gameObjects 
@@ -6219,6 +6418,9 @@
         </member>
         <member name="P:BirdWarsTest.States.WaitingRoomState.MessageManager">
             <value>ChatMessage manager</value>
+        </member>
+        <member name="P:BirdWarsTest.States.WaitingRoomState.IsInitialized">
+            <value>Bool indicating if the state has been initialized.</value>
         </member>
         <member name="T:BirdWarsTest.Utilities.Languages">
             <summary>
@@ -6292,7 +6494,7 @@
             Returns a string from the list of game strings
             at the specified intex.
             </summary>
-            <param name="name"></param>
+            <param name="name">The Stringname enumerator</param>
             <returns></returns>
         </member>
         <member name="P:BirdWarsTest.Utilities.StringManager.Strings">

@@ -175,6 +175,7 @@ namespace BirdWarsTest.States
 
 		private GameWindow gameWindow;
 
+		///<value>Bool indicating if the state has been initialized.</value>
 		public bool IsInitialized
 		{
 			get { return isInitialized; }

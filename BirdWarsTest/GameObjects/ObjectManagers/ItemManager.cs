@@ -64,6 +64,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 			for( int i = 0; i < 10; i++ )
 			{
 				Boxes.Add( new GameObject( new ItemBoxGraphicsComponent( content ), null, new HealthComponent( maxBoxHealth ),
+										   null, null, new AudioComponent( content, "SoundEffects/HittingWoodSound" ),
 										   Identifiers.ItemBox, GetRandomMapPosition() ) );
 				spawnedItems.Add( false );
 			}
@@ -328,7 +329,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 				{
 					ConsumableItems[ i ].Health.TakeFullDamage();
 					ConsumableItems[ i ].Effect.DoEffect( networkManager, playerManager );
-					ConsumableItems[ i ]?.Audio.Play();
+					ConsumableItems[ i ].Audio?.Play();
 					networkManager.SendPickedUpItemMessage( i );
 				}
 			}

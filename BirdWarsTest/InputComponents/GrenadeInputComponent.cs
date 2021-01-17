@@ -75,6 +75,7 @@ namespace BirdWarsTest.InputComponents
 		{
 			if( grenadeTimer < 0.00 )
 			{
+				gameObject.Audio.Play();
 				gameObject.Attack.DoAttack();
 			}
 		}

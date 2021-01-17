@@ -119,10 +119,10 @@ namespace BirdWarsTest.States
 
 		private void InitializeHostMenuOptions( StateHandler handler, StringManager stringManager )
 		{
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.CreateGame ) ),
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.CreateGame )),
 											 new CreateLobbyInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 2 ].Position.Y + 270.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Statistics ) ),
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Statistics )),
 											 new SelectorChangeStateInputComponent( handler, StateTypes.StatisticsState ),
 											 Identifiers.MenuOption, new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Settings ) ),
@@ -141,7 +141,7 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.FindGame ) ),
 											 new FindGameInputComponent(), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 2 ].Position.Y + 270.0f ) ) );
-			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Statistics ) ),
+			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Statistics )),
 											 new SelectorChangeStateInputComponent( handler, StateTypes.StatisticsState ),
 											 Identifiers.MenuOption, new Vector2( 0.0f, gameObjects[ 3 ].Position.Y + 60.0f ) ) );
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Settings ) ),
@@ -150,7 +150,8 @@ namespace BirdWarsTest.States
 			gameObjects.Add( new GameObject( new MenuOptionGraphicsComponent( Content, stringManager.GetString( StringNames.Logout ) ),
 											 new LogoutInputComponent( handler ), Identifiers.MenuOption,
 											 new Vector2( 0.0f, gameObjects[ 5 ].Position.Y + 60.0f ) ) );
-			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), Identifiers.Selector,
+			gameObjects.Add( new GameObject( null, new SelectorInputComponent( GetMenuOptions() ), null, null, null,
+											 new AudioComponent( Content, "SoundEffects/MenuSound" ), Identifiers.Selector,
 											 new Vector2( 0.0f, 0.0f ) ) );
 		}
 

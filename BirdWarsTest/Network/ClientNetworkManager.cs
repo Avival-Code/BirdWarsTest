@@ -497,6 +497,7 @@ namespace BirdWarsTest.Network
 				bool isLocalPlayerDead = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.GetLocalPlayer().Health.IsDead();
 				bool didLocalPlayerWin = ( ( PlayState )handler.GetCurrentState() ).PlayerManager.DidLocalPlayerWin();
 				UserSession.UpdateRoundStatistics( isLocalPlayerDead, didLocalPlayerWin, endMessage.RemainingRoundTime );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).StopMusic();
 				handler.ChangeState( StateTypes.WaitingRoomState );
 
 				UpdateUserStatisticsMessage updateMessage = new UpdateUserStatisticsMessage( UserSession.CurrentUser,

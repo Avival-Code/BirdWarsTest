@@ -256,6 +256,8 @@ namespace BirdWarsTest.States
 		}
 
 		private List< GameObject > gameObjects;
+
+		///<value>Bool indicating if the state has been initialized.</value>
 		public bool IsInitialized
 		{
 			get { return isInitialized; }
