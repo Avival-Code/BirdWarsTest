@@ -31,6 +31,8 @@ namespace BirdWarsTest.AudioComponents
 							   string audioName )
 		{
 			objectSound = content.Load< SoundEffect >( audioName );
+			soundInstance = objectSound.CreateInstance();
+			soundInstance.Volume = 0.5f;
 		}
 
 		/// <summary>
@@ -38,9 +40,10 @@ namespace BirdWarsTest.AudioComponents
 		/// </summary>
 		public virtual void Play()
 		{
-			objectSound.Play();
+			soundInstance.Play();
 		}
 
 		private SoundEffect objectSound;
+		private SoundEffectInstance soundInstance;
 	}
 }
