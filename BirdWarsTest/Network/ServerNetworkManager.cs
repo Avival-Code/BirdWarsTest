@@ -93,6 +93,7 @@ namespace BirdWarsTest.Network
 			var config = new NetPeerConfiguration( "BirdWars" )
 			{
 				Port = Convert.ToInt32( "80" ),
+				EnableUPnP = true,
 				//SimulatedMinimumLatency = 0.2f,
 				//SimulatedLoss = 0.1f
 			};

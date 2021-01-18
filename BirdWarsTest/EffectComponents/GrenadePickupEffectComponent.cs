@@ -20,7 +20,7 @@ namespace BirdWarsTest.EffectComponents
 		/// </summary>
 		public GrenadePickupEffectComponent()
 		{
-			grenadesProvided = 2;
+			grenadesProvided = 3;
 		}
 
 		/// <summary>

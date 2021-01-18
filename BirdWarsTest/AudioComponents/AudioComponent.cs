@@ -23,7 +23,8 @@ namespace BirdWarsTest.AudioComponents
 		}
 
 		/// <summary>
-		/// Sets the sound to the audio file that matches the string input value.
+		/// Sets the sound to the audio file that matches the string input value and
+		/// creates a sound instance to better control audio volume.
 		/// </summary>
 		/// <param name="content">Game content manager.</param>
 		/// <param name="audioName">Audio file name.</param>
@@ -40,6 +41,7 @@ namespace BirdWarsTest.AudioComponents
 		/// </summary>
 		public virtual void Play()
 		{
+			soundInstance.Stop();
 			soundInstance.Play();
 		}
 

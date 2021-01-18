@@ -110,6 +110,13 @@ namespace BirdWarsTesting
 			Assert.IsTrue( stringValidator.IsPortValid( "1234" ) );
 		}
 
+		[TestMethod]
+		public void StringManagerHasValidStrings()
+		{
+			Assert.IsNotNull( stringManager );
+		}
+
 		StringValidator stringValidator = new StringValidator();
+		StringManager stringManager = new StringManager();
 	}
 }
