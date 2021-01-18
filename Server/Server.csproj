@@ -10,6 +10,10 @@
     <DocumentationFile>C:\Users\Chris\source\repos\BirdWarsTest\Server\Server.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\Chris\source\repos\BirdWarsTest\Server\Server.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Lidgren.Network" Version="1.0.2" />
   </ItemGroup>

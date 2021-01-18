@@ -154,7 +154,8 @@
         </member>
         <member name="M:BirdWarsTest.AudioComponents.AudioComponent.#ctor(Microsoft.Xna.Framework.Content.ContentManager,System.String)">
             <summary>
-            Sets the sound to the audio file that matches the string input value.
+            Sets the sound to the audio file that matches the string input value and
+            creates a sound instance to better control audio volume.
             </summary>
             <param name="content">Game content manager.</param>
             <param name="audioName">Audio file name.</param>
@@ -1331,7 +1332,7 @@
             </summary>
             <param name="itemIndex">The incoming PickedUpItemmessage.</param>
         </member>
-        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandleSpawnGrenadeMessage(Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single)">
+        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandleSpawnGrenadeMessage(BirdWarsTest.GameObjects.ObjectManagers.PlayerManager,BirdWarsTest.Network.Messages.SpawnGrenadeMessage)">
             <summary>
             Spawns a grenade at the position and with the velocity and speed
             written in the message.
@@ -2960,6 +2961,15 @@
             <param name="state">current keyboard state</param>
             <param name="gameState">current game state</param>
         </member>
+        <member name="M:BirdWarsTest.InputComponents.InputComponent.HandleInput(BirdWarsTest.GameObjects.GameObject,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle)">
+            <summary>
+            Method used by GrenadeInputComponent to set off a grenade. 
+            </summary>
+            <param name="gameObject">The GameObject.</param>
+            <param name="state">The current keyboard state.</param>
+            <param name="cameraRenderBounds">The current cameraRenderBounds.</param>
+            <param name="gameTime">The current gameTime.</param>
+        </member>
         <member name="M:BirdWarsTest.InputComponents.InputComponent.GetText">
             <summary>
             Method used to return certain text if needed.
@@ -3838,7 +3848,7 @@
             </summary>
             <param name="itemIndex">Item index</param>
         </member>
-        <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.GameObject)">
+        <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.Identifiers,BirdWarsTest.GameObjects.GameObject)">
             <summary>
             Sends a SpawnGrenadeMessage to server
             </summary>
@@ -4111,152 +4121,152 @@
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.ChatMessage">
             <summary>
-            
+            Chat message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.JoinRoundRequestMessage">
             <summary>
-            
+            Join Round Request message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.JoinRoundRequestResultMessage">
             <summary>
-            
+            Join Round Request Result message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.LoginRequestMessage">
             <summary>
-            
+            Login Request message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.LoginResultMessage">
             <summary>
-            
+            Login Result message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.LeaveRoundMessage">
             <summary>
-            
+            Leave Round message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.RegisterUserMessage">
             <summary>
-            
+            Register user message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.RoundCreatedMessage">
             <summary>
-            
+            Round created message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.RoundStateChangedMessage">
             <summary>
-            
+            Round state changed message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PasswordResetMessage">
             <summary>
-            
+            Password reset message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PasswordResetResultMessage">
             <summary>
-            
+            Password Reset result message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.SolicitPasswordResetMessage">
             <summary>
-            
+            Solicit password reset message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.SolicitPasswordResultMessage">
             <summary>
-            
+            Solicit password result message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.StartRoundMessage">
             <summary>
-            
+            Start round message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PlayerStateChangeMessage">
             <summary>
-            
+            Player state change message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.SpawnBoxMessage">
             <summary>
-            
+            Spawn box message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.BoxDamageMessage">
             <summary>
-            
+            Box damage message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PlayerAttackMessage">
             <summary>
-            
+            Player attack message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.SpawnConsumablesMessage">
             <summary>
-            
+            Spawn consumables message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PickedUpItemMessage">
             <summary>
-            
+            Picked up item message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.SpawnGrenadeMessage">
             <summary>
-            
+            Spawn Grenade message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.UpdateRoundTimeMessage">
             <summary>
-            
+            Update Round Time message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.UpdateUserStatisticsMessage">
             <summary>
-            
+            Update User statistics message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.RoundFinishedMessage">
             <summary>
-            
+            Round Finished message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.RegistrationResultMessage">
             <summary>
-            
+            Registration result message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.PlayerIsDeadMessage">
             <summary>
-            
+            Player is dead message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.ExitWaitingRoomMessage">
             <summary>
-            
+            Exit waiting room message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.TestConnectionMessage">
             <summary>
-            
+            Test connection message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.BanPlayerMessage">
             <summary>
-            
+            Ban player message value
             </summary>
         </member>
         <member name="F:BirdWarsTest.Network.Messages.GameMessageTypes.AdjustedPlayerStateChangeMessage">
             <summary>
-            
+            Adjusted player state change message value
             </summary>
         </member>
         <member name="T:BirdWarsTest.Network.Messages.IGameMessage">
@@ -5088,7 +5098,7 @@
             </summary>
             <param name="incomingMessage">The incoming message</param>
         </member>
-        <member name="M:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.#ctor(BirdWarsTest.GameObjects.GameObject)">
+        <member name="M:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.#ctor(BirdWarsTest.GameObjects.Identifiers,BirdWarsTest.GameObjects.GameObject)">
             <summary>
             Creates a message from the grenade object.
             </summary>
@@ -5373,7 +5383,7 @@
             </summary>
             <param name="itemIndex"></param>
         </member>
-        <member name="M:BirdWarsTest.Network.INetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.GameObject)">
+        <member name="M:BirdWarsTest.Network.INetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.Identifiers,BirdWarsTest.GameObjects.GameObject)">
             <summary>
             Sends a SpawnGrenadeMessage to self or clients.
             </summary>
@@ -5622,7 +5632,7 @@
             </summary>
             <param name="itemIndex"></param>
         </member>
-        <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.GameObject)">
+        <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendSpawnGrenadeMessage(BirdWarsTest.GameObjects.Identifiers,BirdWarsTest.GameObjects.GameObject)">
             <summary>
             Sends a SpawnGrenadeMessage to all clients.
             </summary>
@@ -6492,7 +6502,7 @@
         <member name="M:BirdWarsTest.Utilities.StringManager.GetString(BirdWarsTest.Utilities.StringNames)">
             <summary>
             Returns a string from the list of game strings
-            at the specified intex.
+            at the specified identifer value.
             </summary>
             <param name="name">The Stringname enumerator</param>
             <returns></returns>
