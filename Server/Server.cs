@@ -13,9 +13,12 @@ namespace Server
 	/// <summary>
 	/// The server application entry point.
 	/// </summary>
-	public class Program
+	public static class Server
 	{
-		static void Main( string[] args )
+		/// <summary>
+		/// The method that starts the Server application.
+		/// </summary>
+		public static void Main()
 		{
 			using( var game = new Game1( new ServerNetworkManager() ) )
 			{

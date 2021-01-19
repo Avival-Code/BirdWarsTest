@@ -240,9 +240,8 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// Spawns a grenade at the position and with the velocity and speed
 		/// written in the message.
 		/// </summary>
-		/// <param name="grenadePosition">The grenade position.</param>
-		/// <param name="grenadeDirection">The grenade direction.</param>
-		/// <param name="grenadeSpeed">The grenade speed.</param>
+		/// <param name="playerManager">The game player manager.</param>
+		/// <param name="grenadeMessage">The spawn grenade message.</param>
 		public void HandleSpawnGrenadeMessage( PlayerManager playerManager, SpawnGrenadeMessage grenadeMessage )
 		{
 			if( playerManager.GetLocalPlayer().Identifier != grenadeMessage.LocalPlayerId )

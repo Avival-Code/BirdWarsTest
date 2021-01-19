@@ -256,6 +256,11 @@ namespace BirdWarsTest.GameObjects
 			Position += Input.GetVelocity() * elapsedGameTime;
 		}
 
+		/// <summary>
+		/// Updates game object with the game time and cameraRenderBounds.
+		/// </summary>
+		/// <param name="gameTime">Game time</param>
+		/// <param name="cameraRenderBounds">Camera render rectangle area.</param>
 		public void Update( GameTime gameTime, Rectangle cameraRenderBounds )
 		{
 			Input?.HandleInput( this, gameTime, cameraRenderBounds );

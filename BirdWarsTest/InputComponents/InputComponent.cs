@@ -47,7 +47,6 @@ namespace BirdWarsTest.InputComponents
 		/// Method used by GrenadeInputComponent to set off a grenade. 
 		/// </summary>
 		/// <param name="gameObject">The GameObject.</param>
-		/// <param name="state">The current keyboard state.</param>
 		/// <param name="cameraRenderBounds">The current cameraRenderBounds.</param>
 		/// <param name="gameTime">The current gameTime.</param>
 		public virtual void HandleInput( GameObject gameObject, GameTime gameTime, Rectangle cameraRenderBounds ) {}

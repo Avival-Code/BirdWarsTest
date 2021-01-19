@@ -1,0 +1,6 @@
+projectKey=BirdWars
+serverUrl=http://localhost:9000
+serverVersion=8.5.1.38104
+dashboardUrl=http://localhost:9000/dashboard?id=BirdWars
+ceTaskId=AXcXuWuwowiWsztSXmx4
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXcXuWuwowiWsztSXmx4

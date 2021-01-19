@@ -901,6 +901,13 @@
             <param name="gameState">Hame state</param>
             <param name="gameTime">Game time</param>
         </member>
+        <member name="M:BirdWarsTest.GameObjects.GameObject.Update(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle)">
+            <summary>
+            Updates game object with the game time and cameraRenderBounds.
+            </summary>
+            <param name="gameTime">Game time</param>
+            <param name="cameraRenderBounds">Camera render rectangle area.</param>
+        </member>
         <member name="M:BirdWarsTest.GameObjects.GameObject.Render(Microsoft.Xna.Framework.Graphics.SpriteBatch@)">
             <summary>
             Checks if the graphics component is null and renders the gameObejct
@@ -1337,9 +1344,8 @@
             Spawns a grenade at the position and with the velocity and speed
             written in the message.
             </summary>
-            <param name="grenadePosition">The grenade position.</param>
-            <param name="grenadeDirection">The grenade direction.</param>
-            <param name="grenadeSpeed">The grenade speed.</param>
+            <param name="playerManager">The game player manager.</param>
+            <param name="grenadeMessage">The spawn grenade message.</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.Update(BirdWarsTest.Network.INetworkManager,BirdWarsTest.GameObjects.ObjectManagers.PlayerManager,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle,Microsoft.Xna.Framework.Rectangle)">
             <summary>
@@ -2913,6 +2919,15 @@
             <param name="state">current keyboard state</param>
             <param name="gameState">current game state</param>
         </member>
+        <member name="M:BirdWarsTest.InputComponents.GrenadeInputComponent.HandleInput(BirdWarsTest.GameObjects.GameObject,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Rectangle)">
+            <summary>
+            Handles the input recieved based in current game object state, game time,
+            and the camera render rectangle area.
+            </summary>
+            <param name="gameObject">The Game object</param>
+            <param name="gameTime">Game time</param>
+            <param name="cameraRenderBounds">The camera render rectangle area.</param>
+        </member>
         <member name="M:BirdWarsTest.InputComponents.GrenadeInputComponent.GetVelocity">
             <summary>
             Returns the calculated object velocity.
@@ -2966,7 +2981,6 @@
             Method used by GrenadeInputComponent to set off a grenade. 
             </summary>
             <param name="gameObject">The GameObject.</param>
-            <param name="state">The current keyboard state.</param>
             <param name="cameraRenderBounds">The current cameraRenderBounds.</param>
             <param name="gameTime">The current gameTime.</param>
         </member>
@@ -3852,6 +3866,7 @@
             <summary>
             Sends a SpawnGrenadeMessage to server
             </summary>
+            <param name="localPlayerId">The local player Id.</param>
             <param name="grenade">The grenade game Object.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendUpdateRemainingTimeMessage(System.Single)">
@@ -5102,6 +5117,7 @@
             <summary>
             Creates a message from the grenade object.
             </summary>
+            <param name="localPlayerIdIn">The local player Id.</param>
             <param name="gameObject"></param>
         </member>
         <member name="P:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.MessageType">
@@ -5126,6 +5142,9 @@
         </member>
         <member name="P:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.Direction">
             <value>The grenade object direction</value>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.LocalPlayerId">
+            <value>The player who threw the grenade.</value>
         </member>
         <member name="P:BirdWarsTest.Network.Messages.SpawnGrenadeMessage.GrenadeSpeed">
             <value>The grenade object speed</value>
@@ -5387,25 +5406,26 @@
             <summary>
             Sends a SpawnGrenadeMessage to self or clients.
             </summary>
-            <param name="grenade"></param>
+            <param name="localPlayerId">The local player Id</param>
+            <param name="grenade">The grenade object</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.SendUpdateRemainingTimeMessage(System.Single)">
             <summary>
             Sends an UpdateRemainingTimeMessage to self or clients.
             </summary>
-            <param name="remainingTime"></param>
+            <param name="remainingTime">Remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.SendRoundFinishedMessage(System.Int32)">
             <summary>
             Sends a RoundFInishedMessage to self or clients.
             </summary>
-            <param name="remainingRoundTime"></param>
+            <param name="remainingRoundTime">Remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.SendPlayerDiedMessage(BirdWarsTest.GameObjects.Identifiers)">
             <summary>
             Sends a PlayerDiedMessage to self or clients.
             </summary>
-            <param name="playerId"></param>
+            <param name="playerId">The player Id</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.UpdatePassword(System.String,System.String,System.String)">
             <summary>
@@ -5419,7 +5439,7 @@
             <summary>
             Checks if this instance is the host/server.
             </summary>
-            <returns></returns>
+            <returns>bool</returns>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.Connect">
             <summary>
@@ -5441,25 +5461,25 @@
             <summary>
             Recycles a consumed NetIncoming message.
             </summary>
-            <param name="im"></param>
+            <param name="im">The netincoming message</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.CreateMessage">
             <summary>
             Creates and returns a NetOutgoing message.
             </summary>
-            <returns></returns>
+            <returns>A netoutgoing message</returns>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.ProcessMessages(BirdWarsTest.States.StateHandler)">
             <summary>
             Processes incoming server or client messages.
             </summary>
-            <param name="handler"></param>
+            <param name="handler">The game statehandler</param>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.GetConnectionState">
             <summary>
             Returns the Netconnection status.
             </summary>
-            <returns></returns>
+            <returns>The netconnection status.</returns>
         </member>
         <member name="M:BirdWarsTest.Network.INetworkManager.CreateRound">
             <summary>
@@ -5636,33 +5656,34 @@
             <summary>
             Sends a SpawnGrenadeMessage to all clients.
             </summary>
-            <param name="grenade"></param>
+            <param name="localPlayerId">The local player Id</param>
+            <param name="grenade">The grande object</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendUpdateRemainingTimeMessage(System.Single)">
             <summary>
             Sends an UpdateRemainingTimeMessage to all clients
             </summary>
-            <param name="remainingTime"></param>
+            <param name="remainingTime">The remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendRoundFinishedMessage(System.Int32)">
             <summary>
             Sends a RoundFinishedMessage to all clients.
             </summary>
-            <param name="remainingRoundTime"></param>
+            <param name="remainingRoundTime">The remaining round time.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendPlayerDiedMessage(BirdWarsTest.GameObjects.Identifiers)">
             <summary>
             Sends a PlayerDiedMessage to all clients.
             </summary>
-            <param name="playerId"></param>
+            <param name="playerId">The player Id.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.UpdatePassword(System.String,System.String,System.String)">
             <summary>
             Sends a PasswordResetMessage to self for processing.
             </summary>
-            <param name="code"></param>
-            <param name="email"></param>
-            <param name="password"></param>
+            <param name="code">Reset code sent to user email.</param>
+            <param name="email">The user email.</param>
+            <param name="password">The user password.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.CreateRound">
             <summary>
@@ -5684,7 +5705,7 @@
             <summary>
             Sends a ChatMessage to self for processing.
             </summary>
-            <param name="message"></param>
+            <param name="message">The body of the chat message.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.LeaveRound">
             <summary>

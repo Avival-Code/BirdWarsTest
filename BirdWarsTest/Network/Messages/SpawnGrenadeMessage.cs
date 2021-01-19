@@ -31,6 +31,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <summary>
 		/// Creates a message from the grenade object.
 		/// </summary>
+		/// <param name="localPlayerIdIn">The local player Id.</param>
 		/// <param name="gameObject"></param>
 		public SpawnGrenadeMessage( Identifiers localPlayerIdIn, GameObject gameObject )
 		{
@@ -127,6 +128,8 @@ namespace BirdWarsTest.Network.Messages
 		///<value>The grenade object direction</value>
 		public Vector2 Direction { get; private set; }
 
+
+		/// <value>The player who threw the grenade.</value>
 		public Identifiers LocalPlayerId { get; private set; }
 
 		///<value>The grenade object speed</value>

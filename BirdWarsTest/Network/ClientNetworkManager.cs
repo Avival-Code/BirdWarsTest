@@ -630,6 +630,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a SpawnGrenadeMessage to server
 		/// </summary>
+		/// <param name="localPlayerId">The local player Id.</param>
 		/// <param name="grenade">The grenade game Object.</param>
 		public void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade )
 		{

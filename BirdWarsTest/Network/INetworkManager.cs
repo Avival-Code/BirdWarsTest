@@ -108,25 +108,26 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a SpawnGrenadeMessage to self or clients.
 		/// </summary>
-		/// <param name="grenade"></param>
+		/// <param name="localPlayerId">The local player Id</param>
+		/// <param name="grenade">The grenade object</param>
 		void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade );
 
 		/// <summary>
 		/// Sends an UpdateRemainingTimeMessage to self or clients.
 		/// </summary>
-		/// <param name="remainingTime"></param>
+		/// <param name="remainingTime">Remaining round time.</param>
 		void SendUpdateRemainingTimeMessage( float remainingTime );
 
 		/// <summary>
 		/// Sends a RoundFInishedMessage to self or clients.
 		/// </summary>
-		/// <param name="remainingRoundTime"></param>
+		/// <param name="remainingRoundTime">Remaining round time.</param>
 		void SendRoundFinishedMessage( int remainingRoundTime );
 
 		/// <summary>
 		/// Sends a PlayerDiedMessage to self or clients.
 		/// </summary>
-		/// <param name="playerId"></param>
+		/// <param name="playerId">The player Id</param>
 		void SendPlayerDiedMessage( Identifiers playerId );
 
 		/// <summary>
@@ -140,7 +141,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Checks if this instance is the host/server.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>bool</returns>
 		bool IsHost();
 
 		/// <summary>
@@ -162,25 +163,25 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Recycles a consumed NetIncoming message.
 		/// </summary>
-		/// <param name="im"></param>
+		/// <param name="im">The netincoming message</param>
 		void Recycle( NetIncomingMessage im );
 
 		/// <summary>
 		/// Creates and returns a NetOutgoing message.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>A netoutgoing message</returns>
 		NetOutgoingMessage CreateMessage();
 
 		/// <summary>
 		/// Processes incoming server or client messages.
 		/// </summary>
-		/// <param name="handler"></param>
+		/// <param name="handler">The game statehandler</param>
 		void ProcessMessages( StateHandler handler );
 
 		/// <summary>
 		/// Returns the Netconnection status.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>The netconnection status.</returns>
 		NetConnectionStatus GetConnectionState();
 
 		/// <summary>

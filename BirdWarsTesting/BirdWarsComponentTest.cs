@@ -2,6 +2,8 @@
 using BirdWarsTest.AttackComponents;
 using BirdWarsTest.EffectComponents;
 using BirdWarsTest.HealthComponents;
+using Client;
+using Server;
 
 namespace BirdWarsTesting
 {

@@ -843,7 +843,8 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a SpawnGrenadeMessage to all clients.
 		/// </summary>
-		/// <param name="grenade"></param>
+		/// <param name="localPlayerId">The local player Id</param>
+		/// <param name="grenade">The grande object</param>
 		public void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade )
 		{
 			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( localPlayerId, grenade );
@@ -853,7 +854,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends an UpdateRemainingTimeMessage to all clients
 		/// </summary>
-		/// <param name="remainingTime"></param>
+		/// <param name="remainingTime">The remaining round time.</param>
 		public void SendUpdateRemainingTimeMessage( float remainingTime )
 		{
 			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( remainingTime );
@@ -863,7 +864,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a RoundFinishedMessage to all clients.
 		/// </summary>
-		/// <param name="remainingRoundTime"></param>
+		/// <param name="remainingRoundTime">The remaining round time.</param>
 		public void SendRoundFinishedMessage( int remainingRoundTime )
 		{
 			RoundFinishedMessage endRoundMessage = new RoundFinishedMessage( remainingRoundTime );
@@ -880,7 +881,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a PlayerDiedMessage to all clients.
 		/// </summary>
-		/// <param name="playerId"></param>
+		/// <param name="playerId">The player Id.</param>
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
 			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( playerId );
@@ -890,9 +891,9 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a PasswordResetMessage to self for processing.
 		/// </summary>
-		/// <param name="code"></param>
-		/// <param name="email"></param>
-		/// <param name="password"></param>
+		/// <param name="code">Reset code sent to user email.</param>
+		/// <param name="email">The user email.</param>
+		/// <param name="password">The user password.</param>
 		public void UpdatePassword( string code, string email, string password )
 		{
 			PasswordResetMessage resetMessage = new PasswordResetMessage( code, email, password );
@@ -939,7 +940,7 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a ChatMessage to self for processing.
 		/// </summary>
-		/// <param name="message"></param>
+		/// <param name="message">The body of the chat message.</param>
 		public void SendChatMessage( string message )
 		{
 			ChatMessage chatMessage = new ChatMessage( UserSession.CurrentUser.Username, message );

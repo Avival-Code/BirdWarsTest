@@ -13,9 +13,12 @@ namespace Client
 	/// <summary>
 	/// The client application entry point.
 	/// </summary>
-	public class Program
+	public static class Client
 	{
-		static void Main( string[] args )
+		/// <summary>
+		/// The method that starts the Client application.
+		/// </summary>
+		public static void Main()
 		{
 			using( var game = new Game1( new ClientNetworkManager() ) )
 			{

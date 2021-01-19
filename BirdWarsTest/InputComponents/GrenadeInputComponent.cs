@@ -58,6 +58,13 @@ namespace BirdWarsTest.InputComponents
 		/// <param name="gameState">current game state</param>
 		public override void HandleInput( GameObject gameObject, KeyboardState state, GameState gameState ) {}
 
+		/// <summary>
+		/// Handles the input recieved based in current game object state, game time,
+		/// and the camera render rectangle area.
+		/// </summary>
+		/// <param name="gameObject">The Game object</param>
+		/// <param name="gameTime">Game time</param>
+		/// <param name="cameraRenderBounds">The camera render rectangle area.</param>
 		public override void HandleInput( GameObject gameObject, GameTime gameTime, Rectangle cameraRenderBounds )
 		{
 			if( !gameObject.Health.IsDead() )
