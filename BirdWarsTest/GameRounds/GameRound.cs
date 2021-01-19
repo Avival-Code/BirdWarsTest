@@ -26,6 +26,7 @@ namespace BirdWarsTest.GameRounds
 			playerUsernames = new List< string >();
 			bannedPlayers = new List< string >();
 			playerBanPetitions = new List< int >();
+			playersWhoVoted = new List< bool >();
 			Created = false;
 			GameRoundStarted = false;
 		}
@@ -40,9 +41,11 @@ namespace BirdWarsTest.GameRounds
 			PlayerConnections.Clear();
 			playerUsernames.Clear();
 			playerBanPetitions.Clear();
+			playersWhoVoted.Clear();
 			Created = true;
 			playerUsernames.Add( serverUsername );
 			playerBanPetitions.Add( 0 );
+			playersWhoVoted.Add( false );
 		}
 
 		/// <summary>
@@ -66,6 +69,7 @@ namespace BirdWarsTest.GameRounds
 				playerUsernames.Add( username );
 				PlayerConnections.Add( playerConnection );
 				playerBanPetitions.Add( 0 );
+				playersWhoVoted.Add( false );
 			}
 		}
 
@@ -81,6 +85,7 @@ namespace BirdWarsTest.GameRounds
 				{
 					playerUsernames.RemoveAt( i );
 					playerBanPetitions.RemoveAt( i );
+					playersWhoVoted.RemoveAt( i );
 					PlayerConnections.RemoveAt( i - 1 );
 					ResetBanPetitions();
 				}
@@ -101,6 +106,7 @@ namespace BirdWarsTest.GameRounds
 				{
 					playerUsernames.RemoveAt( i );
 					playerBanPetitions.RemoveAt( i );
+					playersWhoVoted.RemoveAt( i );
 					ResetBanPetitions();
 				}
 			}
@@ -113,11 +119,12 @@ namespace BirdWarsTest.GameRounds
 		/// <param name="chatMessage">The chat message to parse</param>
 		/// <param name="banMessage">The ban message.</param>
 		/// <returns>Returns the name of the player to ban.</returns>
-		public string DoBanRequest( string chatMessage, string banMessage )
+		public string DoBanRequest( string senderUsername, string chatMessage, string banMessage )
 		{
-			if( IsBanRequestInChatMessage( chatMessage, banMessage ) )
+			if( !HasPlayerVoted( senderUsername ) && IsBanRequestInChatMessage( chatMessage, banMessage ) )
 			{
 				AddBanToPlayerIndex( chatMessage );
+				PlayerVoted( senderUsername );
 			}
 			return GetBannedPlayer();
 		}
@@ -155,9 +162,33 @@ namespace BirdWarsTest.GameRounds
 			}
 		}
 
+		private void PlayerVoted( string voterUsername )
+		{
+			for( int i = 0; i < playerUsernames.Count; i++ )
+			{
+				if( playerUsernames[ i ].Equals( voterUsername ) )
+				{
+					playersWhoVoted[ i ] = true;
+				}
+			}
+		}
+
 		private bool IsBanRequestInChatMessage( string chatMessage, string banMessage )
 		{
 			return ( !string.IsNullOrEmpty( chatMessage ) && chatMessage.Contains( banMessage ) );
+		}
+
+		private bool HasPlayerVoted( string playerUsername )
+		{
+			bool hasVoted = false;
+			for( int i = 0; i < playerUsernames.Count; i++ )
+			{
+				if( playerUsernames[ i ].Equals( playerUsername ) )
+				{
+					hasVoted = playersWhoVoted[ i ];
+				}
+			}
+			return hasVoted;
 		}
 
 		/// <summary>
@@ -186,6 +217,7 @@ namespace BirdWarsTest.GameRounds
 			for( int i = 0; i < playerBanPetitions.Count; i++ )
 			{
 				playerBanPetitions[ i ] = 0;
+				playersWhoVoted[ i ] = false;
 			}
 		}
 
@@ -242,6 +274,7 @@ namespace BirdWarsTest.GameRounds
 		private List< string > playerUsernames;
 		private List< string > bannedPlayers;
 		private List< int > playerBanPetitions;
+		private List< bool > playersWhoVoted;
 
 		/// <value>bool indicating if the round has been created.</value>
 		public bool Created { get; private set; }

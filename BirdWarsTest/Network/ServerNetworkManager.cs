@@ -617,7 +617,8 @@ namespace BirdWarsTest.Network
 			( ( WaitingRoomState )handler.GetCurrentState() ).MessageManager.HandleChatMessage(
 								  chatMessage.SenderUsername, chatMessage.Message, UserSession.CurrentUser.Username );
 
-			string playerToBan = GameRound.DoBanRequest( chatMessage.Message, handler.StringManager.GetString( StringNames.BanMessage ) );
+			string playerToBan = GameRound.DoBanRequest( chatMessage.SenderUsername, chatMessage.Message, 
+														 handler.StringManager.GetString( StringNames.BanMessage ) );
 			if ( !string.IsNullOrEmpty( playerToBan ) )
 			{
 				BanPlayerMessage banMessage = new BanPlayerMessage( playerToBan );
