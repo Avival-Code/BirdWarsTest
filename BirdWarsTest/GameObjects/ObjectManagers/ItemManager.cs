@@ -223,7 +223,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
 		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage )
 		{
-			Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamage( boxDamageMessage.Damage );
+			Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamageNoInvincibility( boxDamageMessage.Damage );
 		}
 		
 		/// <summary>

@@ -1642,7 +1642,7 @@
             <param name="playerConnection">Player connection</param>
             <param name="username">Player username</param>
         </member>
-        <member name="M:BirdWarsTest.GameRounds.GameRound.DoBanRequest(System.String,System.String)">
+        <member name="M:BirdWarsTest.GameRounds.GameRound.DoBanRequest(System.String,System.String,System.String)">
             <summary>
             Processes a chat message, checks if ban
             request was made and adds ban to list of bans.

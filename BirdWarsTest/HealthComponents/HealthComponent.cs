@@ -54,6 +54,16 @@ namespace BirdWarsTest.HealthComponents
 		}
 
 		/// <summary>
+		/// Object takes damage equal to the input value, 
+		/// without invoking invincibility.
+		/// </summary>
+		/// <param name="damage"></param>
+		public void TakeDamageNoInvincibility( int damage )
+		{
+			Health -= damage;
+		}
+
+		/// <summary>
 		/// Kills object.
 		/// </summary>
 		public void TakeFullDamage()
