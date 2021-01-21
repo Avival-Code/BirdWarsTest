@@ -7,6 +7,7 @@ Message used to send the amount of damage an item box
 has sustained.
 *********************************************/
 using Lidgren.Network;
+using BirdWarsTest.GameObjects;
 
 namespace BirdWarsTest.Network.Messages
 {
@@ -29,10 +30,12 @@ namespace BirdWarsTest.Network.Messages
 		/// Creates the message from a box index and the damage it
 		/// sustained.
 		/// </summary>
+		/// <param name="localPlayerID">The Player who hit the box.</param>
 		/// <param name="boxIndexIn">target box index</param>
 		/// <param name="damageIn">Damage sustained</param>
-		public BoxDamageMessage( int boxIndexIn, int damageIn )
+		public BoxDamageMessage( Identifiers localPlayerID, int boxIndexIn, int damageIn )
 		{
+			PlayerWhoHitBoxID = localPlayerID;
 			BoxIndex = boxIndexIn;
 			Damage = damageIn;
 		}
@@ -51,6 +54,7 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="incomingMessage">The incoming message</param>
 		public void Decode( NetIncomingMessage incomingMessage )
 		{
+			PlayerWhoHitBoxID = ( Identifiers )incomingMessage.ReadInt32();
 			BoxIndex = incomingMessage.ReadInt32();
 			Damage = incomingMessage.ReadInt32();
 		}
@@ -61,9 +65,13 @@ namespace BirdWarsTest.Network.Messages
 		/// <param name="outgoingMessage">The target outgoing message</param>
 		public void Encode( NetOutgoingMessage outgoingMessage )
 		{
+			outgoingMessage.Write( ( int )PlayerWhoHitBoxID );
 			outgoingMessage.Write( BoxIndex );
 			outgoingMessage.Write( Damage );
 		}
+
+		///<value>The ID of the player who hit the box.</value>
+		public Identifiers PlayerWhoHitBoxID { get; private set; }
 
 		///<value>The target box index</value>
 		public int BoxIndex { get; private set; }

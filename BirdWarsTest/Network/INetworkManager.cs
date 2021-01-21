@@ -89,9 +89,10 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a BoxDamageMessage to self or clients.
 		/// </summary>
+		/// <param name="localPlayerID"></param>
 		/// <param name="boxIndex"></param>
 		/// <param name="damage"></param>
-		void SendBoxDamageMessage( int boxIndex, int damage );
+		void SendBoxDamageMessage( Identifiers localPlayerID, int boxIndex, int damage );
 
 		/// <summary>
 		/// Sends a PlayerAttackMessage to self or clients.

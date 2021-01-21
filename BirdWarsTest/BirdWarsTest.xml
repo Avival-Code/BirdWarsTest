@@ -1324,13 +1324,14 @@
             </summary>
             <param name="incomingMessage">The incoming SpawnConsumablesMessage.</param>
         </member>
-        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandleBoxDamageMessage(BirdWarsTest.Network.Messages.BoxDamageMessage)">
+        <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandleBoxDamageMessage(BirdWarsTest.Network.Messages.BoxDamageMessage,BirdWarsTest.GameObjects.ObjectManagers.PlayerManager)">
             <summary>
             Uses the box index contained in the incoming message and damages
             the box that has the same index. Used to keep item box health
             syncronized on all applications.
             </summary>
             <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
+            <param name="playerManager">The game player manager.</param>
         </member>
         <member name="M:BirdWarsTest.GameObjects.ObjectManagers.ItemManager.HandlePickedUpItemMessage(System.Int32)">
             <summary>
@@ -1647,6 +1648,7 @@
             Processes a chat message, checks if ban
             request was made and adds ban to list of bans.
             </summary>
+            <param name="senderUsername">The sender username.</param>
             <param name="chatMessage">The chat message to parse</param>
             <param name="banMessage">The ban message.</param>
             <returns>Returns the name of the player to ban.</returns>
@@ -2476,6 +2478,13 @@
             subtract damage from remaining health.	
             </summary>
             <param name="damage">recieved damage.</param>
+        </member>
+        <member name="M:BirdWarsTest.HealthComponents.HealthComponent.TakeDamageNoInvincibility(System.Int32)">
+            <summary>
+            Object takes damage equal to the input value, 
+            without invoking invincibility.
+            </summary>
+            <param name="damage"></param>
         </member>
         <member name="M:BirdWarsTest.HealthComponents.HealthComponent.TakeFullDamage">
             <summary>
@@ -3843,10 +3852,11 @@
             </summary>
             <param name="consumables">List of consumable items</param>
         </member>
-        <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendBoxDamageMessage(System.Int32,System.Int32)">
+        <member name="M:BirdWarsTest.Network.ClientNetworkManager.SendBoxDamageMessage(BirdWarsTest.GameObjects.Identifiers,System.Int32,System.Int32)">
             <summary>
             Sends a BoxDamageMessage to server.
             </summary>
+            <param name="localPlayerId">The player who hit the box.</param>
             <param name="boxIndex">Target box index</param>
             <param name="damage">Damage sustained</param>
         </member>
@@ -4024,11 +4034,12 @@
             </summary>
             <param name="incomingMessage">The incoming message</param>
         </member>
-        <member name="M:BirdWarsTest.Network.Messages.BoxDamageMessage.#ctor(System.Int32,System.Int32)">
+        <member name="M:BirdWarsTest.Network.Messages.BoxDamageMessage.#ctor(BirdWarsTest.GameObjects.Identifiers,System.Int32,System.Int32)">
             <summary>
             Creates the message from a box index and the damage it
             sustained.
             </summary>
+            <param name="localPlayerID">The Player who hit the box.</param>
             <param name="boxIndexIn">target box index</param>
             <param name="damageIn">Damage sustained</param>
         </member>
@@ -4048,6 +4059,9 @@
             Writes the current message data to an outgoing message.
             </summary>
             <param name="outgoingMessage">The target outgoing message</param>
+        </member>
+        <member name="P:BirdWarsTest.Network.Messages.BoxDamageMessage.PlayerWhoHitBoxID">
+            <value>The ID of the player who hit the box.</value>
         </member>
         <member name="P:BirdWarsTest.Network.Messages.BoxDamageMessage.BoxIndex">
             <value>The target box index</value>
@@ -5383,10 +5397,11 @@
             </summary>
             <param name="consumables"></param>
         </member>
-        <member name="M:BirdWarsTest.Network.INetworkManager.SendBoxDamageMessage(System.Int32,System.Int32)">
+        <member name="M:BirdWarsTest.Network.INetworkManager.SendBoxDamageMessage(BirdWarsTest.GameObjects.Identifiers,System.Int32,System.Int32)">
             <summary>
             Sends a BoxDamageMessage to self or clients.
             </summary>
+            <param name="localPlayerID"></param>
             <param name="boxIndex"></param>
             <param name="damage"></param>
         </member>
@@ -5633,18 +5648,19 @@
             </summary>
             <param name="consumables"></param>
         </member>
-        <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendBoxDamageMessage(System.Int32,System.Int32)">
+        <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendBoxDamageMessage(BirdWarsTest.GameObjects.Identifiers,System.Int32,System.Int32)">
             <summary>
             Sends a BoxDamage message to all clients.
             </summary>
-            <param name="boxIndex"></param>
-            <param name="damage"></param>
+            <param name="localPlayerID">The player who hit the box.</param>
+            <param name="boxIndex">The index of the box that was hit.</param>
+            <param name="damage">The damage received by box.</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendPlayerAttackMessage(BirdWarsTest.GameObjects.Identifiers)">
             <summary>
             Sends a PlayerAttackMessage to all clients.
             </summary>
-            <param name="localPlayerIndex"></param>
+            <param name="localPlayerIndex">The local player index</param>
         </member>
         <member name="M:BirdWarsTest.Network.ServerNetworkManager.SendPickedUpItemMessage(System.Int32)">
             <summary>

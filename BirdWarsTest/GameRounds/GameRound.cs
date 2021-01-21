@@ -116,6 +116,7 @@ namespace BirdWarsTest.GameRounds
 		/// Processes a chat message, checks if ban
 		/// request was made and adds ban to list of bans.
 		/// </summary>
+		/// <param name="senderUsername">The sender username.</param>
 		/// <param name="chatMessage">The chat message to parse</param>
 		/// <param name="banMessage">The ban message.</param>
 		/// <returns>Returns the name of the player to ban.</returns>

@@ -676,7 +676,8 @@ namespace BirdWarsTest.Network
 			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
 			SendMessage( boxDamageMessage );
 
-			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage,
+			( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager );
 		}
 
 		private void HandlePlayerAttackMessage( StateHandler handler, NetIncomingMessage incomingMessage )
@@ -785,8 +786,7 @@ namespace BirdWarsTest.Network
 		/// <param name="player">The target player</param>
 		public void SendPlayerStateChangeMessage( GameObject player )
 		{
-			PlayerStateChangeMessage stateChangeMessage = new PlayerStateChangeMessage( player );
-			SendMessage( stateChangeMessage );
+			SendMessage( new PlayerStateChangeMessage( player ) );
 		}
 
 		/// <summary>
@@ -795,8 +795,7 @@ namespace BirdWarsTest.Network
 		/// <param name="boxes">List of boxes.</param>
 		public void SendSpawnBoxMessage( List< GameObject > boxes )
 		{
-			SpawnBoxMessage spawnBoxMessage = new SpawnBoxMessage( boxes );
-			SendMessage( spawnBoxMessage );
+			SendMessage( new SpawnBoxMessage( boxes ) );
 		}
 
 		/// <summary>
@@ -805,29 +804,27 @@ namespace BirdWarsTest.Network
 		/// <param name="consumables"></param>
 		public void SendSpawnConsumablesMessage( List< GameObject > consumables )
 		{
-			SpawnConsumablesMessage spawnConsumablesMessage = new SpawnConsumablesMessage( consumables );
-			SendMessage( spawnConsumablesMessage );
+			SendMessage( new SpawnConsumablesMessage( consumables ) );
 		}
 
 		/// <summary>
 		/// Sends a BoxDamage message to all clients.
 		/// </summary>
-		/// <param name="boxIndex"></param>
-		/// <param name="damage"></param>
-		public void SendBoxDamageMessage( int boxIndex, int damage )
+		/// <param name="localPlayerID">The player who hit the box.</param>
+		/// <param name="boxIndex">The index of the box that was hit.</param>
+		/// <param name="damage">The damage received by box.</param>
+		public void SendBoxDamageMessage( Identifiers localPlayerID, int boxIndex, int damage )
 		{
-			BoxDamageMessage boxDamageMessage = new BoxDamageMessage( boxIndex, damage );
-			SendMessage( boxDamageMessage );
+			SendMessage( new BoxDamageMessage( localPlayerID, boxIndex, damage ) );
 		}
 
 		/// <summary>
 		/// Sends a PlayerAttackMessage to all clients.
 		/// </summary>
-		/// <param name="localPlayerIndex"></param>
+		/// <param name="localPlayerIndex">The local player index</param>
 		public void SendPlayerAttackMessage( Identifiers localPlayerIndex )
 		{
-			PlayerAttackMessage attackMessage = new PlayerAttackMessage( localPlayerIndex );
-			SendMessage( attackMessage );
+			SendMessage( new PlayerAttackMessage( localPlayerIndex ) );
 		}
 
 		/// <summary>
@@ -836,8 +833,7 @@ namespace BirdWarsTest.Network
 		/// <param name="itemIndex"></param>
 		public void SendPickedUpItemMessage( int itemIndex )
 		{
-			PickedUpItemMessage pickedUpItemMessage = new PickedUpItemMessage( itemIndex );
-			SendMessage( pickedUpItemMessage );
+			SendMessage( new PickedUpItemMessage( itemIndex ) );
 		}
 
 
@@ -848,8 +844,7 @@ namespace BirdWarsTest.Network
 		/// <param name="grenade">The grande object</param>
 		public void SendSpawnGrenadeMessage( Identifiers localPlayerId, GameObject grenade )
 		{
-			SpawnGrenadeMessage grenadeMessage = new SpawnGrenadeMessage( localPlayerId, grenade );
-			SendMessage( grenadeMessage );
+			SendMessage( new SpawnGrenadeMessage( localPlayerId, grenade ) );
 		}
 
 		/// <summary>
@@ -858,8 +853,7 @@ namespace BirdWarsTest.Network
 		/// <param name="remainingTime">The remaining round time.</param>
 		public void SendUpdateRemainingTimeMessage( float remainingTime )
 		{
-			UpdateRoundTimeMessage timeMessage = new UpdateRoundTimeMessage( remainingTime );
-			SendMessage( timeMessage );
+			SendMessage( new UpdateRoundTimeMessage( remainingTime ) );
 		}
 
 		/// <summary>
@@ -885,8 +879,7 @@ namespace BirdWarsTest.Network
 		/// <param name="playerId">The player Id.</param>
 		public void SendPlayerDiedMessage( Identifiers playerId )
 		{
-			PlayerIsDeadMessage deathMessage = new PlayerIsDeadMessage( playerId );
-			SendMessage( deathMessage );
+			SendMessage( new PlayerIsDeadMessage( playerId ) );
 		}
 
 		/// <summary>

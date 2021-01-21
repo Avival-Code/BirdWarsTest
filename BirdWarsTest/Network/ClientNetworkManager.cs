@@ -445,7 +445,8 @@ namespace BirdWarsTest.Network
 			if( IsInGameRound )
 			{
 				BoxDamageMessage boxDamageMessage = new BoxDamageMessage( incomingMessage );
-				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage );
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).ItemManager.HandleBoxDamageMessage( boxDamageMessage,
+				( ( PlayState )handler.GetState( StateTypes.PlayState ) ).PlayerManager );
 			}
 		}
 
@@ -602,11 +603,12 @@ namespace BirdWarsTest.Network
 		/// <summary>
 		/// Sends a BoxDamageMessage to server.
 		/// </summary>
+		/// <param name="localPlayerId">The player who hit the box.</param>
 		/// <param name="boxIndex">Target box index</param>
 		/// <param name="damage">Damage sustained</param>
-		public void SendBoxDamageMessage( int boxIndex, int damage )
+		public void SendBoxDamageMessage( Identifiers localPlayerId, int boxIndex, int damage )
 		{
-			SendMessage( new BoxDamageMessage( boxIndex, damage ) );
+			SendMessage( new BoxDamageMessage( localPlayerId, boxIndex, damage ) );
 		}
 
 		/// <summary>

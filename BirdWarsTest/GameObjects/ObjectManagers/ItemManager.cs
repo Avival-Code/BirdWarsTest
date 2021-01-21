@@ -221,9 +221,13 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 		/// syncronized on all applications.
 		/// </summary>
 		/// <param name="boxDamageMessage">The incoming BoxDamageMessage.</param>
-		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage )
+		/// <param name="playerManager">The game player manager.</param>
+		public void HandleBoxDamageMessage( BoxDamageMessage boxDamageMessage, PlayerManager playerManager )
 		{
-			Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamageNoInvincibility( boxDamageMessage.Damage );
+			if( playerManager.GetLocalPlayer().Identifier != boxDamageMessage.PlayerWhoHitBoxID )
+			{
+				Boxes[ boxDamageMessage.BoxIndex ].Health.TakeDamageNoInvincibility( boxDamageMessage.Damage );
+			}
 		}
 		
 		/// <summary>
@@ -285,7 +289,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 					{
 						Boxes[ i ].Audio.Play();
 					}
-					networkManager.SendBoxDamageMessage( i, localPlayer.Attack.Damage );
+					networkManager.SendBoxDamageMessage( localPlayer.Identifier, i, localPlayer.Attack.Damage );
 				}
 			}
 		}
@@ -317,7 +321,7 @@ namespace BirdWarsTest.GameObjects.ObjectManagers
 						{
 							Boxes[ i ].Audio.Play();
 						}
-						networkManager.SendBoxDamageMessage( i, EggGrenades[ j ].Attack.Damage );
+						networkManager.SendBoxDamageMessage( EggGrenades[ j ].Identifier, i, EggGrenades[ j ].Attack.Damage );
 					}
 				}
 			}
